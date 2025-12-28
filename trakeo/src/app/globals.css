@@ -128,10 +128,10 @@
 @layer utilities {
 
   .gradient {
-    @apply bg-gradient-to-t from-orange-300 to-white to-110%;
+    @apply bg-gradient-to-t from-orange-400 to-white to-170%;
   }
 
   .gradient-title {
-    @apply bg-gradient-to-t from-orange-300 to-white to-110% font-extrabold tracking-tighter pr-2 pb-2 text-transparent bg-clip-text;
+    @apply bg-gradient-to-t from-orange-400 to-white to-170% font-extrabold tracking-tighter pr-2 pb-2 text-transparent bg-clip-text;
   }
 }
