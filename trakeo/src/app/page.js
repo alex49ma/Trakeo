@@ -3,9 +3,8 @@ import Image from "next/image";
 
 export default function Home() {
   return (
-    <div>
-      <h1>Home</h1>
-      <Button>Button</Button>
+    <div className="mt-40">
+      <Button variant="destructive">Test</Button>
     </div>
   );
 }
