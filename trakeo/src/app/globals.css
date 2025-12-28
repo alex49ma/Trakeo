@@ -119,7 +119,19 @@
   * {
     @apply border-border outline-ring/50;
   }
+
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+@layer utilities {
+
+  .gradient {
+    @apply bg-gradient-to-t from-orange-300 to-white to-110%;
+  }
+
+  .gradient-title {
+    @apply bg-gradient-to-t from-orange-300 to-white to-110% font-extrabold tracking-tighter pr-2 pb-2 text-transparent bg-clip-text;
   }
 }
