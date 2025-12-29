@@ -21,8 +21,8 @@ export default function RootLayout({ children }) {
             {children}
           </main>
           {/*Footer */}
-          <footer className="bg-orange-50 py-12">
-            <div className="container mx-auto px-4 text-center text-gray-600">
+          <footer className="bg-orange-100/10 backdrop-blur-xs py-12">
+            <div className="container mx-auto px-4 text-center text-gray-800">
               <p>© 2025 Trakeo. All rights reserved.</p>
             </div>
           </footer>
