@@ -20,7 +20,7 @@ const HeroSection = () => {
                 </div>
                 <div className="perspective-[1000px]">
                     <div>
-                        <Image src="/banner.png"
+                        <Image src="/banner-v1.png"
                             width={1280}
                             height={720}
                             alt="Dashboard Preview"

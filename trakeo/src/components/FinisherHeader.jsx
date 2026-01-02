@@ -14,12 +14,12 @@ export default function FinisherHeader({
         },
         "speed": {
             "x": {
-                "min": 0.03,
-                "max": 0.06
+                "min": 0.18,
+                "max": 0.22
             },
             "y": {
-                "min": 0.03,
-                "max": 0.06
+                "min": 0.18,
+                "max": 0.22
             }
         },
         "colors": {
@@ -41,7 +41,7 @@ export default function FinisherHeader({
         "blending": "overlay",
         "opacity": {
             "center": 1,
-            "edge": 0.2
+            "edge": 0.1
         },
         "skew": 0,
         "shapes": [
