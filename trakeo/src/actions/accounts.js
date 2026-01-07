@@ -82,6 +82,10 @@ export async function getAccountWithTransactions(accountId) {
                 transactions: {
                     orderBy: {
                         date: "desc"
+                    },
+                    include: {
+                        category: true,
+                        subcategory: true
                     }
                 },
                 _count: {
@@ -123,7 +127,9 @@ export async function bulkDeleteTransactions(transactionIds) {
         });
 
         const accountBalanceChanges = transactions.reduce((acc, transaction) => {
-            const change = transaction.type === "EXPENSE" ? -transaction.amount : transaction.amount;
+            const change = transaction.type === "EXPENSE"
+                ? transaction.amount.toNumber()
+                : -transaction.amount.toNumber();
 
             acc[transaction.accountId] = (acc[transaction.accountId] || 0) + change;
             return acc;

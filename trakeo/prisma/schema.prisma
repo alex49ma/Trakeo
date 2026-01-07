@@ -50,7 +50,6 @@ model Transaction {
   amount            Decimal
   description       String?
   date              DateTime
-  category          String
   receiptUrl        String?
   isRecurring       Boolean            @default(false)
   recurringInterval RecurringInterval? // Only used if isRecurring is true
@@ -61,6 +60,10 @@ model Transaction {
   user              User               @relation(fields: [userId], references: [id], onDelete: Cascade)
   accountId         String
   account           Account            @relation(fields: [accountId], references: [id], onDelete: Cascade)
+  categoryId        String
+  category          Category           @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  subcategoryId     String?
+  subcategory       Subcategory?       @relation(fields: [subcategoryId], references: [id], onDelete: Cascade)
   createdAt         DateTime           @default(now())
   updatedAt         DateTime           @updatedAt
 
@@ -80,6 +83,33 @@ model Budget {
 
   @@index([userId])
   @@map("budgets")
+}
+
+model Category {
+  id            String          @id @default(uuid())
+  name          String
+  type          TransactionType
+  subCategories Subcategory[]
+  transactions  Transaction[]
+  color         String
+  icon          String
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+
+  @@map("categories")
+}
+
+model Subcategory {
+  id           String        @id @default(uuid())
+  name         String
+  category_id  String
+  category     Category      @relation(fields: [category_id], references: [id], onDelete: Cascade)
+  transactions Transaction[]
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+
+  @@index([category_id])
+  @@map("subcategories")
 }
 
 enum TransactionType {

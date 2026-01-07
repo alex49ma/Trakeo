@@ -2,30 +2,27 @@
 
 import { db } from "@/lib/prisma";
 import { subDays } from "date-fns";
+import { defaultCategories } from "@/data/categories";
 
-const ACCOUNT_ID = "5f8064a5-b6bb-4d82-8aa2-432e8d45c52f"; //My first account
-const USER_ID = "61c6bb02-6c3d-4fce-b437-d53ebeb03d2a";
+const ACCOUNT_ID = "5b263bf6-a472-48e8-b3f2-317dfa75b905"; //My first account
+const USER_ID = "3215ab6a-35a4-4a94-b8e2-f5b6120c9066";
 
-// Categories with their typical amount ranges
-const CATEGORIES = {
-  INCOME: [
-    { name: "salary", range: [5000, 8000] },
-    { name: "freelance", range: [1000, 3000] },
-    { name: "investments", range: [500, 2000] },
-    { name: "other-income", range: [100, 1000] },
-  ],
-  EXPENSE: [
-    { name: "housing", range: [1000, 2000] },
-    { name: "transportation", range: [100, 500] },
-    { name: "groceries", range: [200, 600] },
-    { name: "utilities", range: [100, 300] },
-    { name: "entertainment", range: [50, 200] },
-    { name: "food", range: [50, 150] },
-    { name: "shopping", range: [100, 500] },
-    { name: "healthcare", range: [100, 1000] },
-    { name: "education", range: [200, 1000] },
-    { name: "travel", range: [500, 2000] },
-  ],
+// Amount ranges mapped to category IDs
+const CATEGORY_RANGES = {
+  salary: [2150, 2300],
+  donation: [10, 100],
+  investments: [10, 30],
+  "other-income": [1, 50],
+  housing: [50, 100],
+  transportation: [1, 100],
+  groceries: [10, 50],
+  utilities: [10, 50],
+  entertainment: [10, 50],
+  food: [10, 50],
+  shopping: [10, 50],
+  healthcare: [10, 50],
+  education: [10, 50],
+  travel: [10, 50],
 };
 
 // Helper to generate random amount within a range
@@ -33,42 +30,86 @@ function getRandomAmount(min, max) {
   return Number((Math.random() * (max - min) + min).toFixed(2));
 }
 
-// Helper to get random category with amount
-function getRandomCategory(type) {
-  const categories = CATEGORIES[type];
-  const category = categories[Math.floor(Math.random() * categories.length)];
-  const amount = getRandomAmount(category.range[0], category.range[1]);
-  return { category: category.name, amount };
-}
-
 export async function seedTransactions() {
   try {
-    // Generate 90 days of transactions
+    console.log("Starting seeding process...");
+
+    // 1. Clean up existing data
+    await db.$transaction(async (tx) => {
+      await tx.transaction.deleteMany({ where: { accountId: ACCOUNT_ID } });
+      await tx.subcategory.deleteMany({});
+      await tx.category.deleteMany({});
+    });
+
+    console.log("Cleaned up existing data.");
+
+    // 2. Seed Categories and Subcategories
+    const categoryMap = new Map();
+    const subcategoryMap = new Map();
+
+    for (const cat of defaultCategories) {
+      const createdCategory = await db.category.create({
+        data: {
+          name: cat.name,
+          type: cat.type,
+          color: cat.color,
+          icon: cat.icon,
+        },
+      });
+
+      categoryMap.set(cat.id, createdCategory);
+
+      if (cat.subcategories && cat.subcategories.length > 0) {
+        const subs = [];
+        for (const subName of cat.subcategories) {
+          const createdSub = await db.subcategory.create({
+            data: {
+              name: subName,
+              category_id: createdCategory.id,
+            },
+          });
+          subs.push(createdSub);
+        }
+        subcategoryMap.set(cat.id, subs);
+      }
+    }
+
+    console.log("Seeded categories and subcategories.");
+
+    // 3. Generate Transactions
     const transactions = [];
     let totalBalance = 0;
 
+    const incomeCategories = defaultCategories.filter(c => c.type === "INCOME");
+    const expenseCategories = defaultCategories.filter(c => c.type === "EXPENSE");
+
     for (let i = 90; i >= 0; i--) {
       const date = subDays(new Date(), i);
-
-      // Generate 1-3 transactions per day
       const transactionsPerDay = Math.floor(Math.random() * 3) + 1;
 
       for (let j = 0; j < transactionsPerDay; j++) {
-        // 40% chance of income, 60% chance of expense
         const type = Math.random() < 0.4 ? "INCOME" : "EXPENSE";
-        const { category, amount } = getRandomCategory(type);
+        const pool = type === "INCOME" ? incomeCategories : expenseCategories;
+        const categoryData = pool[Math.floor(Math.random() * pool.length)];
+
+        const createdCategory = categoryMap.get(categoryData.id);
+        const subcategories = subcategoryMap.get(categoryData.id);
+        const selectedSub = subcategories ? subcategories[Math.floor(Math.random() * subcategories.length)] : null;
+
+        const range = CATEGORY_RANGES[categoryData.id] || [10, 100];
+        const amount = getRandomAmount(range[0], range[1]);
 
         const transaction = {
           id: crypto.randomUUID(),
           type,
           amount,
-          description: `${type === "INCOME" ? "Received" : "Paid for"
-            } ${category}`,
+          description: `${type === "INCOME" ? "Received" : "Paid for"} ${selectedSub ? selectedSub.name : createdCategory.name}`,
           date,
-          category,
           status: "COMPLETED",
           userId: USER_ID,
           accountId: ACCOUNT_ID,
+          categoryId: createdCategory.id,
+          subcategoryId: selectedSub ? selectedSub.id : null,
           createdAt: date,
           updatedAt: date,
         };
@@ -78,24 +119,19 @@ export async function seedTransactions() {
       }
     }
 
-    // Insert transactions in batches and update account balance
+    // 4. Insert Transactions and Update Balance
     await db.$transaction(async (tx) => {
-      // Clear existing transactions
-      await tx.transaction.deleteMany({
-        where: { accountId: ACCOUNT_ID },
-      });
-
-      // Insert new transactions
       await tx.transaction.createMany({
         data: transactions,
       });
 
-      // Update account balance
       await tx.account.update({
         where: { id: ACCOUNT_ID },
         data: { balance: totalBalance },
       });
     });
+
+    console.log(`Seeding completed. Created ${transactions.length} transactions.`);
 
     return {
       success: true,

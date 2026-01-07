@@ -4,10 +4,9 @@ import React, { useMemo, useEffect, useState } from 'react'
 import { Table, TableBody, TableCell, TableCaption, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import { Checkbox } from '@/components/ui/checkbox'
 import { format } from 'date-fns';
-import { categoryColors } from '@/data/categories';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
 import { Badge } from '@/components/ui/badge';
-import { ChevronUp, ChevronDown, Clock, MoreHorizontal, RefreshCw, Search } from 'lucide-react';
+import { ChevronUp, ChevronDown, Clock, MoreHorizontal, RefreshCw, Search, Trash, ChevronLeft, ChevronRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
 import { useRouter } from 'next/navigation';
@@ -30,6 +29,8 @@ const TransactionTable = ({ transactions }) => {
     const [categoryFilter, setCategoryFilter] = useState("");
     const [subcategoryFilter, setSubcategoryFilter] = useState("");
     const [recurringFilter, setRecurringFilter] = useState("");
+    const [itemsPerPage, setItemsPerPage] = useState(10);
+    const [currentPage, setCurrentPage] = useState(1);
 
     const {
         loading: deleteLoading,
@@ -40,11 +41,27 @@ const TransactionTable = ({ transactions }) => {
     const handleBulkDelete = async () => {
         if (!window.confirm("Are you sure you want to delete these transactions?")) return;
         deleteFn(selectedIds);
+        setSelectedIds([]);
     }
+
+    // Reset to first page when filters change
+    useEffect(() => {
+        setCurrentPage(1);
+    }, [searchTerm, typeFilter, accountFilter, categoryFilter, subcategoryFilter, recurringFilter]);
+
+    // Clear selection when items per page changes
+    useEffect(() => {
+        setSelectedIds([]);
+        setCurrentPage(1);
+    }, [itemsPerPage]);
 
     useEffect(() => {
         if (deleted && !deleteLoading) {
-            toast.error("Transactions deleted successfully");
+            if (deleted.success) {
+                toast.success("Transactions deleted successfully");
+            } else {
+                toast.error("Error deleting transactions: " + deleted.error);
+            }
         }
     }, [deleted, deleteLoading]);
 
@@ -96,7 +113,9 @@ const TransactionTable = ({ transactions }) => {
                     comparison = a.amount - b.amount;
                     break;
                 case "category":
-                    comparison = a.category.localeCompare(b.category);
+                    const aName = a.subcategory ? a.subcategory.name : a.category.name;
+                    const bName = b.subcategory ? b.subcategory.name : b.category.name;
+                    comparison = aName.localeCompare(bName);
                     break;
                 default:
                     comparison = 0;
@@ -107,6 +126,13 @@ const TransactionTable = ({ transactions }) => {
         return results;
 
     }, [transactions, searchTerm, typeFilter, accountFilter, categoryFilter, subcategoryFilter, recurringFilter, sortConfig]);
+
+    const totalPages = Math.ceil(filteredAndSortedTransactions.length / itemsPerPage);
+
+    const paginatedTransactions = useMemo(() => {
+        const startIndex = (currentPage - 1) * itemsPerPage;
+        return filteredAndSortedTransactions.slice(startIndex, startIndex + itemsPerPage);
+    }, [filteredAndSortedTransactions, currentPage, itemsPerPage]);
 
     const handleSort = (field) => {
         setSortConfig(current => ({
@@ -127,10 +153,10 @@ const TransactionTable = ({ transactions }) => {
 
     const handleSelectAll = () => {
         setSelectedIds(current => {
-            if (current.length === filteredAndSortedTransactions.length) {
+            if (current.length === paginatedTransactions.length) {
                 return [];
             } else {
-                return filteredAndSortedTransactions.map((transaction) => transaction.id);
+                return paginatedTransactions.map((transaction) => transaction.id);
             }
         });
     }
@@ -142,10 +168,6 @@ const TransactionTable = ({ transactions }) => {
         setCategoryFilter("");
         setSubcategoryFilter("");
         setRecurringFilter("");
-        //setCurrentPage(1);
-
-        //console.log(typeFilter + " borrado");
-
     };
 
 
@@ -187,8 +209,9 @@ const TransactionTable = ({ transactions }) => {
                             <SelectValue placeholder="All Categories" />
                         </SelectTrigger>
                         <SelectContent>
-                            <SelectItem value="TODO">TODO</SelectItem>
-                            <SelectItem value="TODO">TODO</SelectItem>
+                            {Array.from(new Map(transactions.map(t => [t.category.id, t.category.name])).entries()).map(([id, name]) => (
+                                <SelectItem key={id} value={id}>{name}</SelectItem>
+                            ))}
                         </SelectContent>
                     </Select>
                     <Select value={subcategoryFilter} onValueChange={setSubcategoryFilter}>
@@ -196,8 +219,13 @@ const TransactionTable = ({ transactions }) => {
                             <SelectValue placeholder="All Subcategories" />
                         </SelectTrigger>
                         <SelectContent>
-                            <SelectItem value="TODO">TODO</SelectItem>
-                            <SelectItem value="TODO">TODO</SelectItem>
+                            {Array.from(new Map(
+                                transactions
+                                    .filter(t => t.subcategory)
+                                    .map(t => [t.subcategory.id, t.subcategory.name])
+                            ).entries()).map(([id, name]) => (
+                                <SelectItem key={id} value={id}>{name}</SelectItem>
+                            ))}
                         </SelectContent>
                     </Select>
                     <Select value={recurringFilter} onValueChange={(value) => setRecurringFilter(value)}>
@@ -209,6 +237,19 @@ const TransactionTable = ({ transactions }) => {
                             <SelectItem value="false">Non-recurring</SelectItem>
                         </SelectContent>
                     </Select>
+                    {/* Bulk Actions */}
+                    {selectedIds.length > 0 && (
+                        <div className="flex items-center gap-2">
+                            <Button
+                                variant="destructive"
+                                size="sm"
+                                onClick={handleBulkDelete}
+                            >
+                                <Trash className="h-4 w-4 mr-2" />
+                                Delete Selected ({selectedIds.length})
+                            </Button>
+                        </div>
+                    )}
 
                     {(searchTerm || typeFilter || accountFilter || categoryFilter || subcategoryFilter || recurringFilter) && (
                         <Button
@@ -231,7 +272,7 @@ const TransactionTable = ({ transactions }) => {
                         <TableRow>
                             <TableHead className="w-[50px]">
                                 <Checkbox
-                                    checked={selectedIds.length === filteredAndSortedTransactions.length && filteredAndSortedTransactions.length > 0}
+                                    checked={selectedIds.length === paginatedTransactions.length && paginatedTransactions.length > 0}
                                     onCheckedChange={handleSelectAll} />
                             </TableHead>
                             <TableHead className="cursor-pointer" onClick={() => handleSort("date")}>
@@ -271,7 +312,7 @@ const TransactionTable = ({ transactions }) => {
                                     No transactions found
                                 </TableCell>
                             </TableRow>
-                        ) : (filteredAndSortedTransactions.map((transaction) => (
+                        ) : (paginatedTransactions.map((transaction) => (
                             <TableRow key={transaction.id}>
                                 <TableCell>
                                     <Checkbox onCheckedChange={() => handleSelect(transaction.id)} checked={selectedIds.includes(transaction.id)} />
@@ -283,11 +324,20 @@ const TransactionTable = ({ transactions }) => {
                                     {transaction.description}
                                 </TableCell>
                                 <TableCell className="capitalize">
-                                    <span style={{
-                                        backgroundColor: categoryColors[transaction.category]
-                                    }}
-                                        className="px-2 py-1 rounded-sm text-white text-sm"
-                                    >{transaction.category}</span>
+                                    <div className="flex flex-col gap-1">
+                                        <span style={{
+                                            backgroundColor: transaction.category.color
+                                        }}
+                                            className="px-2 py-1 rounded-sm text-white text-xs w-fit"
+                                        >
+                                            {transaction.subcategory ? transaction.subcategory.name : transaction.category.name}
+                                        </span>
+                                        {transaction.subcategory && (
+                                            <span className="text-[10px] text-muted-foreground ml-1">
+                                                {transaction.category.name}
+                                            </span>
+                                        )}
+                                    </div>
                                 </TableCell>
                                 <TableCell className="text-right font-medium" style={{ color: transaction.type === "EXPENSE" ? "red" : "green" }}>
                                     {transaction.type === "EXPENSE" ? "-" : "+"}
@@ -339,6 +389,79 @@ const TransactionTable = ({ transactions }) => {
                     </TableBody>
                 </Table>
             </div>
+
+            {/* Pagination Controls */}
+            {totalPages > 1 && (
+                <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mt-4 px-2">
+                    <div className="text-sm text-muted-foreground order-2 sm:order-1">
+                        Showing {(currentPage - 1) * itemsPerPage + 1} to{" "}
+                        {Math.min(currentPage * itemsPerPage, filteredAndSortedTransactions.length)} of{" "}
+                        {filteredAndSortedTransactions.length} transactions
+                    </div>
+                    <div className="flex flex-wrap items-center gap-4 order-1 sm:order-2">
+                        <Select
+                            value={itemsPerPage.toString()}
+                            onValueChange={(value) => setItemsPerPage(Number(value))}
+                        >
+                            <SelectTrigger className="w-[130px]">
+                                <SelectValue placeholder={`${itemsPerPage} per page`} />
+                            </SelectTrigger>
+                            <SelectContent>
+                                <SelectItem value="10">10 per page</SelectItem>
+                                <SelectItem value="20">20 per page</SelectItem>
+                                <SelectItem value="50">50 per page</SelectItem>
+                                <SelectItem value="100">100 per page</SelectItem>
+                            </SelectContent>
+                        </Select>
+
+                        <div className="flex items-center gap-2">
+                            <Button
+                                variant="outline"
+                                size="icon"
+                                onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+                                disabled={currentPage === 1}
+                                className="h-8 w-8"
+                            >
+                                <ChevronLeft className="h-4 w-4" />
+                            </Button>
+
+                            <div className="flex items-center gap-1">
+                                {Array.from({ length: totalPages }, (_, i) => i + 1)
+                                    .filter(page =>
+                                        page === 1 ||
+                                        page === totalPages ||
+                                        Math.abs(page - currentPage) <= 1
+                                    )
+                                    .map((page, index, array) => (
+                                        <React.Fragment key={page}>
+                                            {index > 0 && array[index - 1] !== page - 1 && (
+                                                <span className="text-muted-foreground px-1">...</span>
+                                            )}
+                                            <Button
+                                                variant={currentPage === page ? "default" : "outline"}
+                                                size="sm"
+                                                onClick={() => setCurrentPage(page)}
+                                                className={`h-8 w-8 p-0 ${currentPage === page ? "bg-orange-100 text-orange-600 hover:bg-orange-200 border-orange-200" : ""}`}
+                                            >
+                                                {page}
+                                            </Button>
+                                        </React.Fragment>
+                                    ))}
+                            </div>
+
+                            <Button
+                                variant="outline"
+                                size="icon"
+                                onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+                                disabled={currentPage === totalPages}
+                                className="h-8 w-8"
+                            >
+                                <ChevronRight className="h-4 w-4" />
+                            </Button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     )
 }
