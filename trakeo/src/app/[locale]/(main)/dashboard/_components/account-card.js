@@ -4,14 +4,18 @@ import React from 'react'
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
 import { Switch } from '@/components/ui/switch'
 import { ArrowUpRight, ArrowDownRight } from 'lucide-react';
-import Link from 'next/link';
+import { Link } from '@/i18n/routing';
 import useFetch from '@/hooks/use-fetch';
 import { toast } from 'sonner';
 import { useEffect } from 'react';
 import { updateDefaultAccount } from "@/actions/accounts";
 
+import { useTranslations } from 'next-intl';
+
 const AccountCard = ({ account }) => {
     const { name, type, balance, id, isDefault } = account;
+    const t = useTranslations('Dashboard');
+    const common = useTranslations('Common');
 
     const {
         loading: updateDefaultLoading,
@@ -23,7 +27,7 @@ const AccountCard = ({ account }) => {
     const handleDefaultChange = async (event) => {
         event.preventDefault();
         if (isDefault) {
-            toast.warning("You need at least one default account");
+            toast.warning(t('oneDefaultRequired'));
             return;
         }
         await updateDefaultfn(id);
@@ -31,13 +35,13 @@ const AccountCard = ({ account }) => {
 
     useEffect(() => {
         if (updatedAccount?.success) {
-            toast.success("Default account updated");
+            toast.success(t('defaultAccountUpdated'));
         }
     }, [updatedAccount]);
 
     useEffect(() => {
         if (error) {
-            toast.error(error.message || "Failed to update default account");
+            toast.error(error.message || t('defaultAccountUpdateError'));
         }
     }, [error]);
 
@@ -56,17 +60,17 @@ const AccountCard = ({ account }) => {
                         {parseFloat(balance).toFixed(2)}€
                     </div>
                     <p className="text-xs text-muted-foreground">
-                        {type.charAt(0).toUpperCase() + type.slice(1).toLowerCase()} Account
+                        {common('accountType.' + type.toUpperCase())}
                     </p>
                 </CardContent>
                 <CardFooter className="flex justify-between text-sm text-muted-foreground">
                     <div className="flex items-center">
                         <ArrowUpRight className="mr-1 h-4 w-4 text-green-500" />
-                        <p>Income</p>
+                        <p>{common('income')}</p>
                     </div>
                     <div className="flex items-center">
                         <ArrowDownRight className="mr-1 h-4 w-4 text-red-500" />
-                        <p>Expense</p>
+                        <p>{common('expense')}</p>
                     </div>
                 </CardFooter>
             </Link>

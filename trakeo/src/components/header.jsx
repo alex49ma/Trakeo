@@ -1,13 +1,18 @@
 import { SignedIn, SignedOut } from "@clerk/nextjs";
 import { SignInButton, SignUpButton, UserButton } from "@clerk/nextjs";
-import Link from "next/link";
+import { Link } from '@/i18n/routing';
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { LayoutDashboard, PenBox } from "lucide-react";
 import { checkUser } from "@/lib/checkUser";
 
+import LanguageSwitcher from "@/components/language-switcher";
+
+import { getTranslations } from "next-intl/server";
+
 const Header = async () => {
     await checkUser()
+    const t = await getTranslations('Header');
 
     return (
         <header className="sticky top-0 w-full bg-white/80 backdrop-blur-xs z-50 border-b">
@@ -23,33 +28,30 @@ const Header = async () => {
                 </Link>
 
                 <div className="flex items-center space-x-4">
+                    <LanguageSwitcher />
                     <SignedIn>
                         <Link
                             href="/dashboard"
                             className="text-gray-600 hover:text-red-600 flex items-center gap-2"
                         >
-                            <Button variant="outline"
-                                className="group relative w-full h-full overflow-hidden bg-white">
-                                <div className="absolute inset-0 bg-gradient-to-t from-orange-300 to-white to-80% translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out"></div>
-                                <LayoutDashboard size={18} className="relative z-10" />
-                                <span className="hidden md:inline relative z-10">Dashboard</span>
+                            <Button variant="prominent">
+                                <LayoutDashboard size={18} />
+                                <span className="hidden md:inline">{t('dashboard')}</span>
                             </Button>
                         </Link>
                         <Link
                             href="/transaction/create"
                             className="text-gray-600 hover:text-red-600 flex items-center gap-2"
                         >
-                            <Button variant="outline"
-                                className="group relative w-full h-full overflow-hidden bg-white">
-                                <div className="absolute inset-0 bg-gradient-to-t from-orange-300 to-white to-80% translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out"></div>
-                                <PenBox size={18} className="relative z-10" />
-                                <span className="hidden md:inline relative z-10">Add Transaction</span>
+                            <Button variant="prominent">
+                                <PenBox size={18} />
+                                <span className="hidden md:inline">{t('addTransaction')}</span>
                             </Button>
                         </Link>
                     </SignedIn>
                     <SignedOut>
                         <SignInButton forceRedirectUrl="/dashboard">
-                            <Button variant="outline">Login</Button>
+                            <Button variant="outline">{t('login')}</Button>
                         </SignInButton>
                     </SignedOut>
                     <SignedIn>

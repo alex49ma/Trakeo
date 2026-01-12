@@ -3,8 +3,10 @@ import { getAccountWithTransactions } from '@/actions/accounts';
 import { notFound } from 'next/navigation';
 import { BarLoader } from 'react-spinners';
 import { Suspense } from 'react';
-import TransactionTable from '@/app/(main)/account/_components/transaction-table';
-import AccountChart from '@/app/(main)/account/_components/account-chart';
+import TransactionTable from '../_components/transaction-table';
+import AccountChart from '../_components/account-chart';
+
+import { getTranslations } from 'next-intl/server';
 
 export default async function AccountPage({ params }) {
     const { id } = await params;
@@ -15,20 +17,23 @@ export default async function AccountPage({ params }) {
     }
 
     const { transactions, ...account } = accountData;
+    const t = await getTranslations('Dashboard');
+    const tAccount = await getTranslations('Account');
+    const tCommon = await getTranslations('Common');
 
     return <div className="space-y-8 px-5">
         <div className="flex gap-4 items-end justify-between">
             <div>
                 <h1 className="text-5xl sm:text-6xl font-bold gradient-title capitalize">
                     {account.name}</h1><p className="text-muted-foreground">
-                    {account.type.charAt(0).toUpperCase() + account.type.slice(1).toLowerCase()} Account
+                    {tCommon('accountType.' + account.type.toUpperCase())}
                 </p>
             </div>
             <div className="text-right pb-2">
                 <div className="text-x1 sm:text-2x1 font-bold">
                     {parseFloat(account.balance).toFixed(2)}€
                 </div>
-                <p className="text-sm text-muted-foreground">{account._count.transactions} Transactions</p>
+                <p className="text-sm text-muted-foreground">{tAccount('transactionsCount', { count: account._count.transactions })}</p>
             </div>
         </div>
 

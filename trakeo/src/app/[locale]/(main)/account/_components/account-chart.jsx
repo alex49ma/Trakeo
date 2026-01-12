@@ -11,30 +11,40 @@ const currentYear = new Date().getFullYear();
 
 const YEAR = [2025, 2026, 2027, 2028, 2029, 2030, 2031, 2032, 2033, 2034, 2035, 2036, 2037, 2038, 2039, 2040]
 
-const DATE_RANGES = {
-    "7D": { label: "Last 7 Days", days: 7, relative: true },
-    "1M": { label: "Last Month", days: 30, relative: true },
-    "3M": { label: "Last 3 Months", days: 90, relative: true },
-    "6M": { label: "Last 6 Months", days: 180, relative: true },
-    "JAN": { label: "January", days: 31, relative: false, month: 1 },
-    "FEB": { label: "February", days: 28, relative: false, month: 2 },
-    "MAR": { label: "March", days: 31, relative: false, month: 3 },
-    "APR": { label: "April", days: 30, relative: false, month: 4 },
-    "MAY": { label: "May", days: 31, relative: false, month: 5 },
-    "JUN": { label: "June", days: 30, relative: false, month: 6 },
-    "JUL": { label: "July", days: 31, relative: false, month: 7 },
-    "AUG": { label: "August", days: 31, relative: false, month: 8 },
-    "SEP": { label: "September", days: 30, relative: false, month: 9 },
-    "OCT": { label: "October", days: 31, relative: false, month: 10 },
-    "NOV": { label: "November", days: 30, relative: false, month: 11 },
-    "DEC": { label: "December", days: 31, relative: false, month: 12 },
-    ALL: { label: "All Time", days: null, relative: true },
-};
+
+
+import { useTranslations, useLocale } from 'next-intl';
+import { enUS, es } from 'date-fns/locale';
 
 const AccountChart = ({ transactions }) => {
+    const locale = useLocale();
+    const dateLocale = locale === 'es' ? es : enUS;
+
+    const t = useTranslations('Account');
+    const common = useTranslations('Common');
 
     const [dateRange, setDateRange] = useState("1M");
     const [yearRange, setYearRange] = useState(currentYear);
+
+    const DATE_RANGES = {
+        "7D": { label: t('last7Days'), days: 7, relative: true },
+        "1M": { label: t('lastMonth'), days: 30, relative: true },
+        "3M": { label: t('last3Months'), days: 90, relative: true },
+        "6M": { label: t('last6Months'), days: 180, relative: true },
+        "JAN": { label: "January", days: 31, relative: false, month: 1 },
+        "FEB": { label: "February", days: 28, relative: false, month: 2 },
+        "MAR": { label: "March", days: 31, relative: false, month: 3 },
+        "APR": { label: "April", days: 30, relative: false, month: 4 },
+        "MAY": { label: "May", days: 31, relative: false, month: 5 },
+        "JUN": { label: "June", days: 30, relative: false, month: 6 },
+        "JUL": { label: "July", days: 31, relative: false, month: 7 },
+        "AUG": { label: "August", days: 31, relative: false, month: 8 },
+        "SEP": { label: "September", days: 30, relative: false, month: 9 },
+        "OCT": { label: "October", days: 31, relative: false, month: 10 },
+        "NOV": { label: "November", days: 30, relative: false, month: 11 },
+        "DEC": { label: "December", days: 31, relative: false, month: 12 },
+        ALL: { label: t('allTime'), days: null, relative: true },
+    };
 
     const filteredTransactions = useMemo(() => {
         const range = DATE_RANGES[dateRange];
@@ -58,7 +68,7 @@ const AccountChart = ({ transactions }) => {
         });
 
         const grouped = filtered.reduce((acc, transaction) => {
-            const date = format(new Date(transaction.date), "MMM dd");
+            const date = format(new Date(transaction.date), "MMM dd", { locale: dateLocale });
             if (!acc[date]) {
                 acc[date] = {
                     date,
@@ -90,12 +100,12 @@ const AccountChart = ({ transactions }) => {
 
         <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-7">
-                <CardTitle className="text-base font-normal">Transactions Overview</CardTitle>
+                <CardTitle className="text-base font-normal">{t('transactionsOverview')}</CardTitle>
                 <div className="flex gap-2">
                     {DATE_RANGES[dateRange].relative === false && (
                         <Select value={yearRange.toString()} onValueChange={(value) => setYearRange(parseInt(value))}>
                             <SelectTrigger className="w-[100px]">
-                                <SelectValue placeholder="Year" />
+                                <SelectValue placeholder={t('year')} />
                             </SelectTrigger>
                             <SelectContent>
                                 {YEAR.map((year) => (
@@ -106,7 +116,7 @@ const AccountChart = ({ transactions }) => {
                     )}
                     <Select defaultValue={dateRange} onValueChange={setDateRange}>
                         <SelectTrigger className="w-[140px]">
-                            <SelectValue placeholder="Date Range" />
+                            <SelectValue placeholder={t('dateRange')} />
                         </SelectTrigger>
                         <SelectContent>
                             {Object.entries(DATE_RANGES).map(([key, { label }]) => {
@@ -119,15 +129,15 @@ const AccountChart = ({ transactions }) => {
             <CardContent>
                 <div className="flex justify-around mb-6 text-sm">
                     <div className="text-center">
-                        <p className="text-muted-foreground">Total Income</p>
+                        <p className="text-muted-foreground">{t('totalIncome')}</p>
                         <p className="text-lg font-bold text-green-500">{totals.income.toFixed(2)} €</p>
                     </div>
                     <div className="text-center">
-                        <p className="text-muted-foreground">Total Expense</p>
+                        <p className="text-muted-foreground">{t('totalExpense')}</p>
                         <p className="text-lg font-bold text-red-500">{totals.expense.toFixed(2)} €</p>
                     </div>
                     <div className="text-center">
-                        <p className="text-muted-foreground">Total Net</p>
+                        <p className="text-muted-foreground">{t('totalNet')}</p>
                         <p className={(totals.income - totals.expense) >= 0 ? "text-lg font-bold text-green-500" : "text-lg font-bold text-red-500"}>
                             {(totals.income - totals.expense).toFixed(2)} €
                         </p>
@@ -162,13 +172,13 @@ const AccountChart = ({ transactions }) => {
                         <Legend />
                         <Bar
                             dataKey="income"
-                            name="Income"
+                            name={common('income')}
                             fill="#22c55e"
                             radius={[4, 4, 0, 0]}
                         />
                         <Bar
                             dataKey="expense"
-                            name="Expense"
+                            name={common('expense')}
                             fill="#ef4444"
                             radius={[4, 4, 0, 0]}
                         />

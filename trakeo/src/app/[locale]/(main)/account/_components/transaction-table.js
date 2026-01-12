@@ -9,7 +9,7 @@ import { Badge } from '@/components/ui/badge';
 import { ChevronUp, ChevronDown, Clock, MoreHorizontal, RefreshCw, Search, Trash, ChevronLeft, ChevronRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
-import { useRouter } from 'next/navigation';
+import { useRouter } from '@/i18n/routing';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { X } from 'lucide-react';
@@ -18,7 +18,16 @@ import { toast } from 'sonner';
 import { BarLoader } from 'react-spinners';
 import { bulkDeleteTransactions } from "@/actions/accounts";
 
+import { useTranslations, useLocale } from 'next-intl';
+import { enUS, es } from 'date-fns/locale';
+
 const TransactionTable = ({ transactions }) => {
+    const locale = useLocale();
+    const t = useTranslations('Account.table');
+    const tRecurring = useTranslations('Account.recurring');
+
+    const dateLocale = locale === 'es' ? es : enUS;
+    const common = useTranslations('Common');
     const router = useRouter();
     const [selectedIds, setSelectedIds] = useState([]);
     const [sortConfig, setSortConfig] = useState({ field: "date", direction: "desc" });
@@ -39,7 +48,7 @@ const TransactionTable = ({ transactions }) => {
     } = useFetch(bulkDeleteTransactions);
 
     const handleBulkDelete = async () => {
-        if (!window.confirm("Are you sure you want to delete these transactions?")) return;
+        if (!window.confirm(t('deleteConfirm'))) return;
         deleteFn(selectedIds);
         setSelectedIds([]);
     }
@@ -58,19 +67,19 @@ const TransactionTable = ({ transactions }) => {
     useEffect(() => {
         if (deleted && !deleteLoading) {
             if (deleted.success) {
-                toast.success("Transactions deleted successfully");
+                toast.success(t('deleteSuccess'));
             } else {
-                toast.error("Error deleting transactions: " + deleted.error);
+                toast.error(t('deleteError') + deleted.error);
             }
         }
     }, [deleted, deleteLoading]);
 
     const RECURRING_INTERVALS = {
-        DAILY: "Daily",
-        WEEKLY: "Weekly",
-        MONTHLY: "Monthly",
-        YEARLY: "Yearly",
-        CUSTOM: "Custom"
+        DAILY: tRecurring('daily'),
+        WEEKLY: tRecurring('weekly'),
+        MONTHLY: tRecurring('monthly'),
+        YEARLY: tRecurring('yearly'),
+        CUSTOM: tRecurring('custom')
     }
 
     const filteredAndSortedTransactions = useMemo(() => {
@@ -181,23 +190,23 @@ const TransactionTable = ({ transactions }) => {
                     <Search className="absolute left-2 top-2.5 w-4 h-4 text-muted-foreground" />
                     <Input
                         className="pl-8"
-                        placeholder="Search transactions..."
+                        placeholder={t('searchPlaceholder')}
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)} />
                 </div>
                 <div className="flex gap-2">
                     <Select value={typeFilter} onValueChange={setTypeFilter}>
                         <SelectTrigger>
-                            <SelectValue placeholder="All Types" />
+                            <SelectValue placeholder={t('allTypes')} />
                         </SelectTrigger>
                         <SelectContent>
-                            <SelectItem value="INCOME">Income</SelectItem>
-                            <SelectItem value="EXPENSE">Expense</SelectItem>
+                            <SelectItem value="INCOME">{common('income')}</SelectItem>
+                            <SelectItem value="EXPENSE">{common('expense')}</SelectItem>
                         </SelectContent>
                     </Select>
                     <Select value={accountFilter} onValueChange={setAccountFilter}>
                         <SelectTrigger>
-                            <SelectValue placeholder="All Accounts" />
+                            <SelectValue placeholder={t('allAccounts')} />
                         </SelectTrigger>
                         <SelectContent>
                             <SelectItem value="TODO">TODO</SelectItem>
@@ -206,7 +215,7 @@ const TransactionTable = ({ transactions }) => {
                     </Select>
                     <Select value={categoryFilter} onValueChange={setCategoryFilter}>
                         <SelectTrigger>
-                            <SelectValue placeholder="All Categories" />
+                            <SelectValue placeholder={t('allCategories')} />
                         </SelectTrigger>
                         <SelectContent>
                             {Array.from(new Map(transactions.map(t => [t.category.id, t.category.name])).entries()).map(([id, name]) => (
@@ -216,7 +225,7 @@ const TransactionTable = ({ transactions }) => {
                     </Select>
                     <Select value={subcategoryFilter} onValueChange={setSubcategoryFilter}>
                         <SelectTrigger>
-                            <SelectValue placeholder="All Subcategories" />
+                            <SelectValue placeholder={t('allSubcategories')} />
                         </SelectTrigger>
                         <SelectContent>
                             {Array.from(new Map(
@@ -230,11 +239,11 @@ const TransactionTable = ({ transactions }) => {
                     </Select>
                     <Select value={recurringFilter} onValueChange={(value) => setRecurringFilter(value)}>
                         <SelectTrigger>
-                            <SelectValue placeholder="All Transaction Regimes" />
+                            <SelectValue placeholder={t('allRegimes')} />
                         </SelectTrigger>
                         <SelectContent>
-                            <SelectItem value="true">Recurring</SelectItem>
-                            <SelectItem value="false">Non-recurring</SelectItem>
+                            <SelectItem value="true">{t('recurring')}</SelectItem>
+                            <SelectItem value="false">{t('nonRecurring')}</SelectItem>
                         </SelectContent>
                     </Select>
                     {/* Bulk Actions */}
@@ -246,7 +255,7 @@ const TransactionTable = ({ transactions }) => {
                                 onClick={handleBulkDelete}
                             >
                                 <Trash className="h-4 w-4 mr-2" />
-                                Delete Selected ({selectedIds.length})
+                                {t('deleteSelected', { count: selectedIds.length })}
                             </Button>
                         </div>
                     )}
@@ -277,28 +286,28 @@ const TransactionTable = ({ transactions }) => {
                             </TableHead>
                             <TableHead className="cursor-pointer" onClick={() => handleSort("date")}>
                                 <div className="flex items-center">
-                                    Date {sortConfig.field === "date" && (
+                                    {t('date')} {sortConfig.field === "date" && (
                                         sortConfig.direction === "asc" ? <ChevronUp className="ml-1 w-4 h-4" /> : <ChevronDown className="ml-1 w-4 h-4" />
                                     )}
                                 </div>
                             </TableHead>
                             <TableHead>
-                                <div className="flex items-center">Description</div>
+                                <div className="flex items-center">{t('description')}</div>
                             </TableHead>
                             <TableHead className="cursor-pointer" onClick={() => handleSort("category")}>
                                 <div className="flex items-center">
-                                    Category {sortConfig.field === "category" && (
+                                    {t('category')} {sortConfig.field === "category" && (
                                         sortConfig.direction === "asc" ? <ChevronUp className="ml-1 w-4 h-4" /> : <ChevronDown className="ml-1 w-4 h-4" />
                                     )}
                                 </div>
                             </TableHead>
                             <TableHead className="cursor-pointer" onClick={() => handleSort("amount")}>
-                                <div className="flex items-center justify-end w-full">Amount {sortConfig.field === "amount" && (
+                                <div className="flex items-center justify-end w-full">{t('amount')} {sortConfig.field === "amount" && (
                                     sortConfig.direction === "asc" ? <ChevronUp className="ml-1 w-4 h-4" /> : <ChevronDown className="ml-1 w-4 h-4" />
                                 )}</div>
                             </TableHead>
                             <TableHead>
-                                <div className="flex items-center">Recurring</div>
+                                <div className="flex items-center">{t('recurringHeader')}</div>
                             </TableHead>
                             <TableHead>
 
@@ -309,7 +318,7 @@ const TransactionTable = ({ transactions }) => {
                         {filteredAndSortedTransactions.length === 0 ? (
                             <TableRow>
                                 <TableCell colSpan={7}>
-                                    No transactions found
+                                    {t('noTransactions')}
                                 </TableCell>
                             </TableRow>
                         ) : (paginatedTransactions.map((transaction) => (
@@ -318,7 +327,7 @@ const TransactionTable = ({ transactions }) => {
                                     <Checkbox onCheckedChange={() => handleSelect(transaction.id)} checked={selectedIds.includes(transaction.id)} />
                                 </TableCell>
                                 <TableCell className="font-medium">
-                                    {format(transaction.date, "PP")}
+                                    {format(transaction.date, "PP", { locale: dateLocale })}
                                 </TableCell>
                                 <TableCell>
                                     {transaction.description}
@@ -354,14 +363,14 @@ const TransactionTable = ({ transactions }) => {
                                             <TooltipContent>
                                                 <div className="text-sm">
                                                     <div className="font-medium">
-                                                        Next Date:
+                                                        {t('nextDate')}
                                                     </div>
                                                     <div>
-                                                        {format(transaction.nextRecurringDate, "PP")}
+                                                        {format(transaction.nextRecurringDate, "PP", { locale: dateLocale })}
                                                     </div>
                                                 </div>
                                             </TooltipContent>
-                                        </Tooltip> : <Badge className="gap-1" variant="outline"><Clock className="w-3 h-3" />One time</Badge>}
+                                        </Tooltip> : <Badge className="gap-1" variant="outline"><Clock className="w-3 h-3" />{t('oneTime')}</Badge>}
                                 </TableCell>
                                 <TableCell>
                                     <DropdownMenu>
@@ -374,12 +383,12 @@ const TransactionTable = ({ transactions }) => {
                                             <DropdownMenuItem
                                                 onClick={() =>
                                                     router.push(`/transaction/create?edit=${transaction.id}`)}
-                                            >Edit</DropdownMenuItem>
+                                            >{common('edit')}</DropdownMenuItem>
                                             <DropdownMenuSeparator />
                                             <DropdownMenuItem
                                                 className="text-destructive"
                                                 onClick={() => deleteFn([transaction.id])}
-                                            >Delete</DropdownMenuItem>
+                                            >{common('delete')}</DropdownMenuItem>
                                         </DropdownMenuContent>
                                     </DropdownMenu>
                                 </TableCell>
@@ -394,9 +403,11 @@ const TransactionTable = ({ transactions }) => {
             {totalPages > 1 && (
                 <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mt-4 px-2">
                     <div className="text-sm text-muted-foreground order-2 sm:order-1">
-                        Showing {(currentPage - 1) * itemsPerPage + 1} to{" "}
-                        {Math.min(currentPage * itemsPerPage, filteredAndSortedTransactions.length)} of{" "}
-                        {filteredAndSortedTransactions.length} transactions
+                        {t('showing', {
+                            start: (currentPage - 1) * itemsPerPage + 1,
+                            end: Math.min(currentPage * itemsPerPage, filteredAndSortedTransactions.length),
+                            total: filteredAndSortedTransactions.length
+                        })}
                     </div>
                     <div className="flex flex-wrap items-center gap-4 order-1 sm:order-2">
                         <Select
@@ -404,13 +415,13 @@ const TransactionTable = ({ transactions }) => {
                             onValueChange={(value) => setItemsPerPage(Number(value))}
                         >
                             <SelectTrigger className="w-[130px]">
-                                <SelectValue placeholder={`${itemsPerPage} per page`} />
+                                <SelectValue placeholder={t('perPage', { count: itemsPerPage })} />
                             </SelectTrigger>
                             <SelectContent>
-                                <SelectItem value="10">10 per page</SelectItem>
-                                <SelectItem value="20">20 per page</SelectItem>
-                                <SelectItem value="50">50 per page</SelectItem>
-                                <SelectItem value="100">100 per page</SelectItem>
+                                <SelectItem value="10">10</SelectItem>
+                                <SelectItem value="20">20</SelectItem>
+                                <SelectItem value="50">50</SelectItem>
+                                <SelectItem value="100">100</SelectItem>
                             </SelectContent>
                         </Select>
 

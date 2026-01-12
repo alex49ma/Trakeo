@@ -7,7 +7,10 @@ import AccountCard from './_components/account-card'
 import { getCurrentBudget } from '@/actions/budget'
 import BudgetProgress from './_components/budget-progress'
 
+import { getTranslations } from 'next-intl/server';
+
 async function DashboardPage() {
+    const t = await getTranslations('Dashboard');
 
     const accounts = await getUserAccounts()
 
@@ -36,7 +39,7 @@ async function DashboardPage() {
                         <CardContent className="flex flex-col items-center justify-center 
                         text-muted-foreground h-full pt-5">
                             <Plus className="w-10 h-10 mb-2" />
-                            <p className="text-sm font-medium">Create Account</p>
+                            <p className="text-sm font-medium">{t('createAccount')}</p>
                         </CardContent>
                     </Card>
                 </CreateAccountDrawer>

@@ -1,0 +1,199 @@
+{
+  "TransactionForm": {
+    "title": "Add Transaction",
+    "type": "Type",
+    "amount": "Amount",
+    "account": "Account",
+    "category": "Category",
+    "date": "Date",
+    "description": "Description",
+    "recurring": "Set recurring transaction",
+    "recurringDescription": "Set up a recurring schedule for this transaction",
+    "recurringInterval": "Recurring Interval",
+    "save": "Save transaction",
+    "cancel": "Cancel",
+    "selectType": "Select type",
+    "selectAccount": "Select account",
+    "selectCategory": "Select category",
+    "chooseDate": "Choose a date",
+    "enterDescription": "Enter description",
+    "selectInterval": "Select interval",
+    "expense": "Expense",
+    "income": "Income",
+    "createAccount": "Create Account",
+    "daily": "Daily",
+    "weekly": "Weekly",
+    "monthly": "Monthly",
+    "yearly": "Yearly",
+    "success": "Transaction created successfully"
+  },
+  "Header": {
+    "dashboard": "Dashboard",
+    "addTransaction": "Add Transaction",
+    "login": "Login"
+  },
+  "Hero": {
+    "title1": "The tool to track",
+    "title2": "your finances",
+    "subtitle": "Track your expenses and income in one place<br />Analyze and get key insights",
+    "getStarted": "Get Started",
+    "watchDemo": "Watch Demo"
+  },
+  "Landing": {
+    "featuresTitle": "Everything you need to manage your finances",
+    "howItWorksTitle": "How it works",
+    "testimonialsTitle": "What our users say",
+    "readyToStart": "Ready to get started?",
+    "signupDescription": "Sign up for a free account and start tracking your expenses today.",
+    "getStarted": "Get Started",
+    "stats": [
+      {
+        "value": "50K+",
+        "label": "Active Users"
+      },
+      {
+        "value": "$2B+",
+        "label": "Transactions Tracked"
+      },
+      {
+        "value": "99.9%",
+        "label": "Uptime"
+      },
+      {
+        "value": "4.9/5",
+        "label": "User Rating"
+      }
+    ],
+    "features": [
+      {
+        "title": "Advanced Analytics",
+        "description": "Get detailed insights into your spending patterns with AI-powered analytics"
+      },
+      {
+        "title": "Smart Receipt Scanner",
+        "description": "Extract data automatically from receipts using advanced AI technology"
+      },
+      {
+        "title": "Budget Planning",
+        "description": "Create and manage budgets with intelligent recommendations"
+      },
+      {
+        "title": "Multi-Account Support",
+        "description": "Manage multiple accounts and credit cards in one place"
+      },
+      {
+        "title": "Multi-Currency",
+        "description": "Support for multiple currencies with real-time conversion"
+      },
+      {
+        "title": "Automated Insights",
+        "description": "Get automated financial insights and recommendations"
+      }
+    ],
+    "howItWorks": [
+      {
+        "title": "1. Create Your Account",
+        "description": "Get started in minutes with our simple and secure sign-up process"
+      },
+      {
+        "title": "2. Track Your Spending",
+        "description": "Automatically categorize and track your transactions in real-time"
+      },
+      {
+        "title": "3. Get Insights",
+        "description": "Receive AI-powered insights and recommendations to optimize your finances"
+      }
+    ],
+    "testimonials": [
+      {
+        "name": "Sarah Johnson",
+        "role": "Small Business Owner",
+        "quote": "Trakeo has transformed how I manage my business finances. The AI insights have helped me identify cost-saving opportunities I never knew existed."
+      },
+      {
+        "name": "Michael Chen",
+        "role": "Freelancer",
+        "quote": "The receipt scanning feature saves me hours each month. Now I can focus on my work instead of manual data entry and expense tracking."
+      },
+      {
+        "name": "Emily Rodriguez",
+        "role": "Financial Advisor",
+        "quote": "I recommend Trakeo to all my clients. The multi-currency support and detailed analytics make it perfect for international investors."
+      }
+    ]
+  },
+  "Common": {
+    "income": "Income",
+    "expense": "Expense",
+    "dashboard": "Dashboard",
+    "cancel": "Cancel",
+    "save": "Save",
+    "edit": "Edit",
+    "delete": "Delete",
+    "search": "Search",
+    "accountType": {
+      "CURRENT": "Current Account",
+      "SAVINGS": "Savings Account"
+    }
+  },
+  "Dashboard": {
+    "title": "Dashboard",
+    "createAccount": "Create Account",
+    "monthlyBudget": "Monthly Budget",
+    "noBudgetSet": "No budget set",
+    "budgetSpent": "{spent} € spent of {budget} €",
+    "budgetUsed": "{percent}% used",
+    "enterAmount": "Enter amount",
+    "updateBudgetSuccess": "Budget updated successfully",
+    "updateBudgetError": "Failed to update budget",
+    "invalidAmount": "Please enter a valid amount",
+    "defaultAccountUpdated": "Default account updated",
+    "defaultAccountUpdateError": "Failed to update default account",
+    "oneDefaultRequired": "You need at least one default account"
+  },
+  "Account": {
+    "transactionsCount": "{count} Transactions",
+    "transactionsOverview": "Transactions Overview",
+    "totalIncome": "Total Income",
+    "totalExpense": "Total Expense",
+    "totalNet": "Total Net",
+    "dateRange": "Date Range",
+    "year": "Year",
+    "last7Days": "Last 7 Days",
+    "lastMonth": "Last Month",
+    "last3Months": "Last 3 Months",
+    "last6Months": "Last 6 Months",
+    "allTime": "All Time",
+    "table": {
+      "searchPlaceholder": "Search transactions...",
+      "allTypes": "All Types",
+      "allAccounts": "All Accounts",
+      "allCategories": "All Categories",
+      "allSubcategories": "All Subcategories",
+      "allRegimes": "All Transaction Regimes",
+      "recurring": "Recurring",
+      "nonRecurring": "Non-recurring",
+      "deleteSelected": "Delete Selected ({count})",
+      "date": "Date",
+      "description": "Description",
+      "category": "Category",
+      "amount": "Amount",
+      "recurringHeader": "Recurring",
+      "noTransactions": "No transactions found",
+      "oneTime": "One time",
+      "nextDate": "Next Date:",
+      "showing": "Showing {start} to {end} of {total} transactions",
+      "perPage": "{count} per page",
+      "deleteConfirm": "Are you sure you want to delete these transactions?",
+      "deleteSuccess": "Transactions deleted successfully",
+      "deleteError": "Error deleting transactions: "
+    },
+    "recurring": {
+      "daily": "Daily",
+      "weekly": "Weekly",
+      "monthly": "Monthly",
+      "yearly": "Yearly",
+      "custom": "Custom"
+    }
+  }
+}

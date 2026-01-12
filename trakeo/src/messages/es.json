@@ -1,0 +1,199 @@
+{
+    "TransactionForm": {
+        "title": "Añadir Transacción",
+        "type": "Tipo",
+        "amount": "Cantidad",
+        "account": "Cuenta",
+        "category": "Categoría",
+        "date": "Fecha",
+        "description": "Descripción",
+        "recurring": "Recurrente",
+        "recurringDescription": "Configurar una programación recurrente para esta transacción",
+        "recurringInterval": "Intervalo Recurrente",
+        "save": "Guardar transacción",
+        "cancel": "Cancelar",
+        "selectType": "Seleccionar tipo",
+        "selectAccount": "Seleccionar cuenta",
+        "selectCategory": "Seleccionar categoría",
+        "chooseDate": "Elegir una fecha",
+        "enterDescription": "Introducir descripción",
+        "selectInterval": "Seleccionar intervalo",
+        "expense": "Gasto",
+        "income": "Ingreso",
+        "createAccount": "Crear Cuenta",
+        "daily": "Diario",
+        "weekly": "Semanal",
+        "monthly": "Mensual",
+        "yearly": "Anual",
+        "success": "Transacción creada exitosamente"
+    },
+    "Header": {
+        "dashboard": "Panel de Control",
+        "addTransaction": "Añadir Transacción",
+        "login": "Iniciar Sesión"
+    },
+    "Hero": {
+        "title1": "La herramienta para",
+        "title2": "manejar tus finanzas",
+        "subtitle": "Sigue tus gastos e ingresos en un solo lugar<br />Analiza y obtén información clave",
+        "getStarted": "Empezar",
+        "watchDemo": "Ver Demo"
+    },
+    "Landing": {
+        "featuresTitle": "Todo lo que necesitas para gestionar tus finanzas",
+        "howItWorksTitle": "Cómo funciona",
+        "testimonialsTitle": "Lo que dicen nuestros usuarios",
+        "readyToStart": "¿Listo para empezar?",
+        "signupDescription": "Regístrate para obtener una cuenta gratuita y comienza a rastrear tus gastos hoy.",
+        "getStarted": "Empezar",
+        "stats": [
+            {
+                "value": "50K+",
+                "label": "Usuarios Activos"
+            },
+            {
+                "value": "$2B+",
+                "label": "Transacciones Rastreadas"
+            },
+            {
+                "value": "99.9%",
+                "label": "Tiempo de Actividad"
+            },
+            {
+                "value": "4.9/5",
+                "label": "Calificación de Usuarios"
+            }
+        ],
+        "features": [
+            {
+                "title": "Analíticas Avanzadas",
+                "description": "Obtén información detallada sobre tus patrones de gasto con analíticas impulsadas por IA"
+            },
+            {
+                "title": "Escáner de Recibos Inteligente",
+                "description": "Extrae datos automáticamente de los recibos utilizando tecnología avanzada de IA"
+            },
+            {
+                "title": "Planificación Presupuestaria",
+                "description": "Crea y gestiona presupuestos con recomendaciones inteligentes"
+            },
+            {
+                "title": "Soporte Multi-Cuenta",
+                "description": "Gestiona múltiples cuentas y tarjetas de crédito en un solo lugar"
+            },
+            {
+                "title": "Multi-Divisa",
+                "description": "Soporte para múltiples monedas con conversión en tiempo real"
+            },
+            {
+                "title": "Insights Automatizados",
+                "description": "Obtén información financiera automatizada y recomendaciones"
+            }
+        ],
+        "howItWorks": [
+            {
+                "title": "1. Crea Tu Cuenta",
+                "description": "Empieza en minutos con nuestro proceso de registro simple y seguro"
+            },
+            {
+                "title": "2. Registra Tus Gastos",
+                "description": "Categoriza y rastrea automáticamente tus transacciones en tiempo real"
+            },
+            {
+                "title": "3. Obtén Insights",
+                "description": "Recibe información impulsada por IA y recomendaciones para optimizar tus finanzas"
+            }
+        ],
+        "testimonials": [
+            {
+                "name": "Sarah Johnson",
+                "role": "Dueña de Pequeña Empresa",
+                "quote": "Trakeo ha transformado cómo gestiono las finanzas de mi negocio. Los insights de IA me han ayudado a identificar oportunidades de ahorro de costos que no sabía que existían."
+            },
+            {
+                "name": "Michael Chen",
+                "role": "Freelancer",
+                "quote": "La función de escaneo de recibos me ahorra horas cada mes. Ahora puedo concentrarme en mi trabajo en lugar de la entrada manual de datos y el seguimiento de gastos."
+            },
+            {
+                "name": "Emily Rodriguez",
+                "role": "Asesora Financiera",
+                "quote": "Recomiendo Trakeo a todos mis clientes. El soporte multi-divisa y las analíticas detalladas lo hacen perfecto para inversores internacionales."
+            }
+        ]
+    },
+    "Common": {
+        "income": "Ingreso",
+        "expense": "Gasto",
+        "dashboard": "Panel de Control",
+        "cancel": "Cancelar",
+        "save": "Guardar",
+        "edit": "Editar",
+        "delete": "Borrar",
+        "search": "Buscar",
+        "accountType": {
+            "CURRENT": "Cuenta Corriente",
+            "SAVINGS": "Cuenta de Ahorros"
+        }
+    },
+    "Dashboard": {
+        "title": "Panel de Control",
+        "createAccount": "Crear Cuenta",
+        "monthlyBudget": "Presupuesto Mensual",
+        "noBudgetSet": "No hay presupuesto establecido",
+        "budgetSpent": "{spent} € gastados de {budget} €",
+        "budgetUsed": "{percent}% usado",
+        "enterAmount": "Introducir cantidad",
+        "updateBudgetSuccess": "Presupuesto actualizado exitosamente",
+        "updateBudgetError": "Error al actualizar presupuesto",
+        "invalidAmount": "Por favor introduce una cantidad válida",
+        "defaultAccountUpdated": "Cuenta predeterminada actualizada",
+        "defaultAccountUpdateError": "Error al actualizar cuenta predeterminada",
+        "oneDefaultRequired": "Necesitas al menos una cuenta predeterminada"
+    },
+    "Account": {
+        "transactionsCount": "{count} Transacciones",
+        "transactionsOverview": "Resumen de Transacciones",
+        "totalIncome": "Ingresos Totales",
+        "totalExpense": "Gastos Totales",
+        "totalNet": "Neto Total",
+        "dateRange": "Rango de Fechas",
+        "year": "Año",
+        "last7Days": "Últimos 7 Días",
+        "lastMonth": "Último Mes",
+        "last3Months": "Últimos 3 Meses",
+        "last6Months": "Últimos 6 Meses",
+        "allTime": "Todo el Tiempo",
+        "table": {
+            "searchPlaceholder": "Buscar transacciones...",
+            "allTypes": "Todos los Tipos",
+            "allAccounts": "Todas las Cuentas",
+            "allCategories": "Todas las Categorías",
+            "allSubcategories": "Todas las Subcategorías",
+            "allRegimes": "Todos los Regímenes",
+            "recurring": "Recurrente",
+            "nonRecurring": "No recurrente",
+            "deleteSelected": "Borrar Seleccionados ({count})",
+            "date": "Fecha",
+            "description": "Descripción",
+            "category": "Categoría",
+            "amount": "Cantidad",
+            "recurringHeader": "Recurrente",
+            "noTransactions": "No se encontraron transacciones",
+            "oneTime": "Puntual",
+            "nextDate": "Próxima Fecha:",
+            "showing": "Mostrando {start} a {end} de {total} transacciones",
+            "perPage": "{count} por página",
+            "deleteConfirm": "¿Estás seguro de que quieres borrar estas transacciones?",
+            "deleteSuccess": "Transacciones borradas exitosamente",
+            "deleteError": "Error al borrar transacciones: "
+        },
+        "recurring": {
+            "daily": "Diario",
+            "weekly": "Semanal",
+            "monthly": "Mensual",
+            "yearly": "Anual",
+            "custom": "Personalizado"
+        }
+    }
+}
