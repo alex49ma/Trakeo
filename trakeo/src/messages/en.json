@@ -151,6 +151,27 @@
     "defaultAccountUpdateError": "Failed to update default account",
     "oneDefaultRequired": "You need at least one default account"
   },
+  "CreateAccount": {
+    "title": "Create New Account",
+    "accountName": "Account Name",
+    "accountNamePlaceholder": "e.g., Checking Account",
+    "accountType": "Account Type",
+    "initialBalance": "Initial Balance",
+    "setAsDefault": "Set as Default Account",
+    "defaultDescription": "This account will be selected by default for transactions",
+    "success": "Account created successfully",
+    "error": "Failed to create account",
+    "creating": "Creating...",
+    "submit": "Create Account"
+  },
+  "Footer": {
+    "copyright": "© 2025 Trakeo. All rights reserved."
+  },
+  "NotFound": {
+    "title": "Page not found",
+    "description": "Oops! Seems like the page you are looking for doesn't exist",
+    "homeButton": "Return Home"
+  },
   "Account": {
     "transactionsCount": "{count} Transactions",
     "transactionsOverview": "Transactions Overview",

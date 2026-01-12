@@ -15,8 +15,12 @@ import { useEffect } from 'react'
 import { toast } from 'sonner'
 import { createAccount } from "@/actions/dashboard";
 
+import { useTranslations } from 'next-intl';
+
 const CreateAccountDrawer = ({ children }) => {
     const [open, setOpen] = useState(false)
+    const t = useTranslations('CreateAccount');
+    const common = useTranslations('Common');
 
     const { register, handleSubmit, formState: { errors }, setValue, watch, reset } = useForm({
         resolver: zodResolver(accountSchema),
@@ -32,7 +36,7 @@ const CreateAccountDrawer = ({ children }) => {
 
     useEffect(() => {
         if (newAccount && !createAccountLoading) {
-            toast.success("Account created successfully")
+            toast.success(t('success'))
             reset()
             setOpen(false)
         }
@@ -40,7 +44,7 @@ const CreateAccountDrawer = ({ children }) => {
 
     useEffect(() => {
         if (error) {
-            toast.error(error.message || "Failed to create account")
+            toast.error(error.message || t('error'))
         }
     }, [error])
 
@@ -55,28 +59,28 @@ const CreateAccountDrawer = ({ children }) => {
                 <DrawerTrigger asChild>{children}</DrawerTrigger>
                 <DrawerContent>
                     <DrawerHeader>
-                        <DrawerTitle>Create new account</DrawerTitle>
+                        <DrawerTitle>{t('title')}</DrawerTitle>
                     </DrawerHeader>
                     <div className="px-4 pb-4">
                         <form action="" className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
 
 
                             <div className="space-y-2">
-                                <label htmlFor="name" className="text-sm font-medium">Account Name</label>
-                                <Input id="name" placeholder="e.g., Checking Account" {...register("name")} />
+                                <label htmlFor="name" className="text-sm font-medium">{t('accountName')}</label>
+                                <Input id="name" placeholder={t('accountNamePlaceholder')} {...register("name")} />
                                 {errors.name &&
                                     <p className=" text-sm text-red-500">{errors.name.message}</p>
                                 }
                             </div>
                             <div className="space-y-2">
-                                <label htmlFor="type" className="text-sm font-medium">Account Type</label>
+                                <label htmlFor="type" className="text-sm font-medium">{t('accountType')}</label>
                                 <Select onValueChange={(value) => setValue("type", value)} defaultValue={watch("type")}>
                                     <SelectTrigger id="type">
-                                        <SelectValue placeholder="Account Type" />
+                                        <SelectValue placeholder={t('accountType')} />
                                     </SelectTrigger>
                                     <SelectContent>
-                                        <SelectItem value="CURRENT">Current</SelectItem>
-                                        <SelectItem value="SAVINGS">Savings</SelectItem>
+                                        <SelectItem value="CURRENT">{common('accountType.CURRENT')}</SelectItem>
+                                        <SelectItem value="SAVINGS">{common('accountType.SAVINGS')}</SelectItem>
                                     </SelectContent>
                                 </Select>
                                 {errors.type &&
@@ -84,7 +88,7 @@ const CreateAccountDrawer = ({ children }) => {
                                 }
                             </div>
                             <div className="space-y-2">
-                                <label htmlFor="balance" className="text-sm font-medium"> Initial Balance</label>
+                                <label htmlFor="balance" className="text-sm font-medium"> {t('initialBalance')}</label>
                                 <Input id="balance"
                                     type="number"
                                     step="0.01"
@@ -95,8 +99,8 @@ const CreateAccountDrawer = ({ children }) => {
                             </div>
                             <div className="flex items-center justify-between rounded-lg border p-3">
                                 <div className="space-y-0.5">
-                                    <label htmlFor="isDefault" className="text-sm font-medium cursor-pointer"> Set as Default Account</label>
-                                    <p className="text-sm text-muted-foreground">This account will be selected by default for transactions</p>
+                                    <label htmlFor="isDefault" className="text-sm font-medium cursor-pointer"> {t('setAsDefault')}</label>
+                                    <p className="text-sm text-muted-foreground">{t('defaultDescription')}</p>
                                 </div>
                                 <Switch
                                     id="isDefault"
@@ -107,10 +111,10 @@ const CreateAccountDrawer = ({ children }) => {
 
                             <div className="flex gap-4 pt-4">
                                 <DrawerClose asChild>
-                                    <Button type="button" variant="outline" className="flex-1" disabled={createAccountLoading}>Cancel</Button>
+                                    <Button type="button" variant="prominentCancel" className="flex-1" disabled={createAccountLoading}>{common('cancel')}</Button>
                                 </DrawerClose>
-                                <Button type="submit" className="flex-1" disabled={createAccountLoading}>
-                                    {createAccountLoading ? <> <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Creating...</> : "Create Account"}
+                                <Button type="submit" variant="prominent" className="flex-1" disabled={createAccountLoading}>
+                                    {createAccountLoading ? <> <Loader2 className="mr-2 h-4 w-4 animate-spin" /> {t('creating')}</> : t('submit')}
                                 </Button>
                             </div>
                         </form>

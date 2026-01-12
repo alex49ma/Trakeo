@@ -151,6 +151,27 @@
         "defaultAccountUpdateError": "Error al actualizar cuenta predeterminada",
         "oneDefaultRequired": "Necesitas al menos una cuenta predeterminada"
     },
+    "CreateAccount": {
+        "title": "Crear Nueva Cuenta",
+        "accountName": "Nombre de la Cuenta",
+        "accountNamePlaceholder": "ej., Cuenta Corriente",
+        "accountType": "Tipo de Cuenta",
+        "initialBalance": "Balance Inicial",
+        "setAsDefault": "Marcar como Cuenta Predeterminada",
+        "defaultDescription": "Esta cuenta será seleccionada por defecto para las transacciones",
+        "success": "Cuenta creada exitosamente",
+        "error": "Error al crear la cuenta",
+        "creating": "Creando...",
+        "submit": "Crear Cuenta"
+    },
+    "Footer": {
+        "copyright": "© 2025 Trakeo. Todos los derechos reservados."
+    },
+    "NotFound": {
+        "title": "Página no encontrada",
+        "description": "¡Vaya! Parece que la página que buscas no existe",
+        "homeButton": "Volver al Inicio"
+    },
     "Account": {
         "transactionsCount": "{count} Transacciones",
         "transactionsOverview": "Resumen de Transacciones",

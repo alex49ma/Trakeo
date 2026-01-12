@@ -10,6 +10,7 @@ import { DayPicker, getDefaultClassNames } from "react-day-picker";
 
 import { cn } from "@/lib/utils"
 import { Button, buttonVariants } from "@/components/ui/button"
+import { useLocale } from "next-intl";
 
 function Calendar({
   className,
@@ -22,6 +23,7 @@ function Calendar({
   ...props
 }) {
   const defaultClassNames = getDefaultClassNames()
+  const locale = useLocale();
 
   return (
     <DayPicker
@@ -35,7 +37,7 @@ function Calendar({
       captionLayout={captionLayout}
       formatters={{
         formatMonthDropdown: (date) =>
-          date.toLocaleString("default", { month: "short" }),
+          date.toLocaleString(locale, { month: "short" }),
         ...formatters,
       }}
       classNames={{
