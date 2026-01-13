@@ -1,0 +1,220 @@
+{
+    "TransactionForm": {
+        "title": "Transaktion hinzufügen",
+        "type": "Typ",
+        "amount": "Betrag",
+        "account": "Konto",
+        "category": "Kategorie",
+        "date": "Datum",
+        "description": "Beschreibung",
+        "recurring": "Wiederkehrende Transaktion",
+        "recurringDescription": "Erstellen Sie einen Zeitplan für diese Transaktion",
+        "recurringInterval": "Intervall",
+        "save": "Transaktion speichern",
+        "cancel": "Abbrechen",
+        "selectType": "Typ wählen",
+        "selectAccount": "Konto wählen",
+        "selectCategory": "Kategorie wählen",
+        "chooseDate": "Datum wählen",
+        "enterDescription": "Beschreibung eingeben",
+        "selectInterval": "Intervall wählen",
+        "expense": "Ausgabe",
+        "income": "Einkommen",
+        "createAccount": "Konto erstellen",
+        "daily": "Täglich",
+        "weekly": "Wöchentlich",
+        "monthly": "Monatlich",
+        "yearly": "Jährlich",
+        "success": "Transaktion erfolgreich erstellt"
+    },
+    "Header": {
+        "dashboard": "Dashboard",
+        "addTransaction": "Transaktion hinzufügen",
+        "login": "Anmelden"
+    },
+    "Hero": {
+        "title1": "Das Tool zur Verfolgung",
+        "title2": "Ihrer Finanzen",
+        "subtitle": "Verfolgen Sie Ihre Einnahmen und Ausgaben an einem Ort<br />Analysieren und erhalten Sie wichtige Einblicke",
+        "getStarted": "Loslegen",
+        "watchDemo": "Demo ansehen"
+    },
+    "Landing": {
+        "featuresTitle": "Alles was Sie für Ihre Finanzen brauchen",
+        "howItWorksTitle": "Wie es funktioniert",
+        "testimonialsTitle": "Was unsere Nutzer sagen",
+        "readyToStart": "Bereit loszulegen?",
+        "signupDescription": "Melden Sie sich für ein kostenloses Konto an und beginnen Sie heute noch mit der Verfolgung Ihrer Ausgaben.",
+        "getStarted": "Loslegen",
+        "stats": [
+            {
+                "value": "50K+",
+                "label": "Aktive Nutzer"
+            },
+            {
+                "value": "$2B+",
+                "label": "Verfolgte Transaktionen"
+            },
+            {
+                "value": "99.9%",
+                "label": "Betriebszeit"
+            },
+            {
+                "value": "4.9/5",
+                "label": "Bewertung"
+            }
+        ],
+        "features": [
+            {
+                "title": "Fortschrittliche Analysen",
+                "description": "Erhalten Sie detaillierte Einblicke in Ihre Ausgabegewohnheiten mit KI-gestützten Analysen"
+            },
+            {
+                "title": "Intelligenter Belegscanner",
+                "description": "Extrahieren Sie Daten automatisch aus Belegen mit fortschrittlicher KI-Technologie"
+            },
+            {
+                "title": "Budgetplanung",
+                "description": "Erstellen und verwalten Sie Budgets mit intelligenten Empfehlungen"
+            },
+            {
+                "title": "Unterstützung mehrerer Konten",
+                "description": "Verwalten Sie mehrere Konten und Kreditkarten an einem Ort"
+            },
+            {
+                "title": "Mehrere Währungen",
+                "description": "Unterstützung für verschiedene Währungen mit Echtzeit-Umrechnung"
+            },
+            {
+                "title": "Automatisierte Einblicke",
+                "description": "Erhalten Sie automatisierte Finanztipps und Empfehlungen"
+            }
+        ],
+        "howItWorks": [
+            {
+                "title": "1. Erstellen Sie Ihr Konto",
+                "description": "Starten Sie in wenigen Minuten mit unserem einfachen und sicheren Anmeldeprozess"
+            },
+            {
+                "title": "2. Verfolgen Sie Ihre Ausgaben",
+                "description": "Kategorisieren und verfolgen Sie Ihre Transaktionen automatisch in Echtzeit"
+            },
+            {
+                "title": "3. Erhalten Sie Einblicke",
+                "description": "Erhalten Sie KI-gestützte Einblicke und Empfehlungen zur Optimierung Ihrer Finanzen"
+            }
+        ],
+        "testimonials": [
+            {
+                "name": "Sarah Johnson",
+                "role": "Kleinunternehmerin",
+                "quote": "Trakeo hat die Verwaltung meiner Geschäftsfinanzen verändert. Die KI-Einblicke haben mir geholfen, Kosteneinsparungen zu identifizieren, von denen ich nichts wusste."
+            },
+            {
+                "name": "Michael Chen",
+                "role": "Freiberufler",
+                "quote": "Die Belegscanner-Funktion spart mir jeden Monat Stunden. Jetzt kann ich mich auf meine Arbeit konzentrieren statt auf manuelle Dateneingabe."
+            },
+            {
+                "name": "Emily Rodriguez",
+                "role": "Finanzberaterin",
+                "quote": "Ich empfehle Trakeo allen meinen Kunden. Die Unterstützung mehrerer Währungen und detaillierte Analysen sind perfekt für internationale Investoren."
+            }
+        ]
+    },
+    "Common": {
+        "income": "Einkommen",
+        "expense": "Ausgabe",
+        "dashboard": "Dashboard",
+        "cancel": "Abbrechen",
+        "save": "Speichern",
+        "edit": "Bearbeiten",
+        "delete": "Löschen",
+        "search": "Suchen",
+        "accountType": {
+            "CURRENT": "Girokonto",
+            "SAVINGS": "Sparkonto"
+        }
+    },
+    "Dashboard": {
+        "title": "Dashboard",
+        "createAccount": "Konto erstellen",
+        "monthlyBudget": "Monatliches Budget",
+        "noBudgetSet": "Kein Budget festgelegt",
+        "budgetSpent": "{spent} € von {budget} € ausgegeben",
+        "budgetUsed": "{percent}% verwendet",
+        "enterAmount": "Betrag eingeben",
+        "updateBudgetSuccess": "Budget erfolgreich aktualisiert",
+        "updateBudgetError": "Fehler beim Aktualisieren des Budgets",
+        "invalidAmount": "Bitte geben Sie einen gültigen Betrag ein",
+        "defaultAccountUpdated": "Standardkonto aktualisiert",
+        "defaultAccountUpdateError": "Fehler beim Aktualisieren des Standardkontos",
+        "oneDefaultRequired": "Sie benötigen mindestens ein Standardkonto"
+    },
+    "CreateAccount": {
+        "title": "Neues Konto erstellen",
+        "accountName": "Kontoname",
+        "accountNamePlaceholder": "z.B. Girokonto",
+        "accountType": "Kontoart",
+        "initialBalance": "Anfangsbestand",
+        "setAsDefault": "Als Standardkonto festlegen",
+        "defaultDescription": "Dieses Konto wird standardmäßig für Transaktionen ausgewählt",
+        "success": "Konto erfolgreich erstellt",
+        "error": "Fehler beim Erstellen des Kontos",
+        "creating": "Erstelle...",
+        "submit": "Konto erstellen"
+    },
+    "Footer": {
+        "copyright": "© 2025 Trakeo. Alle Rechte vorbehalten."
+    },
+    "NotFound": {
+        "title": "Seite nicht gefunden",
+        "description": "Hoppla! Die gesuchte Seite existiert anscheinend nicht",
+        "homeButton": "Zurück zur Startseite"
+    },
+    "Account": {
+        "transactionsCount": "{count} Transaktionen",
+        "transactionsOverview": "Transaktionsübersicht",
+        "totalIncome": "Gesamteinnahmen",
+        "totalExpense": "Gesamtausgaben",
+        "totalNet": "Netto Gesamt",
+        "dateRange": "Zeitraum",
+        "year": "Jahr",
+        "last7Days": "Letzte 7 Tage",
+        "lastMonth": "Letzter Monat",
+        "last3Months": "Letzte 3 Monate",
+        "last6Months": "Letzte 6 Monate",
+        "allTime": "Gesamte Zeit",
+        "table": {
+            "searchPlaceholder": "Transaktionen suchen...",
+            "allTypes": "Alle Typen",
+            "allAccounts": "Alle Konten",
+            "allCategories": "Alle Kategorien",
+            "allSubcategories": "Alle Unterkategorien",
+            "allRegimes": "Alle Transaktionsarten",
+            "recurring": "Wiederkehrend",
+            "nonRecurring": "Einmalig",
+            "deleteSelected": "Ausgewählte löschen ({count})",
+            "date": "Datum",
+            "description": "Beschreibung",
+            "category": "Kategorie",
+            "amount": "Betrag",
+            "recurringHeader": "Wiederkehrend",
+            "noTransactions": "Keine Transaktionen gefunden",
+            "oneTime": "Einmalig",
+            "nextDate": "Nächstes Datum:",
+            "showing": "Zeige {start} bis {end} von {total} Transaktionen",
+            "perPage": "{count} pro Seite",
+            "deleteConfirm": "Sind Sie sicher, dass Sie diese Transaktionen löschen möchten?",
+            "deleteSuccess": "Transaktionen erfolgreich gelöscht",
+            "deleteError": "Fehler beim Löschen der Transaktionen: "
+        },
+        "recurring": {
+            "daily": "Täglich",
+            "weekly": "Wöchentlich",
+            "monthly": "Monatlich",
+            "yearly": "Jährlich",
+            "custom": "Benutzerdefiniert"
+        }
+    }
+}
