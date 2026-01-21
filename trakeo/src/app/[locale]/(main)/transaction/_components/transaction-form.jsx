@@ -50,6 +50,7 @@ const AddTransactionForm = ({ accounts, categories }) => {
     const type = watch("type");
     const isRecurring = watch("isRecurring");
     const date = watch("date");
+    const categoryId = watch("categoryId");
 
     const onSubmit = async (data) => {
         const formData = {
@@ -69,6 +70,8 @@ const AddTransactionForm = ({ accounts, categories }) => {
     }, [transactionResult, transactionLoading])
 
     const filteredCategories = categories.filter((cat) => cat.type === type);
+    const selectedCategory = categories.find((cat) => cat.id === categoryId);
+    const subcategories = selectedCategory?.subCategories || [];
 
     return (
         <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
@@ -78,8 +81,12 @@ const AddTransactionForm = ({ accounts, categories }) => {
             <div className="space-y-2">
                 <label className="text-sm font-medium">{t('type')}</label>
                 <Select
-                    onValueChange={(value) => setValue("type", value)}
-                    defaultValue={type}
+                    onValueChange={(value) => {
+                        setValue("type", value);
+                        setValue("categoryId", "");
+                        setValue("subcategoryId", "");
+                    }}
+                    value={type}
                 >
                     <SelectTrigger className="w-full">
                         <SelectValue placeholder={t('selectType')} />
@@ -132,7 +139,11 @@ const AddTransactionForm = ({ accounts, categories }) => {
             <div className="space-y-2">
                 <label className="text-sm font-medium">{t('category')}</label>
                 <Select
-                    onValueChange={(value) => setValue("categoryId", value)}
+                    onValueChange={(value) => {
+                        setValue("categoryId", value);
+                        setValue("subcategoryId", ""); // Reset subcategory when category changes
+                    }}
+                    value={categoryId}
                 >
                     <SelectTrigger className="w-full">
                         <SelectValue placeholder={t('selectCategory')} />
@@ -146,6 +157,28 @@ const AddTransactionForm = ({ accounts, categories }) => {
                     </SelectContent>
                 </Select>
                 {errors.categoryId && <p className="text-red-500">{errors.categoryId.message}</p>}
+            </div>
+
+            {/* Sub Category */}
+            <div className="space-y-2">
+                <label className="text-sm font-medium">{t('subCategory')}</label>
+                <Select
+                    onValueChange={(value) => setValue("subcategoryId", value)}
+                    value={watch("subcategoryId")}
+                    disabled={!categoryId || subcategories.length === 0}
+                >
+                    <SelectTrigger className="w-full">
+                        <SelectValue placeholder={t('selectSubCategory')} />
+                    </SelectTrigger>
+                    <SelectContent>
+                        {subcategories.map((subcat) => (
+                            <SelectItem key={subcat.id} value={subcat.id}>
+                                {subcat.name}
+                            </SelectItem>
+                        ))}
+                    </SelectContent>
+                </Select>
+                {errors.subcategoryId && <p className="text-red-500">{errors.subcategoryId.message}</p>}
             </div>
             {/* Date */}
             <div className="space-y-2">

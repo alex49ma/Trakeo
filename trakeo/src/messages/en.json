@@ -15,6 +15,8 @@
     "selectType": "Select type",
     "selectAccount": "Select account",
     "selectCategory": "Select category",
+    "subCategory": "Sub Category",
+    "selectSubCategory": "Select sub category",
     "chooseDate": "Choose a date",
     "enterDescription": "Enter description",
     "selectInterval": "Select interval",

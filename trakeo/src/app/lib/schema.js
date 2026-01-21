@@ -15,6 +15,7 @@ export const transactionSchema = z.object({
     date: z.date({ required_error: "Date is required" }),
     accountId: z.string().min(1, "Account is required"),
     categoryId: z.string().min(1, "Category is required"),
+    subcategoryId: z.string().optional(),
     isRecurring: z.boolean().default(false),
     recurringInterval: z.enum(["DAILY", "WEEKLY", "MONTHLY", "YEARLY"]).optional(),
 }).superRefine((data, ctx) => {

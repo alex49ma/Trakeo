@@ -11,7 +11,7 @@ import { Button } from '@/components/ui/button';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
 import { useRouter } from '@/i18n/routing';
 import { Input } from '@/components/ui/input';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectSeparator, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { X } from 'lucide-react';
 import useFetch from '@/hooks/use-fetch';
 import { toast } from 'sonner';
@@ -82,33 +82,77 @@ const TransactionTable = ({ transactions }) => {
         CUSTOM: tRecurring('custom')
     }
 
+    const availableCategories = useMemo(() => {
+        const categoriesMap = new Map();
+        transactions.forEach(t => {
+            if (typeFilter && typeFilter !== "all" && t.type !== typeFilter) return;
+            categoriesMap.set(t.category.id, { name: t.category.name, type: t.type });
+        });
+        return Array.from(categoriesMap.entries()).map(([id, { name, type }]) => ({ id, name, type }));
+    }, [transactions, typeFilter]);
+
+    const availableSubcategories = useMemo(() => {
+        const subcategoriesMap = new Map();
+        transactions.forEach(t => {
+            if (!t.subcategory) return;
+            if (typeFilter && typeFilter !== "all" && t.type !== typeFilter) return;
+            if (categoryFilter && categoryFilter !== "all" && t.category.id !== categoryFilter) return;
+            subcategoriesMap.set(t.subcategory.id, {
+                name: t.subcategory.name,
+                type: t.type,
+                categoryId: t.category.id,
+                categoryName: t.category.name
+            });
+        });
+        return Array.from(subcategoriesMap.entries()).map(([id, data]) => ({ id, ...data }));
+    }, [transactions, typeFilter, categoryFilter]);
+
+    // Reset child filters when parent filters change
+    useEffect(() => {
+        if (categoryFilter && categoryFilter !== "all") {
+            const isValid = availableCategories.some(cat => cat.id === categoryFilter);
+            if (!isValid) setCategoryFilter("all");
+        }
+    }, [typeFilter, availableCategories]);
+
+    useEffect(() => {
+        if (subcategoryFilter && subcategoryFilter !== "all") {
+            const isValid = availableSubcategories.some(sub => sub.id === subcategoryFilter);
+            if (!isValid) setSubcategoryFilter("all");
+        }
+    }, [categoryFilter, typeFilter, availableSubcategories]);
+
     const filteredAndSortedTransactions = useMemo(() => {
         let results = [...transactions];
 
         if (searchTerm) {
             const searchLower = searchTerm.toLowerCase();
-            results = results.filter((transaction) =>
-                (transaction.description || "").toLowerCase().includes(searchLower)
-            );
+            results = results.filter((transaction) => {
+                const descriptionMatch = (transaction.description || "").toLowerCase().includes(searchLower);
+                const categoryMatch = (transaction.category?.name || "").toLowerCase().includes(searchLower);
+                const subcategoryMatch = (transaction.subcategory?.name || "").toLowerCase().includes(searchLower);
+
+                return descriptionMatch || categoryMatch || subcategoryMatch;
+            });
         }
 
-        if (typeFilter) {
+        if (typeFilter && typeFilter !== "all") {
             results = results.filter((transaction) => transaction.type === typeFilter);
         }
 
-        if (accountFilter) {
+        if (accountFilter && accountFilter !== "all") {
             results = results.filter((transaction) => transaction.accountId === accountFilter);
         }
 
-        if (categoryFilter) {
+        if (categoryFilter && categoryFilter !== "all") {
             results = results.filter((transaction) => transaction.categoryId === categoryFilter);
         }
 
-        if (subcategoryFilter) {
+        if (subcategoryFilter && subcategoryFilter !== "all") {
             results = results.filter((transaction) => transaction.subcategoryId === subcategoryFilter);
         }
 
-        if (recurringFilter) {
+        if (recurringFilter && recurringFilter !== "all") {
             results = results.filter((transaction) => { return recurringFilter === "true" ? transaction.isRecurring : transaction.isRecurring === false });
         }
 
@@ -200,6 +244,7 @@ const TransactionTable = ({ transactions }) => {
                             <SelectValue placeholder={t('allTypes')} />
                         </SelectTrigger>
                         <SelectContent>
+                            <SelectItem value="all">{t('allTypes')}</SelectItem>
                             <SelectItem value="INCOME">{common('income')}</SelectItem>
                             <SelectItem value="EXPENSE">{common('expense')}</SelectItem>
                         </SelectContent>
@@ -209,6 +254,7 @@ const TransactionTable = ({ transactions }) => {
                             <SelectValue placeholder={t('allAccounts')} />
                         </SelectTrigger>
                         <SelectContent>
+                            <SelectItem value="all">{t('allAccounts')}</SelectItem>
                             <SelectItem value="TODO">TODO</SelectItem>
                             <SelectItem value="TODO">TODO</SelectItem>
                         </SelectContent>
@@ -218,9 +264,26 @@ const TransactionTable = ({ transactions }) => {
                             <SelectValue placeholder={t('allCategories')} />
                         </SelectTrigger>
                         <SelectContent>
-                            {Array.from(new Map(transactions.map(t => [t.category.id, t.category.name])).entries()).map(([id, name]) => (
-                                <SelectItem key={id} value={id}>{name}</SelectItem>
-                            ))}
+                            <SelectItem value="all">{t('allCategories')}</SelectItem>
+                            {availableCategories.filter(c => c.type === "INCOME").length > 0 && (
+                                <SelectGroup>
+                                    <SelectLabel>{common('income')}</SelectLabel>
+                                    {availableCategories.filter(c => c.type === "INCOME").map(({ id, name }) => (
+                                        <SelectItem key={id} value={id}>{name}</SelectItem>
+                                    ))}
+                                </SelectGroup>
+                            )}
+                            {availableCategories.filter(c => c.type === "INCOME").length > 0 && availableCategories.filter(c => c.type === "EXPENSE").length > 0 && (
+                                <SelectSeparator />
+                            )}
+                            {availableCategories.filter(c => c.type === "EXPENSE").length > 0 && (
+                                <SelectGroup>
+                                    <SelectLabel>{common('expense')}</SelectLabel>
+                                    {availableCategories.filter(c => c.type === "EXPENSE").map(({ id, name }) => (
+                                        <SelectItem key={id} value={id}>{name}</SelectItem>
+                                    ))}
+                                </SelectGroup>
+                            )}
                         </SelectContent>
                     </Select>
                     <Select value={subcategoryFilter} onValueChange={setSubcategoryFilter}>
@@ -228,13 +291,45 @@ const TransactionTable = ({ transactions }) => {
                             <SelectValue placeholder={t('allSubcategories')} />
                         </SelectTrigger>
                         <SelectContent>
-                            {Array.from(new Map(
-                                transactions
-                                    .filter(t => t.subcategory)
-                                    .map(t => [t.subcategory.id, t.subcategory.name])
-                            ).entries()).map(([id, name]) => (
-                                <SelectItem key={id} value={id}>{name}</SelectItem>
-                            ))}
+                            <SelectItem value="all">{t('allSubcategories')}</SelectItem>
+                            {["INCOME", "EXPENSE"].map((type, typeIndex, arr) => {
+                                const typeSubs = availableSubcategories.filter(s => s.type === type);
+                                if (typeSubs.length === 0) return null;
+
+                                // Group by category
+                                const groups = typeSubs.reduce((acc, sub) => {
+                                    if (!acc[sub.categoryId]) {
+                                        acc[sub.categoryId] = { name: sub.categoryName, items: [] };
+                                    }
+                                    acc[sub.categoryId].items.push(sub);
+                                    return acc;
+                                }, {});
+
+                                return (
+                                    <React.Fragment key={type}>
+                                        {typeIndex > 0 && availableSubcategories.some(s => s.type === arr[0]) && (
+                                            <SelectSeparator />
+                                        )}
+                                        <SelectGroup>
+                                            <SelectLabel className="font-bold underline">
+                                                {common(type.toLowerCase())}
+                                            </SelectLabel>
+                                            {Object.entries(groups).map(([catId, group]) => (
+                                                <SelectGroup key={catId}>
+                                                    <SelectLabel className="pl-4 text-xs italic">
+                                                        {group.name}
+                                                    </SelectLabel>
+                                                    {group.items.map((sub) => (
+                                                        <SelectItem key={sub.id} value={sub.id} className="pl-8">
+                                                            {sub.name}
+                                                        </SelectItem>
+                                                    ))}
+                                                </SelectGroup>
+                                            ))}
+                                        </SelectGroup>
+                                    </React.Fragment>
+                                );
+                            })}
                         </SelectContent>
                     </Select>
                     <Select value={recurringFilter} onValueChange={(value) => setRecurringFilter(value)}>
@@ -242,6 +337,7 @@ const TransactionTable = ({ transactions }) => {
                             <SelectValue placeholder={t('allRegimes')} />
                         </SelectTrigger>
                         <SelectContent>
+                            <SelectItem value="all">{t('allRegimes')}</SelectItem>
                             <SelectItem value="true">{t('recurring')}</SelectItem>
                             <SelectItem value="false">{t('nonRecurring')}</SelectItem>
                         </SelectContent>
