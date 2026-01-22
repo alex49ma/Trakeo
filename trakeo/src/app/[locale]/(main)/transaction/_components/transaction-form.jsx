@@ -19,33 +19,52 @@ import { useRouter } from '@/i18n/routing';
 import { toast } from 'sonner';
 import { useTranslations, useLocale } from 'next-intl';
 import { es, enUS } from 'date-fns/locale';
+import { useSearchParams } from 'next/navigation';
+import { updateTransaction } from '@/actions/transaction';
 
-const AddTransactionForm = ({ accounts, categories }) => {
+const AddTransactionForm = ({ accounts, categories, editMode = false, initialData = null }) => {
 
     const t = useTranslations("TransactionForm");
     const locale = useLocale();
     const dateLocale = locale === 'es' ? es : enUS;
 
     const router = useRouter();
+    const searchParams = useSearchParams();
+    const editId = searchParams.get("edit");
 
     const { register, setValue, handleSubmit, formState: { errors }, watch, getValues, reset } = useForm({
         resolver: zodResolver(transactionSchema),
-        defaultValues: {
-            type: "EXPENSE",
-            amount: "",
-            description: "",
-            date: new Date(),
-            accountId: accounts.find((acc) => acc.isDefault)?.id,
-            categoryId: categories.find((cat) => cat.name === "Other Expenses")?.id,
-            isRecurring: false,
-        },
+        defaultValues:
+            editMode && initialData ?
+                {
+                    type: initialData.type,
+                    amount: initialData.amount.toString(),
+                    description: initialData.description,
+                    accountId: initialData.accountId,
+                    categoryId: initialData.categoryId,
+                    subcategoryId: initialData.subcategoryId,
+                    date: new Date(initialData.date),
+                    isRecurring: initialData.isRecurring,
+                    ...(initialData.recurringInterval && {
+                        recurringInterval: initialData.recurringInterval,
+
+                    }),
+                } : {
+                    type: "EXPENSE",
+                    amount: "",
+                    description: "",
+                    date: new Date(),
+                    accountId: accounts.find((acc) => acc.isDefault)?.id,
+                    categoryId: categories.find((cat) => cat.name === "Other Expenses")?.id,
+                    isRecurring: false,
+                },
     });
 
     const {
         loading: transactionLoading,
         fetchData: transactionFn,
         data: transactionResult
-    } = useFetch(createTransaction);
+    } = useFetch(editMode ? updateTransaction : createTransaction);
 
     const type = watch("type");
     const isRecurring = watch("isRecurring");
@@ -58,12 +77,16 @@ const AddTransactionForm = ({ accounts, categories }) => {
             amount: parseFloat(data.amount),
 
         };
-        transactionFn(formData);
+        if (editMode) {
+            transactionFn(editId, formData);
+        } else {
+            transactionFn(formData);
+        }
     }
 
     useEffect(() => {
         if (transactionResult?.success && !transactionLoading) {
-            toast.success(t('success'));
+            toast.success(editMode ? t('updateSuccess') : t('createSuccess'));
             reset();
             router.push(`/account/${transactionResult.data.accountId}`);
         }

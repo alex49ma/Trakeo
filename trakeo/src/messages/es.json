@@ -1,6 +1,7 @@
 {
     "TransactionForm": {
         "title": "Añadir Transacción",
+        "editTitle": "Editar Transacción",
         "type": "Tipo",
         "amount": "Cantidad",
         "account": "Cuenta",
@@ -27,7 +28,8 @@
         "weekly": "Semanal",
         "monthly": "Mensual",
         "yearly": "Anual",
-        "success": "Transacción creada exitosamente"
+        "createSuccess": "Transacción creada exitosamente",
+        "updateSuccess": "Transacción actualizada exitosamente"
     },
     "Header": {
         "dashboard": "Panel de Control",

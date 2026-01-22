@@ -1,6 +1,7 @@
 {
   "TransactionForm": {
     "title": "Add Transaction",
+    "editTitle": "Edit Transaction",
     "type": "Type",
     "amount": "Amount",
     "account": "Account",
@@ -27,7 +28,8 @@
     "weekly": "Weekly",
     "monthly": "Monthly",
     "yearly": "Yearly",
-    "success": "Transaction created successfully"
+    "createSuccess": "Transaction created successfully",
+    "updateSuccess": "Transaction updated successfully"
   },
   "Header": {
     "dashboard": "Dashboard",
