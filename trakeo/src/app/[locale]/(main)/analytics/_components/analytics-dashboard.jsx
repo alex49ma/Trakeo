@@ -13,7 +13,7 @@ const AnalyticsDashboard = ({ accounts, transactions }) => {
     const locale = useLocale();
 
     const [selectedAccountId, setSelectedAccountId] = useState(
-        accounts?.find((a) => a.isDefault)?.id || accounts?.[0]?.id
+        accounts?.find((a) => a.isDefault)?.id || "all"
     );
 
     const currentDate = new Date();
@@ -44,7 +44,7 @@ const AnalyticsDashboard = ({ accounts, transactions }) => {
         const monthMatch = selectedMonth === "full_year"
             ? true
             : transactionDate.getMonth().toString() === selectedMonth;
-        const accountMatch = t.accountId === selectedAccountId;
+        const accountMatch = selectedAccountId === "all" || t.accountId === selectedAccountId;
 
         return yearMatch && monthMatch && accountMatch;
     });
@@ -99,6 +99,7 @@ const AnalyticsDashboard = ({ accounts, transactions }) => {
                         <SelectValue placeholder={tDashboard('selectAccount')} />
                     </SelectTrigger>
                     <SelectContent>
+                        <SelectItem value="all">{t('allAccounts')}</SelectItem>
                         {accounts?.map((account) => (
                             <SelectItem key={account.id} value={account.id}>
                                 {account.name}
@@ -109,7 +110,7 @@ const AnalyticsDashboard = ({ accounts, transactions }) => {
             </div>
 
             {/* Charts Grid */}
-            <div className="grid gap-4 md:grid-cols-2">
+            <div className="grid gap-4 lg:grid-cols-2">
                 {/* Expense Breakdown */}
                 <Card>
                     <CardHeader>

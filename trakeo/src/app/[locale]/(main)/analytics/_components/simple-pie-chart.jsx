@@ -1,10 +1,9 @@
 "use client"
 
 import React, { useState, useEffect } from 'react'
-import { PieChart, Pie, Tooltip, Cell, ResponsiveContainer, Legend } from 'recharts';
+import { PieChart, Pie, Tooltip, Cell, ResponsiveContainer } from 'recharts';
 import { useTranslations } from 'next-intl';
 
-const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884d8', '#82ca9d', '#ffc658', '#8dd1e1', '#a4de6c', '#d0ed57', '#83a6ed', '#8e44ad', '#e74c3c', '#3498db', '#16a085'];
 
 const SimplePieChart = ({ data = [], type = "INCOME" }) => {
     const [mounted, setMounted] = useState(false);
@@ -36,42 +35,71 @@ const SimplePieChart = ({ data = [], type = "INCOME" }) => {
     // Group by category only
     const transactionStats = filteredTransactions.reduce((acc, transaction) => {
         const category = transaction.category?.name || t('uncategorized');
+        const color = transaction.category?.color || '#333333'; // Default color
 
         if (!acc[category]) {
-            acc[category] = 0;
+            acc[category] = { amount: 0, color };
         }
-        acc[category] += transaction.amount;
+        acc[category].amount += transaction.amount;
 
         return acc;
     }, {});
 
-    const categoryData = Object.entries(transactionStats).map(([category, amount]) => ({
-        name: category,
-        value: amount
-    }));
+    const categoryData = Object.entries(transactionStats)
+        .map(([category, stats]) => ({
+            name: category,
+            value: stats.amount,
+            fill: stats.color
+        }))
+        .sort((a, b) => b.value - a.value);
 
     return (
-        <div className="h-[300px] w-full">
-            <ResponsiveContainer width="100%" height="100%">
-                <PieChart>
-                    <Pie
-                        data={categoryData}
-                        dataKey="value"
-                        cx="50%"
-                        cy="50%"
-                        outerRadius={80}
-                        fill="#8884d8"
-                    >
-                        {categoryData.map((entry, index) => (
-                            <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                        ))}
-                    </Pie>
-                    <Tooltip
-                        formatter={(value) => `$${value.toFixed(2)}`}
-                    />
-                    <Legend />
-                </PieChart>
-            </ResponsiveContainer>
+        <div className="flex flex-col lg:flex-row items-center lg:items-start gap-4 h-auto lg:h-[300px]">
+            {/* Custom Legend */}
+            <div className="w-full lg:flex-1 space-y-4 p-4 max-h-[300px] overflow-y-auto order-2 lg:order-1">
+                {categoryData.map((item) => (
+                    <div key={item.name} className="flex items-center justify-between text-sm font-semibold">
+                        <div className="flex items-center gap-2">
+                            <div
+                                className="w-4 h-4 rounded-sm"
+                                style={{ backgroundColor: item.fill }}
+                            />
+                            <span>{item.name}</span>
+                        </div>
+                        <span>
+                            {new Intl.NumberFormat('en-US', {
+                                style: 'currency',
+                                currency: 'EUR'
+                            }).format(item.value)}
+                        </span>
+                    </div>
+                ))}
+            </div>
+
+            <div className="w-full lg:flex-1 h-[300px] order-1 lg:order-2">
+                <ResponsiveContainer width="100%" height="100%">
+                    <PieChart>
+                        <Pie
+                            data={categoryData}
+                            dataKey="value"
+                            cx="50%"
+                            cy="50%"
+                            outerRadius="80%"
+                            fill="#8884d8"
+                        >
+                            {categoryData.map((entry, index) => (
+                                <Cell key={`cell-${index}`} fill={entry.fill} />
+                            ))}
+                        </Pie>
+                        <Tooltip
+                            formatter={(value) => new Intl.NumberFormat('en-US', {
+                                style: 'currency',
+                                currency: 'EUR'
+                            }).format(value)}
+                        />
+                    </PieChart>
+                </ResponsiveContainer>
+            </div>
         </div>
     )
 }

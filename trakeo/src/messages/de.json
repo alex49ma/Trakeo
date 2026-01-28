@@ -232,12 +232,13 @@
         }
     },
     "Analytics": {
-        "title": "Analytik",
+        "title": "Gewohnheiten im Blick",
         "incomeBreakdown": "Einnahmenaufstellung",
         "expenseBreakdown": "Ausgabenaufstellung",
         "year": "Jahr",
         "month": "Monat",
         "fullYear": "Ganzes Jahr",
-        "currentMonth": "Aktueller Monat"
+        "currentMonth": "Aktueller Monat",
+        "allAccounts": "Alle Konten"
     }
 }

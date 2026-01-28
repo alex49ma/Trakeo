@@ -6,7 +6,8 @@ import AddTransactionForm from '../_components/transaction-form';
 import { getTranslations } from 'next-intl/server';
 import { getTransaction } from '@/actions/transaction';
 
-const AddTransactionPage = async ({ searchParams }) => {
+const AddTransactionPage = async (props) => {
+    const searchParams = await props.searchParams;
     const accounts = await getUserAccounts();
     const categories = await getCategories();
     const t = await getTranslations('TransactionForm');
