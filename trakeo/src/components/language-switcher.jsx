@@ -21,13 +21,22 @@ export default function LanguageSwitcher() {
 
     return (
         <Select value={locale} onValueChange={handleLocaleChange}>
-            <SelectTrigger className="w-[120px]">
+            <SelectTrigger className="w-auto">
                 <SelectValue placeholder="Lang" />
             </SelectTrigger>
             <SelectContent>
-                <SelectItem value="en">English</SelectItem>
-                <SelectItem value="es">Español</SelectItem>
-                <SelectItem value="de">Deutsch</SelectItem>
+                <SelectItem value="en">
+                    <span className="md:hidden">EN</span>
+                    <span className="hidden md:inline">English</span>
+                </SelectItem>
+                <SelectItem value="es">
+                    <span className="md:hidden">ES</span>
+                    <span className="hidden md:inline">Español</span>
+                </SelectItem>
+                <SelectItem value="de">
+                    <span className="md:hidden">DE</span>
+                    <span className="hidden md:inline">Deutsch</span>
+                </SelectItem>
             </SelectContent>
         </Select>
     );

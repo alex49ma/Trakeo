@@ -34,6 +34,7 @@
   "Header": {
     "dashboard": "Dashboard",
     "addTransaction": "Add Transaction",
+    "analytics": "Analytics",
     "login": "Login"
   },
   "Hero": {
@@ -153,7 +154,16 @@
     "invalidAmount": "Please enter a valid amount",
     "defaultAccountUpdated": "Default account updated",
     "defaultAccountUpdateError": "Failed to update default account",
-    "oneDefaultRequired": "You need at least one default account"
+    "oneDefaultRequired": "You need at least one default account",
+    "recentTransactions": "Recent Transactions",
+    "selectAccount": "Account",
+    "noRecentTransactions": "No recent transactions",
+    "untitledTransaction": "Untitled Transaction",
+    "expensesBreakdown": "Expenses Breakdown",
+    "noExpenses": "No expenses this month",
+    "noIncome": "No income this month",
+    "uncategorized": "Uncategorized",
+    "other": "Other"
   },
   "CreateAccount": {
     "title": "Create New Account",
@@ -220,5 +230,13 @@
       "yearly": "Yearly",
       "custom": "Custom"
     }
+  },
+  "Analytics": {
+    "title": "Analytics",
+    "expensesBreakdown": "Expenses Breakdown",
+    "incomeBreakdown": "Income Breakdown",
+    "selectYear": "Select Year",
+    "selectMonth": "Select Month",
+    "allMonths": "All Year"
   }
 }

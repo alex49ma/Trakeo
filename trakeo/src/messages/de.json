@@ -34,6 +34,7 @@
     "Header": {
         "dashboard": "Dashboard",
         "addTransaction": "Transaktion hinzufügen",
+        "analytics": "Analytik",
         "login": "Anmelden"
     },
     "Hero": {
@@ -153,7 +154,16 @@
         "invalidAmount": "Bitte geben Sie einen gültigen Betrag ein",
         "defaultAccountUpdated": "Standardkonto aktualisiert",
         "defaultAccountUpdateError": "Fehler beim Aktualisieren des Standardkontos",
-        "oneDefaultRequired": "Sie benötigen mindestens ein Standardkonto"
+        "oneDefaultRequired": "Sie benötigen mindestens ein Standardkonto",
+        "recentTransactions": "Kürzliche Transaktionen",
+        "selectAccount": "Konto",
+        "noRecentTransactions": "Keine kürzlichen Transaktionen",
+        "untitledTransaction": "Unbenannte Transaktion",
+        "expensesBreakdown": "Ausgabenaufstellung",
+        "noExpenses": "Keine Ausgaben diesen Monat",
+        "noIncome": "Keine Einnahmen diesen Monat",
+        "uncategorized": "Unkategorisiert",
+        "other": "Andere"
     },
     "CreateAccount": {
         "title": "Neues Konto erstellen",
@@ -220,5 +230,13 @@
             "yearly": "Jährlich",
             "custom": "Benutzerdefiniert"
         }
+    },
+    "Analytics": {
+        "title": "Analytik",
+        "expensesBreakdown": "Ausgabenaufstellung",
+        "incomeBreakdown": "Einkommensaufstellung",
+        "selectYear": "Jahr Wählen",
+        "selectMonth": "Monat Wählen",
+        "allMonths": "Ganzes Jahr"
     }
 }

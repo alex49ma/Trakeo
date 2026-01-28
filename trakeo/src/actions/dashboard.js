@@ -129,6 +129,10 @@ export async function getDashboardData() {
         },
         orderBy: {
             date: "desc"
+        },
+        include: {
+            category: true,
+            subcategory: true
         }
     });
 

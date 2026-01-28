@@ -34,6 +34,7 @@
     "Header": {
         "dashboard": "Panel de Control",
         "addTransaction": "Añadir Transacción",
+        "analytics": "Análisis",
         "login": "Iniciar Sesión"
     },
     "Hero": {
@@ -153,7 +154,16 @@
         "invalidAmount": "Por favor introduce una cantidad válida",
         "defaultAccountUpdated": "Cuenta predeterminada actualizada",
         "defaultAccountUpdateError": "Error al actualizar cuenta predeterminada",
-        "oneDefaultRequired": "Necesitas al menos una cuenta predeterminada"
+        "oneDefaultRequired": "Necesitas al menos una cuenta predeterminada",
+        "recentTransactions": "Transacciones Recientes",
+        "selectAccount": "Cuenta",
+        "noRecentTransactions": "No hay transacciones recientes",
+        "untitledTransaction": "Transacción sin título",
+        "expensesBreakdown": "Desglose de Gastos",
+        "noExpenses": "No hay gastos este mes",
+        "noIncome": "No hay ingresos este mes",
+        "uncategorized": "Sin Categoría",
+        "other": "Otro"
     },
     "CreateAccount": {
         "title": "Crear Nueva Cuenta",
@@ -220,5 +230,13 @@
             "yearly": "Anual",
             "custom": "Personalizado"
         }
+    },
+    "Analytics": {
+        "title": "Análisis",
+        "expensesBreakdown": "Desglose de Gastos",
+        "incomeBreakdown": "Desglose de Ingresos",
+        "selectYear": "Seleccionar Año",
+        "selectMonth": "Seleccionar Mes",
+        "allMonths": "Todo el Año"
     }
 }

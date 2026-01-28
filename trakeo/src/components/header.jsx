@@ -3,7 +3,7 @@ import { SignInButton, SignUpButton, UserButton } from "@clerk/nextjs";
 import { Link } from '@/i18n/routing';
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
-import { LayoutDashboard, PenBox } from "lucide-react";
+import { LayoutDashboard, PenBox, BarChart } from "lucide-react";
 import { checkUser } from "@/lib/checkUser";
 
 import LanguageSwitcher from "@/components/language-switcher";
@@ -46,6 +46,15 @@ const Header = async () => {
                             <Button variant="prominent">
                                 <PenBox size={18} />
                                 <span className="hidden md:inline">{t('addTransaction')}</span>
+                            </Button>
+                        </Link>
+                        <Link
+                            href="/analytics"
+                            className="text-gray-600 hover:text-red-600 flex items-center gap-2"
+                        >
+                            <Button variant="prominent">
+                                <BarChart size={18} />
+                                <span className="hidden md:inline">{t('analytics')}</span>
                             </Button>
                         </Link>
                     </SignedIn>
