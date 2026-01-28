@@ -91,7 +91,15 @@ const DashboardOverview = ({ accounts, transactions }) => {
                     <CardTitle>{t('expensesBreakdown')}</CardTitle>
                 </CardHeader>
                 <CardContent>
-                    <TransactionsPieChart data={accountTransactions} type="EXPENSE" />
+                    <TransactionsPieChart
+                        data={accountTransactions.filter(t => {
+                            const date = new Date(t.date);
+                            const now = new Date();
+                            return date.getMonth() === now.getMonth() &&
+                                date.getFullYear() === now.getFullYear();
+                        })}
+                        type="EXPENSE"
+                    />
                 </CardContent>
             </Card>
         </div>

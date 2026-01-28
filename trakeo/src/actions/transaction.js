@@ -38,6 +38,10 @@ export async function createTransaction(data) {
         const balanceChange = data.type === "EXPENSE" ? -data.amount : data.amount;
         const newBalance = account.balance.toNumber() + balanceChange;
 
+        if (data.subcategoryId === "") {
+            data.subcategoryId = null;
+        }
+
         // Create transaction and update account balance
         const transaction = await db.$transaction(async (tx) => {
             const newTransaction = await tx.transaction.create({
@@ -125,6 +129,10 @@ export async function updateTransaction(id, data) {
         const oldBalanceChange = originalTransaction.type === "EXPENSE" ? -originalTransaction.amount : originalTransaction.amount;
         const newBalanceChange = data.type === "EXPENSE" ? -data.amount : data.amount;
         const netBalanceChange = newBalanceChange - oldBalanceChange;
+
+        if (data.subcategoryId === "") {
+            data.subcategoryId = null;
+        }
 
         const transaction = await db.$transaction(async (tx) => {
             const updated = await tx.transaction.update({

@@ -232,11 +232,13 @@
     }
   },
   "Analytics": {
-    "title": "Analytics",
-    "expensesBreakdown": "Expenses Breakdown",
+    "title": "Insights into Habits",
     "incomeBreakdown": "Income Breakdown",
-    "selectYear": "Select Year",
-    "selectMonth": "Select Month",
-    "allMonths": "All Year"
+    "expenseBreakdown": "Expense Breakdown",
+    "year": "Year",
+    "month": "Month",
+    "fullYear": "Full Year",
+    "currentMonth": "Current Month",
+    "allAccounts": "All Accounts"
   }
 }

@@ -232,11 +232,13 @@
         }
     },
     "Analytics": {
-        "title": "Análisis",
-        "expensesBreakdown": "Desglose de Gastos",
+        "title": "Tus hábitos en perspectiva",
         "incomeBreakdown": "Desglose de Ingresos",
-        "selectYear": "Seleccionar Año",
-        "selectMonth": "Seleccionar Mes",
-        "allMonths": "Todo el Año"
+        "expenseBreakdown": "Desglose de Gastos",
+        "year": "Año",
+        "month": "Mes",
+        "fullYear": "Año Completo",
+        "currentMonth": "Mes Actual",
+        "allAccounts": "Todas las Cuentas"
     }
 }
