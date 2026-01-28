@@ -1,9 +1,7 @@
-import React from 'react'
 import { auth } from '@clerk/nextjs/server'
 import { getTranslations } from 'next-intl/server';
-import { getDashboardData } from '@/actions/dashboard';
+import { getDashboardData, getUserAccounts } from '@/actions/dashboard'
 import AnalyticsDashboard from './_components/analytics-dashboard';
-
 
 async function AnalyticsPage() {
     const { userId } = await auth();
@@ -15,13 +13,19 @@ async function AnalyticsPage() {
         return <div>Please sign in to view analytics</div>
     }
 
-    const transactions = await getDashboardData();
+    const [transactions, accounts] = await Promise.all([
+        getDashboardData(),
+        getUserAccounts()
+    ]);
 
     return (
         <div className="space-y-6">
-            <h1 className="text-5xl gradient-title">{t('title')}</h1>
+            <h1 className="text-5xl gradient-title mb-8">{t('title')}</h1>
 
-            <AnalyticsDashboard transactions={transactions} />
+            <AnalyticsDashboard
+                accounts={accounts}
+                transactions={transactions}
+            />
         </div>
     )
 }

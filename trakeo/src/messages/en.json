@@ -233,10 +233,11 @@
   },
   "Analytics": {
     "title": "Analytics",
-    "expensesBreakdown": "Expenses Breakdown",
     "incomeBreakdown": "Income Breakdown",
-    "selectYear": "Select Year",
-    "selectMonth": "Select Month",
-    "allMonths": "All Year"
+    "expenseBreakdown": "Expense Breakdown",
+    "year": "Year",
+    "month": "Month",
+    "fullYear": "Full Year",
+    "currentMonth": "Current Month"
   }
 }

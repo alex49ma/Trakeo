@@ -20,18 +20,23 @@ const TransactionsPieChart = ({ data = [], type = "EXPENSE" }) => {
         return <div className="h-[300px] w-full" />;
     }
 
-    const filteredData = data.filter(
-        (transaction) => transaction.type === type
-    );
+    if (data.length === 0) {
+        return <p className="text-center text-muted-foreground py-4">
+            {type === "EXPENSE" ? t('noExpenses') : t('noIncome')}
+        </p>;
+    }
 
-    if (filteredData.length === 0) {
+    // Filter by type
+    const filteredTransactions = data.filter((t) => t.type === type);
+
+    if (filteredTransactions.length === 0) {
         return <p className="text-center text-muted-foreground py-4">
             {type === "EXPENSE" ? t('noExpenses') : t('noIncome')}
         </p>;
     }
 
     // Group expenses by category and subcategory
-    const transactionStats = filteredData.reduce((acc, transaction) => {
+    const transactionStats = filteredTransactions.reduce((acc, transaction) => {
         const category = transaction.category?.name || t('uncategorized');
         const subcategory = transaction.subcategory?.name || t('other');
 

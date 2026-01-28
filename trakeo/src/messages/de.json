@@ -233,10 +233,11 @@
     },
     "Analytics": {
         "title": "Analytik",
-        "expensesBreakdown": "Ausgabenaufstellung",
-        "incomeBreakdown": "Einkommensaufstellung",
-        "selectYear": "Jahr Wählen",
-        "selectMonth": "Monat Wählen",
-        "allMonths": "Ganzes Jahr"
+        "incomeBreakdown": "Einnahmenaufstellung",
+        "expenseBreakdown": "Ausgabenaufstellung",
+        "year": "Jahr",
+        "month": "Monat",
+        "fullYear": "Ganzes Jahr",
+        "currentMonth": "Aktueller Monat"
     }
 }

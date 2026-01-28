@@ -233,10 +233,11 @@
     },
     "Analytics": {
         "title": "Análisis",
-        "expensesBreakdown": "Desglose de Gastos",
         "incomeBreakdown": "Desglose de Ingresos",
-        "selectYear": "Seleccionar Año",
-        "selectMonth": "Seleccionar Mes",
-        "allMonths": "Todo el Año"
+        "expenseBreakdown": "Desglose de Gastos",
+        "year": "Año",
+        "month": "Mes",
+        "fullYear": "Año Completo",
+        "currentMonth": "Mes Actual"
     }
 }
