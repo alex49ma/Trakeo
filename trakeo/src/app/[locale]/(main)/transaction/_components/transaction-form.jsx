@@ -9,6 +9,8 @@ import { createTransaction } from '@/actions/transaction';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Input } from '@/components/ui/input';
 import CreateAccountDrawer from '@/components/create-account-drawer';
+import CreateCategoryDrawer from '@/components/create-category-drawer';
+import CreateSubcategoryDrawer from '@/components/create-subcategory-drawer';
 import { Button } from '@/components/ui/button';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Calendar } from '@/components/ui/calendar';
@@ -25,12 +27,41 @@ import { updateTransaction } from '@/actions/transaction';
 const AddTransactionForm = ({ accounts, categories, editMode = false, initialData = null }) => {
 
     const t = useTranslations("TransactionForm");
+    const tCategory = useTranslations("CreateCategory");
+    const tSubcategory = useTranslations("CreateSubcategory");
     const locale = useLocale();
     const dateLocale = locale === 'es' ? es : enUS;
 
     const router = useRouter();
     const searchParams = useSearchParams();
     const editId = searchParams.get("edit");
+
+    const [categoriesState, setCategoriesState] = React.useState(categories);
+
+    // Update state when initial categories prop changes (e.g. navigation back/forward)
+    useEffect(() => {
+        setCategoriesState(categories);
+    }, [categories]);
+
+    const handleCategoryCreated = (newCategory) => {
+        setCategoriesState(prev => [...prev, newCategory]);
+        setValue("categoryId", newCategory.id);
+        // Clean subcategory
+        setValue("subcategoryId", "");
+    };
+
+    const handleSubcategoryCreated = (newSubcategory) => {
+        setCategoriesState(prev => prev.map(cat => {
+            if (cat.id === newSubcategory.category_id) {
+                return {
+                    ...cat,
+                    subCategories: [...(cat.subCategories || []), newSubcategory]
+                }
+            }
+            return cat;
+        }));
+        setValue("subcategoryId", newSubcategory.id);
+    };
 
     const { register, setValue, handleSubmit, formState: { errors }, watch, getValues, reset } = useForm({
         resolver: zodResolver(transactionSchema),
@@ -55,7 +86,7 @@ const AddTransactionForm = ({ accounts, categories, editMode = false, initialDat
                     description: "",
                     date: new Date(),
                     accountId: accounts.find((acc) => acc.isDefault)?.id,
-                    categoryId: categories.find((cat) => cat.name === "Other Expenses")?.id,
+                    categoryId: categoriesState.find((cat) => cat.name === "Other Expenses")?.id,
                     isRecurring: false,
                 },
     });
@@ -92,8 +123,8 @@ const AddTransactionForm = ({ accounts, categories, editMode = false, initialDat
         }
     }, [transactionResult, transactionLoading])
 
-    const filteredCategories = categories.filter((cat) => cat.type === type);
-    const selectedCategory = categories.find((cat) => cat.id === categoryId);
+    const filteredCategories = categoriesState.filter((cat) => cat.type === type);
+    const selectedCategory = categoriesState.find((cat) => cat.id === categoryId);
     const subcategories = selectedCategory?.subCategories || [];
 
     return (
@@ -177,6 +208,9 @@ const AddTransactionForm = ({ accounts, categories, editMode = false, initialDat
                                 {category.name}
                             </SelectItem>
                         ))}
+                        <CreateCategoryDrawer onCategoryCreated={handleCategoryCreated}>
+                            <Button variant="ghost" className="w-full select-none items-center text-sm outline-none">{tCategory('title')}</Button>
+                        </CreateCategoryDrawer>
                     </SelectContent>
                 </Select>
                 {errors.categoryId && <p className="text-red-500">{errors.categoryId.message}</p>}
@@ -186,19 +220,25 @@ const AddTransactionForm = ({ accounts, categories, editMode = false, initialDat
             <div className="space-y-2">
                 <label className="text-sm font-medium">{t('subCategory')}</label>
                 <Select
-                    onValueChange={(value) => setValue("subcategoryId", value)}
-                    value={watch("subcategoryId")}
-                    disabled={!categoryId || subcategories.length === 0}
+                    onValueChange={(value) => setValue("subcategoryId", value === "none" ? "" : value)}
+                    value={watch("subcategoryId") || "none"}
+                    disabled={!categoryId}
                 >
                     <SelectTrigger className="w-full">
                         <SelectValue placeholder={t('selectSubCategory')} />
                     </SelectTrigger>
                     <SelectContent>
+                        <SelectItem value="none">
+                            {t('none')}
+                        </SelectItem>
                         {subcategories.map((subcat) => (
                             <SelectItem key={subcat.id} value={subcat.id}>
                                 {subcat.name}
                             </SelectItem>
                         ))}
+                        <CreateSubcategoryDrawer categoryId={categoryId} onSubcategoryCreated={handleSubcategoryCreated}>
+                            <Button variant="ghost" className="w-full select-none items-center text-sm outline-none">{tSubcategory('title')}</Button>
+                        </CreateSubcategoryDrawer>
                     </SelectContent>
                 </Select>
                 {errors.subcategoryId && <p className="text-red-500">{errors.subcategoryId.message}</p>}

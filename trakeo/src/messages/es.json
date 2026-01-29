@@ -29,7 +29,8 @@
         "monthly": "Mensual",
         "yearly": "Anual",
         "createSuccess": "Transacción creada exitosamente",
-        "updateSuccess": "Transacción actualizada exitosamente"
+        "updateSuccess": "Transacción actualizada exitosamente",
+        "none": "Ninguna"
     },
     "Header": {
         "dashboard": "Panel de Control",
@@ -240,5 +241,26 @@
         "fullYear": "Año Completo",
         "currentMonth": "Mes Actual",
         "allAccounts": "Todas las Cuentas"
+    },
+    "CreateCategory": {
+        "title": "Crear nueva categoría",
+        "name": "Nombre de la categoría",
+        "namePlaceholder": "ej. Electrónica",
+        "type": "Tipo",
+        "color": "Color",
+        "selectType": "Seleccionar tipo",
+        "success": "Categoría creada correctamente",
+        "error": "Error al crear la categoría",
+        "creating": "Creando...",
+        "submit": "Crear categoría"
+    },
+    "CreateSubcategory": {
+        "title": "Crear nueva subcategoría",
+        "name": "Nombre de la subcategoría",
+        "namePlaceholder": "ej. Portátil",
+        "success": "Subcategoría creada correctamente",
+        "error": "Error al crear la subcategoría",
+        "creating": "Creando...",
+        "submit": "Crear subcategoría"
     }
 }

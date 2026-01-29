@@ -29,7 +29,8 @@
     "monthly": "Monthly",
     "yearly": "Yearly",
     "createSuccess": "Transaction created successfully",
-    "updateSuccess": "Transaction updated successfully"
+    "updateSuccess": "Transaction updated successfully",
+    "none": "None"
   },
   "Header": {
     "dashboard": "Dashboard",
@@ -240,5 +241,26 @@
     "fullYear": "Full Year",
     "currentMonth": "Current Month",
     "allAccounts": "All Accounts"
+  },
+  "CreateCategory": {
+    "title": "Create New Category",
+    "name": "Category Name",
+    "namePlaceholder": "e.g., Electronics",
+    "type": "Type",
+    "color": "Color",
+    "selectType": "Select Type",
+    "success": "Category created successfully",
+    "error": "Failed to create category",
+    "creating": "Creating...",
+    "submit": "Create Category"
+  },
+  "CreateSubcategory": {
+    "title": "Create New Subcategory",
+    "name": "Subcategory Name",
+    "namePlaceholder": "e.g., Laptop",
+    "success": "Subcategory created successfully",
+    "error": "Failed to create subcategory",
+    "creating": "Creating...",
+    "submit": "Create Subcategory"
   }
 }

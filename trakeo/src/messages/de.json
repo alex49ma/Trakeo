@@ -29,7 +29,8 @@
         "monthly": "Monatlich",
         "yearly": "Jährlich",
         "createSuccess": "Transaktion erfolgreich erstellt",
-        "updateSuccess": "Transaktion erfolgreich aktualisiert"
+        "updateSuccess": "Transaktion erfolgreich aktualisiert",
+        "none": "Keine"
     },
     "Header": {
         "dashboard": "Dashboard",
@@ -240,5 +241,26 @@
         "fullYear": "Ganzes Jahr",
         "currentMonth": "Aktueller Monat",
         "allAccounts": "Alle Konten"
+    },
+    "CreateCategory": {
+        "title": "Neue Kategorie erstellen",
+        "name": "Kategoriename",
+        "namePlaceholder": "z.B. Elektronik",
+        "type": "Typ",
+        "color": "Farbe",
+        "selectType": "Typ auswählen",
+        "success": "Kategorie erfolgreich erstellt",
+        "error": "Fehler beim Erstellen der Kategorie",
+        "creating": "Erstellen...",
+        "submit": "Kategorie erstellen"
+    },
+    "CreateSubcategory": {
+        "title": "Neue Unterkategorie erstellen",
+        "name": "Unterkategoriename",
+        "namePlaceholder": "z.B. Laptop",
+        "success": "Unterkategorie erfolgreich erstellt",
+        "error": "Fehler beim Erstellen der Unterkategorie",
+        "creating": "Erstellen...",
+        "submit": "Unterkategorie erstellen"
     }
 }

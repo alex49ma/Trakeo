@@ -27,3 +27,15 @@ export const transactionSchema = z.object({
         })
     }
 })
+
+export const categorySchema = z.object({
+    name: z.string().min(1, "Name is required"),
+    type: z.enum(["INCOME", "EXPENSE"]),
+    color: z.string().min(1, "Color is required").default("#22c55e"),
+    icon: z.string().default("Wallet"),
+})
+
+export const subcategorySchema = z.object({
+    name: z.string().min(1, "Name is required"),
+    // categoryId will be passed programmatically, usually
+})
