@@ -244,23 +244,41 @@
     },
     "CreateCategory": {
         "title": "Neue Kategorie erstellen",
+        "editTitle": "Kategorie bearbeiten",
         "name": "Kategoriename",
         "namePlaceholder": "z.B. Elektronik",
         "type": "Typ",
         "color": "Farbe",
         "selectType": "Typ auswählen",
         "success": "Kategorie erfolgreich erstellt",
+        "updateSuccess": "Kategorie erfolgreich aktualisiert",
         "error": "Fehler beim Erstellen der Kategorie",
         "creating": "Erstellen...",
+        "isUpdating": "Aktualisieren...",
         "submit": "Kategorie erstellen"
     },
     "CreateSubcategory": {
         "title": "Neue Unterkategorie erstellen",
+        "editTitle": "Unterkategorie bearbeiten",
         "name": "Unterkategoriename",
         "namePlaceholder": "z.B. Laptop",
+        "category": "Kategorie",
+        "selectCategory": "Kategorie wählen",
+        "selectCategoryError": "Bitte wählen Sie eine Kategorie",
         "success": "Unterkategorie erfolgreich erstellt",
+        "updateSuccess": "Unterkategorie erfolgreich aktualisiert",
         "error": "Fehler beim Erstellen der Unterkategorie",
         "creating": "Erstellen...",
+        "isUpdating": "Aktualisieren...",
         "submit": "Unterkategorie erstellen"
+    },
+    "CategoriesCard": {
+        "title": "Kategorien anpassen",
+        "newCategory": "Neue Kategorie",
+        "newSubcategory": "Neue Unterkategorie",
+        "deleteCategoryConfirm": "Sind Sie sicher, dass Sie diese Kategorie löschen möchten? Alle Transaktionen in dieser Kategorie werden gelöscht",
+        "categoryDeleted": "Kategorie erfolgreich gelöscht",
+        "deleteSubcategoryConfirm": "Sind Sie sicher, dass Sie diese Unterkategorie löschen möchten?",
+        "subcategoryDeleted": "Unterkategorie erfolgreich gelöscht"
     }
 }

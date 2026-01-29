@@ -244,23 +244,41 @@
   },
   "CreateCategory": {
     "title": "Create New Category",
+    "editTitle": "Edit Category",
     "name": "Category Name",
     "namePlaceholder": "e.g., Electronics",
     "type": "Type",
     "color": "Color",
     "selectType": "Select Type",
     "success": "Category created successfully",
+    "updateSuccess": "Category updated successfully",
     "error": "Failed to create category",
     "creating": "Creating...",
+    "isUpdating": "Updating...",
     "submit": "Create Category"
   },
   "CreateSubcategory": {
     "title": "Create New Subcategory",
+    "editTitle": "Edit Subcategory",
     "name": "Subcategory Name",
     "namePlaceholder": "e.g., Laptop",
+    "category": "Category",
+    "selectCategory": "Select Category",
+    "selectCategoryError": "Please select a category",
     "success": "Subcategory created successfully",
+    "updateSuccess": "Subcategory updated successfully",
     "error": "Failed to create subcategory",
     "creating": "Creating...",
+    "isUpdating": "Updating...",
     "submit": "Create Subcategory"
+  },
+  "CategoriesCard": {
+    "title": "Custom your categories",
+    "newCategory": "Create new category",
+    "newSubcategory": "Create new subcategory",
+    "deleteCategoryConfirm": "Are you sure you want to delete this category? All transactions in this category will be deleted",
+    "categoryDeleted": "Category deleted successfully",
+    "deleteSubcategoryConfirm": "Are you sure you want to delete this subcategory?",
+    "subcategoryDeleted": "Subcategory deleted successfully"
   }
 }

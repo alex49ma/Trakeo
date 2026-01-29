@@ -244,23 +244,41 @@
     },
     "CreateCategory": {
         "title": "Crear nueva categoría",
+        "editTitle": "Editar categoría",
         "name": "Nombre de la categoría",
         "namePlaceholder": "ej. Electrónica",
         "type": "Tipo",
         "color": "Color",
         "selectType": "Seleccionar tipo",
         "success": "Categoría creada correctamente",
+        "updateSuccess": "Categoría actualizada correctamente",
         "error": "Error al crear la categoría",
         "creating": "Creando...",
+        "isUpdating": "Actualizando...",
         "submit": "Crear categoría"
     },
     "CreateSubcategory": {
         "title": "Crear nueva subcategoría",
+        "editTitle": "Editar subcategoría",
         "name": "Nombre de la subcategoría",
         "namePlaceholder": "ej. Portátil",
+        "category": "Categoría",
+        "selectCategory": "Seleccionar categoría",
+        "selectCategoryError": "Por favor selecciona una categoría",
         "success": "Subcategoría creada correctamente",
+        "updateSuccess": "Subcategoría actualizada correctamente",
         "error": "Error al crear la subcategoría",
         "creating": "Creando...",
+        "isUpdating": "Actualizando...",
         "submit": "Crear subcategoría"
+    },
+    "CategoriesCard": {
+        "title": "Personalizar categorías",
+        "newCategory": "Crear nueva categoría",
+        "newSubcategory": "Crear nueva subcategoría",
+        "deleteCategoryConfirm": "¿Estás seguro de que deseas eliminar esta categoría? Todas las transacciones de esta categoría serán eliminadas",
+        "categoryDeleted": "Categoría eliminada correctamente",
+        "deleteSubcategoryConfirm": "¿Estás seguro de que deseas eliminar esta subcategoría?",
+        "subcategoryDeleted": "Subcategoría eliminada correctamente"
     }
 }

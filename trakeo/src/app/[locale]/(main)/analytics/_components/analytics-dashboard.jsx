@@ -5,9 +5,10 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import TransactionsPieChart from '@/app/[locale]/(main)/analytics/_components/transactions-pie-chart';
 import SimplePieChart from '@/app/[locale]/(main)/analytics/_components/simple-pie-chart';
+import CategoriesCard from './categories-card';
 import { useTranslations, useLocale } from 'next-intl';
 
-const AnalyticsDashboard = ({ accounts, transactions }) => {
+const AnalyticsDashboard = ({ accounts, transactions, categories }) => {
     const t = useTranslations('Analytics');
     const tDashboard = useTranslations('Dashboard');
     const locale = useLocale();
@@ -131,6 +132,9 @@ const AnalyticsDashboard = ({ accounts, transactions }) => {
                     </CardContent>
                 </Card>
             </div>
+
+            {/* Categories Management */}
+            <CategoriesCard categories={categories} />
         </div>
     )
 }
