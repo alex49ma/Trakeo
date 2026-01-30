@@ -14,7 +14,7 @@ import CreateSubcategoryDrawer from '@/components/create-subcategory-drawer';
 import { Button } from '@/components/ui/button';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Calendar } from '@/components/ui/calendar';
-import { format } from 'date-fns';
+import { format, parse, isValid } from 'date-fns';
 import { CalendarIcon, Plus, Upload, Loader2 } from 'lucide-react';
 import { Switch } from '@/components/ui/switch';
 import { useRouter } from '@/i18n/routing';
@@ -150,12 +150,16 @@ const AddTransactionForm = ({ accounts, categories, editMode = false, initialDat
 
                     if (!dateStr || !amountStr) continue;
 
-                    let amount = parseFloat(amountStr);
+                    let amount = parseFloat(amountStr.replace(/\s/g, "").replace(",", "."));
+                    if (isNaN(amount)) continue;
+
                     const type = amount < 0 ? "EXPENSE" : "INCOME";
                     amount = Math.abs(amount);
 
-                    const date = new Date(dateStr);
-                    if (isNaN(date.getTime())) continue;
+                    const parsedDate = parse(dateStr, "dd.MM.yyyy", new Date());
+                    if (!isValid(parsedDate)) continue;
+
+                    const date = parsedDate;
 
                     transactions.push({
                         date,
