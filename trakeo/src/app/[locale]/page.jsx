@@ -93,6 +93,13 @@ export default async function Home() {
           </Link>
         </div>
       </section>
+
+      {/* Large Footer for Landing Page */}
+      <footer className="bg-orange-100/10 backdrop-blur-xs py-12 relative z-10">
+        <div className="container mx-auto px-4 text-center text-gray-800">
+          <p>{t('copyright')}</p>
+        </div>
+      </footer>
     </FinisherHeader>
   );
 }

@@ -233,14 +233,14 @@ const TransactionTable = ({ transactions }) => {
                 <div className="relative flex-1">
                     <Search className="absolute left-2 top-2.5 w-4 h-4 text-muted-foreground" />
                     <Input
-                        className="pl-8"
+                        className="pl-8 bg-white"
                         placeholder={t('searchPlaceholder')}
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)} />
                 </div>
                 <div className="flex gap-2">
                     <Select value={typeFilter} onValueChange={setTypeFilter}>
-                        <SelectTrigger>
+                        <SelectTrigger className="bg-white">
                             <SelectValue placeholder={t('allTypes')} />
                         </SelectTrigger>
                         <SelectContent>
@@ -250,7 +250,7 @@ const TransactionTable = ({ transactions }) => {
                         </SelectContent>
                     </Select>
                     <Select value={accountFilter} onValueChange={setAccountFilter}>
-                        <SelectTrigger>
+                        <SelectTrigger className="bg-white">
                             <SelectValue placeholder={t('allAccounts')} />
                         </SelectTrigger>
                         <SelectContent>
@@ -260,7 +260,7 @@ const TransactionTable = ({ transactions }) => {
                         </SelectContent>
                     </Select>
                     <Select value={categoryFilter} onValueChange={setCategoryFilter}>
-                        <SelectTrigger>
+                        <SelectTrigger className="bg-white">
                             <SelectValue placeholder={t('allCategories')} />
                         </SelectTrigger>
                         <SelectContent>
@@ -287,7 +287,7 @@ const TransactionTable = ({ transactions }) => {
                         </SelectContent>
                     </Select>
                     <Select value={subcategoryFilter} onValueChange={setSubcategoryFilter}>
-                        <SelectTrigger>
+                        <SelectTrigger className="bg-white">
                             <SelectValue placeholder={t('allSubcategories')} />
                         </SelectTrigger>
                         <SelectContent>
@@ -333,7 +333,7 @@ const TransactionTable = ({ transactions }) => {
                         </SelectContent>
                     </Select>
                     <Select value={recurringFilter} onValueChange={(value) => setRecurringFilter(value)}>
-                        <SelectTrigger>
+                        <SelectTrigger className="bg-white">
                             <SelectValue placeholder={t('allRegimes')} />
                         </SelectTrigger>
                         <SelectContent>
@@ -371,7 +371,7 @@ const TransactionTable = ({ transactions }) => {
             </div>
 
             {/* Transactions */}
-            <div className="rounded-md border">
+            <div className="rounded-md border bg-white">
                 <Table>
                     <TableHeader>
                         <TableRow>

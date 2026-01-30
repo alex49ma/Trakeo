@@ -23,6 +23,7 @@ import { useTranslations, useLocale } from 'next-intl';
 import { es, enUS } from 'date-fns/locale';
 import { useSearchParams } from 'next/navigation';
 import { updateTransaction } from '@/actions/transaction';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 const AddTransactionForm = ({ accounts, categories, editMode = false, initialData = null }) => {
 
@@ -128,200 +129,207 @@ const AddTransactionForm = ({ accounts, categories, editMode = false, initialDat
     const subcategories = selectedCategory?.subCategories || [];
 
     return (
-        <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
-            {/* Receipt Scanner */}
+        <Card className="w-full max-w-2xl mx-auto bg-card/80 backdrop-blur-sm">
+            <CardHeader>
+                <CardTitle className="text-xl font-bold">{editMode ? t('editTransaction') : t('newTransaction')}</CardTitle>
+            </CardHeader>
+            <CardContent>
+                <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
+                    {/* Receipt Scanner */}
 
-            {/* Type */}
-            <div className="space-y-2">
-                <label className="text-sm font-medium">{t('type')}</label>
-                <Select
-                    onValueChange={(value) => {
-                        setValue("type", value);
-                        setValue("categoryId", "");
-                        setValue("subcategoryId", "");
-                    }}
-                    value={type}
-                >
-                    <SelectTrigger className="w-full">
-                        <SelectValue placeholder={t('selectType')} />
-                    </SelectTrigger>
-                    <SelectContent>
-                        <SelectItem value="EXPENSE">{t('expense')}</SelectItem>
-                        <SelectItem value="INCOME">{t('income')}</SelectItem>
-                    </SelectContent>
-                </Select>
-                {errors.type && <p className="text-red-500">{errors.type.message}</p>}
-            </div>
+                    {/* Type */}
+                    <div className="space-y-2">
+                        <label className="text-sm font-medium">{t('type')}</label>
+                        <Select
+                            onValueChange={(value) => {
+                                setValue("type", value);
+                                setValue("categoryId", "");
+                                setValue("subcategoryId", "");
+                            }}
+                            value={type}
+                        >
+                            <SelectTrigger className="w-full">
+                                <SelectValue placeholder={t('selectType')} />
+                            </SelectTrigger>
+                            <SelectContent>
+                                <SelectItem value="EXPENSE">{t('expense')}</SelectItem>
+                                <SelectItem value="INCOME">{t('income')}</SelectItem>
+                            </SelectContent>
+                        </Select>
+                        {errors.type && <p className="text-red-500">{errors.type.message}</p>}
+                    </div>
 
-            <div className="grid gap-6 md:grid-cols-2">
-                {/* Amount */}
-                <div className="space-y-2">
-                    <label className="text-sm font-medium">{t('amount')}</label>
-                    <Input
-                        type="number"
-                        step="0.01"
-                        placeholder="0.00"
-                        {...register("amount")}
-                    />
-                    {errors.amount && <p className="text-red-500">{errors.amount.message}</p>}
-                </div>
-                {/* Account */}
-                <div className="space-y-2">
-                    <label className="text-sm font-medium">{t('account')}</label>
-                    <Select
-                        onValueChange={(value) => setValue("accountId", value)}
-                        defaultValue={getValues("accountId")}
-                    >
-                        <SelectTrigger className="w-full">
-                            <SelectValue placeholder={t('selectAccount')} />
-                        </SelectTrigger>
-                        <SelectContent>
-                            {accounts.map((account) => (
-                                <SelectItem key={account.id} value={account.id}>
-                                    {account.name} (${parseFloat(account.balance).toFixed(2)})
+                    <div className="grid gap-6 md:grid-cols-2">
+                        {/* Amount */}
+                        <div className="space-y-2">
+                            <label className="text-sm font-medium">{t('amount')}</label>
+                            <Input
+                                type="number"
+                                step="0.01"
+                                placeholder="0.00"
+                                {...register("amount")}
+                            />
+                            {errors.amount && <p className="text-red-500">{errors.amount.message}</p>}
+                        </div>
+                        {/* Account */}
+                        <div className="space-y-2">
+                            <label className="text-sm font-medium">{t('account')}</label>
+                            <Select
+                                onValueChange={(value) => setValue("accountId", value)}
+                                defaultValue={getValues("accountId")}
+                            >
+                                <SelectTrigger className="w-full">
+                                    <SelectValue placeholder={t('selectAccount')} />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    {accounts.map((account) => (
+                                        <SelectItem key={account.id} value={account.id}>
+                                            {account.name} (${parseFloat(account.balance).toFixed(2)})
+                                        </SelectItem>
+                                    ))}
+                                    <CreateAccountDrawer>
+                                        <Button variant="ghost" className="w-full select-none items-center text-sm outline-none">{t('createAccount')}</Button>
+                                    </CreateAccountDrawer>
+                                </SelectContent>
+                            </Select>
+                            {errors.accountId && <p className="text-red-500">{errors.accountId.message}</p>}
+                        </div>
+                    </div>
+                    {/* Category */}
+                    <div className="space-y-2">
+                        <label className="text-sm font-medium">{t('category')}</label>
+                        <Select
+                            onValueChange={(value) => {
+                                setValue("categoryId", value);
+                                setValue("subcategoryId", ""); // Reset subcategory when category changes
+                            }}
+                            value={categoryId}
+                        >
+                            <SelectTrigger className="w-full">
+                                <SelectValue placeholder={t('selectCategory')} />
+                            </SelectTrigger>
+                            <SelectContent>
+                                {filteredCategories.map((category) => (
+                                    <SelectItem key={category.id} value={category.id}>
+                                        {category.name}
+                                    </SelectItem>
+                                ))}
+                                <CreateCategoryDrawer onCategoryCreated={handleCategoryCreated}>
+                                    <Button variant="ghost" className="w-full select-none items-center text-sm outline-none">{tCategory('title')}</Button>
+                                </CreateCategoryDrawer>
+                            </SelectContent>
+                        </Select>
+                        {errors.categoryId && <p className="text-red-500">{errors.categoryId.message}</p>}
+                    </div>
+
+                    {/* Sub Category */}
+                    <div className="space-y-2">
+                        <label className="text-sm font-medium">{t('subCategory')}</label>
+                        <Select
+                            onValueChange={(value) => setValue("subcategoryId", value === "none" ? "" : value)}
+                            value={watch("subcategoryId") || "none"}
+                            disabled={!categoryId}
+                        >
+                            <SelectTrigger className="w-full">
+                                <SelectValue placeholder={t('selectSubCategory')} />
+                            </SelectTrigger>
+                            <SelectContent>
+                                <SelectItem value="none">
+                                    {t('none')}
                                 </SelectItem>
-                            ))}
-                            <CreateAccountDrawer>
-                                <Button variant="ghost" className="w-full select-none items-center text-sm outline-none">{t('createAccount')}</Button>
-                            </CreateAccountDrawer>
-                        </SelectContent>
-                    </Select>
-                    {errors.accountId && <p className="text-red-500">{errors.accountId.message}</p>}
-                </div>
-            </div>
-            {/* Category */}
-            <div className="space-y-2">
-                <label className="text-sm font-medium">{t('category')}</label>
-                <Select
-                    onValueChange={(value) => {
-                        setValue("categoryId", value);
-                        setValue("subcategoryId", ""); // Reset subcategory when category changes
-                    }}
-                    value={categoryId}
-                >
-                    <SelectTrigger className="w-full">
-                        <SelectValue placeholder={t('selectCategory')} />
-                    </SelectTrigger>
-                    <SelectContent>
-                        {filteredCategories.map((category) => (
-                            <SelectItem key={category.id} value={category.id}>
-                                {category.name}
-                            </SelectItem>
-                        ))}
-                        <CreateCategoryDrawer onCategoryCreated={handleCategoryCreated}>
-                            <Button variant="ghost" className="w-full select-none items-center text-sm outline-none">{tCategory('title')}</Button>
-                        </CreateCategoryDrawer>
-                    </SelectContent>
-                </Select>
-                {errors.categoryId && <p className="text-red-500">{errors.categoryId.message}</p>}
-            </div>
-
-            {/* Sub Category */}
-            <div className="space-y-2">
-                <label className="text-sm font-medium">{t('subCategory')}</label>
-                <Select
-                    onValueChange={(value) => setValue("subcategoryId", value === "none" ? "" : value)}
-                    value={watch("subcategoryId") || "none"}
-                    disabled={!categoryId}
-                >
-                    <SelectTrigger className="w-full">
-                        <SelectValue placeholder={t('selectSubCategory')} />
-                    </SelectTrigger>
-                    <SelectContent>
-                        <SelectItem value="none">
-                            {t('none')}
-                        </SelectItem>
-                        {subcategories.map((subcat) => (
-                            <SelectItem key={subcat.id} value={subcat.id}>
-                                {subcat.name}
-                            </SelectItem>
-                        ))}
-                        <CreateSubcategoryDrawer categoryId={categoryId} onSubcategoryCreated={handleSubcategoryCreated}>
-                            <Button variant="ghost" className="w-full select-none items-center text-sm outline-none">{tSubcategory('title')}</Button>
-                        </CreateSubcategoryDrawer>
-                    </SelectContent>
-                </Select>
-                {errors.subcategoryId && <p className="text-red-500">{errors.subcategoryId.message}</p>}
-            </div>
-            {/* Date */}
-            <div className="space-y-2">
-                <label className="text-sm font-medium">{t('date')}</label>
-                <Popover>
-                    <PopoverTrigger asChild>
-                        <Button variant="outline" className="w-full pl-3 text-left font-normal">
-                            {date ? format(date, "PPP", { locale: dateLocale }) : <span>{t('chooseDate')}</span>}
-                            <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                        </Button>
-                    </PopoverTrigger>
-                    <PopoverContent>
-                        <Calendar
-                            mode="single"
-                            selected={date}
-                            onSelect={(date) => setValue("date", date)}
-                            disabled={(date) =>
-                                date > new Date() ||
-                                date < new Date("1900-01-01")}
-                            initialFocus
-                            locale={dateLocale}
+                                {subcategories.map((subcat) => (
+                                    <SelectItem key={subcat.id} value={subcat.id}>
+                                        {subcat.name}
+                                    </SelectItem>
+                                ))}
+                                <CreateSubcategoryDrawer categoryId={categoryId} onSubcategoryCreated={handleSubcategoryCreated}>
+                                    <Button variant="ghost" className="w-full select-none items-center text-sm outline-none">{tSubcategory('title')}</Button>
+                                </CreateSubcategoryDrawer>
+                            </SelectContent>
+                        </Select>
+                        {errors.subcategoryId && <p className="text-red-500">{errors.subcategoryId.message}</p>}
+                    </div>
+                    {/* Date */}
+                    <div className="space-y-2">
+                        <label className="text-sm font-medium">{t('date')}</label>
+                        <Popover>
+                            <PopoverTrigger asChild>
+                                <Button variant="outline" className="w-full pl-3 text-left font-normal">
+                                    {date ? format(date, "PPP", { locale: dateLocale }) : <span>{t('chooseDate')}</span>}
+                                    <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                                </Button>
+                            </PopoverTrigger>
+                            <PopoverContent>
+                                <Calendar
+                                    mode="single"
+                                    selected={date}
+                                    onSelect={(date) => setValue("date", date)}
+                                    disabled={(date) =>
+                                        date > new Date() ||
+                                        date < new Date("1900-01-01")}
+                                    initialFocus
+                                    locale={dateLocale}
+                                />
+                            </PopoverContent>
+                        </Popover>
+                        {errors.date && <p className="text-red-500">{errors.date.message}</p>}
+                    </div>
+                    {/* Description */}
+                    <div className="space-y-2">
+                        <label className="text-sm font-medium">{t('description')}</label>
+                        <Input
+                            type="text"
+                            placeholder={t('enterDescription')}
+                            {...register("description")}
                         />
-                    </PopoverContent>
-                </Popover>
-                {errors.date && <p className="text-red-500">{errors.date.message}</p>}
-            </div>
-            {/* Description */}
-            <div className="space-y-2">
-                <label className="text-sm font-medium">{t('description')}</label>
-                <Input
-                    type="text"
-                    placeholder={t('enterDescription')}
-                    {...register("description")}
-                />
-                {errors.description && <p className="text-red-500">{errors.description.message}</p>}
-            </div>
-            {/* Is Recurring */}
-            <div className="flex items-center justify-between rounded-lg border p-3">
-                <div className="space-y-0.5">
-                    <label htmlFor="isDefault" className="text-sm font-medium cursor-pointer">{t('recurring')}</label>
-                    <p className="text-sm text-muted-foreground">{t('recurringDescription')}</p>
-                </div>
-                <Switch
-                    checked={isRecurring}
-                    onCheckedChange={(checked) => setValue("isRecurring", checked)}
-                />
-            </div>
+                        {errors.description && <p className="text-red-500">{errors.description.message}</p>}
+                    </div>
+                    {/* Is Recurring */}
+                    <div className="flex items-center justify-between rounded-lg border p-3">
+                        <div className="space-y-0.5">
+                            <label htmlFor="isDefault" className="text-sm font-medium cursor-pointer">{t('recurring')}</label>
+                            <p className="text-sm text-muted-foreground">{t('recurringDescription')}</p>
+                        </div>
+                        <Switch
+                            checked={isRecurring}
+                            onCheckedChange={(checked) => setValue("isRecurring", checked)}
+                        />
+                    </div>
 
-            {/* Recurring Interval */}
-            {isRecurring && (
-                <div className="space-y-2">
-                    <label className="text-sm font-medium">{t('recurringInterval')}</label>
-                    <Select
-                        onValueChange={(value) => setValue("recurringInterval", value)}
-                        defaultValue={getValues("recurringInterval")}
-                    >
-                        <SelectTrigger className="w-full">
-                            <SelectValue placeholder={t('selectInterval')} />
-                        </SelectTrigger>
-                        <SelectContent>
-                            <SelectItem value="DAILY">{t('daily')}</SelectItem>
-                            <SelectItem value="WEEKLY">{t('weekly')}</SelectItem>
-                            <SelectItem value="MONTHLY">{t('monthly')}</SelectItem>
-                            <SelectItem value="YEARLY">{t('yearly')}</SelectItem>
-                        </SelectContent>
-                    </Select>
-                    {errors.recurringInterval && (
-                        <p className="text-sm text-red-500">
-                            {errors.recurringInterval.message}
-                        </p>
+                    {/* Recurring Interval */}
+                    {isRecurring && (
+                        <div className="space-y-2">
+                            <label className="text-sm font-medium">{t('recurringInterval')}</label>
+                            <Select
+                                onValueChange={(value) => setValue("recurringInterval", value)}
+                                defaultValue={getValues("recurringInterval")}
+                            >
+                                <SelectTrigger className="w-full">
+                                    <SelectValue placeholder={t('selectInterval')} />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    <SelectItem value="DAILY">{t('daily')}</SelectItem>
+                                    <SelectItem value="WEEKLY">{t('weekly')}</SelectItem>
+                                    <SelectItem value="MONTHLY">{t('monthly')}</SelectItem>
+                                    <SelectItem value="YEARLY">{t('yearly')}</SelectItem>
+                                </SelectContent>
+                            </Select>
+                            {errors.recurringInterval && (
+                                <p className="text-sm text-red-500">
+                                    {errors.recurringInterval.message}
+                                </p>
+                            )}
+                        </div>
                     )}
-                </div>
-            )}
 
-            {/* Submit and cancel */}
-            <div className="flex gap-4">
-                <Button type="button" variant="prominentCancel" className="flex-1" onClick={() => router.back()}>{t('cancel')}</Button>
-                <Button type="submit" variant="prominent" className="flex-1" disabled={transactionLoading}>{t('save')}</Button>
-            </div>
-        </form>
+                    {/* Submit and cancel */}
+                    <div className="flex gap-4">
+                        <Button type="button" variant="prominentCancel" className="flex-1" onClick={() => router.back()}>{t('cancel')}</Button>
+                        <Button type="submit" variant="prominent" className="flex-1" disabled={transactionLoading}>{t('save')}</Button>
+                    </div>
+                </form>
+            </CardContent>
+        </Card>
     )
 }
 

@@ -1,6 +1,8 @@
 {
     "TransactionForm": {
         "title": "Añadir Transacción",
+        "newTransaction": "Nueva Transacción",
+        "editTransaction": "Editar Transacción",
         "editTitle": "Editar Transacción",
         "type": "Tipo",
         "amount": "Cantidad",
@@ -126,7 +128,8 @@
                 "role": "Asesora Financiera",
                 "quote": "Recomiendo Trakeo a todos mis clientes. El soporte multi-divisa y las analíticas detalladas lo hacen perfecto para inversores internacionales."
             }
-        ]
+        ],
+        "copyright": "© 2025 Trakeo. Todos los derechos reservados."
     },
     "Common": {
         "income": "Ingreso",

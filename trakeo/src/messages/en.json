@@ -1,6 +1,8 @@
 {
   "TransactionForm": {
     "title": "Add Transaction",
+    "newTransaction": "New Transaction",
+    "editTransaction": "Edit Transaction",
     "editTitle": "Edit Transaction",
     "type": "Type",
     "amount": "Amount",
@@ -126,7 +128,8 @@
         "role": "Financial Advisor",
         "quote": "I recommend Trakeo to all my clients. The multi-currency support and detailed analytics make it perfect for international investors."
       }
-    ]
+    ],
+    "copyright": "© 2025 Trakeo. All rights reserved."
   },
   "Common": {
     "income": "Income",

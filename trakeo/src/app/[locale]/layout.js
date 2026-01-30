@@ -21,20 +21,14 @@ export default async function RootLayout({ children, params }) {
   return (
     <ClerkProvider>
       <html lang={locale}>
-        <body className={`${inter.className}`}>
+        <body className={`${inter.className} flex flex-col min-h-screen`}>
           <NextIntlClientProvider messages={messages}>
             {/* Header */}
             <Header />
-            <main className="min-h-screen">
+            <main className="flex-1 w-full flex flex-col">
               {children}
             </main>
             <Toaster richColors />
-            {/*Footer */}
-            <footer className="bg-orange-100/10 backdrop-blur-xs py-12">
-              <div className="container mx-auto px-4 text-center text-gray-800">
-                <p>{t('copyright')}</p>
-              </div>
-            </footer>
           </NextIntlClientProvider>
         </body>
       </html>

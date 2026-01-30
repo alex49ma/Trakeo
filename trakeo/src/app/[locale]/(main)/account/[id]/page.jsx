@@ -5,6 +5,7 @@ import { BarLoader } from 'react-spinners';
 import { Suspense } from 'react';
 import TransactionTable from '../_components/transaction-table';
 import AccountChart from '../_components/account-chart';
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 
 import { getTranslations } from 'next-intl/server';
 
@@ -25,16 +26,20 @@ export default async function AccountPage({ params }) {
         <div className="flex gap-4 items-end justify-between">
             <div>
                 <h1 className="text-5xl sm:text-6xl font-bold gradient-title capitalize">
-                    {account.name}</h1><p className="text-muted-foreground">
+                    {account.name}</h1><p className="text-white">
                     {tCommon('accountType.' + account.type.toUpperCase())}
                 </p>
             </div>
-            <div className="text-right pb-2">
-                <div className="text-x1 sm:text-2x1 font-bold">
-                    {parseFloat(account.balance).toFixed(2)}€
-                </div>
-                <p className="text-sm text-muted-foreground">{tAccount('transactionsCount', { count: account._count.transactions })}</p>
-            </div>
+            <Card className="text-right pb-2">
+                <CardHeader>
+                    <CardTitle className="text-x1 sm:text-2x1 font-bold">
+                        {parseFloat(account.balance).toFixed(2)}€
+                    </CardTitle>
+                </CardHeader>
+                <CardContent>
+                    <p className="text-sm">{tAccount('transactionsCount', { count: account._count.transactions })}</p>
+                </CardContent>
+            </Card>
         </div>
 
         {/* Chart Section */}

@@ -60,7 +60,7 @@ const AnalyticsDashboard = ({ accounts, transactions, categories }) => {
                         value={selectedMonth}
                         onValueChange={setSelectedMonth}
                     >
-                        <SelectTrigger className="w-[150px]">
+                        <SelectTrigger className="w-[150px] bg-white">
                             <SelectValue placeholder={t('month')} />
                         </SelectTrigger>
                         <SelectContent>
@@ -78,7 +78,7 @@ const AnalyticsDashboard = ({ accounts, transactions, categories }) => {
                         value={selectedYear}
                         onValueChange={setSelectedYear}
                     >
-                        <SelectTrigger className="w-[100px]">
+                        <SelectTrigger className="w-[100px] bg-white">
                             <SelectValue placeholder={t('year')} />
                         </SelectTrigger>
                         <SelectContent>
@@ -96,7 +96,7 @@ const AnalyticsDashboard = ({ accounts, transactions, categories }) => {
                     value={selectedAccountId}
                     onValueChange={setSelectedAccountId}
                 >
-                    <SelectTrigger className="w-[200px]">
+                    <SelectTrigger className="w-[200px] bg-white">
                         <SelectValue placeholder={tDashboard('selectAccount')} />
                     </SelectTrigger>
                     <SelectContent>
