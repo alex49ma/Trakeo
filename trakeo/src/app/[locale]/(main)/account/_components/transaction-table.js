@@ -34,7 +34,6 @@ const TransactionTable = ({ transactions }) => {
 
     const [searchTerm, setSearchTerm] = useState("");
     const [typeFilter, setTypeFilter] = useState("");
-    const [accountFilter, setAccountFilter] = useState("");
     const [categoryFilter, setCategoryFilter] = useState("");
     const [subcategoryFilter, setSubcategoryFilter] = useState("");
     const [recurringFilter, setRecurringFilter] = useState("");
@@ -56,7 +55,7 @@ const TransactionTable = ({ transactions }) => {
     // Reset to first page when filters change
     useEffect(() => {
         setCurrentPage(1);
-    }, [searchTerm, typeFilter, accountFilter, categoryFilter, subcategoryFilter, recurringFilter]);
+    }, [searchTerm, typeFilter, categoryFilter, subcategoryFilter, recurringFilter]);
 
     // Clear selection when items per page changes
     useEffect(() => {
@@ -140,10 +139,6 @@ const TransactionTable = ({ transactions }) => {
             results = results.filter((transaction) => transaction.type === typeFilter);
         }
 
-        if (accountFilter && accountFilter !== "all") {
-            results = results.filter((transaction) => transaction.accountId === accountFilter);
-        }
-
         if (categoryFilter && categoryFilter !== "all") {
             results = results.filter((transaction) => transaction.categoryId === categoryFilter);
         }
@@ -178,7 +173,7 @@ const TransactionTable = ({ transactions }) => {
 
         return results;
 
-    }, [transactions, searchTerm, typeFilter, accountFilter, categoryFilter, subcategoryFilter, recurringFilter, sortConfig]);
+    }, [transactions, searchTerm, typeFilter, categoryFilter, subcategoryFilter, recurringFilter, sortConfig]);
 
     const totalPages = Math.ceil(filteredAndSortedTransactions.length / itemsPerPage);
 
@@ -217,7 +212,6 @@ const TransactionTable = ({ transactions }) => {
     const handleClearFilters = () => {
         setSearchTerm("");
         setTypeFilter("");
-        setAccountFilter("");
         setCategoryFilter("");
         setSubcategoryFilter("");
         setRecurringFilter("");
@@ -238,7 +232,7 @@ const TransactionTable = ({ transactions }) => {
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)} />
                 </div>
-                <div className="flex gap-2">
+                <div className="flex flex-wrap gap-2">
                     <Select value={typeFilter} onValueChange={setTypeFilter}>
                         <SelectTrigger className="bg-white">
                             <SelectValue placeholder={t('allTypes')} />
@@ -247,16 +241,6 @@ const TransactionTable = ({ transactions }) => {
                             <SelectItem value="all">{t('allTypes')}</SelectItem>
                             <SelectItem value="INCOME">{common('income')}</SelectItem>
                             <SelectItem value="EXPENSE">{common('expense')}</SelectItem>
-                        </SelectContent>
-                    </Select>
-                    <Select value={accountFilter} onValueChange={setAccountFilter}>
-                        <SelectTrigger className="bg-white">
-                            <SelectValue placeholder={t('allAccounts')} />
-                        </SelectTrigger>
-                        <SelectContent>
-                            <SelectItem value="all">{t('allAccounts')}</SelectItem>
-                            <SelectItem value="TODO">TODO</SelectItem>
-                            <SelectItem value="TODO">TODO</SelectItem>
                         </SelectContent>
                     </Select>
                     <Select value={categoryFilter} onValueChange={setCategoryFilter}>
@@ -356,7 +340,7 @@ const TransactionTable = ({ transactions }) => {
                         </div>
                     )}
 
-                    {(searchTerm || typeFilter || accountFilter || categoryFilter || subcategoryFilter || recurringFilter) && (
+                    {(searchTerm || typeFilter || categoryFilter || subcategoryFilter || recurringFilter) && (
                         <Button
                             variant="outline"
                             size="icon"
