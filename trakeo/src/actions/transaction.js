@@ -172,3 +172,110 @@ export async function updateTransaction(id, data) {
     }
 
 }
+
+export async function bulkCreateTransactions(accountId, transactions) {
+    try {
+        const { userId } = await auth();
+        if (!userId) throw new Error("Unauthorized");
+
+        const user = await db.user.findUnique({ where: { clerkUserId: userId } });
+        if (!user) throw new Error("User not found");
+
+        const account = await db.account.findUnique({ where: { id: accountId, userId: user.id } });
+        if (!account) throw new Error("Account not found");
+
+        const uniqueCategoryNames = [...new Set(transactions.map(t => t.categoryName?.trim()).filter(Boolean))];
+
+        // Fetch existing categories for the user
+        const existingCategories = await db.category.findMany({
+            where: {
+                userId: user.id,
+                name: { in: uniqueCategoryNames },
+            },
+        });
+
+        // Key: "Name-Type" -> Category
+        const existingCategoryMap = new Map(existingCategories.map(c => [`${c.name}-${c.type}`, c]));
+
+        // Identify required categories (Name + Type)
+        const requiredCategories = new Map();
+        transactions.forEach(t => {
+            const name = t.categoryName?.trim();
+            const type = t.type;
+            if (name && type) {
+                requiredCategories.set(`${name}-${type}`, { name, type });
+            }
+        });
+
+        // Identify missing categories
+        const categoriesToCreate = [];
+        requiredCategories.forEach((val, key) => {
+            if (!existingCategoryMap.has(key)) {
+                categoriesToCreate.push(val);
+            }
+        });
+
+        await db.$transaction(async (tx) => {
+            for (const catData of categoriesToCreate) {
+                const newCat = await tx.category.create({
+                    data: {
+                        name: catData.name,
+                        type: catData.type,
+                        userId: user.id,
+                        color: `#${Math.floor(Math.random() * 16777215).toString(16)}`,
+                    }
+                });
+                existingCategoryMap.set(`${newCat.name}-${newCat.type}`, newCat);
+            }
+
+            let netBalanceChange = 0;
+            const transactionsToCreate = [];
+
+            for (const t of transactions) {
+                const categoryName = t.categoryName?.trim();
+                const type = t.type;
+                const key = `${categoryName}-${type}`;
+                const category = existingCategoryMap.get(key);
+
+                if (!category) {
+                    continue;
+                }
+
+                transactionsToCreate.push({
+                    type: t.type,
+                    amount: t.amount,
+                    description: t.description,
+                    date: new Date(t.date),
+                    userId: user.id,
+                    accountId: accountId,
+                    categoryId: category.id,
+                    status: "COMPLETED",
+                });
+
+                netBalanceChange += (t.type === "EXPENSE" ? -t.amount : t.amount);
+            }
+
+            if (transactionsToCreate.length > 0) {
+                await tx.transaction.createMany({
+                    data: transactionsToCreate,
+                });
+            }
+
+            await tx.account.update({
+                where: { id: accountId },
+                data: {
+                    balance: { increment: netBalanceChange }
+                }
+            });
+        });
+
+        revalidatePath(`/account/${accountId}`);
+        revalidatePath(`/dashboard`);
+
+        return { success: true, count: transactions.length };
+
+    } catch (error) {
+        console.error("Bulk create error:", error);
+        throw new Error(error.message);
+    }
+}

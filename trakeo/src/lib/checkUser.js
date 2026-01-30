@@ -25,7 +25,13 @@ export const checkUser = async () => {
                 clerkUserId: user.id,
                 name,
                 imageUrl: user.imageUrl,
-                email: user.emailAddresses[0].emailAddress
+                email: user.emailAddresses[0].emailAddress,
+                categories: {
+                    create: [
+                        { name: "Other Expenses", type: "EXPENSE", color: "#94a3b8" },
+                        { name: "Other Income", type: "INCOME", color: "#64748b" },
+                    ]
+                }
             }
         })
 

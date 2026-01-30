@@ -1,11 +1,15 @@
 "use server";
 
 import { db } from "@/lib/prisma";
-import { auth } from "@clerk/nextjs/server";
+import { checkUser } from "@/lib/checkUser";
 import { revalidatePath } from "next/cache";
 
 export async function getCategories() {
+    const user = await checkUser();
+    if (!user) throw new Error("Unauthorized");
+
     const categories = await db.category.findMany({
+        where: { userId: user.id },
         orderBy: {
             name: "asc",
         },
@@ -19,15 +23,15 @@ export async function getCategories() {
 
 export async function createCategory(data) {
     try {
-        const { userId } = await auth();
-        if (!userId) throw new Error("Unauthorized");
+        const user = await checkUser();
+        if (!user) throw new Error("Unauthorized");
 
         const category = await db.category.create({
             data: {
                 name: data.name,
                 type: data.type,
                 color: data.color,
-                icon: data.icon,
+                userId: user.id,
             }
         });
 
@@ -44,8 +48,8 @@ export async function createCategory(data) {
 
 export async function createSubcategory(data) {
     try {
-        const { userId } = await auth();
-        if (!userId) throw new Error("Unauthorized");
+        const user = await checkUser();
+        if (!user) throw new Error("Unauthorized");
 
         const subCategory = await db.subcategory.create({
             data: {
@@ -65,8 +69,8 @@ export async function createSubcategory(data) {
 
 export async function updateCategory(id, data) {
     try {
-        const { userId } = await auth();
-        if (!userId) throw new Error("Unauthorized");
+        const user = await checkUser();
+        if (!user) throw new Error("Unauthorized");
 
         const category = await db.category.update({
             where: { id },
@@ -74,7 +78,6 @@ export async function updateCategory(id, data) {
                 name: data.name,
                 type: data.type,
                 color: data.color,
-                icon: data.icon,
             }
         });
 
@@ -88,8 +91,8 @@ export async function updateCategory(id, data) {
 
 export async function deleteCategory(id) {
     try {
-        const { userId } = await auth();
-        if (!userId) throw new Error("Unauthorized");
+        const user = await checkUser();
+        if (!user) throw new Error("Unauthorized");
 
         const transactions = await db.transaction.findMany({
             where: { categoryId: id }
@@ -118,8 +121,8 @@ export async function deleteCategory(id) {
 
 export async function updateSubcategory(id, data) {
     try {
-        const { userId } = await auth();
-        if (!userId) throw new Error("Unauthorized");
+        const user = await checkUser();
+        if (!user) throw new Error("Unauthorized");
 
         const subCategory = await db.subcategory.update({
             where: { id },
@@ -140,8 +143,8 @@ export async function updateSubcategory(id, data) {
 
 export async function deleteSubcategory(id) {
     try {
-        const { userId } = await auth();
-        if (!userId) throw new Error("Unauthorized");
+        const user = await checkUser();
+        if (!user) throw new Error("Unauthorized");
 
         const transactions = await db.transaction.findMany({
             where: { subcategoryId: id }

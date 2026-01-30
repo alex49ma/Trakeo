@@ -53,7 +53,7 @@ export async function seedTransactions() {
           name: cat.name,
           type: cat.type,
           color: cat.color,
-          icon: cat.icon,
+          userId: USER_ID,
         },
       });
 

@@ -32,7 +32,11 @@
     "yearly": "Yearly",
     "createSuccess": "Transaction created successfully",
     "updateSuccess": "Transaction updated successfully",
-    "none": "None"
+    "none": "None",
+    "orAddViaCsv": "Or add via csv file",
+    "csvSuccess": "Transactions imported successfully",
+    "csvError": "Error importing transactions",
+    "importing": "Importing..."
   },
   "Header": {
     "dashboard": "Dashboard",

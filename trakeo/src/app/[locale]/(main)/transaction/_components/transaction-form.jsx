@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { transactionSchema } from '@/app/lib/schema';
 import useFetch from '@/hooks/use-fetch';
-import { createTransaction } from '@/actions/transaction';
+import { createTransaction, bulkCreateTransactions } from '@/actions/transaction';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Input } from '@/components/ui/input';
 import CreateAccountDrawer from '@/components/create-account-drawer';
@@ -15,7 +15,7 @@ import { Button } from '@/components/ui/button';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Calendar } from '@/components/ui/calendar';
 import { format } from 'date-fns';
-import { CalendarIcon } from 'lucide-react';
+import { CalendarIcon, Plus, Upload, Loader2 } from 'lucide-react';
 import { Switch } from '@/components/ui/switch';
 import { useRouter } from '@/i18n/routing';
 import { toast } from 'sonner';
@@ -24,6 +24,7 @@ import { es, enUS } from 'date-fns/locale';
 import { useSearchParams } from 'next/navigation';
 import { updateTransaction } from '@/actions/transaction';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import Papa from 'papaparse';
 
 const AddTransactionForm = ({ accounts, categories, editMode = false, initialData = null }) => {
 
@@ -38,6 +39,7 @@ const AddTransactionForm = ({ accounts, categories, editMode = false, initialDat
     const editId = searchParams.get("edit");
 
     const [categoriesState, setCategoriesState] = React.useState(categories);
+    const [parsing, setParsing] = React.useState(false);
 
     // Update state when initial categories prop changes (e.g. navigation back/forward)
     useEffect(() => {
@@ -98,10 +100,17 @@ const AddTransactionForm = ({ accounts, categories, editMode = false, initialDat
         data: transactionResult
     } = useFetch(editMode ? updateTransaction : createTransaction);
 
+    const {
+        loading: bulkLoading,
+        fetchData: bulkTransactionFn,
+        data: bulkTransactionResult
+    } = useFetch(bulkCreateTransactions);
+
     const type = watch("type");
     const isRecurring = watch("isRecurring");
     const date = watch("date");
     const categoryId = watch("categoryId");
+    const accountId = watch("accountId");
 
     const onSubmit = async (data) => {
         const formData = {
@@ -116,6 +125,64 @@ const AddTransactionForm = ({ accounts, categories, editMode = false, initialDat
         }
     }
 
+    const handleFileUpload = (event) => {
+        const file = event.target.files[0];
+        if (!file) return;
+
+        if (!accountId) {
+            toast.error(t('selectAccount'));
+            event.target.value = null;
+            return;
+        }
+
+        setParsing(true);
+
+        Papa.parse(file, {
+            header: true,
+            skipEmptyLines: true,
+            complete: async (results) => {
+                const transactions = [];
+                for (const row of results.data) {
+                    const dateStr = row["Transaction Date"]?.trim();
+                    const description = row["Note"]?.trim();
+                    const categoryName = row["Transaction Category"]?.trim();
+                    const amountStr = row["Booked amount"]?.trim();
+
+                    if (!dateStr || !amountStr) continue;
+
+                    let amount = parseFloat(amountStr);
+                    const type = amount < 0 ? "EXPENSE" : "INCOME";
+                    amount = Math.abs(amount);
+
+                    const date = new Date(dateStr);
+                    if (isNaN(date.getTime())) continue;
+
+                    transactions.push({
+                        date,
+                        description: description || "",
+                        categoryName: categoryName || "Uncategorized",
+                        amount,
+                        type
+                    });
+                }
+
+                if (transactions.length > 0) {
+                    await bulkTransactionFn(accountId, transactions);
+                } else {
+                    toast.error(t('csvError'));
+                }
+                setParsing(false);
+            },
+            error: (error) => {
+                console.error("CSV Parse Error:", error);
+                toast.error(t('csvError'));
+                setParsing(false);
+            }
+        });
+
+        event.target.value = null;
+    };
+
     useEffect(() => {
         if (transactionResult?.success && !transactionLoading) {
             toast.success(editMode ? t('updateSuccess') : t('createSuccess'));
@@ -123,6 +190,15 @@ const AddTransactionForm = ({ accounts, categories, editMode = false, initialDat
             router.push(`/account/${transactionResult.data.accountId}`);
         }
     }, [transactionResult, transactionLoading])
+
+    useEffect(() => {
+        if (bulkTransactionResult?.success && !bulkLoading) {
+            toast.success(t('csvSuccess'));
+            router.push(`/account/${accountId}`);
+        } else if (bulkTransactionResult?.error) {
+            toast.error(t('csvError'));
+        }
+    }, [bulkTransactionResult, bulkLoading, accountId, router, t]);
 
     const filteredCategories = categoriesState.filter((cat) => cat.type === type);
     const selectedCategory = categoriesState.find((cat) => cat.id === categoryId);
@@ -198,27 +274,31 @@ const AddTransactionForm = ({ accounts, categories, editMode = false, initialDat
                     {/* Category */}
                     <div className="space-y-2">
                         <label className="text-sm font-medium">{t('category')}</label>
-                        <Select
-                            onValueChange={(value) => {
-                                setValue("categoryId", value);
-                                setValue("subcategoryId", ""); // Reset subcategory when category changes
-                            }}
-                            value={categoryId}
-                        >
-                            <SelectTrigger className="w-full">
-                                <SelectValue placeholder={t('selectCategory')} />
-                            </SelectTrigger>
-                            <SelectContent>
-                                {filteredCategories.map((category) => (
-                                    <SelectItem key={category.id} value={category.id}>
-                                        {category.name}
-                                    </SelectItem>
-                                ))}
-                                <CreateCategoryDrawer onCategoryCreated={handleCategoryCreated}>
-                                    <Button variant="ghost" className="w-full select-none items-center text-sm outline-none">{tCategory('title')}</Button>
-                                </CreateCategoryDrawer>
-                            </SelectContent>
-                        </Select>
+                        <div className="flex gap-2">
+                            <Select
+                                onValueChange={(value) => {
+                                    setValue("categoryId", value);
+                                    setValue("subcategoryId", ""); // Reset subcategory when category changes
+                                }}
+                                value={categoryId}
+                            >
+                                <SelectTrigger className="w-full">
+                                    <SelectValue placeholder={t('selectCategory')} />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    {filteredCategories.map((category) => (
+                                        <SelectItem key={category.id} value={category.id}>
+                                            {category.name}
+                                        </SelectItem>
+                                    ))}
+                                </SelectContent>
+                            </Select>
+                            <CreateCategoryDrawer onCategoryCreated={handleCategoryCreated}>
+                                <Button variant="outline" className="px-3" type="button">
+                                    <Plus className="h-4 w-4" />
+                                </Button>
+                            </CreateCategoryDrawer>
+                        </div>
                         {errors.categoryId && <p className="text-red-500">{errors.categoryId.message}</p>}
                     </div>
 
@@ -325,8 +405,40 @@ const AddTransactionForm = ({ accounts, categories, editMode = false, initialDat
                     {/* Submit and cancel */}
                     <div className="flex gap-4">
                         <Button type="button" variant="prominentCancel" className="flex-1" onClick={() => router.back()}>{t('cancel')}</Button>
-                        <Button type="submit" variant="prominent" className="flex-1" disabled={transactionLoading}>{t('save')}</Button>
+                        <Button type="submit" variant="prominent" className="flex-1" disabled={transactionLoading || bulkLoading}>{t('save')}</Button>
                     </div>
+
+                    {/* CSV Upload */}
+                    {!editMode && (
+                        <div className="mt-4">
+                            <input
+                                type="file"
+                                accept=".csv"
+                                className="hidden"
+                                id="csv-upload"
+                                onChange={handleFileUpload}
+                                disabled={bulkLoading || parsing}
+                            />
+                            <label htmlFor="csv-upload" className="w-full">
+                                <Button type="button" variant="outline" className="w-full" disabled={bulkLoading || parsing} asChild>
+                                    <span>
+                                        {bulkLoading || parsing ? (
+                                            <>
+                                                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                                {t('importing')}
+                                            </>
+                                        ) : (
+                                            <>
+                                                <Upload className="mr-2 h-4 w-4" />
+                                                {t('orAddViaCsv')}
+                                            </>
+                                        )}
+                                    </span>
+                                </Button>
+                            </label>
+                        </div>
+                    )}
+
                 </form>
             </CardContent>
         </Card>
