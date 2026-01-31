@@ -33,7 +33,7 @@
         "createSuccess": "Transacción creada exitosamente",
         "updateSuccess": "Transacción actualizada exitosamente",
         "none": "Ninguna",
-        "orAddViaCsv": "O añadir via archivo csv",
+        "orAddViaCsv": "O añadir via archivo csv (Beta)",
         "csvSuccess": "Transacciones importadas exitosamente",
         "csvError": "Error importando transacciones",
         "importing": "Importando..."

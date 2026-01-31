@@ -34,8 +34,11 @@ export default clerkMiddleware(async (auth, req) => {
         return NextResponse.next();
     }
 
-    return intlMiddleware(req);
-});
+    const response = intlMiddleware(req);
+    console.error("INTL Response Status:", response.status);
+    response.headers.forEach((value, key) => console.error(`Header ${key}: ${value}`));
+    return response;
+}, { debug: true });
 
 export const config = {
     matcher: [
