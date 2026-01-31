@@ -22,7 +22,7 @@ if (!connectionString) {
 const createPrismaClient = () => {
     const pool = new Pool({ connectionString });
     const adapter = new PrismaPg(pool);
-    return new PrismaClient({ adapter, datasourceUrl: connectionString });
+    return new PrismaClient({ adapter });
 };
 
 const prisma = globalThis.prisma || createPrismaClient();
