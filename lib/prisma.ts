@@ -20,13 +20,18 @@ if (!connectionString) {
 }
 
 const createPrismaClient = () => {
-    const connectionUrl = new URL(connectionString!);
+    // Sanitize connection string (remove quotes if present)
+    const sanitizedConnectionString = connectionString?.replace(/^"|"$/g, '').replace(/^'|'$/g, '') || "";
+
+    // Validate functionality
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const connectionUrl = new URL(sanitizedConnectionString);
 
     // Configurar SSL si no está en local
     const isLocal = process.env.NODE_ENV === "development";
 
     const pool = new Pool({
-        connectionString,
+        connectionString: sanitizedConnectionString,
         max: 10, // Recommended for Vercel/Serverless to avoid exhausting pool
         ssl: isLocal ? false : { rejectUnauthorized: false }
     });
