@@ -40,6 +40,7 @@ const AddTransactionForm = ({ accounts, categories, editMode = false, initialDat
 
     const [categoriesState, setCategoriesState] = React.useState(categories);
     const [parsing, setParsing] = React.useState(false);
+    const [isSubcategoryDrawerOpen, setIsSubcategoryDrawerOpen] = React.useState(false);
 
     // Update state when initial categories prop changes (e.g. navigation back/forward)
     useEffect(() => {
@@ -327,11 +328,27 @@ const AddTransactionForm = ({ accounts, categories, editMode = false, initialDat
                                         {subcat.name}
                                     </SelectItem>
                                 ))}
-                                <CreateSubcategoryDrawer categoryId={categoryId} onSubcategoryCreated={handleSubcategoryCreated}>
-                                    <Button variant="ghost" className="w-full select-none items-center text-sm outline-none">{tSubcategory('title')}</Button>
-                                </CreateSubcategoryDrawer>
+                                <Button
+                                    variant="ghost"
+                                    className="w-full select-none items-center text-sm outline-none font-normal justify-start px-2 py-1.5 h-auto"
+                                    onClick={(e) => {
+                                        e.preventDefault();
+                                        e.stopPropagation();
+                                        setIsSubcategoryDrawerOpen(true);
+                                    }}
+                                >
+                                    {tSubcategory('title')}
+                                </Button>
                             </SelectContent>
                         </Select>
+                        <CreateSubcategoryDrawer
+                            categoryId={categoryId}
+                            onSubcategoryCreated={handleSubcategoryCreated}
+                            open={isSubcategoryDrawerOpen}
+                            onOpenChange={setIsSubcategoryDrawerOpen}
+                        >
+                            <span className="hidden"></span>
+                        </CreateSubcategoryDrawer>
                         {errors.subcategoryId && <p className="text-red-500">{errors.subcategoryId.message}</p>}
                     </div>
                     {/* Date */}
@@ -447,7 +464,7 @@ const AddTransactionForm = ({ accounts, categories, editMode = false, initialDat
 
                 </form>
             </CardContent>
-        </Card>
+        </Card >
     )
 }
 
