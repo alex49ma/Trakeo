@@ -12,7 +12,7 @@ import { toast } from 'sonner'
 import { createCategory, updateCategory } from "@/actions/categories"
 import { useTranslations } from 'next-intl'
 
-const CreateCategoryDrawer = ({ children, onCategoryCreated, categoryToEdit = null, open: controlledOpen, onOpenChange: controlledOnOpenChange }) => {
+const CreateCategoryDrawer = ({ children, onCategoryCreated, categoryToEdit = null, open: controlledOpen, onOpenChange: controlledOnOpenChange, initialType = "EXPENSE" }) => {
     const [internalOpen, setInternalOpen] = useState(false)
     const isControlled = controlledOpen !== undefined
     const open = isControlled ? controlledOpen : internalOpen
@@ -25,7 +25,7 @@ const CreateCategoryDrawer = ({ children, onCategoryCreated, categoryToEdit = nu
         resolver: zodResolver(categorySchema),
         defaultValues: {
             name: "",
-            type: "EXPENSE",
+            type: initialType,
             color: "#22c55e",
             icon: "Wallet"
         }
@@ -40,12 +40,12 @@ const CreateCategoryDrawer = ({ children, onCategoryCreated, categoryToEdit = nu
         } else {
             reset({
                 name: "",
-                type: "EXPENSE",
+                type: initialType,
                 color: "#22c55e",
                 icon: "Wallet"
             })
         }
-    }, [categoryToEdit, setValue, reset, open]) // Reset on open change if needed, or just when categoryToEdit changes
+    }, [categoryToEdit, setValue, reset, open, initialType]) // Reset on open change if needed, or just when categoryToEdit changes
 
     const { data: newCategory, error: createError, loading: createCategoryLoading, fetchData: createCategoryFn } = useFetch(createCategory)
     const { data: updatedCategory, error: updateError, loading: updateCategoryLoading, fetchData: updateCategoryFn } = useFetch(updateCategory)

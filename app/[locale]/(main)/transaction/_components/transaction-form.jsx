@@ -299,7 +299,7 @@ const AddTransactionForm = ({ accounts, categories, editMode = false, initialDat
                                     ))}
                                 </SelectContent>
                             </Select>
-                            <CreateCategoryDrawer onCategoryCreated={handleCategoryCreated}>
+                            <CreateCategoryDrawer onCategoryCreated={handleCategoryCreated} initialType={type}>
                                 <Button variant="outline" className="px-3" type="button">
                                     <Plus className="h-4 w-4" />
                                 </Button>
