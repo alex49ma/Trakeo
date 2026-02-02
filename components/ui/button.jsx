@@ -21,6 +21,7 @@ const buttonVariants = cva(
         link: "text-primary underline-offset-4 hover:underline",
         prominent: "text-gray-600 bg-transparent border shadow-xs relative overflow-hidden isolate before:absolute before:inset-0 before:bg-white before:z-[-2] after:absolute after:inset-0 after:bg-gradient-to-t after:from-orange-300 after:to-white after:to-80% after:translate-y-full hover:after:translate-y-0 after:transition-transform after:duration-300 after:ease-out after:z-[-1]",
         prominentCancel: "text-gray-600 bg-transparent border shadow-xs relative overflow-hidden isolate before:absolute before:inset-0 before:bg-white before:z-[-2] after:absolute after:inset-0 after:bg-gradient-to-t after:from-red-300 after:to-white after:to-80% after:translate-y-full hover:after:translate-y-0 after:transition-transform after:duration-300 after:ease-out after:z-[-1]",
+        prominentPurple: "text-gray-600 bg-transparent border shadow-xs relative overflow-hidden isolate before:absolute before:inset-0 before:bg-white before:z-[-2] after:absolute after:inset-0 after:bg-gradient-to-t after:from-purple-300 after:to-white after:to-80% after:translate-y-full hover:after:translate-y-0 after:transition-transform after:duration-300 after:ease-out after:z-[-1]",
       },
       size: {
         default: "h-9 px-4 py-2 has-[>svg]:px-3",

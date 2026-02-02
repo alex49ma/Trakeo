@@ -103,7 +103,7 @@ const CategoriesCard = ({ categories }) => {
     return (
         <>
             <Card>
-                <CardHeader className="flex flex-row items-center justify-between">
+                <CardHeader className="flex flex-col md:flex-row md:items-center justify-between gap-4 md:gap-0">
                     <CardTitle>{t('title')}</CardTitle>
                     <div className="flex gap-2">
                         <Button variant="outline" size="sm" onClick={() => setCreateCategoryOpen(true)}>
@@ -122,7 +122,7 @@ const CategoriesCard = ({ categories }) => {
                                 <CategoryItem key={cat.id} category={cat} />
                             ))}
                         </div>
-                        <div className="border-l pl-8 border-slate-100 dark:border-slate-800">
+                        <div className="md:border-l md:pl-8 border-slate-100 dark:border-slate-800">
                             <h3 className="font-semibold text-lg mb-4 text-muted-foreground">{common('income')}</h3>
                             {incomeCategories.map(cat => (
                                 <CategoryItem key={cat.id} category={cat} />

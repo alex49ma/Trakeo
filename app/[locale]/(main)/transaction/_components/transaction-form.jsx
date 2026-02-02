@@ -209,7 +209,7 @@ const AddTransactionForm = ({ accounts, categories, editMode = false, initialDat
     const subcategories = selectedCategory?.subCategories || [];
 
     return (
-        <Card className="w-full max-w-2xl mx-auto bg-card/80 backdrop-blur-sm">
+        <Card className="w-full max-w-2xl mx-auto bg-card">
             <CardHeader>
                 <CardTitle className="text-xl font-bold">{editMode ? t('editTransaction') : t('newTransaction')}</CardTitle>
             </CardHeader>
@@ -228,7 +228,7 @@ const AddTransactionForm = ({ accounts, categories, editMode = false, initialDat
                             }}
                             value={type}
                         >
-                            <SelectTrigger className="w-full">
+                            <SelectTrigger className="w-full bg-background">
                                 <SelectValue placeholder={t('selectType')} />
                             </SelectTrigger>
                             <SelectContent>
@@ -247,6 +247,7 @@ const AddTransactionForm = ({ accounts, categories, editMode = false, initialDat
                                 type="number"
                                 step="0.01"
                                 placeholder="0.00"
+                                className="bg-background"
                                 {...register("amount")}
                             />
                             {errors.amount && <p className="text-red-500">{errors.amount.message}</p>}
@@ -258,7 +259,7 @@ const AddTransactionForm = ({ accounts, categories, editMode = false, initialDat
                                 onValueChange={(value) => setValue("accountId", value)}
                                 defaultValue={getValues("accountId")}
                             >
-                                <SelectTrigger className="w-full">
+                                <SelectTrigger className="w-full bg-background">
                                     <SelectValue placeholder={t('selectAccount')} />
                                 </SelectTrigger>
                                 <SelectContent>
@@ -286,7 +287,7 @@ const AddTransactionForm = ({ accounts, categories, editMode = false, initialDat
                                 }}
                                 value={categoryId}
                             >
-                                <SelectTrigger className="w-full">
+                                <SelectTrigger className="w-full bg-background">
                                     <SelectValue placeholder={t('selectCategory')} />
                                 </SelectTrigger>
                                 <SelectContent>
@@ -314,7 +315,7 @@ const AddTransactionForm = ({ accounts, categories, editMode = false, initialDat
                             value={watch("subcategoryId") || "none"}
                             disabled={!categoryId}
                         >
-                            <SelectTrigger className="w-full">
+                            <SelectTrigger className="w-full bg-background">
                                 <SelectValue placeholder={t('selectSubCategory')} />
                             </SelectTrigger>
                             <SelectContent>
@@ -338,7 +339,7 @@ const AddTransactionForm = ({ accounts, categories, editMode = false, initialDat
                         <label className="text-sm font-medium">{t('date')}</label>
                         <Popover>
                             <PopoverTrigger asChild>
-                                <Button variant="outline" className="w-full pl-3 text-left font-normal">
+                                <Button variant="outline" className="w-full pl-3 text-left font-normal bg-background">
                                     {date ? format(date, "PPP", { locale: dateLocale }) : <span>{t('chooseDate')}</span>}
                                     <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
                                 </Button>
@@ -364,6 +365,7 @@ const AddTransactionForm = ({ accounts, categories, editMode = false, initialDat
                         <Input
                             type="text"
                             placeholder={t('enterDescription')}
+                            className="bg-background"
                             {...register("description")}
                         />
                         {errors.description && <p className="text-red-500">{errors.description.message}</p>}
@@ -388,7 +390,7 @@ const AddTransactionForm = ({ accounts, categories, editMode = false, initialDat
                                 onValueChange={(value) => setValue("recurringInterval", value)}
                                 defaultValue={getValues("recurringInterval")}
                             >
-                                <SelectTrigger className="w-full">
+                                <SelectTrigger className="w-full bg-background">
                                     <SelectValue placeholder={t('selectInterval')} />
                                 </SelectTrigger>
                                 <SelectContent>
@@ -424,7 +426,7 @@ const AddTransactionForm = ({ accounts, categories, editMode = false, initialDat
                                 disabled={bulkLoading || parsing}
                             />
                             <label htmlFor="csv-upload" className="w-full">
-                                <Button type="button" variant="outline" className="w-full" disabled={bulkLoading || parsing} asChild>
+                                <Button type="button" variant="prominentPurple" className="w-full" disabled={bulkLoading || parsing} asChild>
                                     <span>
                                         {bulkLoading || parsing ? (
                                             <>
