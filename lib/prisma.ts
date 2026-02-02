@@ -20,9 +20,22 @@ if (!connectionString) {
 }
 
 const createPrismaClient = () => {
-    const pool = new Pool({ connectionString });
+    const connectionUrl = new URL(connectionString!);
+
+    // Configurar SSL si no está en local
+    const isLocal = process.env.NODE_ENV === "development";
+
+    const pool = new Pool({
+        connectionString,
+        max: 10, // Recommended for Vercel/Serverless to avoid exhausting pool
+        ssl: isLocal ? false : { rejectUnauthorized: false }
+    });
+
     const adapter = new PrismaPg(pool);
-    return new PrismaClient({ adapter });
+    return new PrismaClient({
+        adapter,
+        log: process.env.NODE_ENV === "development" ? ["query", "error", "warn"] : ["error"],
+    });
 };
 
 const prisma = globalThis.prisma || createPrismaClient();
