@@ -1,0 +1,291 @@
+{
+    "TransactionForm": {
+        "title": "Přidat transakci",
+        "newTransaction": "Nová transakce",
+        "editTransaction": "Upravit transakci",
+        "editTitle": "Upravit transakci",
+        "type": "Typ",
+        "amount": "Částka",
+        "account": "Účet",
+        "category": "Kategorie",
+        "date": "Datum",
+        "description": "Popis",
+        "recurring": "Nastavit opakovanou transakci",
+        "recurringDescription": "Nastavit plán opakování pro tuto transakci",
+        "recurringInterval": "Interval opakování",
+        "save": "Uložit transakci",
+        "cancel": "Zrušit",
+        "selectType": "Vybrat typ",
+        "selectAccount": "Vybrat účet",
+        "selectCategory": "Vybrat kategorii",
+        "subCategory": "Podkategorie",
+        "selectSubCategory": "Vybrat podkategorii",
+        "chooseDate": "Vybrat datum",
+        "enterDescription": "Zadat popis",
+        "selectInterval": "Vybrat interval",
+        "expense": "Výdaj",
+        "income": "Příjem",
+        "createAccount": "Vytvořit účet",
+        "daily": "Denně",
+        "weekly": "Týdně",
+        "monthly": "Měsíčně",
+        "yearly": "Ročně",
+        "createSuccess": "Transakce byla úspěšně vytvořena",
+        "updateSuccess": "Transakce byla úspěšně aktualizována",
+        "none": "Žádný",
+        "orAddViaCsv": "Nebo přidat přes CSV soubor (Beta)",
+        "csvSuccess": "Transakce úspěšně importovány",
+        "csvError": "Chyba při importu transakcí",
+        "importing": "Importování..."
+    },
+    "Header": {
+        "dashboard": "Přehled",
+        "addTransaction": "Přidat transakci",
+        "analytics": "Analytika",
+        "login": "Přihlásit se"
+    },
+    "Hero": {
+        "title1": "Nástroj pro sledování",
+        "title2": "vašich financí",
+        "subtitle": "Sledujte své výdaje a příjmy na jednom místě<br />Analyzujte a získejte klíčové poznatky",
+        "getStarted": "Začít",
+        "watchDemo": "Přehrát demo"
+    },
+    "Landing": {
+        "featuresTitle": "Vše co potřebujete pro správu financí",
+        "howItWorksTitle": "Jak to funguje",
+        "testimonialsTitle": "Co říkají naši uživatelé",
+        "readyToStart": "Jste připraveni začít?",
+        "signupDescription": "Zaregistrujte se zdarma a začněte sledovat své výdaje ještě dnes.",
+        "getStarted": "Začít",
+        "stats": [
+            {
+                "value": "50K+",
+                "label": "Aktivních uživatelů"
+            },
+            {
+                "value": "$2B+",
+                "label": "Sledovaných transakcí"
+            },
+            {
+                "value": "99.9%",
+                "label": "Dostupnost"
+            },
+            {
+                "value": "4.9/5",
+                "label": "Hodnocení uživatelů"
+            }
+        ],
+        "features": [
+            {
+                "title": "Pokročilá analytika",
+                "description": "Získejte podrobné přehledy o svých výdajích pomocí analytiky řízené AI"
+            },
+            {
+                "title": "Chytrý skener účtenek",
+                "description": "Automaticky extrahujte data z účtenek pomocí pokročilé AI technologie"
+            },
+            {
+                "title": "Plánování rozpočtu",
+                "description": "Vytvářejte a spravujte rozpočty s inteligentními doporučeními"
+            },
+            {
+                "title": "Podpora více účtů",
+                "description": "Spravujte více účtů a kreditních karet na jednom místě"
+            },
+            {
+                "title": "Více měn",
+                "description": "Podpora pro více měn s konverzí v reálném čase"
+            },
+            {
+                "title": "Automatické přehledy",
+                "description": "Získejte automatizované finanční přehledy a doporučení"
+            }
+        ],
+        "howItWorks": [
+            {
+                "title": "1. Vytvořte si účet",
+                "description": "Začněte během několika minut s naším jednoduchým a bezpečným registračním procesem"
+            },
+            {
+                "title": "2. Sledujte své výdaje",
+                "description": "Automaticky kategorizujte a sledujte své transakce v reálném čase"
+            },
+            {
+                "title": "3. Získejte přehledy",
+                "description": "Získejte přehledy a doporučení řízené AI pro optimalizaci vašich financí"
+            }
+        ],
+        "testimonials": [
+            {
+                "name": "Sarah Johnson",
+                "role": "Majitelka malé firmy",
+                "quote": "Trakeo změnilo způsob, jakým spravuji firemní finance. Poznatky z AI mi pomohly najít úspory, o kterých jsem neměla tušení."
+            },
+            {
+                "name": "Michael Chen",
+                "role": "Na volné noze",
+                "quote": "Funkce skenování účtenek mi šetří hodiny každý měsíc. Teď se můžu soustředit na práci místo ručního zadávání dat."
+            },
+            {
+                "name": "Emily Rodriguez",
+                "role": "Finanční poradkyně",
+                "quote": "Doporučuji Trakeo všem svým klientům. Podpora více měn a detailní analytika jsou perfektní pro mezinárodní investory."
+            }
+        ],
+        "copyright": "© 2025 Trakeo. Všechna práva vyhrazena."
+    },
+    "Common": {
+        "income": "Příjem",
+        "expense": "Výdaj",
+        "dashboard": "Přehled",
+        "cancel": "Zrušit",
+        "save": "Uložit",
+        "edit": "Upravit",
+        "delete": "Smazat",
+        "search": "Hledat",
+        "accountType": {
+            "CURRENT": "Běžný účet",
+            "SAVINGS": "Spořicí účet"
+        }
+    },
+    "Dashboard": {
+        "title": "Přehled",
+        "createAccount": "Vytvořit účet",
+        "monthlyBudget": "Měsíční rozpočet",
+        "noBudgetSet": "Rozpočet není nastaven",
+        "budgetSpent": "{spent} € utraceno z {budget} €",
+        "budgetUsed": "{percent}% vyčerpáno",
+        "enterAmount": "Zadejte částku",
+        "updateBudgetSuccess": "Rozpočet úspěšně aktualizován",
+        "updateBudgetError": "Nepodařilo se aktualizovat rozpočet",
+        "invalidAmount": "Zadejte prosím platnou částku",
+        "defaultAccountUpdated": "Výchozí účet aktualizován",
+        "defaultAccountUpdateError": "Nepodařilo se aktualizovat výchozí účet",
+        "oneDefaultRequired": "Potřebujete alespoň jeden výchozí účet",
+        "recentTransactions": "Nedávné transakce",
+        "selectAccount": "Účet",
+        "noRecentTransactions": "Žádné nedávné transakce",
+        "untitledTransaction": "Transakce bez názvu",
+        "expensesBreakdown": "Rozpis výdajů",
+        "noExpenses": "Žádné výdaje tento měsíc",
+        "noIncome": "Žádný příjem tento měsíc",
+        "uncategorized": "Nezařazeno",
+        "other": "Ostatní"
+    },
+    "CreateAccount": {
+        "title": "Vytvořit nový účet",
+        "accountName": "Název účtu",
+        "accountNamePlaceholder": "např. Běžný účet",
+        "accountType": "Typ účtu",
+        "initialBalance": "Počáteční zůstatek",
+        "setAsDefault": "Nastavit jako výchozí účet",
+        "defaultDescription": "Tento účet bude vybrán jako výchozí pro transakce",
+        "success": "Účet úspěšně vytvořen",
+        "error": "Nepodařilo se vytvořit účet",
+        "creating": "Vytváření...",
+        "submit": "Vytvořit účet"
+    },
+    "Footer": {
+        "copyright": "© 2025 Trakeo. Všechna práva vyhrazena."
+    },
+    "NotFound": {
+        "title": "Stránka nenalezena",
+        "description": "Jejda! Zdá se, že stránka, kterou hledáte, neexistuje",
+        "homeButton": "Zpět domů"
+    },
+    "Account": {
+        "transactionsCount": "{count} Transakcí",
+        "transactionsOverview": "Přehled transakcí",
+        "totalIncome": "Celkový příjem",
+        "totalExpense": "Celkové výdaje",
+        "totalNet": "Celkový zůstatek",
+        "dateRange": "Časové období",
+        "year": "Rok",
+        "last7Days": "Posledních 7 dní",
+        "lastMonth": "Minulý měsíc",
+        "last3Months": "Poslední 3 měsíce",
+        "last6Months": "Posledních 6 měsíců",
+        "allTime": "Celou dobu",
+        "table": {
+            "searchPlaceholder": "Hledat transakce...",
+            "allTypes": "Všechny typy",
+            "allAccounts": "Všechny účty",
+            "allCategories": "Všechny kategorie",
+            "allSubcategories": "Všechny podkategorie",
+            "allRegimes": "Všechny režimy transakcí",
+            "recurring": "Opakující se",
+            "nonRecurring": "Jednorázové",
+            "deleteSelected": "Smazat vybrané ({count})",
+            "date": "Datum",
+            "description": "Popis",
+            "category": "Kategorie",
+            "amount": "Částka",
+            "recurringHeader": "Opakování",
+            "noTransactions": "Nebyly nalezeny žádné transakce",
+            "oneTime": "Jednorázově",
+            "nextDate": "Další datum:",
+            "showing": "Zobrazeno {start} až {end} z {total} transakcí",
+            "perPage": "{count} na stránku",
+            "deleteConfirm": "Opravdu chcete smazat tyto transakce?",
+            "deleteSuccess": "Transakce úspěšně smazány",
+            "deleteError": "Chyba při mazání transakcí: "
+        },
+        "recurring": {
+            "daily": "Denně",
+            "weekly": "Týdně",
+            "monthly": "Měsíčně",
+            "yearly": "Ročně",
+            "custom": "Vlastní"
+        }
+    },
+    "Analytics": {
+        "title": "Přehled návyků",
+        "incomeBreakdown": "Rozpis příjmů",
+        "expenseBreakdown": "Rozpis výdajů",
+        "year": "Rok",
+        "month": "Měsíc",
+        "fullYear": "Celý rok",
+        "currentMonth": "Aktuální měsíc",
+        "allAccounts": "Všechny účty"
+    },
+    "CreateCategory": {
+        "title": "Vytvořit novou kategorii",
+        "editTitle": "Upravit kategorii",
+        "name": "Název kategorie",
+        "namePlaceholder": "např. Elektronika",
+        "type": "Typ",
+        "color": "Barva",
+        "selectType": "Vybrat typ",
+        "success": "Kategorie úspěšně vytvořena",
+        "updateSuccess": "Kategorie úspěšně aktualizována",
+        "error": "Nepodařilo se vytvořit kategorii",
+        "creating": "Vytváření...",
+        "isUpdating": "Aktualizace...",
+        "submit": "Vytvořit kategorii"
+    },
+    "CreateSubcategory": {
+        "title": "Vytvořit novou podkategorii",
+        "editTitle": "Upravit podkategorii",
+        "name": "Název podkategorie",
+        "namePlaceholder": "např. Notebook",
+        "category": "Kategorie",
+        "selectCategory": "Vybrat kategorii",
+        "selectCategoryError": "Prosím vyberte kategorii",
+        "success": "Podkategorie úspěšně vytvořena",
+        "updateSuccess": "Podkategorie úspěšně aktualizována",
+        "error": "Nepodařilo se vytvořit podkategorii",
+        "creating": "Vytváření...",
+        "isUpdating": "Aktualizace...",
+        "submit": "Vytvořit podkategorii"
+    },
+    "CategoriesCard": {
+        "title": "Přizpůsobit kategorie",
+        "newCategory": "Vytvořit novou kategorii",
+        "newSubcategory": "Vytvořit novou podkategorii",
+        "deleteCategoryConfirm": "Opravdu chcete smazat tuto kategorii? Všechny transakce v této kategorii budou smazány",
+        "categoryDeleted": "Kategorie úspěšně smazána",
+        "deleteSubcategoryConfirm": "Opravdu chcete smazat tuto podkategorii?",
+        "subcategoryDeleted": "Podkategorie úspěšně smazána"
+    }
+}

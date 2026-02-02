@@ -37,6 +37,10 @@ export default function LanguageSwitcher() {
                     <span className="md:hidden">DE</span>
                     <span className="hidden md:inline">Deutsch</span>
                 </SelectItem>
+                <SelectItem value="cs">
+                    <span className="md:hidden">CS</span>
+                    <span className="hidden md:inline">Čeština</span>
+                </SelectItem>
             </SelectContent>
         </Select>
     );
