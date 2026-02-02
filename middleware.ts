@@ -21,12 +21,9 @@ const isProtectedRoute = createRouteMatcher([
 ])
 
 export default clerkMiddleware(async (auth, req) => {
-    const { userId } = await auth();
-
     // Protect routes
-    if (!userId && isProtectedRoute(req)) {
-        const { redirectToSignIn } = await auth();
-        return redirectToSignIn();
+    if (isProtectedRoute(req)) {
+        await auth.protect();
     }
 
     // Exclude API and TRPC routes from intlMiddleware
@@ -34,11 +31,8 @@ export default clerkMiddleware(async (auth, req) => {
         return NextResponse.next();
     }
 
-    const response = intlMiddleware(req);
-    console.error("INTL Response Status:", response.status);
-    response.headers.forEach((value, key) => console.error(`Header ${key}: ${value}`));
-    return response;
-}, { debug: true });
+    return intlMiddleware(req);
+});
 
 export const config = {
     matcher: [
