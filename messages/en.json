@@ -13,7 +13,7 @@
     "recurring": "Set recurring transaction",
     "recurringDescription": "Set up a recurring schedule for this transaction",
     "recurringInterval": "Recurring Interval",
-    "save": "Save transaction",
+    "save": "Save",
     "cancel": "Cancel",
     "selectType": "Select type",
     "selectAccount": "Select account",
