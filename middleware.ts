@@ -1,7 +1,6 @@
 import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server';
 import { NextResponse } from 'next/server';
 import createIntlMiddleware from "next-intl/middleware";
-
 import { routing } from './i18n/routing';
 import arcjet, { createMiddleware, detectBot, shield } from '@arcjet/next';
 
@@ -19,12 +18,10 @@ const aj = arcjet({
         })
     ],
 })
-
 const intlMiddleware = createIntlMiddleware({
     locales: routing.locales,
     defaultLocale: routing.defaultLocale,
 });
-
 const isProtectedRoute = createRouteMatcher([
     '/dashboard(.*)',
     '/account(.*)',
@@ -35,28 +32,19 @@ const isProtectedRoute = createRouteMatcher([
     '/:locale/transaction(.*)',
     '/:locale/analytics(.*)'
 ])
-
 const clerk = clerkMiddleware(async (auth, req) => {
-    // Protect routes
     if (isProtectedRoute(req)) {
         await auth.protect();
     }
-
-    // Exclude API and TRPC routes from intlMiddleware
     if (req.nextUrl.pathname.startsWith('/api') || req.nextUrl.pathname.startsWith('/trpc')) {
         return NextResponse.next();
     }
-
     return intlMiddleware(req);
 });
-
 export default createMiddleware(aj, clerk);
-
 export const config = {
     matcher: [
-        // Skip Next.js internals and all static files, unless found in search params
         '/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)',
-        // Always run for API routes
         '/(api|trpc)(.*)',
     ],
 };
