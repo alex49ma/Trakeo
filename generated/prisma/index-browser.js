@@ -188,6 +188,14 @@ exports.Prisma.SubcategoryScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.FeedbacksScalarFieldEnum = {
+  id: 'id',
+  message: 'message',
+  userId: 'userId',
+  created_at: 'created_at',
+  updated_at: 'updated_at'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -232,7 +240,8 @@ exports.Prisma.ModelName = {
   Transaction: 'Transaction',
   Budget: 'Budget',
   Category: 'Category',
-  Subcategory: 'Subcategory'
+  Subcategory: 'Subcategory',
+  feedbacks: 'feedbacks'
 };
 
 /**
