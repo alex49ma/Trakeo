@@ -1,7 +1,6 @@
 import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server';
 import { NextResponse } from 'next/server';
 import createIntlMiddleware from "next-intl/middleware";
-import { routing } from './i18n/routing';
 import arcjet, { createMiddleware, detectBot, shield } from '@arcjet/next';
 
 const aj = arcjet({
@@ -19,8 +18,8 @@ const aj = arcjet({
     ],
 })
 const intlMiddleware = createIntlMiddleware({
-    locales: routing.locales,
-    defaultLocale: routing.defaultLocale,
+    locales: ['en', 'es', 'de', 'cs'],
+    defaultLocale: 'en',
 });
 const isProtectedRoute = createRouteMatcher([
     '/dashboard(.*)',
