@@ -24,12 +24,19 @@ export default function FinisherBackground({
         // Double check if script is already present/loaded from previous navigations
         if (typeof window !== 'undefined' && window.FinisherHeader) {
             const container = containerRef.current;
-            // Only init if we haven't already created a canvas in this container
-            if (container && !container.querySelector('canvas')) {
+            // Remove existing canvas(es) if present to force re-init with new config
+            const existingCanvases = container?.querySelectorAll('canvas');
+            if (existingCanvases) {
+                existingCanvases.forEach(canvas => canvas.remove());
+            }
+
+            if (container) {
+                // Reset initialized flag to allow re-initialization
+                initialized.current = false;
                 initHeader();
             }
         }
-    }, [config]); // Re-init if config changes (though FinisherHeader might not support dynamic updates deeply without destroy)
+    }, [config]); // Re-init if config changes
 
     return (
         <div
