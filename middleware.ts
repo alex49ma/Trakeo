@@ -1,10 +1,26 @@
 import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server';
 import { NextResponse } from 'next/server';
-import createMiddleware from "next-intl/middleware";
+import createIntlMiddleware from "next-intl/middleware";
 
 import { routing } from './i18n/routing';
+import arcjet, { createMiddleware, detectBot, shield } from '@arcjet/next';
 
-const intlMiddleware = createMiddleware({
+const aj = arcjet({
+    key: process.env.ARCJET_KEY,
+    rules: [
+        shield({
+            mode: 'LIVE'
+        }),
+        detectBot({
+            mode: "LIVE",
+            allow: [
+                "CATEGORY:SEARCH_ENGINE", "GO_HTTP"
+            ]
+        })
+    ],
+})
+
+const intlMiddleware = createIntlMiddleware({
     locales: routing.locales,
     defaultLocale: routing.defaultLocale,
 });
@@ -20,7 +36,7 @@ const isProtectedRoute = createRouteMatcher([
     '/:locale/analytics(.*)'
 ])
 
-export default clerkMiddleware(async (auth, req) => {
+const clerk = clerkMiddleware(async (auth, req) => {
     // Protect routes
     if (isProtectedRoute(req)) {
         await auth.protect();
@@ -33,6 +49,8 @@ export default clerkMiddleware(async (auth, req) => {
 
     return intlMiddleware(req);
 });
+
+export default createMiddleware(aj, clerk);
 
 export const config = {
     matcher: [
