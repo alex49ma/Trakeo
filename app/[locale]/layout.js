@@ -5,6 +5,7 @@ import { getMessages, getTranslations } from 'next-intl/server';
 import Header from "@/components/header";
 import { ClerkProvider } from "@clerk/nextjs";
 import { Toaster } from "@/components/ui/sonner";
+import { FeedbackButton } from "@/components/feedback-button";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -29,6 +30,7 @@ export default async function RootLayout({ children, params }) {
               {children}
             </main>
             <Toaster richColors />
+            <FeedbackButton />
           </NextIntlClientProvider>
         </body>
       </html>

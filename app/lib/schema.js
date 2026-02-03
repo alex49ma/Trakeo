@@ -39,3 +39,7 @@ export const subcategorySchema = z.object({
     name: z.string().min(1, "Name is required"),
     // categoryId will be passed programmatically, usually
 })
+
+export const feedbackSchema = z.object({
+    message: z.string().min(5, "Message must be at least 5 characters"),
+})
