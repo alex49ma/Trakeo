@@ -9,7 +9,7 @@ import { Badge } from '@/components/ui/badge';
 import { ChevronUp, ChevronDown, Clock, MoreHorizontal, RefreshCw, Search, Trash, ChevronLeft, ChevronRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
-import { useRouter } from '@/i18n/navigation';
+import { useRouter } from '@/i18n/routing';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectSeparator, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { X } from 'lucide-react';

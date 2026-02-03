@@ -17,7 +17,7 @@ import { Calendar } from '@/components/ui/calendar';
 import { format, parse, isValid } from 'date-fns';
 import { CalendarIcon, Plus, Upload, Loader2 } from 'lucide-react';
 import { Switch } from '@/components/ui/switch';
-import { useRouter } from '@/i18n/navigation';
+import { useRouter } from '@/i18n/routing';
 import { toast } from 'sonner';
 import { useTranslations, useLocale } from 'next-intl';
 import { es, enUS } from 'date-fns/locale';

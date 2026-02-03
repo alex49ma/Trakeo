@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link } from '@/i18n/navigation';
+import { Link } from '@/i18n/routing';
 import { Button } from './ui/button'
 import Image from 'next/image'
 

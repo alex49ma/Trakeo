@@ -1,4 +1,4 @@
-import { Link } from "@/i18n/navigation";
+import { Link } from "@/i18n/routing";
 import { Button } from "@/components/ui/button";
 import { useTranslations } from "next-intl";
 

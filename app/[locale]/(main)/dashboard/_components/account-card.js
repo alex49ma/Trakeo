@@ -4,7 +4,7 @@ import React from 'react'
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
 import { Switch } from '@/components/ui/switch'
 import { ArrowUpRight, ArrowDownRight } from 'lucide-react';
-import { Link } from '@/i18n/navigation';
+import { Link } from '@/i18n/routing';
 import useFetch from '@/hooks/use-fetch';
 import { toast } from 'sonner';
 import { useEffect } from 'react';
