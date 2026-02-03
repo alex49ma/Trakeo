@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import HeroSection from "@/components/hero";
 import { featuresData, statsData, howItWorksData, testimonialsData } from "@/data/landing";
 import { Card, CardContent } from "@/components/ui/card";
-import { Link } from "@/i18n/routing";
+import { Link } from "@/i18n/navigation";
 import FinisherHeader from "@/components/FinisherHeader";
 
 import { getTranslations } from "next-intl/server";
