@@ -188,7 +188,7 @@ exports.Prisma.SubcategoryScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
-exports.Prisma.FeedbacksScalarFieldEnum = {
+exports.Prisma.FeedbackScalarFieldEnum = {
   id: 'id',
   message: 'message',
   userId: 'userId',
@@ -241,7 +241,7 @@ exports.Prisma.ModelName = {
   Budget: 'Budget',
   Category: 'Category',
   Subcategory: 'Subcategory',
-  feedbacks: 'feedbacks'
+  Feedback: 'Feedback'
 };
 
 /**
