@@ -54,52 +54,52 @@
     "Landing": {
         "featuresTitle": "Alles was Sie für Ihre Finanzen brauchen",
         "howItWorksTitle": "Wie es funktioniert",
-        "testimonialsTitle": "Was unsere Nutzer sagen",
+        "testimonialsTitle": "Für wen ist Trakeo?",
         "readyToStart": "Bereit loszulegen?",
         "signupDescription": "Melden Sie sich für ein kostenloses Konto an und beginnen Sie heute noch mit der Verfolgung Ihrer Ausgaben.",
         "getStarted": "Loslegen",
         "stats": [
             {
-                "value": "50K+",
-                "label": "Aktive Nutzer"
+                "value": "Datenschutz",
+                "label": "Fokus"
             },
             {
-                "value": "$2B+",
-                "label": "Verfolgte Transaktionen"
+                "value": "0",
+                "label": "Anzeigen"
             },
             {
-                "value": "99.9%",
-                "label": "Betriebszeit"
+                "value": "Sicher",
+                "label": "Deine Daten"
             },
             {
-                "value": "4.9/5",
-                "label": "Bewertung"
+                "value": "Kostenlos",
+                "label": "10 Transaktionen pro Tag"
             }
         ],
         "features": [
             {
                 "title": "Fortschrittliche Analysen",
-                "description": "Erhalten Sie detaillierte Einblicke in Ihre Ausgabegewohnheiten mit KI-gestützten Analysen"
+                "description": "Erhalten Sie detaillierte Einblicke in Ihre Ausgabegewohnheiten"
             },
             {
-                "title": "Intelligenter Belegscanner",
-                "description": "Extrahieren Sie Daten automatisch aus Belegen mit fortschrittlicher KI-Technologie"
+                "title": "Massenimport (Beta)",
+                "description": "Importieren Sie Transaktionen aus CSV-Dateien"
             },
             {
                 "title": "Budgetplanung",
-                "description": "Erstellen und verwalten Sie Budgets mit intelligenten Empfehlungen"
+                "description": "Erstellen und verwalten Sie Budgets"
             },
             {
                 "title": "Unterstützung mehrerer Konten",
                 "description": "Verwalten Sie mehrere Konten und Kreditkarten an einem Ort"
             },
             {
-                "title": "Mehrere Währungen",
-                "description": "Unterstützung für verschiedene Währungen mit Echtzeit-Umrechnung"
+                "title": "Mehrere Währungen (Demnächst!)",
+                "description": "Unterstützung für verschiedene Währungen"
             },
             {
-                "title": "Automatisierte Einblicke",
-                "description": "Erhalten Sie automatisierte Finanztipps und Empfehlungen"
+                "title": "Anpassbare Kategorien",
+                "description": "Erstellen und verwalten Sie Ihre eigenen Kategorien"
             }
         ],
         "howItWorks": [
@@ -113,24 +113,24 @@
             },
             {
                 "title": "3. Erhalten Sie Einblicke",
-                "description": "Erhalten Sie KI-gestützte Einblicke und Empfehlungen zur Optimierung Ihrer Finanzen"
+                "description": "Erkennen Sie Muster und verbessern Sie Ihre finanzielle Gesundheit"
             }
         ],
         "testimonials": [
             {
-                "name": "Sarah Johnson",
-                "role": "Kleinunternehmerin",
-                "quote": "Trakeo hat die Verwaltung meiner Geschäftsfinanzen verändert. Die KI-Einblicke haben mir geholfen, Kosteneinsparungen zu identifizieren, von denen ich nichts wusste."
+                "name": "Persönliche Finanzen",
+                "role": "Für Jeden",
+                "quote": "Behalte deine täglichen Ausgaben und monatlichen Abonnements im Blick."
             },
             {
-                "name": "Michael Chen",
-                "role": "Freiberufler",
-                "quote": "Die Belegscanner-Funktion spart mir jeden Monat Stunden. Jetzt kann ich mich auf meine Arbeit konzentrieren statt auf manuelle Dateneingabe."
+                "name": "Freiberufler",
+                "role": "Für Unternehmen",
+                "quote": "Verwalte Geschäftsausgaben und trenne sie von privaten Ausgaben."
             },
             {
-                "name": "Emily Rodriguez",
-                "role": "Finanzberaterin",
-                "quote": "Ich empfehle Trakeo allen meinen Kunden. Die Unterstützung mehrerer Währungen und detaillierte Analysen sind perfekt für internationale Investoren."
+                "name": "Reisende",
+                "role": "Multi-Währung",
+                "quote": "Verfolge Ausgaben in mehreren Währungen unterwegs."
             }
         ],
         "copyright": "© 2025 Trakeo. Alle Rechte vorbehalten."

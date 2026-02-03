@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import Image from "next/image";
+
 import HeroSection from "@/components/hero";
 import { featuresData, statsData, howItWorksData, testimonialsData } from "@/data/landing";
 import { Card, CardContent } from "@/components/ui/card";
@@ -67,14 +67,11 @@ export default async function Home() {
                 <Card key={index} className="p-6">
                   <CardContent className="pt-4">
                     <div className="flex items-center mb-4">
-                      <Image
-                        src={testimonial.image}
-                        alt={testimonial.name}
-                        width={50}
-                        height={50}
-                        className="rounded-full" />
+                      <div className="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center mr-4">
+                        {testimonial.icon}
+                      </div>
                       <div className="ml-4">
-                        <div className="font-semibold">{testimonial.name}</div>
+                        <div className="font-semibold">{t(`testimonials.${index}.name`)}</div>
                         <div className="text-sm text-gray-600">{t(`testimonials.${index}.role`)}</div>
                       </div>
                     </div>

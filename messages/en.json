@@ -54,52 +54,52 @@
   "Landing": {
     "featuresTitle": "Everything you need to manage your finances",
     "howItWorksTitle": "How it works",
-    "testimonialsTitle": "What our users say",
+    "testimonialsTitle": "Who is Trakeo for?",
     "readyToStart": "Ready to get started?",
     "signupDescription": "Sign up for a free account and start tracking your expenses today.",
     "getStarted": "Get Started",
     "stats": [
       {
-        "value": "50K+",
-        "label": "Active Users"
+        "value": "Privacy",
+        "label": "Focused"
       },
       {
-        "value": "$2B+",
-        "label": "Transactions Tracked"
+        "value": "0",
+        "label": "Ads"
       },
       {
-        "value": "99.9%",
-        "label": "Uptime"
+        "value": "Secure",
+        "label": "Data"
       },
       {
-        "value": "4.9/5",
-        "label": "User Rating"
+        "value": "Free",
+        "label": "10 Transactions a day"
       }
     ],
     "features": [
       {
         "title": "Advanced Analytics",
-        "description": "Get detailed insights into your spending patterns with AI-powered analytics"
+        "description": "Get detailed insights into your spending patterns"
       },
       {
-        "title": "Smart Receipt Scanner",
-        "description": "Extract data automatically from receipts using advanced AI technology"
+        "title": "Bulk Transaction Import (Beta)",
+        "description": "Import transactions from CSV files"
       },
       {
         "title": "Budget Planning",
-        "description": "Create and manage budgets with intelligent recommendations"
+        "description": "Create and manage budgets"
       },
       {
         "title": "Multi-Account Support",
         "description": "Manage multiple accounts and credit cards in one place"
       },
       {
-        "title": "Multi-Currency",
-        "description": "Support for multiple currencies with real-time conversion"
+        "title": "Multi-Currency (Coming Soon!)",
+        "description": "Support for multiple currencies"
       },
       {
-        "title": "Automated Insights",
-        "description": "Get automated financial insights and recommendations"
+        "title": "Customizable Categories",
+        "description": "Create and manage your own categories"
       }
     ],
     "howItWorks": [
@@ -113,24 +113,24 @@
       },
       {
         "title": "3. Get Insights",
-        "description": "Receive AI-powered insights and recommendations to optimize your finances"
+        "description": "Start noticing patterns and improve your financial health"
       }
     ],
     "testimonials": [
       {
-        "name": "Sarah Johnson",
-        "role": "Small Business Owner",
-        "quote": "Trakeo has transformed how I manage my business finances. The AI insights have helped me identify cost-saving opportunities I never knew existed."
+        "name": "Personal Finance",
+        "role": "For Everyone",
+        "quote": "Keep track of your daily expenses and monthly subscriptions."
       },
       {
-        "name": "Michael Chen",
-        "role": "Freelancer",
-        "quote": "The receipt scanning feature saves me hours each month. Now I can focus on my work instead of manual data entry and expense tracking."
+        "name": "Freelancers",
+        "role": "For Business",
+        "quote": "Manage business expenses and separate them from personal spending."
       },
       {
-        "name": "Emily Rodriguez",
-        "role": "Financial Advisor",
-        "quote": "I recommend Trakeo to all my clients. The multi-currency support and detailed analytics make it perfect for international investors."
+        "name": "Travelers",
+        "role": "Multi-currency",
+        "quote": "Track spending in multiple currencies while on the go."
       }
     ],
     "copyright": "© 2025 Trakeo. All rights reserved."

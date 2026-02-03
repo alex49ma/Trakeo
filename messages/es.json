@@ -54,52 +54,52 @@
     "Landing": {
         "featuresTitle": "Todo lo que necesitas para gestionar tus finanzas",
         "howItWorksTitle": "Cómo funciona",
-        "testimonialsTitle": "Lo que dicen nuestros usuarios",
+        "testimonialsTitle": "¿Para quién es Trakeo?",
         "readyToStart": "¿Listo para empezar?",
         "signupDescription": "Regístrate para obtener una cuenta gratuita y comienza a rastrear tus gastos hoy.",
         "getStarted": "Empezar",
         "stats": [
             {
-                "value": "50K+",
-                "label": "Usuarios Activos"
+                "value": "Privacidad",
+                "label": "Total"
             },
             {
-                "value": "$2B+",
-                "label": "Transacciones Rastreadas"
+                "value": "0",
+                "label": "Anuncios"
             },
             {
-                "value": "99.9%",
-                "label": "Tiempo de Actividad"
+                "value": "Seguro",
+                "label": "Con Tus Datos"
             },
             {
-                "value": "4.9/5",
-                "label": "Calificación de Usuarios"
+                "value": "Gratis",
+                "label": "10 Transacciones al día"
             }
         ],
         "features": [
             {
                 "title": "Analíticas Avanzadas",
-                "description": "Obtén información detallada sobre tus patrones de gasto con analíticas impulsadas por IA"
+                "description": "Obtén información detallada sobre tus patrones de gasto"
             },
             {
-                "title": "Escáner de Recibos Inteligente",
-                "description": "Extrae datos automáticamente de los recibos utilizando tecnología avanzada de IA"
+                "title": "Importación Masiva (Beta)",
+                "description": "Importa transacciones desde archivos CSV"
             },
             {
                 "title": "Planificación Presupuestaria",
-                "description": "Crea y gestiona presupuestos con recomendaciones inteligentes"
+                "description": "Crea y gestiona presupuestos"
             },
             {
                 "title": "Soporte Multi-Cuenta",
                 "description": "Gestiona múltiples cuentas y tarjetas de crédito en un solo lugar"
             },
             {
-                "title": "Multi-Divisa",
-                "description": "Soporte para múltiples monedas con conversión en tiempo real"
+                "title": "Multi-Divisa (¡Próximamente!)",
+                "description": "Soporte para múltiples monedas"
             },
             {
-                "title": "Insights Automatizados",
-                "description": "Obtén información financiera automatizada y recomendaciones"
+                "title": "Categorías Personalizables",
+                "description": "Crea y gestiona tus propias categorías"
             }
         ],
         "howItWorks": [
@@ -113,24 +113,24 @@
             },
             {
                 "title": "3. Obtén Insights",
-                "description": "Recibe información impulsada por IA y recomendaciones para optimizar tus finanzas"
+                "description": "Empieza a notar patrones y mejora tu salud financiera"
             }
         ],
         "testimonials": [
             {
-                "name": "Sarah Johnson",
-                "role": "Dueña de Pequeña Empresa",
-                "quote": "Trakeo ha transformado cómo gestiono las finanzas de mi negocio. Los insights de IA me han ayudado a identificar oportunidades de ahorro de costos que no sabía que existían."
+                "name": "Uso Personal",
+                "role": "Para Todos",
+                "quote": "Lleva el control de tus gastos diarios y suscripciones mensuales."
             },
             {
-                "name": "Michael Chen",
-                "role": "Freelancer",
-                "quote": "La función de escaneo de recibos me ahorra horas cada mes. Ahora puedo concentrarme en mi trabajo en lugar de la entrada manual de datos y el seguimiento de gastos."
+                "name": "Freelancers",
+                "role": "Para Negocios",
+                "quote": "Gestiona gastos de negocio y sepáralos de los personales."
             },
             {
-                "name": "Emily Rodriguez",
-                "role": "Asesora Financiera",
-                "quote": "Recomiendo Trakeo a todos mis clientes. El soporte multi-divisa y las analíticas detalladas lo hacen perfecto para inversores internacionales."
+                "name": "Viajeros",
+                "role": "Multi-divisa",
+                "quote": "Controla gastos en múltiples monedas mientras viajas."
             }
         ],
         "copyright": "© 2025 Trakeo. Todos los derechos reservados."

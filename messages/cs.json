@@ -54,52 +54,52 @@
     "Landing": {
         "featuresTitle": "Vše co potřebujete pro správu financí",
         "howItWorksTitle": "Jak to funguje",
-        "testimonialsTitle": "Co říkají naši uživatelé",
+        "testimonialsTitle": "Pro koho je Trakeo?",
         "readyToStart": "Jste připraveni začít?",
         "signupDescription": "Zaregistrujte se zdarma a začněte sledovat své výdaje ještě dnes.",
         "getStarted": "Začít",
         "stats": [
             {
-                "value": "50K+",
-                "label": "Aktivních uživatelů"
+                "value": "Soukromí",
+                "label": "Priorita"
             },
             {
-                "value": "$2B+",
-                "label": "Sledovaných transakcí"
+                "value": "0",
+                "label": "Reklam"
             },
             {
-                "value": "99.9%",
-                "label": "Dostupnost"
+                "value": "Bezpečné",
+                "label": "Vaše data"
             },
             {
-                "value": "4.9/5",
-                "label": "Hodnocení uživatelů"
+                "value": "Zdarma",
+                "label": "10 transakcí denně"
             }
         ],
         "features": [
             {
                 "title": "Pokročilá analytika",
-                "description": "Získejte podrobné přehledy o svých výdajích pomocí analytiky řízené AI"
+                "description": "Získejte podrobné přehledy o svých výdajích"
             },
             {
-                "title": "Chytrý skener účtenek",
-                "description": "Automaticky extrahujte data z účtenek pomocí pokročilé AI technologie"
+                "title": "Hromadný import (Beta)",
+                "description": "Importujte transakce z CSV souborů"
             },
             {
                 "title": "Plánování rozpočtu",
-                "description": "Vytvářejte a spravujte rozpočty s inteligentními doporučeními"
+                "description": "Vytvářejte a spravujte rozpočty"
             },
             {
                 "title": "Podpora více účtů",
                 "description": "Spravujte více účtů a kreditních karet na jednom místě"
             },
             {
-                "title": "Více měn",
-                "description": "Podpora pro více měn s konverzí v reálném čase"
+                "title": "Více měn (Brzy!)",
+                "description": "Podpora pro více měn"
             },
             {
-                "title": "Automatické přehledy",
-                "description": "Získejte automatizované finanční přehledy a doporučení"
+                "title": "Přizpůsobitelné kategorie",
+                "description": "Vytvářejte a spravujte své vlastní kategorie"
             }
         ],
         "howItWorks": [
@@ -113,24 +113,24 @@
             },
             {
                 "title": "3. Získejte přehledy",
-                "description": "Získejte přehledy a doporučení řízené AI pro optimalizaci vašich financí"
+                "description": "Začněte si všímat vzorců a zlepšete své finanční zdraví"
             }
         ],
         "testimonials": [
             {
-                "name": "Sarah Johnson",
-                "role": "Majitelka malé firmy",
-                "quote": "Trakeo změnilo způsob, jakým spravuji firemní finance. Poznatky z AI mi pomohly najít úspory, o kterých jsem neměla tušení."
+                "name": "Osobní finance",
+                "role": "Pro každého",
+                "quote": "Sledujte své každodenní výdaje a měsíční předplatná."
             },
             {
-                "name": "Michael Chen",
-                "role": "Na volné noze",
-                "quote": "Funkce skenování účtenek mi šetří hodiny každý měsíc. Teď se můžu soustředit na práci místo ručního zadávání dat."
+                "name": "Na volné noze",
+                "role": "Pro podnikání",
+                "quote": "Spravujte firemní výdaje a oddělte je od osobních."
             },
             {
-                "name": "Emily Rodriguez",
-                "role": "Finanční poradkyně",
-                "quote": "Doporučuji Trakeo všem svým klientům. Podpora více měn a detailní analytika jsou perfektní pro mezinárodní investory."
+                "name": "Cestovatelé",
+                "role": "Více měn",
+                "quote": "Sledujte výdaje ve více měnách na cestách."
             }
         ],
         "copyright": "© 2025 Trakeo. Všechna práva vyhrazena."
