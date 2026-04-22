@@ -4,7 +4,7 @@ import { auth } from "@clerk/nextjs/server";
 import { db } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 import { request } from "@arcjet/next";
-import aj from "@/lib/arcjet";
+import { aj } from "@/lib/arcjet";
 
 const serializeAmount = (obj) => ({
     ...obj,

@@ -47,6 +47,7 @@
     "zod": "^4.3.4"
   },
   "devDependencies": {
+    "@next/bundle-analyzer": "^16.2.4",
     "@tailwindcss/postcss": "^4.1.18",
     "@types/pg": "^8.16.0",
     "autoprefixer": "^10.4.23",
