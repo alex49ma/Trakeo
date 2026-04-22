@@ -1,6 +1,6 @@
 import { SignedIn, SignedOut } from "@clerk/nextjs";
 import { SignInButton, SignUpButton, UserButton } from "@clerk/nextjs";
-import { Link } from '@/i18n/routing';
+import { Link } from '@/i18n/navigation';
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { LayoutDashboard, SquarePlus, BarChart } from "lucide-react";
