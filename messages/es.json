@@ -183,7 +183,7 @@
         "accountName": "Nombre de la Cuenta",
         "accountNamePlaceholder": "ej., Cuenta Corriente",
         "accountType": "Tipo de Cuenta",
-        "initialBalance": "Balance Inicial",
+        "initialBalance": "Balance Inicial (opcional)",
         "setAsDefault": "Marcar como Cuenta Predeterminada",
         "defaultDescription": "Esta cuenta será seleccionada por defecto para las transacciones",
         "success": "Cuenta creada exitosamente",

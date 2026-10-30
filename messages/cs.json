@@ -183,7 +183,7 @@
         "accountName": "Název účtu",
         "accountNamePlaceholder": "např. Běžný účet",
         "accountType": "Typ účtu",
-        "initialBalance": "Počáteční zůstatek",
+        "initialBalance": "Počáteční zůstatek (nepovinné)",
         "setAsDefault": "Nastavit jako výchozí účet",
         "defaultDescription": "Tento účet bude vybrán jako výchozí pro transakce",
         "success": "Účet úspěšně vytvořen",

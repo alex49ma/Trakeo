@@ -31,7 +31,9 @@ export async function createAccount(data) {
             }
         });
 
-        const balanceFloat = parseFloat(data.balance);
+        // The initial balance is optional: an empty field means 0
+        const balanceInput = String(data.balance ?? "").trim();
+        const balanceFloat = balanceInput === "" ? 0 : parseFloat(balanceInput);
 
         if (isNaN(balanceFloat)) throw new Error("Invalid balance");
         if (!isSupportedCurrency(data.currency)) throw new Error("Unsupported currency");

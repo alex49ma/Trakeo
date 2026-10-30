@@ -183,7 +183,7 @@
     "accountName": "Account Name",
     "accountNamePlaceholder": "e.g., Checking Account",
     "accountType": "Account Type",
-    "initialBalance": "Initial Balance",
+    "initialBalance": "Initial Balance (optional)",
     "setAsDefault": "Set as Default Account",
     "defaultDescription": "This account will be selected by default for transactions",
     "success": "Account created successfully",
