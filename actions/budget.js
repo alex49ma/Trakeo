@@ -20,6 +20,9 @@ export async function getCurrentBudget(accountId) {
 
         if (!user) throw new Error("User not found");
 
+        const account = await db.account.findUnique({ where: { id: accountId, userId: user.id } });
+        if (!account) throw new Error("Account not found");
+
         const budget = await db.budget.findFirst({
             where: {
                 userId: user.id,
@@ -50,6 +53,7 @@ export async function getCurrentBudget(accountId) {
         return {
             budget: budget ? { ...budget, amount: budget.amount.toNumber() } : null,
             currentExpenses: expenses._sum.amount ? expenses._sum.amount.toNumber() : 0,
+            accountCurrency: account.currency,
         }
     } catch (error) {
         console.error("Error fetching current budget:", error);

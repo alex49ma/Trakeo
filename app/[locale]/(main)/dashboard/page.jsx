@@ -31,6 +31,7 @@ async function DashboardPage() {
             {defaultAccount && <BudgetProgress
                 initialBudget={budgetData?.budget}
                 currentExpenses={budgetData?.currentExpenses || 0}
+                accountCurrency={budgetData?.accountCurrency}
             />}
 
 

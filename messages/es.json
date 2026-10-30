@@ -157,7 +157,7 @@
         "createAccount": "Crear Cuenta",
         "monthlyBudget": "Presupuesto Mensual",
         "noBudgetSet": "No hay presupuesto establecido",
-        "budgetSpent": "{spent} € gastados de {budget} €",
+        "budgetSpent": "{spent} gastados de {budget}",
         "budgetUsed": "{percent}% usado",
         "enterAmount": "Introducir cantidad",
         "updateBudgetSuccess": "Presupuesto actualizado exitosamente",
@@ -175,6 +175,7 @@
         "noIncome": "No hay ingresos este mes",
         "uncategorized": "Sin Categoría",
         "other": "Otro",
+        "budgetCurrencyMismatch": "Tu presupuesto está en {budgetCurrency}, pero tu cuenta predeterminada está en {accountCurrency}. Establece un nuevo presupuesto.",
         "internalTransfer": "Transferencia Interna"
     },
     "CreateAccount": {
@@ -259,7 +260,8 @@
         "month": "Mes",
         "fullYear": "Año Completo",
         "currentMonth": "Mes Actual",
-        "allAccounts": "Todas las Cuentas"
+        "allAccounts": "Todas las Cuentas",
+        "allCurrencyAccounts": "Todas las cuentas en {currency}"
     },
     "CreateCategory": {
         "title": "Crear nueva categoría",

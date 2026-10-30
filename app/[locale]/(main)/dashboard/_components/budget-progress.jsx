@@ -11,17 +11,21 @@ import useFetch from '@/hooks/use-fetch';
 import { toast } from 'sonner';
 import { Progress } from '@/components/ui/progress';
 import { useEffect } from 'react';
+import { formatMoney } from '@/lib/currency';
 
-import { useTranslations } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
 
-const BudgetProgress = ({ initialBudget, currentExpenses }) => {
+const BudgetProgress = ({ initialBudget, currentExpenses, accountCurrency }) => {
     const t = useTranslations('Dashboard');
+    const locale = useLocale();
     const [isEditing, setIsEditing] = useState(false);
     const [newBudget, setNewBudget] = useState(
         initialBudget?.amount?.toString() || ''
     );
 
-    const percentUsed = initialBudget ? (currentExpenses / initialBudget.amount) * 100 : 0;
+    // A budget set in another currency can't be compared with this account's spending
+    const currencyMismatch = initialBudget && accountCurrency && initialBudget.currency !== accountCurrency;
+    const percentUsed = initialBudget && !currencyMismatch ? (currentExpenses / initialBudget.amount) * 100 : 0;
 
     const {
         loading: isLoading,
@@ -76,6 +80,7 @@ const BudgetProgress = ({ initialBudget, currentExpenses }) => {
                                     disabled={isLoading}
                                     autoFocus
                                 />
+                                <span className="text-sm text-muted-foreground">{accountCurrency}</span>
                                 <Button variant="ghost" size="icon" onClick={handleUpdateBudget} disabled={isLoading}>
                                     <Check className="h-4 w-4 text-green-500" />
                                 </Button>
@@ -85,7 +90,14 @@ const BudgetProgress = ({ initialBudget, currentExpenses }) => {
                             </div>
                             : <>
                                 <CardDescription>
-                                    {initialBudget ? t('budgetSpent', { spent: currentExpenses.toFixed(2), budget: initialBudget.amount.toFixed(2) }) : t('noBudgetSet')}
+                                    {!initialBudget
+                                        ? t('noBudgetSet')
+                                        : currencyMismatch
+                                            ? t('budgetCurrencyMismatch', { budgetCurrency: initialBudget.currency, accountCurrency })
+                                            : t('budgetSpent', {
+                                                spent: formatMoney(currentExpenses, accountCurrency, locale),
+                                                budget: formatMoney(initialBudget.amount, initialBudget.currency, locale),
+                                            })}
                                 </CardDescription>
                                 <Button variant="ghost" size="icon" onClick={() => setIsEditing(true)} className="h-6 w-6" disabled={isLoading}>
                                     <Pencil className="h-3 w-3" />
@@ -98,7 +110,7 @@ const BudgetProgress = ({ initialBudget, currentExpenses }) => {
 
             </CardHeader>
             <CardContent>
-                {initialBudget && <div className="space-y-2">
+                {initialBudget && !currencyMismatch && <div className="space-y-2">
                     <Progress
                         value={percentUsed}
                         extraStyles={`${percentUsed >= 90 ? 'bg-red-500'

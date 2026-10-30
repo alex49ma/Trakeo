@@ -7,15 +7,24 @@ import TransactionsPieChart from '@/app/[locale]/(main)/analytics/_components/tr
 import SimplePieChart from '@/app/[locale]/(main)/analytics/_components/simple-pie-chart';
 import CategoriesCard from './categories-card';
 import { useTranslations, useLocale } from 'next-intl';
+import { DEFAULT_CURRENCY, SUPPORTED_CURRENCIES } from '@/lib/currency';
+
+const CURRENCY_PREFIX = "currency:";
 
 const AnalyticsDashboard = ({ accounts, transactions, categories }) => {
     const t = useTranslations('Analytics');
     const tDashboard = useTranslations('Dashboard');
     const locale = useLocale();
 
-    const [selectedAccountId, setSelectedAccountId] = useState(
-        accounts?.find((a) => a.isDefault)?.id || "all"
+    // Amounts in different currencies can't be added up, so "all accounts" is offered per currency
+    const currencies = SUPPORTED_CURRENCIES.filter((currency) => accounts?.some((account) => account.currency === currency));
+    const accountCurrency = Object.fromEntries((accounts ?? []).map((account) => [account.id, account.currency]));
+
+    const [selection, setSelection] = useState(
+        CURRENCY_PREFIX + (accounts?.find((a) => a.isDefault)?.currency ?? currencies[0] ?? DEFAULT_CURRENCY)
     );
+    const isCurrencyGroup = selection.startsWith(CURRENCY_PREFIX);
+    const selectedCurrency = isCurrencyGroup ? selection.slice(CURRENCY_PREFIX.length) : accountCurrency[selection];
 
     const currentDate = new Date();
     const [selectedYear, setSelectedYear] = useState(currentDate.getFullYear().toString());
@@ -45,7 +54,9 @@ const AnalyticsDashboard = ({ accounts, transactions, categories }) => {
         const monthMatch = selectedMonth === "full_year"
             ? true
             : transactionDate.getMonth().toString() === selectedMonth;
-        const accountMatch = selectedAccountId === "all" || t.accountId === selectedAccountId;
+        const accountMatch = isCurrencyGroup
+            ? accountCurrency[t.accountId] === selectedCurrency
+            : t.accountId === selection;
 
         return yearMatch && monthMatch && accountMatch;
     });
@@ -93,14 +104,18 @@ const AnalyticsDashboard = ({ accounts, transactions, categories }) => {
 
                 {/* Account Selector */}
                 <Select
-                    value={selectedAccountId}
-                    onValueChange={setSelectedAccountId}
+                    value={selection}
+                    onValueChange={setSelection}
                 >
                     <SelectTrigger className="w-[200px] bg-white">
                         <SelectValue placeholder={tDashboard('selectAccount')} />
                     </SelectTrigger>
                     <SelectContent>
-                        <SelectItem value="all">{t('allAccounts')}</SelectItem>
+                        {currencies.map((currency) => (
+                            <SelectItem key={currency} value={CURRENCY_PREFIX + currency}>
+                                {t('allCurrencyAccounts', { currency })}
+                            </SelectItem>
+                        ))}
                         {accounts?.map((account) => (
                             <SelectItem key={account.id} value={account.id}>
                                 {account.name}
@@ -118,7 +133,7 @@ const AnalyticsDashboard = ({ accounts, transactions, categories }) => {
                         <CardTitle>{t('expenseBreakdown')}</CardTitle>
                     </CardHeader>
                     <CardContent>
-                        <TransactionsPieChart data={filteredTransactions} type="EXPENSE" />
+                        <TransactionsPieChart data={filteredTransactions} type="EXPENSE" currency={selectedCurrency} />
                     </CardContent>
                 </Card>
 
@@ -128,7 +143,7 @@ const AnalyticsDashboard = ({ accounts, transactions, categories }) => {
                         <CardTitle>{t('incomeBreakdown')}</CardTitle>
                     </CardHeader>
                     <CardContent>
-                        <SimplePieChart data={filteredTransactions} type="INCOME" />
+                        <SimplePieChart data={filteredTransactions} type="INCOME" currency={selectedCurrency} />
                     </CardContent>
                 </Card>
             </div>

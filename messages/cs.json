@@ -157,7 +157,7 @@
         "createAccount": "Vytvořit účet",
         "monthlyBudget": "Měsíční rozpočet",
         "noBudgetSet": "Rozpočet není nastaven",
-        "budgetSpent": "{spent} € utraceno z {budget} €",
+        "budgetSpent": "{spent} utraceno z {budget}",
         "budgetUsed": "{percent}% vyčerpáno",
         "enterAmount": "Zadejte částku",
         "updateBudgetSuccess": "Rozpočet úspěšně aktualizován",
@@ -175,6 +175,7 @@
         "noIncome": "Žádný příjem tento měsíc",
         "uncategorized": "Nezařazeno",
         "other": "Ostatní",
+        "budgetCurrencyMismatch": "Váš rozpočet je v měně {budgetCurrency}, ale váš výchozí účet je v měně {accountCurrency}. Nastavte nový rozpočet.",
         "internalTransfer": "Interní převod"
     },
     "CreateAccount": {
@@ -259,7 +260,8 @@
         "month": "Měsíc",
         "fullYear": "Celý rok",
         "currentMonth": "Aktuální měsíc",
-        "allAccounts": "Všechny účty"
+        "allAccounts": "Všechny účty",
+        "allCurrencyAccounts": "Všechny účty v měně {currency}"
     },
     "CreateCategory": {
         "title": "Vytvořit novou kategorii",
