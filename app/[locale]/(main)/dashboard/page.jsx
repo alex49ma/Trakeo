@@ -2,7 +2,8 @@ import React, { Suspense } from 'react'
 import { getUserAccounts } from '@/actions/dashboard'
 import CreateAccountDrawer from '@/components/create-account-drawer'
 import { Card, CardContent } from '@/components/ui/card'
-import { Plus } from 'lucide-react'
+import { ArrowLeftRight, Plus } from 'lucide-react'
+import { Link } from '@/i18n/navigation'
 import AccountCard from './_components/account-card'
 import { getCurrentBudget } from '@/actions/budget'
 import BudgetProgress from './_components/budget-progress'
@@ -52,6 +53,18 @@ async function DashboardPage() {
                         </CardContent>
                     </Card>
                 </CreateAccountDrawer>
+
+                {accounts.length > 0 && (
+                    <Link href="/transaction/transfer">
+                        <Card className="hover:shadow-md transition-shadow cursor-pointer border-dashed h-full">
+                            <CardContent className="flex flex-col items-center justify-center
+                            text-muted-foreground h-full pt-5">
+                                <ArrowLeftRight className="w-10 h-10 mb-2" />
+                                <p className="text-sm font-medium">{t('internalTransfer')}</p>
+                            </CardContent>
+                        </Card>
+                    </Link>
+                )}
 
                 {accounts.length > 0
                     && accounts?.map((account) => (

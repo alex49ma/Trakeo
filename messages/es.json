@@ -97,8 +97,8 @@
                 "description": "Gestiona múltiples cuentas y tarjetas de crédito en un solo lugar"
             },
             {
-                "title": "Multi-Divisa (¡Próximamente!)",
-                "description": "Soporte para múltiples monedas"
+                "title": "Multi-Divisa",
+                "description": "Cuentas en distintas monedas, con transferencias internas y cambio de divisa"
             },
             {
                 "title": "Categorías Personalizables",
@@ -174,7 +174,8 @@
         "noExpenses": "No hay gastos este mes",
         "noIncome": "No hay ingresos este mes",
         "uncategorized": "Sin Categoría",
-        "other": "Otro"
+        "other": "Otro",
+        "internalTransfer": "Transferencia Interna"
     },
     "CreateAccount": {
         "title": "Crear Nueva Cuenta",
@@ -234,7 +235,12 @@
             "perPage": "{count} por página",
             "deleteConfirm": "¿Estás seguro de que quieres borrar estas transacciones?",
             "deleteSuccess": "Transacciones borradas exitosamente",
-            "deleteError": "Error al borrar transacciones: "
+            "deleteError": "Error al borrar transacciones: ",
+            "transferTo": "→ {account}",
+            "transferFrom": "← {account}",
+            "transferFee": "comisión {fee}",
+            "deleteTransferConfirm": "Esto elimina la transferencia interna de ambas cuentas. ¿Continuar?",
+            "deleteConfirmWithTransfers": "¿Estás seguro de que quieres borrar estas transacciones? {count, plural, one {# transferencia interna también se eliminará} other {# transferencias internas también se eliminarán}} de la otra cuenta."
         },
         "recurring": {
             "daily": "Diario",
@@ -242,7 +248,8 @@
             "monthly": "Mensual",
             "yearly": "Anual",
             "custom": "Personalizado"
-        }
+        },
+        "internalTransfer": "Transferencia Interna"
     },
     "Analytics": {
         "title": "Tus hábitos en perspectiva",
@@ -300,5 +307,46 @@
         "TRANSFER_OUT": "Transferencias salientes",
         "TRANSFER_IN": "Transferencias entrantes",
         "TRANSFER_FEE": "Comisiones de transferencia"
+    },
+    "Transfer": {
+        "title": "Transferencia Interna",
+        "editTitle": "Editar Transferencia Interna",
+        "newTransfer": "Nueva Transferencia Interna",
+        "editTransfer": "Editar Transferencia Interna",
+        "fromAccount": "Cuenta de origen",
+        "toAccount": "Cuenta de destino",
+        "selectAccount": "Selecciona una cuenta",
+        "createAccount": "Crear Cuenta",
+        "currencyExchange": "Cambio de divisa",
+        "amount": "Importe",
+        "amountDeducted": "Importe descontado",
+        "exchangeRate": "Tipo de cambio",
+        "amountReceived": "Importe recibido",
+        "calculated": "calculado",
+        "inverseRate": "Inverso: {rate}",
+        "twoOfThreeHint": "Introduce dos de los tres valores. El tercero se calcula.",
+        "fee": "Comisión (opcional)",
+        "feeHint": "Incluida en el importe descontado. Si tu banco la cobra en la moneda de destino, déjala vacía e introduce el importe neto recibido.",
+        "date": "Fecha",
+        "chooseDate": "Elige una fecha",
+        "description": "Descripción",
+        "enterDescription": "Introduce una descripción",
+        "summary": "{fromAmount} salen de {fromAccount} y {toAmount} llegan a {toAccount}.",
+        "summaryWithFee": "{fromAmount} salen de {fromAccount} ({fee} de comisión) y {toAmount} llegan a {toAccount}.",
+        "summarySameCurrency": "{fromAmount} pasan de {fromAccount} a {toAccount}.",
+        "negativeBalance": "{account} quedaría en negativo.",
+        "save": "Guardar transferencia",
+        "cancel": "Cancelar",
+        "createSuccess": "Transferencia interna guardada",
+        "updateSuccess": "Transferencia interna actualizada",
+        "errors": {
+            "required": "Introduce dos de los tres valores",
+            "invalidNumber": "Introduce un número válido",
+            "mustBePositive": "Debe ser mayor que cero",
+            "tooManyDecimals": "Usa como máximo {decimals} decimales",
+            "feeNegative": "La comisión no puede ser negativa",
+            "feeTooHigh": "La comisión debe ser menor que el importe descontado",
+            "resultTooSmall": "El valor calculado es demasiado pequeño"
+        }
     }
 }

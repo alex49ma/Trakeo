@@ -97,8 +97,8 @@
         "description": "Manage multiple accounts and credit cards in one place"
       },
       {
-        "title": "Multi-Currency (Coming Soon!)",
-        "description": "Support for multiple currencies"
+        "title": "Multi-Currency",
+        "description": "Accounts in different currencies, with internal transfers and currency exchanges"
       },
       {
         "title": "Customizable Categories",
@@ -174,7 +174,8 @@
     "noExpenses": "No expenses this month",
     "noIncome": "No income this month",
     "uncategorized": "Uncategorized",
-    "other": "Other"
+    "other": "Other",
+    "internalTransfer": "Internal Transfer"
   },
   "CreateAccount": {
     "title": "Create New Account",
@@ -234,7 +235,12 @@
       "perPage": "{count} per page",
       "deleteConfirm": "Are you sure you want to delete these transactions?",
       "deleteSuccess": "Transactions deleted successfully",
-      "deleteError": "Error deleting transactions: "
+      "deleteError": "Error deleting transactions: ",
+      "transferTo": "→ {account}",
+      "transferFrom": "← {account}",
+      "transferFee": "fee {fee}",
+      "deleteTransferConfirm": "This removes the internal transfer from both accounts. Continue?",
+      "deleteConfirmWithTransfers": "Are you sure you want to delete these transactions? {count, plural, one {# internal transfer} other {# internal transfers}} will also be removed from the other account."
     },
     "recurring": {
       "daily": "Daily",
@@ -242,7 +248,8 @@
       "monthly": "Monthly",
       "yearly": "Yearly",
       "custom": "Custom"
-    }
+    },
+    "internalTransfer": "Internal Transfer"
   },
   "Analytics": {
     "title": "Insights into Habits",
@@ -300,5 +307,46 @@
     "TRANSFER_OUT": "Outgoing transfers",
     "TRANSFER_IN": "Incoming transfers",
     "TRANSFER_FEE": "Transfer fees"
+  },
+  "Transfer": {
+    "title": "Internal Transfer",
+    "editTitle": "Edit Internal Transfer",
+    "newTransfer": "New Internal Transfer",
+    "editTransfer": "Edit Internal Transfer",
+    "fromAccount": "From account",
+    "toAccount": "To account",
+    "selectAccount": "Select account",
+    "createAccount": "Create Account",
+    "currencyExchange": "Currency exchange",
+    "amount": "Amount",
+    "amountDeducted": "Amount deducted",
+    "exchangeRate": "Exchange rate",
+    "amountReceived": "Amount received",
+    "calculated": "calculated",
+    "inverseRate": "Inverse: {rate}",
+    "twoOfThreeHint": "Enter two of the three values. The third one is calculated.",
+    "fee": "Fee (optional)",
+    "feeHint": "Included in the amount deducted. If your bank charges it in the destination currency, leave it empty and enter the net amount received.",
+    "date": "Date",
+    "chooseDate": "Choose a date",
+    "description": "Description",
+    "enterDescription": "Enter description",
+    "summary": "{fromAmount} leave {fromAccount} and {toAmount} arrive in {toAccount}.",
+    "summaryWithFee": "{fromAmount} leave {fromAccount} ({fee} fee) and {toAmount} arrive in {toAccount}.",
+    "summarySameCurrency": "{fromAmount} move from {fromAccount} to {toAccount}.",
+    "negativeBalance": "{account} would go below zero.",
+    "save": "Save transfer",
+    "cancel": "Cancel",
+    "createSuccess": "Internal transfer saved",
+    "updateSuccess": "Internal transfer updated",
+    "errors": {
+      "required": "Enter two of the three values",
+      "invalidNumber": "Enter a valid number",
+      "mustBePositive": "Must be greater than zero",
+      "tooManyDecimals": "Use at most {decimals} decimals",
+      "feeNegative": "The fee can't be negative",
+      "feeTooHigh": "The fee must be lower than the amount deducted",
+      "resultTooSmall": "The calculated value is too small"
+    }
   }
 }

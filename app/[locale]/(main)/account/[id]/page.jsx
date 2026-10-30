@@ -7,6 +7,9 @@ import TransactionTable from '../_components/transaction-table';
 import AccountChart from '../_components/account-chart';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { ArrowLeftRight } from 'lucide-react';
+import { Link } from '@/i18n/navigation';
 import { formatMoney } from '@/lib/currency';
 
 import { getLocale, getTranslations } from 'next-intl/server';
@@ -26,7 +29,7 @@ export default async function AccountPage({ params }) {
     const tCommon = await getTranslations('Common');
 
     return <div className="space-y-8 px-5">
-        <div className="flex gap-4 items-end justify-between">
+        <div className="flex flex-wrap gap-4 items-end justify-between">
             <div>
                 <h1 className="text-5xl sm:text-6xl font-bold gradient-title capitalize">
                     {account.name}</h1>
@@ -37,16 +40,24 @@ export default async function AccountPage({ params }) {
                     <Badge variant="outline" className="text-white border-white/60">{account.currency}</Badge>
                 </div>
             </div>
-            <Card className="text-right pb-2">
-                <CardHeader>
-                    <CardTitle className="text-x1 sm:text-2x1 font-bold">
-                        {formatMoney(account.balance, account.currency, locale)}
-                    </CardTitle>
-                </CardHeader>
-                <CardContent>
-                    <p className="text-sm">{tAccount('transactionsCount', { count: account._count.transactions })}</p>
-                </CardContent>
-            </Card>
+            <div className="flex flex-col sm:flex-row items-end gap-4">
+                <Link href={`/transaction/transfer?from=${account.id}`}>
+                    <Button variant="prominent">
+                        <ArrowLeftRight className="h-4 w-4" />
+                        {tAccount('internalTransfer')}
+                    </Button>
+                </Link>
+                <Card className="text-right pb-2">
+                    <CardHeader>
+                        <CardTitle className="text-x1 sm:text-2x1 font-bold">
+                            {formatMoney(account.balance, account.currency, locale)}
+                        </CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                        <p className="text-sm">{tAccount('transactionsCount', { count: account._count.transactions })}</p>
+                    </CardContent>
+                </Card>
+            </div>
         </div>
 
         {/* Chart Section */}
