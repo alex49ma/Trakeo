@@ -51,6 +51,11 @@ export async function createSubcategory(data) {
         const user = await checkUser();
         if (!user) throw new Error("Unauthorized");
 
+        const category = await db.category.findUnique({
+            where: { id: data.categoryId, userId: user.id }
+        });
+        if (!category) throw new Error("Category not found");
+
         const subCategory = await db.subcategory.create({
             data: {
                 name: data.name,
@@ -73,7 +78,7 @@ export async function updateCategory(id, data) {
         if (!user) throw new Error("Unauthorized");
 
         const category = await db.category.update({
-            where: { id },
+            where: { id, userId: user.id },
             data: {
                 name: data.name,
                 type: data.type,
@@ -94,8 +99,13 @@ export async function deleteCategory(id) {
         const user = await checkUser();
         if (!user) throw new Error("Unauthorized");
 
+        const category = await db.category.findUnique({
+            where: { id, userId: user.id }
+        });
+        if (!category) throw new Error("Category not found");
+
         const transactions = await db.transaction.findMany({
-            where: { categoryId: id }
+            where: { categoryId: id, userId: user.id }
         });
 
         await db.$transaction(async (tx) => {
@@ -107,7 +117,7 @@ export async function deleteCategory(id) {
                 });
             }
             await tx.category.delete({
-                where: { id }
+                where: { id, userId: user.id }
             });
         });
 
@@ -125,7 +135,7 @@ export async function updateSubcategory(id, data) {
         if (!user) throw new Error("Unauthorized");
 
         const subCategory = await db.subcategory.update({
-            where: { id },
+            where: { id, category: { userId: user.id } },
             data: {
                 name: data.name,
                 // Usually we don't move subcategories between categories, but if needed:
@@ -147,7 +157,7 @@ export async function deleteSubcategory(id) {
         if (!user) throw new Error("Unauthorized");
 
         const transactions = await db.transaction.findMany({
-            where: { subcategoryId: id }
+            where: { subcategoryId: id, userId: user.id }
         });
 
         await db.$transaction(async (tx) => {
@@ -159,7 +169,7 @@ export async function deleteSubcategory(id) {
                 });
             }
             await tx.subcategory.delete({
-                where: { id }
+                where: { id, category: { userId: user.id } }
             });
         });
 

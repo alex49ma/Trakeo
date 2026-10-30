@@ -35,6 +35,8 @@ export async function createTransaction(data) {
 
         if (!account) throw new Error("Account not found");
 
+        await assertCategoryOwnership(user.id, data.categoryId, data.subcategoryId);
+
         const balanceChange = data.type === "EXPENSE" ? -data.amount : data.amount;
         const newBalance = account.balance.toNumber() + balanceChange;
 
@@ -93,6 +95,17 @@ function calculateNextRecurringDate(startDate, interval) {
     return date;
 }
 
+// Throws unless the category belongs to the user and the subcategory (if any) belongs to that category
+async function assertCategoryOwnership(userId, categoryId, subcategoryId) {
+    const category = await db.category.findUnique({ where: { id: categoryId, userId } });
+    if (!category) throw new Error("Category not found");
+
+    if (subcategoryId) {
+        const subcategory = await db.subcategory.findUnique({ where: { id: subcategoryId, category_id: categoryId } });
+        if (!subcategory) throw new Error("Subcategory not found");
+    }
+}
+
 export async function getTransaction(id) {
     const { userId } = await auth();
     if (!userId) throw new Error("Unauthorized");
@@ -126,9 +139,14 @@ export async function updateTransaction(id, data) {
 
         if (!originalTransaction) throw new Error("Transaction not found");
 
-        const oldBalanceChange = originalTransaction.type === "EXPENSE" ? -originalTransaction.amount : originalTransaction.amount;
+        const account = await db.account.findUnique({ where: { id: data.accountId, userId: user.id } });
+        if (!account) throw new Error("Account not found");
+
+        await assertCategoryOwnership(user.id, data.categoryId, data.subcategoryId);
+
+        const oldBalanceChange = originalTransaction.type === "EXPENSE" ? -originalTransaction.amount.toNumber() : originalTransaction.amount.toNumber();
         const newBalanceChange = data.type === "EXPENSE" ? -data.amount : data.amount;
-        const netBalanceChange = newBalanceChange - oldBalanceChange;
+        const accountChanged = originalTransaction.accountId !== data.accountId;
 
         if (data.subcategoryId === "") {
             data.subcategoryId = null;
@@ -149,21 +167,29 @@ export async function updateTransaction(id, data) {
                 },
             });
 
-            await tx.account.update({
-                where: { id: data.accountId },
-                data: {
-                    balance:
-                    {
-                        increment: netBalanceChange,
-                    },
-                },
-            });
+            if (accountChanged) {
+                // Revert the old amount on the previous account, apply the new one to the target account
+                await tx.account.update({
+                    where: { id: originalTransaction.accountId },
+                    data: { balance: { increment: -oldBalanceChange } },
+                });
+                await tx.account.update({
+                    where: { id: data.accountId },
+                    data: { balance: { increment: newBalanceChange } },
+                });
+            } else {
+                await tx.account.update({
+                    where: { id: data.accountId },
+                    data: { balance: { increment: newBalanceChange - oldBalanceChange } },
+                });
+            }
 
             return updated;
 
         });
 
         revalidatePath(`/account/${transaction.accountId}`);
+        if (accountChanged) revalidatePath(`/account/${originalTransaction.accountId}`);
         revalidatePath(`/dashboard`);
 
         return { success: true, data: serializeAmount(transaction) };
