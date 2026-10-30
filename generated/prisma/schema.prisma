@@ -20,6 +20,7 @@ model User {
   categories   Category[]
   feedbacks    Feedback[]
   transactions Transaction[]
+  transfers    Transfer[]
 
   @@map("users")
 }
@@ -29,12 +30,15 @@ model Account {
   name         String
   type         AccountType
   balance      Decimal       @default(0)
+  currency     String        @default("EUR") @db.VarChar(3)
   isDefault    Boolean       @default(false)
   userId       String
   createdAt    DateTime      @default(now())
   updatedAt    DateTime      @updatedAt
   user         User          @relation(fields: [userId], references: [id], onDelete: Cascade)
   transactions Transaction[]
+  transfersOut Transfer[]    @relation("TransferFrom")
+  transfersIn  Transfer[]    @relation("TransferTo")
 
   @@index([userId])
   @@map("accounts")
@@ -58,19 +62,49 @@ model Transaction {
   updatedAt         DateTime           @updatedAt
   categoryId        String
   subcategoryId     String?
+  transferId        String?
   account           Account            @relation(fields: [accountId], references: [id], onDelete: Cascade)
   category          Category           @relation(fields: [categoryId], references: [id], onDelete: Cascade)
   subcategory       Subcategory?       @relation(fields: [subcategoryId], references: [id], onDelete: Cascade)
+  transfer          Transfer?          @relation(fields: [transferId], references: [id], onDelete: Cascade)
   user              User               @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([userId])
   @@index([accountId])
+  @@index([transferId])
   @@map("transactions")
+}
+
+/// One internal transfer between two of a user's accounts. Its transactions (outgoing, incoming and an optional fee) point back here through transferId.
+model Transfer {
+  id            String        @id @default(uuid())
+  userId        String
+  fromAccountId String
+  toAccountId   String
+  fromAmount    Decimal
+  fee           Decimal       @default(0)
+  rate          Decimal       @db.Decimal(20, 10)
+  toAmount      Decimal
+  derivedField  ExchangeField
+  date          DateTime
+  description   String?
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+  user          User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  fromAccount   Account       @relation("TransferFrom", fields: [fromAccountId], references: [id], onDelete: NoAction)
+  toAccount     Account       @relation("TransferTo", fields: [toAccountId], references: [id], onDelete: NoAction)
+  transactions  Transaction[]
+
+  @@index([userId])
+  @@index([fromAccountId])
+  @@index([toAccountId])
+  @@map("transfers")
 }
 
 model Budget {
   id            String    @id @default(uuid())
   amount        Decimal
+  currency      String    @default("EUR") @db.VarChar(3)
   lastAlertSent DateTime?
   userId        String    @unique
   createdAt     DateTime  @default(now())
@@ -86,6 +120,7 @@ model Category {
   name          String
   type          TransactionType
   color         String
+  systemKey     SystemCategory?
   createdAt     DateTime        @default(now())
   updatedAt     DateTime        @updatedAt
   userId        String
@@ -93,6 +128,7 @@ model Category {
   subCategories Subcategory[]
   transactions  Transaction[]
 
+  @@unique([userId, systemKey])
   @@map("categories")
 }
 
@@ -144,4 +180,20 @@ enum RecurringInterval {
   MONTHLY
   YEARLY
   CUSTOM
+}
+
+// Built-in categories every user gets. Nobody can edit or delete them; the TRANSFER_* ones are reserved for internal transfers
+enum SystemCategory {
+  OTHER_EXPENSES
+  OTHER_INCOME
+  TRANSFER_OUT
+  TRANSFER_IN
+  TRANSFER_FEE
+}
+
+// Which of the three exchange values the app calculated from the other two
+enum ExchangeField {
+  FROM_AMOUNT
+  RATE
+  TO_AMOUNT
 }
