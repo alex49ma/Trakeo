@@ -36,7 +36,10 @@
     "orAddViaCsv": "Or add via csv file (Beta)",
     "csvSuccess": "Transactions imported successfully",
     "csvError": "Error importing transactions",
-    "importing": "Importing..."
+    "importing": "Importing...",
+    "currencyMismatch": "This account uses a different currency. To move money between currencies, use an internal transfer.",
+    "csvCurrencyHint": "Amounts will be imported as {currency}.",
+    "csvSkipped": "{count, plural, one {# row was skipped because its currency isn't {currency}} other {# rows were skipped because their currency isn't {currency}}}"
   },
   "Header": {
     "dashboard": "Dashboard",
@@ -184,7 +187,9 @@
     "success": "Account created successfully",
     "error": "Failed to create account",
     "creating": "Creating...",
-    "submit": "Create Account"
+    "submit": "Create Account",
+    "currency": "Currency",
+    "currencyHint": "The currency can't be changed after the account is created."
   },
   "Footer": {
     "copyright": "© 2025 Trakeo. All rights reserved."
@@ -286,6 +291,14 @@
     "deleteCategoryConfirm": "Are you sure you want to delete this category? All transactions in this category will be deleted",
     "categoryDeleted": "Category deleted successfully",
     "deleteSubcategoryConfirm": "Are you sure you want to delete this subcategory?",
-    "subcategoryDeleted": "Subcategory deleted successfully"
+    "subcategoryDeleted": "Subcategory deleted successfully",
+    "builtInTooltip": "Built-in category: it can't be edited or deleted."
+  },
+  "SystemCategories": {
+    "OTHER_EXPENSES": "Other Expenses",
+    "OTHER_INCOME": "Other Income",
+    "TRANSFER_OUT": "Outgoing transfers",
+    "TRANSFER_IN": "Incoming transfers",
+    "TRANSFER_FEE": "Transfer fees"
   }
 }

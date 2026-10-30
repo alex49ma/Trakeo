@@ -36,7 +36,10 @@
         "orAddViaCsv": "O añadir via archivo csv (Beta)",
         "csvSuccess": "Transacciones importadas exitosamente",
         "csvError": "Error importando transacciones",
-        "importing": "Importando..."
+        "importing": "Importando...",
+        "currencyMismatch": "Esta cuenta usa otra moneda. Para mover dinero entre monedas, usa una transferencia interna.",
+        "csvCurrencyHint": "Los importes se importarán en {currency}.",
+        "csvSkipped": "{count, plural, one {Se omitió # fila porque su moneda no es {currency}} other {Se omitieron # filas porque su moneda no es {currency}}}"
     },
     "Header": {
         "dashboard": "Panel de Control",
@@ -184,7 +187,9 @@
         "success": "Cuenta creada exitosamente",
         "error": "Error al crear la cuenta",
         "creating": "Creando...",
-        "submit": "Crear Cuenta"
+        "submit": "Crear Cuenta",
+        "currency": "Moneda",
+        "currencyHint": "La moneda no se puede cambiar después de crear la cuenta."
     },
     "Footer": {
         "copyright": "© 2025 Trakeo. Todos los derechos reservados."
@@ -286,6 +291,14 @@
         "deleteCategoryConfirm": "¿Estás seguro de que deseas eliminar esta categoría? Todas las transacciones de esta categoría serán eliminadas",
         "categoryDeleted": "Categoría eliminada correctamente",
         "deleteSubcategoryConfirm": "¿Estás seguro de que deseas eliminar esta subcategoría?",
-        "subcategoryDeleted": "Subcategoría eliminada correctamente"
+        "subcategoryDeleted": "Subcategoría eliminada correctamente",
+        "builtInTooltip": "Categoría integrada: no se puede editar ni borrar."
+    },
+    "SystemCategories": {
+        "OTHER_EXPENSES": "Otros gastos",
+        "OTHER_INCOME": "Otros ingresos",
+        "TRANSFER_OUT": "Transferencias salientes",
+        "TRANSFER_IN": "Transferencias entrantes",
+        "TRANSFER_FEE": "Comisiones de transferencia"
     }
 }

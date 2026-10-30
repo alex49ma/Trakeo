@@ -5,10 +5,24 @@ import { db } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 import { request } from "@arcjet/next";
 import { aj } from "@/lib/arcjet";
+import { isTransferCategory, NOT_TRANSFER_CATEGORY } from "@/lib/system-categories";
 
 const serializeAmount = (obj) => ({
     ...obj,
     amount: obj.amount.toNumber(),
+});
+
+// Only the fields a client may set. Anything else in the request (transferId, userId...) is ignored
+const transactionFields = (data) => ({
+    type: data.type,
+    amount: data.amount,
+    description: data.description,
+    date: data.date,
+    accountId: data.accountId,
+    categoryId: data.categoryId,
+    subcategoryId: data.subcategoryId || null,
+    isRecurring: data.isRecurring,
+    recurringInterval: data.recurringInterval,
 });
 
 export async function createTransaction(data) {
@@ -38,17 +52,12 @@ export async function createTransaction(data) {
         await assertCategoryOwnership(user.id, data.categoryId, data.subcategoryId);
 
         const balanceChange = data.type === "EXPENSE" ? -data.amount : data.amount;
-        const newBalance = account.balance.toNumber() + balanceChange;
-
-        if (data.subcategoryId === "") {
-            data.subcategoryId = null;
-        }
 
         // Create transaction and update account balance
         const transaction = await db.$transaction(async (tx) => {
             const newTransaction = await tx.transaction.create({
                 data: {
-                    ...data,
+                    ...transactionFields(data),
                     userId: user.id,
                     nextRecurringDate:
                         data.isRecurring && data.recurringInterval
@@ -58,7 +67,7 @@ export async function createTransaction(data) {
             });
             await tx.account.update({
                 where: { id: data.accountId },
-                data: { balance: newBalance },
+                data: { balance: { increment: balanceChange } },
             });
 
             return newTransaction;
@@ -95,10 +104,12 @@ function calculateNextRecurringDate(startDate, interval) {
     return date;
 }
 
-// Throws unless the category belongs to the user and the subcategory (if any) belongs to that category
+// Throws unless the category belongs to the user and the subcategory (if any) belongs to that category.
+// Transfer categories are reserved for internal transfers
 async function assertCategoryOwnership(userId, categoryId, subcategoryId) {
     const category = await db.category.findUnique({ where: { id: categoryId, userId } });
     if (!category) throw new Error("Category not found");
+    if (isTransferCategory(category)) throw new Error("This category is only used by internal transfers");
 
     if (subcategoryId) {
         const subcategory = await db.subcategory.findUnique({ where: { id: subcategoryId, category_id: categoryId } });
@@ -142,15 +153,16 @@ export async function updateTransaction(id, data) {
         const account = await db.account.findUnique({ where: { id: data.accountId, userId: user.id } });
         if (!account) throw new Error("Account not found");
 
+        const accountChanged = originalTransaction.accountId !== data.accountId;
+        if (accountChanged && account.currency !== originalTransaction.account.currency) {
+            throw new Error("That account uses another currency. Use an internal transfer to move money between currencies");
+        }
+
         await assertCategoryOwnership(user.id, data.categoryId, data.subcategoryId);
 
-        const oldBalanceChange = originalTransaction.type === "EXPENSE" ? -originalTransaction.amount.toNumber() : originalTransaction.amount.toNumber();
+        // Decimal math, so the old and new amounts don't pick up float errors when combined
+        const oldBalanceChange = originalTransaction.type === "EXPENSE" ? originalTransaction.amount.neg() : originalTransaction.amount;
         const newBalanceChange = data.type === "EXPENSE" ? -data.amount : data.amount;
-        const accountChanged = originalTransaction.accountId !== data.accountId;
-
-        if (data.subcategoryId === "") {
-            data.subcategoryId = null;
-        }
 
         const transaction = await db.$transaction(async (tx) => {
             const updated = await tx.transaction.update({
@@ -159,7 +171,7 @@ export async function updateTransaction(id, data) {
                     userId: user.id
                 },
                 data: {
-                    ...data,
+                    ...transactionFields(data),
                     nextRecurringDate:
                         data.isRecurring && data.recurringInterval
                             ? calculateNextRecurringDate(data.date, data.recurringInterval)
@@ -171,7 +183,7 @@ export async function updateTransaction(id, data) {
                 // Revert the old amount on the previous account, apply the new one to the target account
                 await tx.account.update({
                     where: { id: originalTransaction.accountId },
-                    data: { balance: { increment: -oldBalanceChange } },
+                    data: { balance: { increment: oldBalanceChange.neg() } },
                 });
                 await tx.account.update({
                     where: { id: data.accountId },
@@ -180,7 +192,7 @@ export async function updateTransaction(id, data) {
             } else {
                 await tx.account.update({
                     where: { id: data.accountId },
-                    data: { balance: { increment: newBalanceChange - oldBalanceChange } },
+                    data: { balance: { increment: oldBalanceChange.neg().plus(newBalanceChange) } },
                 });
             }
 
@@ -212,11 +224,12 @@ export async function bulkCreateTransactions(accountId, transactions) {
 
         const uniqueCategoryNames = [...new Set(transactions.map(t => t.categoryName?.trim()).filter(Boolean))];
 
-        // Fetch existing categories for the user
+        // Fetch existing categories for the user. Transfer categories never match: a CSV row named like one gets a normal category
         const existingCategories = await db.category.findMany({
             where: {
                 userId: user.id,
                 name: { in: uniqueCategoryNames },
+                ...NOT_TRANSFER_CATEGORY,
             },
         });
 

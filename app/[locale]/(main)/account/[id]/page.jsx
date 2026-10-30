@@ -6,8 +6,10 @@ import { Suspense } from 'react';
 import TransactionTable from '../_components/transaction-table';
 import AccountChart from '../_components/account-chart';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { formatMoney } from '@/lib/currency';
 
-import { getTranslations } from 'next-intl/server';
+import { getLocale, getTranslations } from 'next-intl/server';
 
 export default async function AccountPage({ params }) {
     const { id } = await params;
@@ -18,6 +20,7 @@ export default async function AccountPage({ params }) {
     }
 
     const { transactions, ...account } = accountData;
+    const locale = await getLocale();
     const t = await getTranslations('Dashboard');
     const tAccount = await getTranslations('Account');
     const tCommon = await getTranslations('Common');
@@ -26,14 +29,18 @@ export default async function AccountPage({ params }) {
         <div className="flex gap-4 items-end justify-between">
             <div>
                 <h1 className="text-5xl sm:text-6xl font-bold gradient-title capitalize">
-                    {account.name}</h1><p className="text-white">
-                    {tCommon('accountType.' + account.type.toUpperCase())}
-                </p>
+                    {account.name}</h1>
+                <div className="flex items-center gap-2">
+                    <p className="text-white">
+                        {tCommon('accountType.' + account.type.toUpperCase())}
+                    </p>
+                    <Badge variant="outline" className="text-white border-white/60">{account.currency}</Badge>
+                </div>
             </div>
             <Card className="text-right pb-2">
                 <CardHeader>
                     <CardTitle className="text-x1 sm:text-2x1 font-bold">
-                        {parseFloat(account.balance).toFixed(2)}€
+                        {formatMoney(account.balance, account.currency, locale)}
                     </CardTitle>
                 </CardHeader>
                 <CardContent>
@@ -44,12 +51,12 @@ export default async function AccountPage({ params }) {
 
         {/* Chart Section */}
         <Suspense fallback={<BarLoader className="mt-4" width={"100%"} color="#FFCC80" />}>
-            <AccountChart transactions={transactions} />
+            <AccountChart transactions={transactions} currency={account.currency} />
         </Suspense>
 
         {/* Transactions Table */}
         <Suspense fallback={<BarLoader className="mt-4" width={"100%"} color="#FFCC80" />}>
-            <TransactionTable transactions={transactions} />
+            <TransactionTable transactions={transactions} currency={account.currency} />
         </Suspense>
 
 

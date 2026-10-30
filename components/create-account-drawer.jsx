@@ -14,19 +14,22 @@ import { Loader2 } from 'lucide-react'
 import { useEffect } from 'react'
 import { toast } from 'sonner'
 import { createAccount } from "@/actions/dashboard";
+import { currencyName, DEFAULT_CURRENCY, SUPPORTED_CURRENCIES } from '@/lib/currency'
 
-import { useTranslations } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
 
 const CreateAccountDrawer = ({ children }) => {
     const [open, setOpen] = useState(false)
     const t = useTranslations('CreateAccount');
     const common = useTranslations('Common');
+    const locale = useLocale();
 
     const { register, handleSubmit, formState: { errors }, setValue, watch, reset } = useForm({
         resolver: zodResolver(accountSchema),
         defaultValues: {
             name: "",
             type: "CURRENT",
+            currency: DEFAULT_CURRENCY,
             balance: "",
             isDefault: false
         }
@@ -85,6 +88,25 @@ const CreateAccountDrawer = ({ children }) => {
                                 </Select>
                                 {errors.type &&
                                     <p className=" text-sm text-red-500">{errors.type.message}</p>
+                                }
+                            </div>
+                            <div className="space-y-2">
+                                <label htmlFor="currency" className="text-sm font-medium">{t('currency')}</label>
+                                <Select onValueChange={(value) => setValue("currency", value)} value={watch("currency")}>
+                                    <SelectTrigger id="currency">
+                                        <SelectValue placeholder={t('currency')} />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        {SUPPORTED_CURRENCIES.map((currency) => (
+                                            <SelectItem key={currency} value={currency}>
+                                                {currency} · {currencyName(currency, locale)}
+                                            </SelectItem>
+                                        ))}
+                                    </SelectContent>
+                                </Select>
+                                <p className="text-xs text-muted-foreground">{t('currencyHint')}</p>
+                                {errors.currency &&
+                                    <p className=" text-sm text-red-500">{errors.currency.message}</p>
                                 }
                             </div>
                             <div className="space-y-2">

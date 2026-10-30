@@ -3,6 +3,7 @@
 import { db } from "@/lib/prisma";
 import { checkUser } from "@/lib/checkUser";
 import { revalidatePath } from "next/cache";
+import { isTransferCategory } from "@/lib/system-categories";
 
 export async function getCategories() {
     const user = await checkUser();
@@ -55,6 +56,7 @@ export async function createSubcategory(data) {
             where: { id: data.categoryId, userId: user.id }
         });
         if (!category) throw new Error("Category not found");
+        if (isTransferCategory(category)) throw new Error("Transfer categories can't have subcategories");
 
         const subCategory = await db.subcategory.create({
             data: {
@@ -76,6 +78,12 @@ export async function updateCategory(id, data) {
     try {
         const user = await checkUser();
         if (!user) throw new Error("Unauthorized");
+
+        const existing = await db.category.findUnique({
+            where: { id, userId: user.id }
+        });
+        if (!existing) throw new Error("Category not found");
+        if (existing.systemKey) throw new Error("Built-in categories can't be changed");
 
         const category = await db.category.update({
             where: { id, userId: user.id },
@@ -103,6 +111,7 @@ export async function deleteCategory(id) {
             where: { id, userId: user.id }
         });
         if (!category) throw new Error("Category not found");
+        if (category.systemKey) throw new Error("Built-in categories can't be deleted");
 
         const transactions = await db.transaction.findMany({
             where: { categoryId: id, userId: user.id }

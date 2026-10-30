@@ -3,18 +3,24 @@
 import React, { useState, useEffect } from 'react'
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Plus, MoreHorizontal, Pencil, Trash2 } from "lucide-react"
+import { Plus, MoreHorizontal, Pencil, Trash2, Lock } from "lucide-react"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator } from "@/components/ui/dropdown-menu"
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip"
 import CreateCategoryDrawer from "@/components/create-category-drawer"
 import CreateSubcategoryDrawer from "@/components/create-subcategory-drawer"
 import { useTranslations } from 'next-intl'
 import { deleteCategory, deleteSubcategory } from "@/actions/categories"
 import useFetch from "@/hooks/use-fetch"
 import { toast } from "sonner"
+import { categoryLabel, isTransferCategory } from "@/lib/system-categories"
 
 const CategoriesCard = ({ categories }) => {
     const t = useTranslations('CategoriesCard')
     const common = useTranslations('Common')
+    const tCategories = useTranslations('SystemCategories')
+
+    // Transfer categories never get subcategories
+    const subcategoryParents = categories.filter((category) => !isTransferCategory(category))
 
     const [createCategoryOpen, setCreateCategoryOpen] = useState(false)
     const [createSubcategoryOpen, setCreateSubcategoryOpen] = useState(false)
@@ -53,24 +59,36 @@ const CategoriesCard = ({ categories }) => {
             <div className="flex items-center justify-between group p-2 rounded-md hover:bg-slate-50 dark:hover:bg-slate-900">
                 <div className="flex items-center gap-2">
                     <span className="w-4 h-4 rounded-full" style={{ backgroundColor: category.color }}></span>
-                    <span className="font-medium">{category.name}</span>
+                    <span className="font-medium">{categoryLabel(category, tCategories)}</span>
                 </div>
-                <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" className="h-8 w-8 p-0 opacity-0 group-hover:opacity-100">
-                            <MoreHorizontal className="h-4 w-4" />
-                        </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                        <DropdownMenuItem onClick={() => setEditingCategory(category)}>
-                            <Pencil className="mr-2 h-4 w-4" /> {common('edit')}
-                        </DropdownMenuItem>
-                        <DropdownMenuSeparator />
-                        <DropdownMenuItem className="text-destructive" onClick={() => handleDeleteCategory(category.id)}>
-                            <Trash2 className="mr-2 h-4 w-4" /> {common('delete')}
-                        </DropdownMenuItem>
-                    </DropdownMenuContent>
-                </DropdownMenu>
+                {/* Built-in categories are locked: no edit or delete */}
+                {category.systemKey ? (
+                    <Tooltip>
+                        <TooltipTrigger asChild>
+                            <span className="flex h-8 w-8 items-center justify-center text-muted-foreground">
+                                <Lock className="h-4 w-4" />
+                            </span>
+                        </TooltipTrigger>
+                        <TooltipContent>{t('builtInTooltip')}</TooltipContent>
+                    </Tooltip>
+                ) : (
+                    <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                            <Button variant="ghost" className="h-8 w-8 p-0 opacity-0 group-hover:opacity-100">
+                                <MoreHorizontal className="h-4 w-4" />
+                            </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end">
+                            <DropdownMenuItem onClick={() => setEditingCategory(category)}>
+                                <Pencil className="mr-2 h-4 w-4" /> {common('edit')}
+                            </DropdownMenuItem>
+                            <DropdownMenuSeparator />
+                            <DropdownMenuItem className="text-destructive" onClick={() => handleDeleteCategory(category.id)}>
+                                <Trash2 className="mr-2 h-4 w-4" /> {common('delete')}
+                            </DropdownMenuItem>
+                        </DropdownMenuContent>
+                    </DropdownMenu>
+                )}
             </div>
             {category.subCategories && category.subCategories.length > 0 && (
                 <div className="ml-8 space-y-1 mt-1 border-l-2 pl-2 border-slate-100 dark:border-slate-800">
@@ -141,7 +159,7 @@ const CategoriesCard = ({ categories }) => {
             <CreateSubcategoryDrawer
                 open={createSubcategoryOpen}
                 onOpenChange={setCreateSubcategoryOpen}
-                categories={categories}
+                categories={subcategoryParents}
             />
 
             {/* Edit Drawers */}
@@ -158,7 +176,7 @@ const CategoriesCard = ({ categories }) => {
                     open={!!editingSubcategory}
                     onOpenChange={(open) => !open && setEditingSubcategory(null)}
                     subcategoryToEdit={editingSubcategory}
-                    categories={categories} // Passed just in case, though currently updateSubcategory doesn't allow changing category strictly in my implementation, but good to have
+                    categories={subcategoryParents} // Passed just in case, though currently updateSubcategory doesn't allow changing category strictly in my implementation, but good to have
                 />
             )}
         </>

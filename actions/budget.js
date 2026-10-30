@@ -4,6 +4,8 @@ import { db } from "@/lib/prisma";
 import { auth } from "@clerk/nextjs/server";
 import { revalidatePath } from "next/cache";
 import { startOfMonth, endOfMonth } from "date-fns";
+import { DEFAULT_CURRENCY } from "@/lib/currency";
+import { COUNTS_IN_TOTALS_CATEGORY } from "@/lib/system-categories";
 
 export async function getCurrentBudget(accountId) {
     try {
@@ -37,6 +39,8 @@ export async function getCurrentBudget(accountId) {
                     lte: monthEnd,
                 },
                 accountId,
+                // Internal transfers aren't spending, their fees are
+                category: COUNTS_IN_TOTALS_CATEGORY,
             },
             _sum: {
                 amount: true,
@@ -66,16 +70,22 @@ export async function updateBudget(amount) {
 
         if (!user) throw new Error("User not found");
 
+        // The budget is always in the default account's currency
+        const defaultAccount = await db.account.findFirst({ where: { userId: user.id, isDefault: true } });
+        const currency = defaultAccount?.currency ?? DEFAULT_CURRENCY;
+
         const budget = await db.budget.upsert({
             where: {
                 userId: user.id,
             },
             update: {
                 amount,
+                currency,
             },
             create: {
                 userId: user.id,
                 amount,
+                currency,
             },
         });
 

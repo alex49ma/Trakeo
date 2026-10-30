@@ -36,7 +36,10 @@
         "orAddViaCsv": "Nebo přidat přes CSV soubor (Beta)",
         "csvSuccess": "Transakce úspěšně importovány",
         "csvError": "Chyba při importu transakcí",
-        "importing": "Importování..."
+        "importing": "Importování...",
+        "currencyMismatch": "Tento účet používá jinou měnu. K převodu peněz mezi měnami použijte interní převod.",
+        "csvCurrencyHint": "Částky budou importovány v měně {currency}.",
+        "csvSkipped": "{count, plural, one {# řádek byl přeskočen, protože jeho měna není {currency}} few {# řádky byly přeskočeny, protože jejich měna není {currency}} other {# řádků bylo přeskočeno, protože jejich měna není {currency}}}"
     },
     "Header": {
         "dashboard": "Přehled",
@@ -184,7 +187,9 @@
         "success": "Účet úspěšně vytvořen",
         "error": "Nepodařilo se vytvořit účet",
         "creating": "Vytváření...",
-        "submit": "Vytvořit účet"
+        "submit": "Vytvořit účet",
+        "currency": "Měna",
+        "currencyHint": "Měnu nelze po vytvoření účtu změnit."
     },
     "Footer": {
         "copyright": "© 2025 Trakeo. Všechna práva vyhrazena."
@@ -286,6 +291,14 @@
         "deleteCategoryConfirm": "Opravdu chcete smazat tuto kategorii? Všechny transakce v této kategorii budou smazány",
         "categoryDeleted": "Kategorie úspěšně smazána",
         "deleteSubcategoryConfirm": "Opravdu chcete smazat tuto podkategorii?",
-        "subcategoryDeleted": "Podkategorie úspěšně smazána"
+        "subcategoryDeleted": "Podkategorie úspěšně smazána",
+        "builtInTooltip": "Vestavěná kategorie: nelze ji upravit ani smazat."
+    },
+    "SystemCategories": {
+        "OTHER_EXPENSES": "Ostatní výdaje",
+        "OTHER_INCOME": "Ostatní příjmy",
+        "TRANSFER_OUT": "Odchozí převody",
+        "TRANSFER_IN": "Příchozí převody",
+        "TRANSFER_FEE": "Poplatky za převody"
     }
 }

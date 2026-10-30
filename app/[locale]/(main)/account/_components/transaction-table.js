@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useMemo, useEffect, useState } from 'react'
+import React, { useCallback, useMemo, useEffect, useState } from 'react'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import { Checkbox } from '@/components/ui/checkbox'
 import { format } from 'date-fns';
@@ -17,14 +17,18 @@ import useFetch from '@/hooks/use-fetch';
 import { toast } from 'sonner';
 import { BarLoader } from 'react-spinners';
 import { bulkDeleteTransactions } from "@/actions/accounts";
+import { formatMoney } from '@/lib/currency';
+import { categoryLabel } from '@/lib/system-categories';
 
 import { useTranslations, useLocale } from 'next-intl';
 import { enUS, es } from 'date-fns/locale';
 
-const TransactionTable = ({ transactions }) => {
+const TransactionTable = ({ transactions, currency }) => {
     const locale = useLocale();
     const t = useTranslations('Account.table');
     const tRecurring = useTranslations('Account.recurring');
+    const tCategories = useTranslations('SystemCategories');
+    const label = useCallback((category) => categoryLabel(category, tCategories), [tCategories]);
 
     const dateLocale = locale === 'es' ? es : enUS;
     const common = useTranslations('Common');
@@ -85,10 +89,10 @@ const TransactionTable = ({ transactions }) => {
         const categoriesMap = new Map();
         transactions.forEach(t => {
             if (typeFilter && typeFilter !== "all" && t.type !== typeFilter) return;
-            categoriesMap.set(t.category.id, { name: t.category.name, type: t.type });
+            categoriesMap.set(t.category.id, { name: label(t.category), type: t.type });
         });
         return Array.from(categoriesMap.entries()).map(([id, { name, type }]) => ({ id, name, type }));
-    }, [transactions, typeFilter]);
+    }, [transactions, typeFilter, label]);
 
     const availableSubcategories = useMemo(() => {
         const subcategoriesMap = new Map();
@@ -100,11 +104,11 @@ const TransactionTable = ({ transactions }) => {
                 name: t.subcategory.name,
                 type: t.type,
                 categoryId: t.category.id,
-                categoryName: t.category.name
+                categoryName: label(t.category)
             });
         });
         return Array.from(subcategoriesMap.entries()).map(([id, data]) => ({ id, ...data }));
-    }, [transactions, typeFilter, categoryFilter]);
+    }, [transactions, typeFilter, categoryFilter, label]);
 
     // Reset child filters when parent filters change
     useEffect(() => {
@@ -128,7 +132,7 @@ const TransactionTable = ({ transactions }) => {
             const searchLower = searchTerm.toLowerCase();
             results = results.filter((transaction) => {
                 const descriptionMatch = (transaction.description || "").toLowerCase().includes(searchLower);
-                const categoryMatch = (transaction.category?.name || "").toLowerCase().includes(searchLower);
+                const categoryMatch = (label(transaction.category) || "").toLowerCase().includes(searchLower);
                 const subcategoryMatch = (transaction.subcategory?.name || "").toLowerCase().includes(searchLower);
 
                 return descriptionMatch || categoryMatch || subcategoryMatch;
@@ -161,8 +165,8 @@ const TransactionTable = ({ transactions }) => {
                     comparison = a.amount - b.amount;
                     break;
                 case "category":
-                    const aName = a.subcategory ? a.subcategory.name : a.category.name;
-                    const bName = b.subcategory ? b.subcategory.name : b.category.name;
+                    const aName = a.subcategory ? a.subcategory.name : label(a.category);
+                    const bName = b.subcategory ? b.subcategory.name : label(b.category);
                     comparison = aName.localeCompare(bName);
                     break;
                 default:
@@ -173,7 +177,7 @@ const TransactionTable = ({ transactions }) => {
 
         return results;
 
-    }, [transactions, searchTerm, typeFilter, categoryFilter, subcategoryFilter, recurringFilter, sortConfig]);
+    }, [transactions, searchTerm, typeFilter, categoryFilter, subcategoryFilter, recurringFilter, sortConfig, label]);
 
     const totalPages = Math.ceil(filteredAndSortedTransactions.length / itemsPerPage);
 
@@ -419,18 +423,18 @@ const TransactionTable = ({ transactions }) => {
                                         }}
                                             className="px-2 py-1 rounded-sm text-white text-xs w-fit"
                                         >
-                                            {transaction.subcategory ? transaction.subcategory.name : transaction.category.name}
+                                            {transaction.subcategory ? transaction.subcategory.name : label(transaction.category)}
                                         </span>
                                         {transaction.subcategory && (
                                             <span className="text-[10px] text-muted-foreground ml-1">
-                                                {transaction.category.name}
+                                                {label(transaction.category)}
                                             </span>
                                         )}
                                     </div>
                                 </TableCell>
                                 <TableCell className="text-right font-medium" style={{ color: transaction.type === "EXPENSE" ? "red" : "green" }}>
                                     {transaction.type === "EXPENSE" ? "-" : "+"}
-                                    {transaction.amount.toFixed(2)}€
+                                    {formatMoney(transaction.amount, currency, locale)}
                                 </TableCell>
                                 <TableCell>
                                     {transaction.isRecurring ?
