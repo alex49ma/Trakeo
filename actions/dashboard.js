@@ -95,9 +95,12 @@ export async function getUserAccounts() {
             where: {
                 userId: user.id
             },
-            orderBy: {
-                createdAt: "desc"
-            },
+            // Default account first, then the most recently active. Every transaction mutation updates the
+            // account balance, so updatedAt doubles as "last transaction change" without an extra query
+            orderBy: [
+                { isDefault: "desc" },
+                { updatedAt: "desc" }
+            ],
             include: {
                 _count: {
                     select: {
