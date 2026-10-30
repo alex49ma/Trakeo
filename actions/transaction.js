@@ -4,6 +4,7 @@ import { auth } from "@clerk/nextjs/server";
 import { db } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 import { request } from "@arcjet/next";
+import Big from "big.js";
 import { aj } from "@/lib/arcjet";
 import { isTransferCategory, NOT_TRANSFER_CATEGORY } from "@/lib/system-categories";
 
@@ -149,6 +150,7 @@ export async function updateTransaction(id, data) {
         });
 
         if (!originalTransaction) throw new Error("Transaction not found");
+        if (originalTransaction.transferId) throw new Error("Internal transfers can only be edited from the transfer form");
 
         const account = await db.account.findUnique({ where: { id: data.accountId, userId: user.id } });
         if (!account) throw new Error("Account not found");
@@ -267,7 +269,8 @@ export async function bulkCreateTransactions(accountId, transactions) {
                 existingCategoryMap.set(`${newCat.name}-${newCat.type}`, newCat);
             }
 
-            let netBalanceChange = 0;
+            // Summed with big.js so many cent amounts don't add up to a float error in the stored balance
+            let netBalanceChange = new Big(0);
             const transactionsToCreate = [];
 
             for (const t of transactions) {
@@ -291,7 +294,7 @@ export async function bulkCreateTransactions(accountId, transactions) {
                     status: "COMPLETED",
                 });
 
-                netBalanceChange += (t.type === "EXPENSE" ? -t.amount : t.amount);
+                netBalanceChange = netBalanceChange.plus(t.type === "EXPENSE" ? -t.amount : t.amount);
             }
 
             if (transactionsToCreate.length > 0) {
@@ -303,7 +306,7 @@ export async function bulkCreateTransactions(accountId, transactions) {
             await tx.account.update({
                 where: { id: accountId },
                 data: {
-                    balance: { increment: netBalanceChange }
+                    balance: { increment: netBalanceChange.toString() }
                 }
             });
         });
