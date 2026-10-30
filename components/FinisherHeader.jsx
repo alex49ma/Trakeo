@@ -3,6 +3,9 @@ import FinisherBackground from './FinisherBackground';
 import { useState, useEffect } from 'react';
 
 export const defaultConfig = {
+    // The spheres are drawn once and stay still: animating them on every frame used a lot of CPU and GPU.
+    // To make them move again, set "animate" to true (public/finisher-header.es5.min.js reads this flag).
+    "animate": false,
     "count": 10,
     "size": {
         "min": 1200,
