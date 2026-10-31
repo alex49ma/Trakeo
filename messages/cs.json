@@ -45,7 +45,8 @@
         "dashboard": "Přehled",
         "addTransaction": "Přidat transakci",
         "analytics": "Analytika",
-        "login": "Přihlásit se"
+        "login": "Přihlásit se",
+        "accounts": "Účty"
     },
     "Hero": {
         "title1": "Nástroj pro sledování",
@@ -180,6 +181,18 @@
         "totalBalanceRates": "Přepočteno referenčními kurzy ECB ke dni {date}.",
         "totalBalanceMissing": "Nezahrnuto: {currencies} (zatím chybí směnný kurz).",
         "internalTransfer": "Interní převod"
+    },
+    "Accounts": {
+        "title": "Účty",
+        "currentAccounts": "Běžné účty",
+        "savingsAccounts": "Spořicí účty",
+        "thisMonth": "Tento měsíc",
+        "makeDefault": "Nastavit jako výchozí",
+        "default": "Výchozí",
+        "viewAll": "Zobrazit vše",
+        "moreAccounts": "+{count, plural, one {# další} few {# další} other {# dalších}}",
+        "accountOptions": "Možnosti účtu",
+        "noAccounts": "Zatím nemáte žádný účet. Vytvořte si ho a začněte sledovat své peníze."
     },
     "CreateAccount": {
         "title": "Vytvořit nový účet",

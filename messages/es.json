@@ -45,7 +45,8 @@
         "dashboard": "Panel de Control",
         "addTransaction": "Añadir Transacción",
         "analytics": "Análisis",
-        "login": "Iniciar Sesión"
+        "login": "Iniciar Sesión",
+        "accounts": "Cuentas"
     },
     "Hero": {
         "title1": "La herramienta para",
@@ -180,6 +181,18 @@
         "totalBalanceRates": "Convertido con los tipos de referencia del BCE del {date}.",
         "totalBalanceMissing": "No incluye {currencies}: aún no hay tipo de cambio.",
         "internalTransfer": "Transferencia Interna"
+    },
+    "Accounts": {
+        "title": "Cuentas",
+        "currentAccounts": "Cuentas corrientes",
+        "savingsAccounts": "Cuentas de ahorro",
+        "thisMonth": "Este mes",
+        "makeDefault": "Marcar como predeterminada",
+        "default": "Predeterminada",
+        "viewAll": "Ver todas",
+        "moreAccounts": "+{count} más",
+        "accountOptions": "Opciones de la cuenta",
+        "noAccounts": "Todavía no tienes ninguna cuenta. Crea una para empezar a controlar tu dinero."
     },
     "CreateAccount": {
         "title": "Crear Nueva Cuenta",

@@ -45,7 +45,8 @@
     "dashboard": "Dashboard",
     "addTransaction": "Add Transaction",
     "analytics": "Analytics",
-    "login": "Login"
+    "login": "Login",
+    "accounts": "Accounts"
   },
   "Hero": {
     "title1": "The tool to track",
@@ -180,6 +181,18 @@
     "totalBalanceRates": "Converted at ECB reference rates of {date}.",
     "totalBalanceMissing": "{currencies} not included: no exchange rate yet.",
     "internalTransfer": "Internal Transfer"
+  },
+  "Accounts": {
+    "title": "Accounts",
+    "currentAccounts": "Current accounts",
+    "savingsAccounts": "Savings accounts",
+    "thisMonth": "This month",
+    "makeDefault": "Make default",
+    "default": "Default",
+    "viewAll": "View all",
+    "moreAccounts": "+{count} more",
+    "accountOptions": "Account options",
+    "noAccounts": "You don't have any accounts yet. Create one to start tracking your money."
   },
   "CreateAccount": {
     "title": "Create New Account",

@@ -1,16 +1,11 @@
 import React, { Suspense } from 'react'
 import { getUserAccounts } from '@/actions/dashboard'
-import CreateAccountDrawer from '@/components/create-account-drawer'
-import { Card, CardContent } from '@/components/ui/card'
-import { ArrowLeftRight, Plus } from 'lucide-react'
-import { Link } from '@/i18n/navigation'
-import AccountCard from './_components/account-card'
 import { getCurrentBudget } from '@/actions/budget'
 import BudgetProgress from './_components/budget-progress'
 import { getDashboardData, getTotalBalance } from '@/actions/dashboard'
 import { getTranslations } from 'next-intl/server';
 import DashboardOverview from './_components/dashboard-overview';
-import TotalBalance from './_components/total-balance';
+import TotalBalance from '@/components/total-balance';
 
 async function DashboardPage() {
     const t = await getTranslations('Dashboard');
@@ -48,37 +43,6 @@ async function DashboardPage() {
 
             {/* Total across accounts (two accounts or more) */}
             {totalBalance && <TotalBalance total={totalBalance} />}
-
-            {/* Accounts Grid */}
-            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-                <CreateAccountDrawer>
-                    <Card className="hover:shadow-md transition-shadow cursor-pointer border-dashed">
-                        <CardContent className="flex flex-col items-center justify-center 
-                        text-muted-foreground h-full pt-5">
-                            <Plus className="w-10 h-10 mb-2" />
-                            <p className="text-sm font-medium">{t('createAccount')}</p>
-                        </CardContent>
-                    </Card>
-                </CreateAccountDrawer>
-
-                {accounts.length > 0 && (
-                    <Link href="/transaction/transfer">
-                        <Card className="hover:shadow-md transition-shadow cursor-pointer border-dashed h-full">
-                            <CardContent className="flex flex-col items-center justify-center
-                            text-muted-foreground h-full pt-5">
-                                <ArrowLeftRight className="w-10 h-10 mb-2" />
-                                <p className="text-sm font-medium">{t('internalTransfer')}</p>
-                            </CardContent>
-                        </Card>
-                    </Link>
-                )}
-
-                {accounts.length > 0
-                    && accounts?.map((account) => (
-                        <AccountCard key={account.id} account={account} />
-                    ))}
-            </div>
-
         </div>
     )
 }
