@@ -3,13 +3,10 @@ import { getUserAccounts } from '@/actions/dashboard'
 import { getCurrentBudget } from '@/actions/budget'
 import BudgetProgress from './_components/budget-progress'
 import { getDashboardData, getTotalBalance } from '@/actions/dashboard'
-import { getTranslations } from 'next-intl/server';
 import DashboardOverview from './_components/dashboard-overview';
-import TotalBalance from '@/components/total-balance';
+import AccountsSummary from './_components/accounts-summary';
 
 async function DashboardPage() {
-    const t = await getTranslations('Dashboard');
-
     const accounts = await getUserAccounts()
 
     const defaultAccount = accounts?.find((account) => account.isDefault);
@@ -32,17 +29,17 @@ async function DashboardPage() {
                 accountCurrency={budgetData?.accountCurrency}
             />}
 
+            {/* Recent transactions, expenses breakdown and accounts; one column below lg */}
+            <div className="grid gap-6 lg:grid-cols-[1fr_1fr_380px] items-start">
+                <Suspense fallback={"Loading overview..."}>
+                    <DashboardOverview
+                        accounts={accounts}
+                        transactions={transactions || []}
+                    />
+                </Suspense>
 
-            {/* Overview */}
-            <Suspense fallback={"Loading overview..."}>
-                <DashboardOverview
-                    accounts={accounts}
-                    transactions={transactions || []}
-                />
-            </Suspense>
-
-            {/* Total across accounts (two accounts or more) */}
-            {totalBalance && <TotalBalance total={totalBalance} />}
+                <AccountsSummary accounts={accounts} totalBalance={totalBalance} />
+            </div>
         </div>
     )
 }

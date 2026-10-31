@@ -29,8 +29,9 @@ const DashboardOverview = ({ accounts, transactions }) => {
         .sort((a, b) => new Date(b.date) - new Date(a.date))
         .slice(0, 5);
 
+    // Two cards without a wrapper: they're cells of the dashboard page's grid
     return (
-        <div className="grid gap-4 md:grid-cols-2">
+        <>
             <Card>
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-4">
                     <CardTitle className="text-base font-normal">
@@ -106,7 +107,7 @@ const DashboardOverview = ({ accounts, transactions }) => {
                     />
                 </CardContent>
             </Card>
-        </div>
+        </>
     )
 }
 

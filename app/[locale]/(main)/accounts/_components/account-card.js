@@ -12,14 +12,9 @@ import { useEffect } from 'react';
 import { updateDefaultAccount } from "@/actions/accounts";
 import { Badge } from '@/components/ui/badge';
 import { formatMoney } from '@/lib/currency';
+import DefaultPill from './default-pill';
 
 import { useLocale, useTranslations } from 'next-intl';
-
-export const DefaultPill = ({ label }) => (
-    <span className="text-[11px] font-semibold text-orange-800 bg-orange-100 rounded-full px-2 py-0.5 whitespace-nowrap">
-        {label}
-    </span>
-);
 
 const AccountCard = ({ account }) => {
     const { name, type, balance, id, isDefault, currency, monthIncome, monthExpense } = account;
