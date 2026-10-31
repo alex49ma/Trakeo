@@ -11,6 +11,7 @@ import { Loader2 } from 'lucide-react'
 import { toast } from 'sonner'
 import { createSubcategory, updateSubcategory } from "@/actions/categories"
 import { useTranslations } from 'next-intl'
+import { categoryLabel } from '@/lib/system-categories'
 
 const CreateSubcategoryDrawer = ({ children, categoryId, onSubcategoryCreated, subcategoryToEdit = null, categories = [], open: controlledOpen, onOpenChange: controlledOnOpenChange }) => {
     const [internalOpen, setInternalOpen] = useState(false)
@@ -21,6 +22,7 @@ const CreateSubcategoryDrawer = ({ children, categoryId, onSubcategoryCreated, s
 
     const t = useTranslations('CreateSubcategory')
     const common = useTranslations('Common')
+    const tCategories = useTranslations('SystemCategories')
 
     const { register, handleSubmit, formState: { errors }, reset, setValue } = useForm({
         resolver: zodResolver(subcategorySchema),
@@ -116,7 +118,7 @@ const CreateSubcategoryDrawer = ({ children, categoryId, onSubcategoryCreated, s
                                             <SelectItem key={cat.id} value={cat.id}>
                                                 <div className="flex items-center gap-2">
                                                     <span className="w-3 h-3 rounded-full" style={{ backgroundColor: cat.color }}></span>
-                                                    {cat.name}
+                                                    {categoryLabel(cat, tCategories)}
                                                 </div>
                                             </SelectItem>
                                         ))}

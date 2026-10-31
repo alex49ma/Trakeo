@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useMemo, useEffect, useState } from 'react'
+import React, { useCallback, useMemo, useEffect, useState } from 'react'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import { Checkbox } from '@/components/ui/checkbox'
 import { format } from 'date-fns';
@@ -17,14 +17,27 @@ import useFetch from '@/hooks/use-fetch';
 import { toast } from 'sonner';
 import { BarLoader } from 'react-spinners';
 import { bulkDeleteTransactions } from "@/actions/accounts";
+import { formatMoney, formatRate } from '@/lib/currency';
+import { categoryLabel } from '@/lib/system-categories';
 
 import { useTranslations, useLocale } from 'next-intl';
 import { enUS, es } from 'date-fns/locale';
 
-const TransactionTable = ({ transactions }) => {
+// The account on the other side of a transfer transaction, and whether the money went out to it
+const transferCounterpart = (transaction) => {
+    const transfer = transaction.transfer;
+    if (!transfer) return null;
+    return transaction.accountId === transfer.fromAccountId
+        ? { account: transfer.toAccount, outgoing: true }
+        : { account: transfer.fromAccount, outgoing: false };
+};
+
+const TransactionTable = ({ transactions, currency }) => {
     const locale = useLocale();
     const t = useTranslations('Account.table');
     const tRecurring = useTranslations('Account.recurring');
+    const tCategories = useTranslations('SystemCategories');
+    const label = useCallback((category) => categoryLabel(category, tCategories), [tCategories]);
 
     const dateLocale = locale === 'es' ? es : enUS;
     const common = useTranslations('Common');
@@ -47,9 +60,33 @@ const TransactionTable = ({ transactions }) => {
     } = useFetch(bulkDeleteTransactions);
 
     const handleBulkDelete = async () => {
-        if (!window.confirm(t('deleteConfirm'))) return;
+        // Transfers disappear from the other account too, so say how many
+        const transferCount = new Set(
+            transactions
+                .filter((transaction) => selectedIds.includes(transaction.id) && transaction.transferId)
+                .map((transaction) => transaction.transferId)
+        ).size;
+        const message = transferCount > 0 ? t('deleteConfirmWithTransfers', { count: transferCount }) : t('deleteConfirm');
+        if (!window.confirm(message)) return;
         deleteFn(selectedIds);
         setSelectedIds([]);
+    }
+
+    const handleDelete = (transaction) => {
+        if (transaction.transferId && !window.confirm(t('deleteTransferConfirm'))) return;
+        deleteFn([transaction.id]);
+    }
+
+    // Rate (between currencies) and fee of a transfer, for the tooltip
+    const transferDetails = (transfer) => {
+        const parts = [];
+        if (transfer.fromAccount.currency !== transfer.toAccount.currency) {
+            parts.push(formatRate(transfer.rate, transfer.fromAccount.currency, transfer.toAccount.currency, locale));
+        }
+        if (transfer.fee > 0) {
+            parts.push(t('transferFee', { fee: formatMoney(transfer.fee, transfer.fromAccount.currency, locale) }));
+        }
+        return parts.join(" · ");
     }
 
     // Reset to first page when filters change
@@ -85,10 +122,10 @@ const TransactionTable = ({ transactions }) => {
         const categoriesMap = new Map();
         transactions.forEach(t => {
             if (typeFilter && typeFilter !== "all" && t.type !== typeFilter) return;
-            categoriesMap.set(t.category.id, { name: t.category.name, type: t.type });
+            categoriesMap.set(t.category.id, { name: label(t.category), type: t.type });
         });
         return Array.from(categoriesMap.entries()).map(([id, { name, type }]) => ({ id, name, type }));
-    }, [transactions, typeFilter]);
+    }, [transactions, typeFilter, label]);
 
     const availableSubcategories = useMemo(() => {
         const subcategoriesMap = new Map();
@@ -100,11 +137,11 @@ const TransactionTable = ({ transactions }) => {
                 name: t.subcategory.name,
                 type: t.type,
                 categoryId: t.category.id,
-                categoryName: t.category.name
+                categoryName: label(t.category)
             });
         });
         return Array.from(subcategoriesMap.entries()).map(([id, data]) => ({ id, ...data }));
-    }, [transactions, typeFilter, categoryFilter]);
+    }, [transactions, typeFilter, categoryFilter, label]);
 
     // Reset child filters when parent filters change
     useEffect(() => {
@@ -128,10 +165,11 @@ const TransactionTable = ({ transactions }) => {
             const searchLower = searchTerm.toLowerCase();
             results = results.filter((transaction) => {
                 const descriptionMatch = (transaction.description || "").toLowerCase().includes(searchLower);
-                const categoryMatch = (transaction.category?.name || "").toLowerCase().includes(searchLower);
+                const categoryMatch = (label(transaction.category) || "").toLowerCase().includes(searchLower);
                 const subcategoryMatch = (transaction.subcategory?.name || "").toLowerCase().includes(searchLower);
+                const counterpartMatch = (transferCounterpart(transaction)?.account.name || "").toLowerCase().includes(searchLower);
 
-                return descriptionMatch || categoryMatch || subcategoryMatch;
+                return descriptionMatch || categoryMatch || subcategoryMatch || counterpartMatch;
             });
         }
 
@@ -161,8 +199,8 @@ const TransactionTable = ({ transactions }) => {
                     comparison = a.amount - b.amount;
                     break;
                 case "category":
-                    const aName = a.subcategory ? a.subcategory.name : a.category.name;
-                    const bName = b.subcategory ? b.subcategory.name : b.category.name;
+                    const aName = a.subcategory ? a.subcategory.name : label(a.category);
+                    const bName = b.subcategory ? b.subcategory.name : label(b.category);
                     comparison = aName.localeCompare(bName);
                     break;
                 default:
@@ -173,7 +211,7 @@ const TransactionTable = ({ transactions }) => {
 
         return results;
 
-    }, [transactions, searchTerm, typeFilter, categoryFilter, subcategoryFilter, recurringFilter, sortConfig]);
+    }, [transactions, searchTerm, typeFilter, categoryFilter, subcategoryFilter, recurringFilter, sortConfig, label]);
 
     const totalPages = Math.ceil(filteredAndSortedTransactions.length / itemsPerPage);
 
@@ -401,7 +439,34 @@ const TransactionTable = ({ transactions }) => {
                                     {t('noTransactions')}
                                 </TableCell>
                             </TableRow>
-                        ) : (paginatedTransactions.map((transaction) => (
+                        ) : (paginatedTransactions.map((transaction) => {
+                            const counterpart = transferCounterpart(transaction);
+                            const details = transaction.transfer ? transferDetails(transaction.transfer) : "";
+                            const categoryContent = (
+                                <div className="flex flex-col gap-1">
+                                    <span style={{
+                                        backgroundColor: transaction.category.color
+                                    }}
+                                        className="px-2 py-1 rounded-sm text-white text-xs w-fit"
+                                    >
+                                        {transaction.subcategory ? transaction.subcategory.name : label(transaction.category)}
+                                    </span>
+                                    {transaction.subcategory && (
+                                        <span className="text-[10px] text-muted-foreground ml-1">
+                                            {label(transaction.category)}
+                                        </span>
+                                    )}
+                                    {counterpart && (
+                                        <span className="text-[10px] text-muted-foreground ml-1">
+                                            {counterpart.outgoing
+                                                ? t('transferTo', { account: counterpart.account.name })
+                                                : t('transferFrom', { account: counterpart.account.name })}
+                                        </span>
+                                    )}
+                                </div>
+                            );
+
+                            return (
                             <TableRow key={transaction.id}>
                                 <TableCell>
                                     <Checkbox onCheckedChange={() => handleSelect(transaction.id)} checked={selectedIds.includes(transaction.id)} />
@@ -413,24 +478,18 @@ const TransactionTable = ({ transactions }) => {
                                     {transaction.description}
                                 </TableCell>
                                 <TableCell className="capitalize">
-                                    <div className="flex flex-col gap-1">
-                                        <span style={{
-                                            backgroundColor: transaction.category.color
-                                        }}
-                                            className="px-2 py-1 rounded-sm text-white text-xs w-fit"
-                                        >
-                                            {transaction.subcategory ? transaction.subcategory.name : transaction.category.name}
-                                        </span>
-                                        {transaction.subcategory && (
-                                            <span className="text-[10px] text-muted-foreground ml-1">
-                                                {transaction.category.name}
-                                            </span>
-                                        )}
-                                    </div>
+                                    {details ? (
+                                        <Tooltip>
+                                            <TooltipTrigger asChild>{categoryContent}</TooltipTrigger>
+                                            <TooltipContent>
+                                                <div className="text-sm normal-case">{details}</div>
+                                            </TooltipContent>
+                                        </Tooltip>
+                                    ) : categoryContent}
                                 </TableCell>
                                 <TableCell className="text-right font-medium" style={{ color: transaction.type === "EXPENSE" ? "red" : "green" }}>
                                     {transaction.type === "EXPENSE" ? "-" : "+"}
-                                    {transaction.amount.toFixed(2)}€
+                                    {formatMoney(transaction.amount, currency, locale)}
                                 </TableCell>
                                 <TableCell>
                                     {transaction.isRecurring ?
@@ -462,18 +521,21 @@ const TransactionTable = ({ transactions }) => {
                                         <DropdownMenuContent>
                                             <DropdownMenuItem
                                                 onClick={() =>
-                                                    router.push(`/transaction/create?edit=${transaction.id}`)}
+                                                    router.push(transaction.transferId
+                                                        ? `/transaction/transfer?edit=${transaction.transferId}`
+                                                        : `/transaction/create?edit=${transaction.id}`)}
                                             >{common('edit')}</DropdownMenuItem>
                                             <DropdownMenuSeparator />
                                             <DropdownMenuItem
                                                 className="text-destructive"
-                                                onClick={() => deleteFn([transaction.id])}
+                                                onClick={() => handleDelete(transaction)}
                                             >{common('delete')}</DropdownMenuItem>
                                         </DropdownMenuContent>
                                     </DropdownMenu>
                                 </TableCell>
                             </TableRow>
-                        ))
+                            );
+                        })
                         )}
                     </TableBody>
                 </Table>

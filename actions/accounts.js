@@ -18,6 +18,14 @@ const serializeTransaction = (obj) => {
     return serialized;
 }
 
+const serializeTransfer = (transfer) => transfer && ({
+    ...transfer,
+    fromAmount: transfer.fromAmount.toNumber(),
+    fee: transfer.fee.toNumber(),
+    rate: transfer.rate.toNumber(),
+    toAmount: transfer.toAmount.toNumber(),
+});
+
 export async function updateDefaultAccount(accountId) {
     try {
         const { userId } = await auth();
@@ -85,7 +93,13 @@ export async function getAccountWithTransactions(accountId) {
                     },
                     include: {
                         category: true,
-                        subcategory: true
+                        subcategory: true,
+                        transfer: {
+                            include: {
+                                fromAccount: { select: { id: true, name: true, currency: true } },
+                                toAccount: { select: { id: true, name: true, currency: true } },
+                            }
+                        }
                     }
                 },
                 _count: {
@@ -98,7 +112,13 @@ export async function getAccountWithTransactions(accountId) {
 
         if (!account) return null;
 
-        return { ...serializeTransaction(account), transactions: account.transactions.map(serializeTransaction) }
+        return {
+            ...serializeTransaction(account),
+            transactions: account.transactions.map((transaction) => ({
+                ...serializeTransaction(transaction),
+                transfer: serializeTransfer(transaction.transfer),
+            }))
+        }
     } catch (error) {
         return { success: false, error: error.message }
     }
@@ -117,21 +137,35 @@ export async function bulkDeleteTransactions(transactionIds) {
 
         if (!user) throw new Error("User not found");
 
-        const transactions = await db.transaction.findMany({
+        // Deleting any transaction of an internal transfer deletes the whole transfer, in both accounts
+        const selected = await db.transaction.findMany({
             where: {
                 id: {
                     in: transactionIds
                 },
                 userId: user.id
+            },
+            select: { transferId: true }
+        });
+        const transferIds = [...new Set(selected.map((transaction) => transaction.transferId).filter(Boolean))];
+
+        const transactions = await db.transaction.findMany({
+            where: {
+                userId: user.id,
+                OR: [
+                    { id: { in: transactionIds } },
+                    { transferId: { in: transferIds } }
+                ]
             }
         });
 
+        // Summed as Decimals so the stored balances don't pick up float errors
         const accountBalanceChanges = transactions.reduce((acc, transaction) => {
             const change = transaction.type === "EXPENSE"
-                ? transaction.amount.toNumber()
-                : -transaction.amount.toNumber();
+                ? transaction.amount
+                : transaction.amount.neg();
 
-            acc[transaction.accountId] = (acc[transaction.accountId] || 0) + change;
+            acc[transaction.accountId] = acc[transaction.accountId] ? acc[transaction.accountId].plus(change) : change;
             return acc;
         }, {});
 
@@ -139,11 +173,16 @@ export async function bulkDeleteTransactions(transactionIds) {
             await tx.transaction.deleteMany({
                 where: {
                     id: {
-                        in: transactionIds
+                        in: transactions.map((transaction) => transaction.id)
                     },
                     userId: user.id
                 }
             });
+            if (transferIds.length > 0) {
+                await tx.transfer.deleteMany({
+                    where: { id: { in: transferIds }, userId: user.id }
+                });
+            }
             for (const [accountId, balanceChange] of Object.entries(accountBalanceChanges)) {
                 await tx.account.update({
                     where: {
@@ -158,7 +197,9 @@ export async function bulkDeleteTransactions(transactionIds) {
             }
         })
 
-        revalidatePath("/account/[id]")
+        for (const accountId of Object.keys(accountBalanceChanges)) {
+            revalidatePath(`/account/${accountId}`)
+        }
         revalidatePath("/dashboard")
 
         return { success: true }

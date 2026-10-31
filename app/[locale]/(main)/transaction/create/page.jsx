@@ -3,8 +3,9 @@ import React from 'react'
 import { getUserAccounts } from '@/actions/dashboard'
 import { getCategories } from '@/actions/categories';
 import AddTransactionForm from '../_components/transaction-form';
-import { getTranslations } from 'next-intl/server';
+import { getLocale, getTranslations } from 'next-intl/server';
 import { getTransaction } from '@/actions/transaction';
+import { redirect } from '@/i18n/navigation';
 
 const AddTransactionPage = async (props) => {
     const searchParams = await props.searchParams;
@@ -17,6 +18,10 @@ const AddTransactionPage = async (props) => {
     let initialData = null;
     if (editId) {
         const transaction = await getTransaction(editId);
+        // Transfer transactions are edited as a whole, in the transfer form
+        if (transaction.transferId) {
+            redirect({ href: `/transaction/transfer?edit=${transaction.transferId}`, locale: await getLocale() });
+        }
         initialData = transaction;
     }
 

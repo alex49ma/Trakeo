@@ -7,15 +7,18 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { ArrowDownRight, ArrowUpRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import TransactionsPieChart from '@/app/[locale]/(main)/analytics/_components/transactions-pie-chart';
+import { formatMoney } from '@/lib/currency';
 
-import { useTranslations } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
 
 const DashboardOverview = ({ accounts, transactions }) => {
     const t = useTranslations('Dashboard');
+    const locale = useLocale();
 
     const [selectedAccountId, setSelectedAccountId] = useState(
         accounts?.find((a) => a.isDefault)?.id || accounts?.[0]?.id
     );
+    const selectedCurrency = accounts?.find((account) => account.id === selectedAccountId)?.currency;
 
     // Filter transactions
     const accountTransactions = transactions.filter(
@@ -76,7 +79,7 @@ const DashboardOverview = ({ accounts, transactions }) => {
                                             ) : (
                                                 <ArrowUpRight className="mr-1 h-4 w-4" />
                                             )}
-                                            ${transaction.amount.toFixed(2)}
+                                            {formatMoney(transaction.amount, selectedCurrency, locale)}
                                         </div>
                                     </div>
                                 </div>
@@ -99,6 +102,7 @@ const DashboardOverview = ({ accounts, transactions }) => {
                                 date.getFullYear() === now.getFullYear();
                         })}
                         type="EXPENSE"
+                        currency={selectedCurrency}
                     />
                 </CardContent>
             </Card>

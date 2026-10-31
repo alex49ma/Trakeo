@@ -1,10 +1,30 @@
 import z from "zod";
+import { SUPPORTED_CURRENCIES } from "@/lib/currency";
 
 export const accountSchema = z.object({
     name: z.string().min(1, "Name is required"),
     type: z.enum(["CURRENT", "SAVINGS"]),
-    balance: z.string().min(1, "Initial balance is required"),
+    currency: z.enum(SUPPORTED_CURRENCIES),
+    balance: z.string().optional(), // Empty means 0
     isDefault: z.boolean().default(false),
+})
+
+// Server-side check of an internal transfer request. The amounts themselves are validated by resolveExchange
+const exchangeValue = z.union([z.string(), z.number()]).optional();
+
+export const transferSchema = z.object({
+    fromAccountId: z.string().min(1, "Source account is required"),
+    toAccountId: z.string().min(1, "Destination account is required"),
+    fromAmount: exchangeValue,
+    rate: exchangeValue,
+    toAmount: exchangeValue,
+    fee: exchangeValue,
+    derivedField: z.enum(["FROM_AMOUNT", "RATE", "TO_AMOUNT"]),
+    date: z.date({ message: "Date is required" }),
+    description: z.string().optional(),
+}).refine((data) => data.fromAccountId !== data.toAccountId, {
+    message: "Choose two different accounts",
+    path: ["toAccountId"],
 })
 
 

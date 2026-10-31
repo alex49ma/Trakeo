@@ -4,9 +4,11 @@ import React, { useState, useEffect } from 'react'
 import { PieChart, Pie, Tooltip, Cell, ResponsiveContainer } from 'recharts';
 
 
-import { useTranslations } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
+import { formatMoney } from '@/lib/currency';
+import { categoryLabel, countsInTotals } from '@/lib/system-categories';
 
-const TransactionsPieChart = ({ data = [], type = "EXPENSE" }) => {
+const TransactionsPieChart = ({ data = [], type = "EXPENSE", currency }) => {
     const [mounted, setMounted] = useState(false);
 
     useEffect(() => {
@@ -14,6 +16,9 @@ const TransactionsPieChart = ({ data = [], type = "EXPENSE" }) => {
     }, []);
 
     const t = useTranslations('Dashboard');
+    const tCategories = useTranslations('SystemCategories');
+    const locale = useLocale();
+    const money = (value) => formatMoney(value, currency, locale);
 
     if (!mounted) {
         return <div className="h-[300px] w-full" />;
@@ -25,8 +30,8 @@ const TransactionsPieChart = ({ data = [], type = "EXPENSE" }) => {
         </p>;
     }
 
-    // Filter by type
-    const filteredTransactions = data.filter((t) => t.type === type);
+    // Filter by type. Money moved by internal transfers isn't spending or income; their fees are
+    const filteredTransactions = data.filter((t) => t.type === type && countsInTotals(t));
 
     if (filteredTransactions.length === 0) {
         return <p className="text-center text-muted-foreground py-4">
@@ -36,7 +41,7 @@ const TransactionsPieChart = ({ data = [], type = "EXPENSE" }) => {
 
     // Group expenses by category and subcategory
     const transactionStats = filteredTransactions.reduce((acc, transaction) => {
-        const category = transaction.category?.name || t('uncategorized');
+        const category = categoryLabel(transaction.category, tCategories) || t('uncategorized');
         const color = transaction.category?.color || '#333333'; // Default color
         const subcategory = transaction.subcategory?.name || t('other');
 
@@ -116,10 +121,7 @@ const TransactionsPieChart = ({ data = [], type = "EXPENSE" }) => {
                                 <span>{category}</span>
                             </div>
                             <span>
-                                {new Intl.NumberFormat('en-US', {
-                                    style: 'currency',
-                                    currency: 'EUR'
-                                }).format(stats.amount)}
+                                {money(stats.amount)}
                             </span>
                         </div>
 
@@ -144,10 +146,7 @@ const TransactionsPieChart = ({ data = [], type = "EXPENSE" }) => {
                                             <span>{sub}</span>
                                         </div>
                                         <span>
-                                            {new Intl.NumberFormat('en-US', {
-                                                style: 'currency',
-                                                currency: 'EUR'
-                                            }).format(amount)}
+                                            {money(amount)}
                                         </span>
                                     </div>
                                 );
@@ -186,10 +185,7 @@ const TransactionsPieChart = ({ data = [], type = "EXPENSE" }) => {
                             ))}
                         </Pie>
                         <Tooltip
-                            formatter={(value) => new Intl.NumberFormat('en-US', {
-                                style: 'currency',
-                                currency: 'EUR'
-                            }).format(value)}
+                            formatter={(value) => money(value)}
                         />
                     </PieChart>
                 </ResponsiveContainer>

@@ -2,12 +2,17 @@
 
 import React, { useState, useEffect } from 'react'
 import { PieChart, Pie, Tooltip, Cell, ResponsiveContainer } from 'recharts';
-import { useTranslations } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
+import { formatMoney } from '@/lib/currency';
+import { categoryLabel, countsInTotals } from '@/lib/system-categories';
 
 
-const SimplePieChart = ({ data = [], type = "INCOME" }) => {
+const SimplePieChart = ({ data = [], type = "INCOME", currency }) => {
     const [mounted, setMounted] = useState(false);
     const t = useTranslations('Dashboard');
+    const tCategories = useTranslations('SystemCategories');
+    const locale = useLocale();
+    const money = (value) => formatMoney(value, currency, locale);
 
     useEffect(() => {
         setMounted(true);
@@ -23,8 +28,8 @@ const SimplePieChart = ({ data = [], type = "INCOME" }) => {
         </p>;
     }
 
-    // Filter by type
-    const filteredTransactions = data.filter((t) => t.type === type);
+    // Filter by type. Money moved by internal transfers isn't spending or income; their fees are
+    const filteredTransactions = data.filter((t) => t.type === type && countsInTotals(t));
 
     if (filteredTransactions.length === 0) {
         return <p className="text-center text-muted-foreground py-4">
@@ -34,7 +39,7 @@ const SimplePieChart = ({ data = [], type = "INCOME" }) => {
 
     // Group by category only
     const transactionStats = filteredTransactions.reduce((acc, transaction) => {
-        const category = transaction.category?.name || t('uncategorized');
+        const category = categoryLabel(transaction.category, tCategories) || t('uncategorized');
         const color = transaction.category?.color || '#333333'; // Default color
 
         if (!acc[category]) {
@@ -67,10 +72,7 @@ const SimplePieChart = ({ data = [], type = "INCOME" }) => {
                             <span>{item.name}</span>
                         </div>
                         <span>
-                            {new Intl.NumberFormat('en-US', {
-                                style: 'currency',
-                                currency: 'EUR'
-                            }).format(item.value)}
+                            {money(item.value)}
                         </span>
                     </div>
                 ))}
@@ -92,10 +94,7 @@ const SimplePieChart = ({ data = [], type = "INCOME" }) => {
                             ))}
                         </Pie>
                         <Tooltip
-                            formatter={(value) => new Intl.NumberFormat('en-US', {
-                                style: 'currency',
-                                currency: 'EUR'
-                            }).format(value)}
+                            formatter={(value) => money(value)}
                         />
                     </PieChart>
                 </ResponsiveContainer>

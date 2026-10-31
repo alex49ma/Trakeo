@@ -36,7 +36,10 @@
         "orAddViaCsv": "Nebo přidat přes CSV soubor (Beta)",
         "csvSuccess": "Transakce úspěšně importovány",
         "csvError": "Chyba při importu transakcí",
-        "importing": "Importování..."
+        "importing": "Importování...",
+        "currencyMismatch": "Tento účet používá jinou měnu. K převodu peněz mezi měnami použijte interní převod.",
+        "csvCurrencyHint": "Částky budou importovány v měně {currency}.",
+        "csvSkipped": "{count, plural, one {# řádek byl přeskočen, protože jeho měna není {currency}} few {# řádky byly přeskočeny, protože jejich měna není {currency}} other {# řádků bylo přeskočeno, protože jejich měna není {currency}}}"
     },
     "Header": {
         "dashboard": "Přehled",
@@ -94,8 +97,8 @@
                 "description": "Spravujte více účtů a kreditních karet na jednom místě"
             },
             {
-                "title": "Více měn (Brzy!)",
-                "description": "Podpora pro více měn"
+                "title": "Více měn",
+                "description": "Účty v různých měnách s interními převody a směnou měn"
             },
             {
                 "title": "Přizpůsobitelné kategorie",
@@ -133,7 +136,7 @@
                 "quote": "Sledujte výdaje ve více měnách na cestách."
             }
         ],
-        "copyright": "© 2025 Trakeo. Všechna práva vyhrazena."
+        "copyright": "© 2026 Trakeo. Všechna práva vyhrazena."
     },
     "Common": {
         "income": "Příjem",
@@ -154,7 +157,7 @@
         "createAccount": "Vytvořit účet",
         "monthlyBudget": "Měsíční rozpočet",
         "noBudgetSet": "Rozpočet není nastaven",
-        "budgetSpent": "{spent} € utraceno z {budget} €",
+        "budgetSpent": "{spent} utraceno z {budget}",
         "budgetUsed": "{percent}% vyčerpáno",
         "enterAmount": "Zadejte částku",
         "updateBudgetSuccess": "Rozpočet úspěšně aktualizován",
@@ -171,23 +174,27 @@
         "noExpenses": "Žádné výdaje tento měsíc",
         "noIncome": "Žádný příjem tento měsíc",
         "uncategorized": "Nezařazeno",
-        "other": "Ostatní"
+        "other": "Ostatní",
+        "budgetCurrencyMismatch": "Váš rozpočet je v měně {budgetCurrency}, ale váš výchozí účet je v měně {accountCurrency}. Nastavte nový rozpočet.",
+        "internalTransfer": "Interní převod"
     },
     "CreateAccount": {
         "title": "Vytvořit nový účet",
         "accountName": "Název účtu",
         "accountNamePlaceholder": "např. Běžný účet",
         "accountType": "Typ účtu",
-        "initialBalance": "Počáteční zůstatek",
+        "initialBalance": "Počáteční zůstatek (nepovinné)",
         "setAsDefault": "Nastavit jako výchozí účet",
         "defaultDescription": "Tento účet bude vybrán jako výchozí pro transakce",
         "success": "Účet úspěšně vytvořen",
         "error": "Nepodařilo se vytvořit účet",
         "creating": "Vytváření...",
-        "submit": "Vytvořit účet"
+        "submit": "Vytvořit účet",
+        "currency": "Měna",
+        "currencyHint": "Měnu nelze po vytvoření účtu změnit."
     },
     "Footer": {
-        "copyright": "© 2025 Trakeo. Všechna práva vyhrazena."
+        "copyright": "© 2026 Trakeo. Všechna práva vyhrazena."
     },
     "NotFound": {
         "title": "Stránka nenalezena",
@@ -229,7 +236,12 @@
             "perPage": "{count} na stránku",
             "deleteConfirm": "Opravdu chcete smazat tyto transakce?",
             "deleteSuccess": "Transakce úspěšně smazány",
-            "deleteError": "Chyba při mazání transakcí: "
+            "deleteError": "Chyba při mazání transakcí: ",
+            "transferTo": "→ {account}",
+            "transferFrom": "← {account}",
+            "transferFee": "poplatek {fee}",
+            "deleteTransferConfirm": "Tímto odstraníte interní převod z obou účtů. Pokračovat?",
+            "deleteConfirmWithTransfers": "Opravdu chcete smazat tyto transakce? {count, plural, one {# interní převod bude odstraněn} few {# interní převody budou odstraněny} other {# interních převodů bude odstraněno}} i z druhého účtu."
         },
         "recurring": {
             "daily": "Denně",
@@ -237,7 +249,8 @@
             "monthly": "Měsíčně",
             "yearly": "Ročně",
             "custom": "Vlastní"
-        }
+        },
+        "internalTransfer": "Interní převod"
     },
     "Analytics": {
         "title": "Přehled návyků",
@@ -247,7 +260,8 @@
         "month": "Měsíc",
         "fullYear": "Celý rok",
         "currentMonth": "Aktuální měsíc",
-        "allAccounts": "Všechny účty"
+        "allAccounts": "Všechny účty",
+        "allCurrencyAccounts": "Všechny účty v měně {currency}"
     },
     "CreateCategory": {
         "title": "Vytvořit novou kategorii",
@@ -286,6 +300,55 @@
         "deleteCategoryConfirm": "Opravdu chcete smazat tuto kategorii? Všechny transakce v této kategorii budou smazány",
         "categoryDeleted": "Kategorie úspěšně smazána",
         "deleteSubcategoryConfirm": "Opravdu chcete smazat tuto podkategorii?",
-        "subcategoryDeleted": "Podkategorie úspěšně smazána"
+        "subcategoryDeleted": "Podkategorie úspěšně smazána",
+        "builtInTooltip": "Vestavěná kategorie: nelze ji upravit ani smazat."
+    },
+    "SystemCategories": {
+        "OTHER_EXPENSES": "Ostatní výdaje",
+        "OTHER_INCOME": "Ostatní příjmy",
+        "TRANSFER_OUT": "Odchozí převody",
+        "TRANSFER_IN": "Příchozí převody",
+        "TRANSFER_FEE": "Poplatky za převody"
+    },
+    "Transfer": {
+        "title": "Interní převod",
+        "editTitle": "Upravit interní převod",
+        "newTransfer": "Nový interní převod",
+        "editTransfer": "Upravit interní převod",
+        "fromAccount": "Z účtu",
+        "toAccount": "Na účet",
+        "selectAccount": "Vyberte účet",
+        "createAccount": "Vytvořit účet",
+        "currencyExchange": "Směna měn",
+        "amount": "Částka",
+        "amountDeducted": "Odepsaná částka",
+        "exchangeRate": "Směnný kurz",
+        "amountReceived": "Přijatá částka",
+        "calculated": "vypočteno",
+        "inverseRate": "Obráceně: {rate}",
+        "twoOfThreeHint": "Zadejte dvě ze tří hodnot. Třetí se dopočítá.",
+        "fee": "Poplatek (nepovinné)",
+        "feeHint": "Je součástí odepsané částky. Pokud vaše banka účtuje poplatek v cílové měně, nechte pole prázdné a zadejte čistou přijatou částku.",
+        "date": "Datum",
+        "chooseDate": "Vyberte datum",
+        "description": "Popis",
+        "enterDescription": "Zadejte popis",
+        "summary": "Z účtu {fromAccount} odejde {fromAmount} a na účet {toAccount} přijde {toAmount}.",
+        "summaryWithFee": "Z účtu {fromAccount} odejde {fromAmount} (poplatek {fee}) a na účet {toAccount} přijde {toAmount}.",
+        "summarySameCurrency": "Z účtu {fromAccount} na účet {toAccount} se převede {fromAmount}.",
+        "negativeBalance": "Zůstatek účtu {account} by klesl pod nulu.",
+        "save": "Uložit převod",
+        "cancel": "Zrušit",
+        "createSuccess": "Interní převod uložen",
+        "updateSuccess": "Interní převod upraven",
+        "errors": {
+            "required": "Zadejte dvě ze tří hodnot",
+            "invalidNumber": "Zadejte platné číslo",
+            "mustBePositive": "Musí být větší než nula",
+            "tooManyDecimals": "Použijte nejvýše {decimals} desetinná místa",
+            "feeNegative": "Poplatek nemůže být záporný",
+            "feeTooHigh": "Poplatek musí být nižší než odepsaná částka",
+            "resultTooSmall": "Vypočtená hodnota je příliš malá"
+        }
     }
 }

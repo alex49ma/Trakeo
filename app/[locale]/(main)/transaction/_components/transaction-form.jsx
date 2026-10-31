@@ -25,12 +25,15 @@ import { useSearchParams } from 'next/navigation';
 import { updateTransaction } from '@/actions/transaction';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import Papa from 'papaparse';
+import { formatMoney } from '@/lib/currency';
+import { categoryLabel, isTransferCategory } from '@/lib/system-categories';
 
 const AddTransactionForm = ({ accounts, categories, editMode = false, initialData = null }) => {
 
     const t = useTranslations("TransactionForm");
     const tCategory = useTranslations("CreateCategory");
     const tSubcategory = useTranslations("CreateSubcategory");
+    const tCategories = useTranslations("SystemCategories");
     const locale = useLocale();
     const dateLocale = locale === 'es' ? es : enUS;
 
@@ -90,7 +93,7 @@ const AddTransactionForm = ({ accounts, categories, editMode = false, initialDat
                     description: "",
                     date: new Date(),
                     accountId: accounts.find((acc) => acc.isDefault)?.id,
-                    categoryId: categoriesState.find((cat) => cat.name === "Other Expenses")?.id,
+                    categoryId: categoriesState.find((cat) => cat.systemKey === "OTHER_EXPENSES")?.id,
                     isRecurring: false,
                 },
     });
@@ -112,6 +115,11 @@ const AddTransactionForm = ({ accounts, categories, editMode = false, initialDat
     const date = watch("date");
     const categoryId = watch("categoryId");
     const accountId = watch("accountId");
+
+    const selectedAccount = accounts.find((account) => account.id === accountId);
+    // Moving a transaction to an account in another currency would silently relabel its amount
+    const initialAccount = editMode ? accounts.find((account) => account.id === initialData?.accountId) : null;
+    const currencyMismatch = Boolean(initialAccount && selectedAccount && initialAccount.currency !== selectedAccount.currency);
 
     const onSubmit = async (data) => {
         const formData = {
@@ -137,12 +145,14 @@ const AddTransactionForm = ({ accounts, categories, editMode = false, initialDat
         }
 
         setParsing(true);
+        const accountCurrency = accounts.find((account) => account.id === accountId)?.currency;
 
         Papa.parse(file, {
             header: true,
             skipEmptyLines: true,
             complete: async (results) => {
                 const transactions = [];
+                let skipped = 0;
                 for (const row of results.data) {
                     const dateStr = row["Transaction Date"]?.trim();
                     const description = row["Note"]?.trim();
@@ -150,6 +160,13 @@ const AddTransactionForm = ({ accounts, categories, editMode = false, initialDat
                     const amountStr = row["Booked amount"]?.trim();
 
                     if (!dateStr || !amountStr) continue;
+
+                    // Rows in another currency don't belong in this account
+                    const rowCurrency = row["Currency"]?.trim().toUpperCase();
+                    if (rowCurrency && accountCurrency && rowCurrency !== accountCurrency) {
+                        skipped++;
+                        continue;
+                    }
 
                     let amount = parseFloat(amountStr.replace(/\s/g, "").replace(",", "."));
                     if (isNaN(amount)) continue;
@@ -171,6 +188,9 @@ const AddTransactionForm = ({ accounts, categories, editMode = false, initialDat
                     });
                 }
 
+                if (skipped > 0) {
+                    toast.warning(t('csvSkipped', { count: skipped, currency: accountCurrency }));
+                }
                 if (transactions.length > 0) {
                     await bulkTransactionFn(accountId, transactions);
                 } else {
@@ -205,7 +225,8 @@ const AddTransactionForm = ({ accounts, categories, editMode = false, initialDat
         }
     }, [bulkTransactionResult, bulkLoading, accountId, router, t]);
 
-    const filteredCategories = categoriesState.filter((cat) => cat.type === type);
+    // Transfer categories are only used by internal transfers
+    const filteredCategories = categoriesState.filter((cat) => cat.type === type && !isTransferCategory(cat));
     const selectedCategory = categoriesState.find((cat) => cat.id === categoryId);
     const subcategories = selectedCategory?.subCategories || [];
 
@@ -243,7 +264,9 @@ const AddTransactionForm = ({ accounts, categories, editMode = false, initialDat
                     <div className="grid gap-6 md:grid-cols-2">
                         {/* Amount */}
                         <div className="space-y-2">
-                            <label className="text-sm font-medium">{t('amount')}</label>
+                            <label className="text-sm font-medium">
+                                {t('amount')}{selectedAccount && ` (${selectedAccount.currency})`}
+                            </label>
                             <Input
                                 type="number"
                                 step="0.01"
@@ -266,7 +289,7 @@ const AddTransactionForm = ({ accounts, categories, editMode = false, initialDat
                                 <SelectContent>
                                     {accounts.map((account) => (
                                         <SelectItem key={account.id} value={account.id}>
-                                            {account.name} (${parseFloat(account.balance).toFixed(2)})
+                                            {account.name} ({formatMoney(account.balance, account.currency, locale)})
                                         </SelectItem>
                                     ))}
                                     <CreateAccountDrawer>
@@ -275,6 +298,7 @@ const AddTransactionForm = ({ accounts, categories, editMode = false, initialDat
                                 </SelectContent>
                             </Select>
                             {errors.accountId && <p className="text-red-500">{errors.accountId.message}</p>}
+                            {currencyMismatch && <p className="text-sm text-red-500">{t('currencyMismatch')}</p>}
                         </div>
                     </div>
                     {/* Category */}
@@ -294,7 +318,7 @@ const AddTransactionForm = ({ accounts, categories, editMode = false, initialDat
                                 <SelectContent>
                                     {filteredCategories.map((category) => (
                                         <SelectItem key={category.id} value={category.id}>
-                                            {category.name}
+                                            {categoryLabel(category, tCategories)}
                                         </SelectItem>
                                     ))}
                                 </SelectContent>
@@ -428,7 +452,7 @@ const AddTransactionForm = ({ accounts, categories, editMode = false, initialDat
                     {/* Submit and cancel */}
                     <div className="flex gap-4">
                         <Button type="button" variant="prominentCancel" className="flex-1" onClick={() => router.back()}>{t('cancel')}</Button>
-                        <Button type="submit" variant="prominent" className="flex-1" disabled={transactionLoading || bulkLoading}>{t('save')}</Button>
+                        <Button type="submit" variant="prominent" className="flex-1" disabled={transactionLoading || bulkLoading || currencyMismatch}>{t('save')}</Button>
                     </div>
 
                     {/* CSV Upload */}
@@ -459,6 +483,11 @@ const AddTransactionForm = ({ accounts, categories, editMode = false, initialDat
                                     </span>
                                 </Button>
                             </label>
+                            {selectedAccount && (
+                                <p className="text-xs text-muted-foreground text-center mt-2">
+                                    {t('csvCurrencyHint', { currency: selectedAccount.currency })}
+                                </p>
+                            )}
                         </div>
                     )}
 

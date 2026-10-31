@@ -9,13 +9,16 @@ import useFetch from '@/hooks/use-fetch';
 import { toast } from 'sonner';
 import { useEffect } from 'react';
 import { updateDefaultAccount } from "@/actions/accounts";
+import { Badge } from '@/components/ui/badge';
+import { formatMoney } from '@/lib/currency';
 
-import { useTranslations } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
 
 const AccountCard = ({ account }) => {
-    const { name, type, balance, id, isDefault } = account;
+    const { name, type, balance, id, isDefault, currency } = account;
     const t = useTranslations('Dashboard');
     const common = useTranslations('Common');
+    const locale = useLocale();
 
     const {
         loading: updateDefaultLoading,
@@ -57,11 +60,14 @@ const AccountCard = ({ account }) => {
                 </CardHeader>
                 <CardContent>
                     <div className="text-2xl font-bold">
-                        {parseFloat(balance).toFixed(2)}€
+                        {formatMoney(balance, currency, locale)}
                     </div>
-                    <p className="text-xs text-muted-foreground">
-                        {common('accountType.' + type.toUpperCase())}
-                    </p>
+                    <div className="flex items-center gap-2">
+                        <p className="text-xs text-muted-foreground">
+                            {common('accountType.' + type.toUpperCase())}
+                        </p>
+                        <Badge variant="outline">{currency}</Badge>
+                    </div>
                 </CardContent>
                 <CardFooter className="flex justify-between text-sm text-muted-foreground">
                     <div className="flex items-center">

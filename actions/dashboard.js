@@ -4,6 +4,7 @@ import { db } from "@/lib/prisma";
 import { auth } from "@clerk/nextjs/server";
 import { revalidatePath } from "next/cache";
 import { includes } from "zod";
+import { isSupportedCurrency } from "@/lib/currency";
 
 const serializeTransaction = (obj) => {
     const serialized = { ...obj };
@@ -30,9 +31,12 @@ export async function createAccount(data) {
             }
         });
 
-        const balanceFloat = parseFloat(data.balance);
+        // The initial balance is optional: an empty field means 0
+        const balanceInput = String(data.balance ?? "").trim();
+        const balanceFloat = balanceInput === "" ? 0 : parseFloat(balanceInput);
 
         if (isNaN(balanceFloat)) throw new Error("Invalid balance");
+        if (!isSupportedCurrency(data.currency)) throw new Error("Unsupported currency");
 
         const existingAccounts = await db.account.findMany({
             where: {
@@ -54,9 +58,12 @@ export async function createAccount(data) {
             });
         }
 
+        // Fields listed explicitly so a client can't set anything else (an id, for example)
         const account = await db.account.create({
             data: {
-                ...data,
+                name: data.name,
+                type: data.type,
+                currency: data.currency,
                 balance: balanceFloat,
                 isDefault: shouldBeDefault,
                 userId: user.id
@@ -90,9 +97,12 @@ export async function getUserAccounts() {
             where: {
                 userId: user.id
             },
-            orderBy: {
-                createdAt: "desc"
-            },
+            // Default account first, then the most recently active. Every transaction mutation updates the
+            // account balance, so updatedAt doubles as "last transaction change" without an extra query
+            orderBy: [
+                { isDefault: "desc" },
+                { updatedAt: "desc" }
+            ],
             include: {
                 _count: {
                     select: {

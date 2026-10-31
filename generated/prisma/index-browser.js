@@ -135,6 +135,7 @@ exports.Prisma.AccountScalarFieldEnum = {
   name: 'name',
   type: 'type',
   balance: 'balance',
+  currency: 'currency',
   isDefault: 'isDefault',
   userId: 'userId',
   createdAt: 'createdAt',
@@ -158,12 +159,30 @@ exports.Prisma.TransactionScalarFieldEnum = {
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   categoryId: 'categoryId',
-  subcategoryId: 'subcategoryId'
+  subcategoryId: 'subcategoryId',
+  transferId: 'transferId'
+};
+
+exports.Prisma.TransferScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  fromAccountId: 'fromAccountId',
+  toAccountId: 'toAccountId',
+  fromAmount: 'fromAmount',
+  fee: 'fee',
+  rate: 'rate',
+  toAmount: 'toAmount',
+  derivedField: 'derivedField',
+  date: 'date',
+  description: 'description',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.BudgetScalarFieldEnum = {
   id: 'id',
   amount: 'amount',
+  currency: 'currency',
   lastAlertSent: 'lastAlertSent',
   userId: 'userId',
   createdAt: 'createdAt',
@@ -175,6 +194,7 @@ exports.Prisma.CategoryScalarFieldEnum = {
   name: 'name',
   type: 'type',
   color: 'color',
+  systemKey: 'systemKey',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   userId: 'userId'
@@ -234,10 +254,25 @@ exports.TransactionStatus = exports.$Enums.TransactionStatus = {
   FAILED: 'FAILED'
 };
 
+exports.ExchangeField = exports.$Enums.ExchangeField = {
+  FROM_AMOUNT: 'FROM_AMOUNT',
+  RATE: 'RATE',
+  TO_AMOUNT: 'TO_AMOUNT'
+};
+
+exports.SystemCategory = exports.$Enums.SystemCategory = {
+  OTHER_EXPENSES: 'OTHER_EXPENSES',
+  OTHER_INCOME: 'OTHER_INCOME',
+  TRANSFER_OUT: 'TRANSFER_OUT',
+  TRANSFER_IN: 'TRANSFER_IN',
+  TRANSFER_FEE: 'TRANSFER_FEE'
+};
+
 exports.Prisma.ModelName = {
   User: 'User',
   Account: 'Account',
   Transaction: 'Transaction',
+  Transfer: 'Transfer',
   Budget: 'Budget',
   Category: 'Category',
   Subcategory: 'Subcategory',

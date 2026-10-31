@@ -15,8 +15,10 @@ const YEAR = [2025, 2026, 2027, 2028, 2029, 2030, 2031, 2032, 2033, 2034, 2035, 
 
 import { useTranslations, useLocale } from 'next-intl';
 import { enUS, es } from 'date-fns/locale';
+import { formatMoney } from '@/lib/currency';
+import { countsInTotals } from '@/lib/system-categories';
 
-const AccountChart = ({ transactions }) => {
+const AccountChart = ({ transactions, currency }) => {
     const locale = useLocale();
     const dateLocale = locale === 'es' ? es : enUS;
 
@@ -62,9 +64,10 @@ const AccountChart = ({ transactions }) => {
             endDate = endOfMonth(monthDate);
         }
 
+        // Money moved by internal transfers isn't income or expense; their fees still count
         const filtered = transactions.filter((t) => {
             const transactionDate = new Date(t.date);
-            return transactionDate >= startDate && transactionDate <= endOfDay(endDate);
+            return countsInTotals(t) && transactionDate >= startDate && transactionDate <= endOfDay(endDate);
         });
 
         const grouped = filtered.reduce((acc, transaction) => {
@@ -130,16 +133,16 @@ const AccountChart = ({ transactions }) => {
                 <div className="flex justify-around mb-6 text-sm">
                     <div className="text-center">
                         <p className="text-muted-foreground">{t('totalIncome')}</p>
-                        <p className="text-lg font-bold text-green-500">{totals.income.toFixed(2)} €</p>
+                        <p className="text-lg font-bold text-green-500">{formatMoney(totals.income, currency, locale)}</p>
                     </div>
                     <div className="text-center">
                         <p className="text-muted-foreground">{t('totalExpense')}</p>
-                        <p className="text-lg font-bold text-red-500">{totals.expense.toFixed(2)} €</p>
+                        <p className="text-lg font-bold text-red-500">{formatMoney(totals.expense, currency, locale)}</p>
                     </div>
                     <div className="text-center">
                         <p className="text-muted-foreground">{t('totalNet')}</p>
                         <p className={(totals.income - totals.expense) >= 0 ? "text-lg font-bold text-green-500" : "text-lg font-bold text-red-500"}>
-                            {(totals.income - totals.expense).toFixed(2)} €
+                            {formatMoney(totals.income - totals.expense, currency, locale)}
                         </p>
                     </div>
                 </div>
@@ -159,10 +162,10 @@ const AccountChart = ({ transactions }) => {
                             fontSize={12}
                             tickLine={false}
                             axisLine={false}
-                            tickFormatter={(value) => `${value}€`}
+                            tickFormatter={(value) => formatMoney(value, currency, locale, { notation: "compact", minimumFractionDigits: 0, maximumFractionDigits: 1 })}
                         />
                         <Tooltip
-                            formatter={(value) => [`${value}€`, undefined]}
+                            formatter={(value) => [formatMoney(value, currency, locale), undefined]}
                             contentStyle={{
                                 backgroundColor: "hsl(var(--popover))",
                                 border: "1px solid hsl(var(--border))",
