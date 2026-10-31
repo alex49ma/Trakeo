@@ -8,23 +8,35 @@ import SimplePieChart from '@/app/[locale]/(main)/analytics/_components/simple-p
 import CategoriesCard from './categories-card';
 import { useTranslations, useLocale } from 'next-intl';
 import { DEFAULT_CURRENCY, SUPPORTED_CURRENCIES } from '@/lib/currency';
+import { countsInTotals } from '@/lib/system-categories';
 
+const ALL_ACCOUNTS = "all";
 const CURRENCY_PREFIX = "currency:";
 
-const AnalyticsDashboard = ({ accounts, transactions, categories }) => {
+const AnalyticsDashboard = ({ accounts, transactions, categories, reportingCurrency, hasRates }) => {
     const t = useTranslations('Analytics');
     const tDashboard = useTranslations('Dashboard');
     const locale = useLocale();
 
-    // Amounts in different currencies can't be added up, so "all accounts" is offered per currency
     const currencies = SUPPORTED_CURRENCIES.filter((currency) => accounts?.some((account) => account.currency === currency));
     const accountCurrency = Object.fromEntries((accounts ?? []).map((account) => [account.id, account.currency]));
+    const mixedCurrencies = currencies.length > 1;
+    // "All accounts" shows every account in the default account's currency, converted at ECB reference rates. Between
+    // currencies that needs rates, so until the first ones arrive only the per-currency groups are offered. With a
+    // single currency, its group would show the same as "All accounts"
+    const offerAllAccounts = !mixedCurrencies || hasRates;
+    const currencyGroups = mixedCurrencies ? currencies : [];
 
     const [selection, setSelection] = useState(
-        CURRENCY_PREFIX + (accounts?.find((a) => a.isDefault)?.currency ?? currencies[0] ?? DEFAULT_CURRENCY)
+        offerAllAccounts
+            ? ALL_ACCOUNTS
+            : CURRENCY_PREFIX + (accounts?.find((a) => a.isDefault)?.currency ?? currencies[0] ?? DEFAULT_CURRENCY)
     );
+    const isAllAccounts = selection === ALL_ACCOUNTS;
     const isCurrencyGroup = selection.startsWith(CURRENCY_PREFIX);
-    const selectedCurrency = isCurrencyGroup ? selection.slice(CURRENCY_PREFIX.length) : accountCurrency[selection];
+    const selectedCurrency = isAllAccounts
+        ? reportingCurrency
+        : isCurrencyGroup ? selection.slice(CURRENCY_PREFIX.length) : accountCurrency[selection];
 
     const currentDate = new Date();
     const [selectedYear, setSelectedYear] = useState(currentDate.getFullYear().toString());
@@ -54,12 +66,20 @@ const AnalyticsDashboard = ({ accounts, transactions, categories }) => {
         const monthMatch = selectedMonth === "full_year"
             ? true
             : transactionDate.getMonth().toString() === selectedMonth;
-        const accountMatch = isCurrencyGroup
-            ? accountCurrency[t.accountId] === selectedCurrency
-            : t.accountId === selection;
+        const accountMatch = isAllAccounts
+            || (isCurrencyGroup ? accountCurrency[t.accountId] === selectedCurrency : t.accountId === selection);
 
         return yearMatch && monthMatch && accountMatch;
     });
+
+    // "All accounts" charts each amount in the default account's currency. A transaction with no exchange rate for
+    // its date can't be converted, so it's left out and counted in a notice (only those the charts would show)
+    const missingRates = isAllAccounts
+        ? filteredTransactions.filter((t) => t.rateMissing && countsInTotals(t)).length
+        : 0;
+    const chartTransactions = isAllAccounts
+        ? filteredTransactions.filter((t) => !t.rateMissing).map((t) => ({ ...t, amount: t.reportingAmount }))
+        : filteredTransactions;
 
     return (
         <div className="space-y-6">
@@ -111,7 +131,10 @@ const AnalyticsDashboard = ({ accounts, transactions, categories }) => {
                         <SelectValue placeholder={tDashboard('selectAccount')} />
                     </SelectTrigger>
                     <SelectContent>
-                        {currencies.map((currency) => (
+                        {offerAllAccounts && (
+                            <SelectItem value={ALL_ACCOUNTS}>{t('allAccounts')}</SelectItem>
+                        )}
+                        {currencyGroups.map((currency) => (
                             <SelectItem key={currency} value={CURRENCY_PREFIX + currency}>
                                 {t('allCurrencyAccounts', { currency })}
                             </SelectItem>
@@ -133,7 +156,7 @@ const AnalyticsDashboard = ({ accounts, transactions, categories }) => {
                         <CardTitle>{t('expenseBreakdown')}</CardTitle>
                     </CardHeader>
                     <CardContent>
-                        <TransactionsPieChart data={filteredTransactions} type="EXPENSE" currency={selectedCurrency} />
+                        <TransactionsPieChart data={chartTransactions} type="EXPENSE" currency={selectedCurrency} />
                     </CardContent>
                 </Card>
 
@@ -143,10 +166,18 @@ const AnalyticsDashboard = ({ accounts, transactions, categories }) => {
                         <CardTitle>{t('incomeBreakdown')}</CardTitle>
                     </CardHeader>
                     <CardContent>
-                        <SimplePieChart data={filteredTransactions} type="INCOME" currency={selectedCurrency} />
+                        <SimplePieChart data={chartTransactions} type="INCOME" currency={selectedCurrency} />
                     </CardContent>
                 </Card>
             </div>
+
+            {/* How "All accounts" converts, and what it had to leave out */}
+            {isAllAccounts && (mixedCurrencies || missingRates > 0) && (
+                <div className="space-y-1 text-xs">
+                    {mixedCurrencies && <p className="text-muted-foreground">{t('convertedNote')}</p>}
+                    {missingRates > 0 && <p className="text-amber-600">{t('missingRates', { count: missingRates })}</p>}
+                </div>
+            )}
 
             {/* Categories Management */}
             <CategoriesCard categories={categories} />

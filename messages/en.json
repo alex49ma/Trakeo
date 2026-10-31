@@ -176,6 +176,9 @@
     "uncategorized": "Uncategorized",
     "other": "Other",
     "budgetCurrencyMismatch": "Your budget is in {budgetCurrency} but your default account is in {accountCurrency}. Set a new budget.",
+    "totalBalance": "Total across accounts",
+    "totalBalanceRates": "Converted at ECB reference rates of {date}.",
+    "totalBalanceMissing": "{currencies} not included: no exchange rate yet.",
     "internalTransfer": "Internal Transfer"
   },
   "CreateAccount": {
@@ -260,7 +263,9 @@
     "month": "Month",
     "fullYear": "Full Year",
     "currentMonth": "Current Month",
-    "allAccounts": "All Accounts",
+    "allAccounts": "All accounts",
+    "convertedNote": "Amounts in other currencies converted at ECB reference rates on each transaction's date.",
+    "missingRates": "{count, plural, one {# transaction isn't included: there's no exchange rate for its date.} other {# transactions aren't included: there's no exchange rate for their dates.}}",
     "allCurrencyAccounts": "All {currency} accounts"
   },
   "CreateCategory": {

@@ -5,6 +5,8 @@ import { auth } from "@clerk/nextjs/server";
 import { revalidatePath } from "next/cache";
 import { includes } from "zod";
 import { isSupportedCurrency } from "@/lib/currency";
+import { hasExchangeRates } from "@/lib/fx/rates";
+import { convertBalances, resolveReportingCurrency, withReportingAmounts } from "@/lib/fx/report";
 
 const serializeTransaction = (obj) => {
     const serialized = { ...obj };
@@ -147,4 +149,48 @@ export async function getDashboardData() {
     });
 
     return transactions.map(serializeTransaction);
+}
+
+// Every transaction, plus its amount in the default account's currency (reportingAmount) for the analytics
+// "All accounts" view. hasRates is false until the exchange rates job has run once
+export async function getAnalyticsData() {
+    const { userId } = await auth();
+    if (!userId) throw new Error("Unauthorized");
+
+    const user = await db.user.findUnique({ where: { clerkUserId: userId } });
+    if (!user) throw new Error("User not found");
+
+    const [accounts, transactions, hasRates] = await Promise.all([
+        db.account.findMany({ where: { userId: user.id }, select: { id: true, currency: true, isDefault: true } }),
+        db.transaction.findMany({
+            where: { userId: user.id },
+            orderBy: { date: "desc" },
+            include: { category: true, subcategory: true },
+        }),
+        hasExchangeRates(),
+    ]);
+
+    const reportingCurrency = resolveReportingCurrency(accounts);
+    const accountCurrency = Object.fromEntries(accounts.map((account) => [account.id, account.currency]));
+    const converted = await withReportingAmounts(transactions, accountCurrency, reportingCurrency);
+
+    return { transactions: converted.map(serializeTransaction), reportingCurrency, hasRates };
+}
+
+// The balance of every account added up in the default account's currency, at the newest exchange rates.
+// Null with fewer than two accounts, where the account card already shows the total
+export async function getTotalBalance() {
+    const { userId } = await auth();
+    if (!userId) throw new Error("Unauthorized");
+
+    const user = await db.user.findUnique({ where: { clerkUserId: userId } });
+    if (!user) throw new Error("User not found");
+
+    const accounts = await db.account.findMany({
+        where: { userId: user.id },
+        select: { currency: true, balance: true, isDefault: true },
+    });
+    if (accounts.length < 2) return null;
+
+    return convertBalances(accounts, resolveReportingCurrency(accounts));
 }

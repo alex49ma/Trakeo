@@ -176,6 +176,9 @@
         "uncategorized": "Nezařazeno",
         "other": "Ostatní",
         "budgetCurrencyMismatch": "Váš rozpočet je v měně {budgetCurrency}, ale váš výchozí účet je v měně {accountCurrency}. Nastavte nový rozpočet.",
+        "totalBalance": "Celkem na všech účtech",
+        "totalBalanceRates": "Přepočteno referenčními kurzy ECB ke dni {date}.",
+        "totalBalanceMissing": "Nezahrnuto: {currencies} (zatím chybí směnný kurz).",
         "internalTransfer": "Interní převod"
     },
     "CreateAccount": {
@@ -261,6 +264,8 @@
         "fullYear": "Celý rok",
         "currentMonth": "Aktuální měsíc",
         "allAccounts": "Všechny účty",
+        "convertedNote": "Částky v jiných měnách jsou přepočteny referenčními kurzy ECB ke dni každé transakce.",
+        "missingRates": "{count, plural, one {# transakce není zahrnuta: pro její datum chybí směnný kurz.} few {# transakce nejsou zahrnuty: pro jejich data chybí směnný kurz.} other {# transakcí není zahrnuto: pro jejich data chybí směnný kurz.}}",
         "allCurrencyAccounts": "Všechny účty v měně {currency}"
     },
     "CreateCategory": {

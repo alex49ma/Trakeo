@@ -176,6 +176,9 @@
         "uncategorized": "Sin Categoría",
         "other": "Otro",
         "budgetCurrencyMismatch": "Tu presupuesto está en {budgetCurrency}, pero tu cuenta predeterminada está en {accountCurrency}. Establece un nuevo presupuesto.",
+        "totalBalance": "Total de todas las cuentas",
+        "totalBalanceRates": "Convertido con los tipos de referencia del BCE del {date}.",
+        "totalBalanceMissing": "No incluye {currencies}: aún no hay tipo de cambio.",
         "internalTransfer": "Transferencia Interna"
     },
     "CreateAccount": {
@@ -260,7 +263,9 @@
         "month": "Mes",
         "fullYear": "Año Completo",
         "currentMonth": "Mes Actual",
-        "allAccounts": "Todas las Cuentas",
+        "allAccounts": "Todas las cuentas",
+        "convertedNote": "Importes en otras monedas convertidos con los tipos de referencia del BCE de la fecha de cada transacción.",
+        "missingRates": "{count, plural, one {# transacción no está incluida: no hay tipo de cambio para su fecha.} other {# transacciones no están incluidas: no hay tipo de cambio para sus fechas.}}",
         "allCurrencyAccounts": "Todas las cuentas en {currency}"
     },
     "CreateCategory": {

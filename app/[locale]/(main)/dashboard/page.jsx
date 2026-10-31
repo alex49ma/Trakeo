@@ -7,9 +7,10 @@ import { Link } from '@/i18n/navigation'
 import AccountCard from './_components/account-card'
 import { getCurrentBudget } from '@/actions/budget'
 import BudgetProgress from './_components/budget-progress'
-import { getDashboardData } from '@/actions/dashboard'
+import { getDashboardData, getTotalBalance } from '@/actions/dashboard'
 import { getTranslations } from 'next-intl/server';
 import DashboardOverview from './_components/dashboard-overview';
+import TotalBalance from './_components/total-balance';
 
 async function DashboardPage() {
     const t = await getTranslations('Dashboard');
@@ -24,6 +25,8 @@ async function DashboardPage() {
     }
 
     const transactions = await getDashboardData();
+
+    const totalBalance = await getTotalBalance();
 
     return (
         <div className="space-y-8">
@@ -42,6 +45,9 @@ async function DashboardPage() {
                     transactions={transactions || []}
                 />
             </Suspense>
+
+            {/* Total across accounts (two accounts or more) */}
+            {totalBalance && <TotalBalance total={totalBalance} />}
 
             {/* Accounts Grid */}
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
