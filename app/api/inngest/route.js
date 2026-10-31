@@ -1,11 +1,11 @@
 import { serve } from "inngest/next";
 import { inngest } from "@/lib/inngest/client";
-import { triggerRecurringTransactions, processRecurringTransaction } from "@/lib/inngest/functions";
+import { triggerRecurringTransactions, processRecurringTransaction, fetchExchangeRates } from "@/lib/inngest/functions";
 
 // Create an API that serves zero functions
 export const { GET, POST, PUT } = serve({
     client: inngest,
     functions: [
-        triggerRecurringTransactions, processRecurringTransaction
+        triggerRecurringTransactions, processRecurringTransaction, fetchExchangeRates
     ],
 });

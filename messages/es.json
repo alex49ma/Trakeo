@@ -326,6 +326,8 @@
         "amountReceived": "Importe recibido",
         "calculated": "calculado",
         "inverseRate": "Inverso: {rate}",
+        "referenceRate": "Tipo de referencia del BCE ({date}): {rate}.",
+        "referenceRateComparison": "{direction, select, below {Tu tipo está un {percent} por debajo.} above {Tu tipo está un {percent} por encima.} other {Tu tipo coincide con el de referencia.}}",
         "twoOfThreeHint": "Introduce dos de los tres valores. El tercero se calcula.",
         "fee": "Comisión (opcional)",
         "feeHint": "Incluida en el importe descontado. Si tu banco la cobra en la moneda de destino, déjala vacía e introduce el importe neto recibido.",

@@ -326,6 +326,8 @@
         "amountReceived": "Přijatá částka",
         "calculated": "vypočteno",
         "inverseRate": "Obráceně: {rate}",
+        "referenceRate": "Referenční kurz ECB ({date}): {rate}.",
+        "referenceRateComparison": "{direction, select, below {Váš kurz je o {percent} nižší.} above {Váš kurz je o {percent} vyšší.} other {Váš kurz odpovídá referenčnímu.}}",
         "twoOfThreeHint": "Zadejte dvě ze tří hodnot. Třetí se dopočítá.",
         "fee": "Poplatek (nepovinné)",
         "feeHint": "Je součástí odepsané částky. Pokud vaše banka účtuje poplatek v cílové měně, nechte pole prázdné a zadejte čistou přijatou částku.",

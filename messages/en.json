@@ -326,6 +326,8 @@
     "amountReceived": "Amount received",
     "calculated": "calculated",
     "inverseRate": "Inverse: {rate}",
+    "referenceRate": "ECB reference rate on {date}: {rate}.",
+    "referenceRateComparison": "{direction, select, below {Your rate is {percent} below it.} above {Your rate is {percent} above it.} other {Your rate matches it.}}",
     "twoOfThreeHint": "Enter two of the three values. The third one is calculated.",
     "fee": "Fee (optional)",
     "feeHint": "Included in the amount deducted. If your bank charges it in the destination currency, leave it empty and enter the net amount received.",

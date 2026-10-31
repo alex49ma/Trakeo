@@ -216,6 +216,15 @@ exports.Prisma.FeedbackScalarFieldEnum = {
   updated_at: 'updated_at'
 };
 
+exports.Prisma.ExchangeRateScalarFieldEnum = {
+  id: 'id',
+  date: 'date',
+  currency: 'currency',
+  rate: 'rate',
+  source: 'source',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -268,6 +277,11 @@ exports.SystemCategory = exports.$Enums.SystemCategory = {
   TRANSFER_FEE: 'TRANSFER_FEE'
 };
 
+exports.ExchangeRateSource = exports.$Enums.ExchangeRateSource = {
+  ECB: 'ECB',
+  FRANKFURTER: 'FRANKFURTER'
+};
+
 exports.Prisma.ModelName = {
   User: 'User',
   Account: 'Account',
@@ -276,7 +290,8 @@ exports.Prisma.ModelName = {
   Budget: 'Budget',
   Category: 'Category',
   Subcategory: 'Subcategory',
-  Feedback: 'Feedback'
+  Feedback: 'Feedback',
+  ExchangeRate: 'ExchangeRate'
 };
 
 /**
