@@ -43,7 +43,8 @@ export default async function Home() {
             </div>
           </div>
         </section>
-        <section className="py-20 bg-orange-50/90 relative z-10">
+        {/* Target of the hero's "See how it works" button; scroll-mt keeps the title clear of the sticky header */}
+        <section id="how-it-works" className="py-20 bg-orange-50/90 relative z-10 scroll-mt-20">
           <div className="container mx-auto px-4">
             <h2 className="text-3xl text-orange-600 font-bold text-center mb-16">{t('howItWorksTitle')}</h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">

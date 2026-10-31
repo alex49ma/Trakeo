@@ -2,6 +2,7 @@ import React from 'react'
 import { Link } from '@/i18n/navigation';
 import { Button } from './ui/button'
 import Image from 'next/image'
+import { ArrowDown, ArrowRight } from 'lucide-react'
 
 import { useTranslations } from 'next-intl';
 
@@ -14,13 +15,19 @@ const HeroSection = () => {
                 <h1 className="text-5xl md:text-8xl lg:text-[105px] pb-6 gradient-title">{t('title1')}</h1>
                 <h1 className="text-5xl md:text-8xl lg:text-[105px] pb-6 gradient-title">{t('title2')}</h1>
                 <p className="text-xl text-gray-200 mb-8 max-w-2xl mx-auto" dangerouslySetInnerHTML={{ __html: t.raw('subtitle') }}></p>
-                <div className="flex justify-center space-x-4 pb-8">
-                    <Link href="/dashboard">
-                        <Button size="lg" variant="outline" className="px-8">{t('getStarted')}</Button>
-                    </Link>
-                    <Link href="/">
-                        <Button size="lg" variant="outline" className="px-8">{t('watchDemo')}</Button>
-                    </Link>
+                <div className="flex flex-wrap justify-center gap-4 pb-8">
+                    <Button asChild size="lg" className="h-11 px-7 font-semibold bg-orange-700 hover:bg-orange-800 text-white shadow-md">
+                        <Link href="/dashboard">
+                            {t('getStarted')}
+                            <ArrowRight />
+                        </Link>
+                    </Button>
+                    <Button asChild size="lg" variant="outline" className="h-11 px-7">
+                        <a href="#how-it-works">
+                            {t('seeHowItWorks')}
+                            <ArrowDown />
+                        </a>
+                    </Button>
                 </div>
                 <div className="perspective-[1000px]">
                     <div>
