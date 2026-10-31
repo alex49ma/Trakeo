@@ -138,6 +138,7 @@ async function moveBalances(tx, transfer, direction) {
 
 function revalidateTransferPaths(transfer) {
     revalidatePath("/dashboard");
+    revalidatePath("/accounts");
     revalidatePath(`/account/${transfer.fromAccountId}`);
     revalidatePath(`/account/${transfer.toAccountId}`);
 }

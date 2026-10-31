@@ -75,6 +75,7 @@ export async function createAccount(data) {
         const serializedAccount = serializeTransaction(account);
 
         revalidatePath("/dashboard");
+        revalidatePath("/accounts");
 
         return { success: true, data: serializedAccount }
 

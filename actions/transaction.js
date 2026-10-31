@@ -75,6 +75,7 @@ export async function createTransaction(data) {
         });
 
         revalidatePath("/dashboard");
+        revalidatePath("/accounts");
         revalidatePath(`/account/${transaction.accountId}`);
 
         return { success: true, data: serializeAmount(transaction) };
@@ -205,6 +206,7 @@ export async function updateTransaction(id, data) {
         revalidatePath(`/account/${transaction.accountId}`);
         if (accountChanged) revalidatePath(`/account/${originalTransaction.accountId}`);
         revalidatePath(`/dashboard`);
+        revalidatePath("/accounts");
 
         return { success: true, data: serializeAmount(transaction) };
     } catch (error) {
@@ -313,6 +315,7 @@ export async function bulkCreateTransactions(accountId, transactions) {
 
         revalidatePath(`/account/${accountId}`);
         revalidatePath(`/dashboard`);
+        revalidatePath("/accounts");
 
         return { success: true, count: transactions.length };
 
