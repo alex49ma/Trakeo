@@ -165,12 +165,18 @@ const AccountChart = ({ transactions, currency }) => {
                             tickFormatter={(value) => formatMoney(value, currency, locale, { notation: "compact", minimumFractionDigits: 0, maximumFractionDigits: 1 })}
                         />
                         <Tooltip
-                            formatter={(value) => [formatMoney(value, currency, locale), undefined]}
+                            // Keep the series name (Income/Expense): the values are dark, so it's the only cue
+                            formatter={(value, name) => [formatMoney(value, currency, locale), name]}
+                            separator=": "
+                            // The theme variables are full oklch colors, so they're used as they are (hsl() around them
+                            // is invalid and left the tooltip transparent). Values in dark text: the bar colors are too pale
                             contentStyle={{
-                                backgroundColor: "hsl(var(--popover))",
-                                border: "1px solid hsl(var(--border))",
+                                backgroundColor: "var(--popover)",
+                                border: "1px solid var(--border)",
                                 borderRadius: "var(--radius)",
+                                boxShadow: "0 4px 12px rgb(0 0 0 / 0.08)",
                             }}
+                            itemStyle={{ color: "var(--popover-foreground)" }}
                         />
                         <Legend />
                         <Bar
