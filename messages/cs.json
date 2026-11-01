@@ -45,14 +45,15 @@
         "dashboard": "Přehled",
         "addTransaction": "Přidat transakci",
         "analytics": "Analytika",
-        "login": "Přihlásit se"
+        "login": "Přihlásit se",
+        "accounts": "Účty"
     },
     "Hero": {
         "title1": "Nástroj pro sledování",
         "title2": "vašich financí",
         "subtitle": "Sledujte své výdaje a příjmy na jednom místě<br />Analyzujte a získejte klíčové poznatky",
         "getStarted": "Začít",
-        "watchDemo": "Přehrát demo"
+        "seeHowItWorks": "Jak to funguje"
     },
     "Landing": {
         "featuresTitle": "Vše co potřebujete pro správu financí",
@@ -176,7 +177,22 @@
         "uncategorized": "Nezařazeno",
         "other": "Ostatní",
         "budgetCurrencyMismatch": "Váš rozpočet je v měně {budgetCurrency}, ale váš výchozí účet je v měně {accountCurrency}. Nastavte nový rozpočet.",
+        "totalBalance": "Celkem na všech účtech",
+        "totalBalanceRates": "Přepočteno referenčními kurzy ECB ke dni {date}.",
+        "totalBalanceMissing": "Nezahrnuto: {currencies} (zatím chybí směnný kurz).",
         "internalTransfer": "Interní převod"
+    },
+    "Accounts": {
+        "title": "Účty",
+        "currentAccounts": "Běžné účty",
+        "savingsAccounts": "Spořicí účty",
+        "thisMonth": "Tento měsíc",
+        "makeDefault": "Nastavit jako výchozí",
+        "default": "Výchozí",
+        "viewAll": "Zobrazit vše",
+        "moreAccounts": "+{count, plural, one {# další} few {# další} other {# dalších}}",
+        "accountOptions": "Možnosti účtu",
+        "noAccounts": "Zatím nemáte žádný účet. Vytvořte si ho a začněte sledovat své peníze."
     },
     "CreateAccount": {
         "title": "Vytvořit nový účet",
@@ -261,6 +277,8 @@
         "fullYear": "Celý rok",
         "currentMonth": "Aktuální měsíc",
         "allAccounts": "Všechny účty",
+        "convertedNote": "Částky v jiných měnách jsou přepočteny referenčními kurzy ECB ke dni každé transakce.",
+        "missingRates": "{count, plural, one {# transakce není zahrnuta: pro její datum chybí směnný kurz.} few {# transakce nejsou zahrnuty: pro jejich data chybí směnný kurz.} other {# transakcí není zahrnuto: pro jejich data chybí směnný kurz.}}",
         "allCurrencyAccounts": "Všechny účty v měně {currency}"
     },
     "CreateCategory": {
@@ -276,7 +294,8 @@
         "error": "Nepodařilo se vytvořit kategorii",
         "creating": "Vytváření...",
         "isUpdating": "Aktualizace...",
-        "submit": "Vytvořit kategorii"
+        "submit": "Vytvořit kategorii",
+        "changeColorTitle": "Změnit barvu"
     },
     "CreateSubcategory": {
         "title": "Vytvořit novou podkategorii",
@@ -301,7 +320,10 @@
         "categoryDeleted": "Kategorie úspěšně smazána",
         "deleteSubcategoryConfirm": "Opravdu chcete smazat tuto podkategorii?",
         "subcategoryDeleted": "Podkategorie úspěšně smazána",
-        "builtInTooltip": "Vestavěná kategorie: nelze ji upravit ani smazat."
+        "builtInTooltip": "Vestavěná: lze změnit jen barvu.",
+        "changeColor": "Změnit barvu",
+        "resetColor": "Obnovit barvu",
+        "colorReset": "Barva obnovena"
     },
     "SystemCategories": {
         "OTHER_EXPENSES": "Ostatní výdaje",
@@ -326,6 +348,8 @@
         "amountReceived": "Přijatá částka",
         "calculated": "vypočteno",
         "inverseRate": "Obráceně: {rate}",
+        "referenceRate": "Referenční kurz ECB ({date}): {rate}.",
+        "referenceRateComparison": "{direction, select, below {Váš kurz je o {percent} nižší.} above {Váš kurz je o {percent} vyšší.} other {Váš kurz odpovídá referenčnímu.}}",
         "twoOfThreeHint": "Zadejte dvě ze tří hodnot. Třetí se dopočítá.",
         "fee": "Poplatek (nepovinné)",
         "feeHint": "Je součástí odepsané částky. Pokud vaše banka účtuje poplatek v cílové měně, nechte pole prázdné a zadejte čistou přijatou částku.",

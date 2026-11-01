@@ -3,6 +3,8 @@
 import { auth } from "@clerk/nextjs/server";
 import { db } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
+import { startOfMonth, endOfMonth } from "date-fns";
+import { COUNTS_IN_TOTALS_CATEGORY } from "@/lib/system-categories";
 
 const serializeTransaction = (obj) => {
     const serialized = { ...obj };
@@ -61,11 +63,56 @@ export async function updateDefaultAccount(accountId) {
         });
 
         revalidatePath("/dashboard")
+        revalidatePath("/accounts")
         return { success: true, data: serializeTransaction(account) }
     } catch (error) {
         return { success: false, error: error.message }
     }
 
+}
+
+// Every account plus this month's income and expenses in its own currency (monthIncome, monthExpense), for the
+// accounts page. Same month bounds and filter as the budget: internal transfers aren't income or spending, their fees are
+export async function getAccountsOverview() {
+    const { userId } = await auth();
+    if (!userId) throw new Error("Unauthorized");
+
+    const user = await db.user.findUnique({
+        where: {
+            clerkUserId: userId
+        }
+    });
+
+    if (!user) throw new Error("User not found");
+
+    const now = new Date();
+    const [accounts, monthTotals] = await Promise.all([
+        db.account.findMany({
+            where: { userId: user.id },
+            orderBy: [
+                { isDefault: "desc" },
+                { updatedAt: "desc" }
+            ],
+        }),
+        db.transaction.groupBy({
+            by: ["accountId", "type"],
+            where: {
+                userId: user.id,
+                date: { gte: startOfMonth(now), lte: endOfMonth(now) },
+                category: COUNTS_IN_TOTALS_CATEGORY,
+            },
+            _sum: { amount: true },
+        }),
+    ]);
+
+    const monthTotal = (accountId, type) =>
+        monthTotals.find((row) => row.accountId === accountId && row.type === type)?._sum.amount?.toNumber() ?? 0;
+
+    return accounts.map((account) => ({
+        ...serializeTransaction(account),
+        monthIncome: monthTotal(account.id, "INCOME"),
+        monthExpense: monthTotal(account.id, "EXPENSE"),
+    }));
 }
 
 export async function getAccountWithTransactions(accountId) {
@@ -201,6 +248,7 @@ export async function bulkDeleteTransactions(transactionIds) {
             revalidatePath(`/account/${accountId}`)
         }
         revalidatePath("/dashboard")
+        revalidatePath("/accounts")
 
         return { success: true }
     } catch (error) {

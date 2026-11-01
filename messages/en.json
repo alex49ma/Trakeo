@@ -45,14 +45,15 @@
     "dashboard": "Dashboard",
     "addTransaction": "Add Transaction",
     "analytics": "Analytics",
-    "login": "Login"
+    "login": "Login",
+    "accounts": "Accounts"
   },
   "Hero": {
     "title1": "The tool to track",
     "title2": "your finances",
     "subtitle": "Track your expenses and income in one place<br />Analyze and get key insights",
     "getStarted": "Get Started",
-    "watchDemo": "Watch Demo"
+    "seeHowItWorks": "See how it works"
   },
   "Landing": {
     "featuresTitle": "Everything you need to manage your finances",
@@ -176,7 +177,22 @@
     "uncategorized": "Uncategorized",
     "other": "Other",
     "budgetCurrencyMismatch": "Your budget is in {budgetCurrency} but your default account is in {accountCurrency}. Set a new budget.",
+    "totalBalance": "Total across accounts",
+    "totalBalanceRates": "Converted at ECB reference rates of {date}.",
+    "totalBalanceMissing": "{currencies} not included: no exchange rate yet.",
     "internalTransfer": "Internal Transfer"
+  },
+  "Accounts": {
+    "title": "Accounts",
+    "currentAccounts": "Current accounts",
+    "savingsAccounts": "Savings accounts",
+    "thisMonth": "This month",
+    "makeDefault": "Make default",
+    "default": "Default",
+    "viewAll": "View all",
+    "moreAccounts": "+{count} more",
+    "accountOptions": "Account options",
+    "noAccounts": "You don't have any accounts yet. Create one to start tracking your money."
   },
   "CreateAccount": {
     "title": "Create New Account",
@@ -260,7 +276,9 @@
     "month": "Month",
     "fullYear": "Full Year",
     "currentMonth": "Current Month",
-    "allAccounts": "All Accounts",
+    "allAccounts": "All accounts",
+    "convertedNote": "Amounts in other currencies converted at ECB reference rates on each transaction's date.",
+    "missingRates": "{count, plural, one {# transaction isn't included: there's no exchange rate for its date.} other {# transactions aren't included: there's no exchange rate for their dates.}}",
     "allCurrencyAccounts": "All {currency} accounts"
   },
   "CreateCategory": {
@@ -276,7 +294,8 @@
     "error": "Failed to create category",
     "creating": "Creating...",
     "isUpdating": "Updating...",
-    "submit": "Create Category"
+    "submit": "Create Category",
+    "changeColorTitle": "Change Color"
   },
   "CreateSubcategory": {
     "title": "Create New Subcategory",
@@ -301,7 +320,10 @@
     "categoryDeleted": "Category deleted successfully",
     "deleteSubcategoryConfirm": "Are you sure you want to delete this subcategory?",
     "subcategoryDeleted": "Subcategory deleted successfully",
-    "builtInTooltip": "Built-in category: it can't be edited or deleted."
+    "builtInTooltip": "Built-in: only the color can change.",
+    "changeColor": "Change color",
+    "resetColor": "Reset color",
+    "colorReset": "Color reset"
   },
   "SystemCategories": {
     "OTHER_EXPENSES": "Other Expenses",
@@ -326,6 +348,8 @@
     "amountReceived": "Amount received",
     "calculated": "calculated",
     "inverseRate": "Inverse: {rate}",
+    "referenceRate": "ECB reference rate on {date}: {rate}.",
+    "referenceRateComparison": "{direction, select, below {Your rate is {percent} below it.} above {Your rate is {percent} above it.} other {Your rate matches it.}}",
     "twoOfThreeHint": "Enter two of the three values. The third one is calculated.",
     "fee": "Fee (optional)",
     "feeHint": "Included in the amount deducted. If your bank charges it in the destination currency, leave it empty and enter the net amount received.",

@@ -5,7 +5,7 @@ import { BarLoader } from 'react-spinners';
 import { Suspense } from 'react';
 import TransactionTable from '../_components/transaction-table';
 import AccountChart from '../_components/account-chart';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { ArrowLeftRight } from 'lucide-react';
@@ -40,21 +40,22 @@ export default async function AccountPage({ params }) {
                     <Badge variant="outline" className="text-white border-white/60">{account.currency}</Badge>
                 </div>
             </div>
-            <div className="flex flex-col sm:flex-row items-end gap-4">
+            <div className="flex flex-col sm:flex-row items-end gap-4 w-full sm:w-auto">
                 <Link href={`/transaction/transfer?from=${account.id}`}>
                     <Button variant="prominent">
                         <ArrowLeftRight className="h-4 w-4" />
                         {tAccount('internalTransfer')}
                     </Button>
                 </Link>
-                <Card className="text-right pb-2">
-                    <CardHeader>
-                        <CardTitle className="text-x1 sm:text-2x1 font-bold">
+                {/* No CardHeader here: its container-type makes the card ignore the balance's width, so long amounts overflowed */}
+                <Card className="text-right py-4 gap-1 w-full sm:w-auto">
+                    <CardContent className="space-y-1">
+                        <p className="text-xl sm:text-2xl font-bold whitespace-nowrap tabular-nums">
                             {formatMoney(account.balance, account.currency, locale)}
-                        </CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                        <p className="text-sm">{tAccount('transactionsCount', { count: account._count.transactions })}</p>
+                        </p>
+                        <p className="text-sm text-muted-foreground">
+                            {tAccount('transactionsCount', { count: account._count.transactions })}
+                        </p>
                     </CardContent>
                 </Card>
             </div>

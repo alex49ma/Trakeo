@@ -3,16 +3,16 @@
 import React, { useState, useEffect } from 'react'
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Plus, MoreHorizontal, Pencil, Trash2, Lock } from "lucide-react"
+import { Plus, MoreHorizontal, Pencil, Trash2, Lock, Palette, RotateCcw } from "lucide-react"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator } from "@/components/ui/dropdown-menu"
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip"
 import CreateCategoryDrawer from "@/components/create-category-drawer"
 import CreateSubcategoryDrawer from "@/components/create-subcategory-drawer"
 import { useTranslations } from 'next-intl'
-import { deleteCategory, deleteSubcategory } from "@/actions/categories"
+import { deleteCategory, deleteSubcategory, updateCategory } from "@/actions/categories"
 import useFetch from "@/hooks/use-fetch"
 import { toast } from "sonner"
-import { categoryLabel, isTransferCategory } from "@/lib/system-categories"
+import { categoryLabel, defaultSystemColor, isTransferCategory } from "@/lib/system-categories"
 
 const CategoriesCard = ({ categories }) => {
     const t = useTranslations('CategoriesCard')
@@ -32,6 +32,14 @@ const CategoriesCard = ({ categories }) => {
     // Delete actions
     const { loading: deleteCategoryLoading, fetchData: deleteCategoryFn } = useFetch(deleteCategory)
     const { loading: deleteSubcategoryLoading, fetchData: deleteSubcategoryFn } = useFetch(deleteSubcategory)
+    const { loading: resetColorLoading, fetchData: resetColorFn, data: resetColorResult } = useFetch(updateCategory)
+
+    // Built-in categories only: back to the default color from SYSTEM_CATEGORIES
+    const handleResetColor = (category) => resetColorFn(category.id, { color: defaultSystemColor(category.systemKey) })
+
+    useEffect(() => {
+        if (resetColorResult?.success) toast.success(t('colorReset'))
+    }, [resetColorResult])
 
     const handleDeleteCategory = async (id) => {
         if (window.confirm(t('deleteCategoryConfirm'))) {
@@ -60,17 +68,37 @@ const CategoriesCard = ({ categories }) => {
                 <div className="flex items-center gap-2">
                     <span className="w-4 h-4 rounded-full" style={{ backgroundColor: category.color }}></span>
                     <span className="font-medium">{categoryLabel(category, tCategories)}</span>
+                    {category.systemKey && (
+                        <Tooltip>
+                            <TooltipTrigger asChild>
+                                <span className="text-muted-foreground">
+                                    <Lock className="h-3.5 w-3.5" />
+                                </span>
+                            </TooltipTrigger>
+                            <TooltipContent>{t('builtInTooltip')}</TooltipContent>
+                        </Tooltip>
+                    )}
                 </div>
-                {/* Built-in categories are locked: no edit or delete */}
+                {/* Built-in categories can't be renamed or deleted, only recolored */}
                 {category.systemKey ? (
-                    <Tooltip>
-                        <TooltipTrigger asChild>
-                            <span className="flex h-8 w-8 items-center justify-center text-muted-foreground">
-                                <Lock className="h-4 w-4" />
-                            </span>
-                        </TooltipTrigger>
-                        <TooltipContent>{t('builtInTooltip')}</TooltipContent>
-                    </Tooltip>
+                    <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                            <Button variant="ghost" className="h-8 w-8 p-0 opacity-0 group-hover:opacity-100" disabled={resetColorLoading}>
+                                <MoreHorizontal className="h-4 w-4" />
+                            </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end">
+                            <DropdownMenuItem onClick={() => setEditingCategory(category)}>
+                                <Palette className="mr-2 h-4 w-4" /> {t('changeColor')}
+                            </DropdownMenuItem>
+                            <DropdownMenuItem
+                                disabled={category.color.toLowerCase() === defaultSystemColor(category.systemKey)}
+                                onClick={() => handleResetColor(category)}
+                            >
+                                <RotateCcw className="mr-2 h-4 w-4" /> {t('resetColor')}
+                            </DropdownMenuItem>
+                        </DropdownMenuContent>
+                    </DropdownMenu>
                 ) : (
                     <DropdownMenu>
                         <DropdownMenuTrigger asChild>

@@ -1,6 +1,6 @@
 import { auth } from '@clerk/nextjs/server'
 import { getTranslations } from 'next-intl/server';
-import { getDashboardData, getUserAccounts } from '@/actions/dashboard'
+import { getAnalyticsData, getUserAccounts } from '@/actions/dashboard'
 import { getCategories } from '@/actions/categories';
 import AnalyticsDashboard from './_components/analytics-dashboard';
 
@@ -14,8 +14,8 @@ async function AnalyticsPage() {
         return <div>Please sign in to view analytics</div>
     }
 
-    const [transactions, accounts, categories] = await Promise.all([
-        getDashboardData(),
+    const [{ transactions, reportingCurrency, hasRates }, accounts, categories] = await Promise.all([
+        getAnalyticsData(),
         getUserAccounts(),
         getCategories()
     ]);
@@ -28,6 +28,8 @@ async function AnalyticsPage() {
                 accounts={accounts}
                 transactions={transactions}
                 categories={categories}
+                reportingCurrency={reportingCurrency}
+                hasRates={hasRates}
             />
         </div>
     )

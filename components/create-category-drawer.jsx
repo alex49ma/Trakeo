@@ -10,6 +10,7 @@ import useFetch from '@/hooks/use-fetch'
 import { Loader2 } from 'lucide-react'
 import { toast } from 'sonner'
 import { createCategory, updateCategory } from "@/actions/categories"
+import { categoryLabel } from "@/lib/system-categories"
 import { useTranslations } from 'next-intl'
 
 const CreateCategoryDrawer = ({ children, onCategoryCreated, categoryToEdit = null, open: controlledOpen, onOpenChange: controlledOnOpenChange, initialType = "EXPENSE" }) => {
@@ -20,6 +21,10 @@ const CreateCategoryDrawer = ({ children, onCategoryCreated, categoryToEdit = nu
 
     const t = useTranslations('CreateCategory')
     const common = useTranslations('Common')
+    const tCategories = useTranslations('SystemCategories')
+
+    // Built-in categories can only be recolored: their name and type are shown but locked
+    const colorOnly = !!categoryToEdit?.systemKey
 
     const { register, handleSubmit, formState: { errors }, setValue, watch, reset } = useForm({
         resolver: zodResolver(categorySchema),
@@ -90,7 +95,7 @@ const CreateCategoryDrawer = ({ children, onCategoryCreated, categoryToEdit = nu
             <DrawerTrigger asChild>{children}</DrawerTrigger>
             <DrawerContent>
                 <DrawerHeader>
-                    <DrawerTitle>{categoryToEdit ? t('editTitle') : t('title')}</DrawerTitle>
+                    <DrawerTitle>{colorOnly ? t('changeColorTitle') : categoryToEdit ? t('editTitle') : t('title')}</DrawerTitle>
                 </DrawerHeader>
                 <div className="px-4 pb-4">
                     <form className="space-y-4" onSubmit={(e) => {
@@ -99,14 +104,16 @@ const CreateCategoryDrawer = ({ children, onCategoryCreated, categoryToEdit = nu
                     }}>
                         <div className="space-y-2">
                             <label htmlFor="name" className="text-sm font-medium">{t('name')}</label>
-                            <Input id="name" placeholder={t('namePlaceholder')} {...register("name")} />
+                            {colorOnly
+                                ? <Input id="name" value={categoryLabel(categoryToEdit, tCategories)} disabled readOnly />
+                                : <Input id="name" placeholder={t('namePlaceholder')} {...register("name")} />}
                             {errors.name &&
                                 <p className="text-sm text-red-500">{errors.name.message}</p>
                             }
                         </div>
                         <div className="space-y-2">
                             <label htmlFor="type" className="text-sm font-medium">{t('type')}</label>
-                            <Select onValueChange={(value) => setValue("type", value)} defaultValue={watch("type")} value={watch("type")}>
+                            <Select onValueChange={(value) => setValue("type", value)} defaultValue={watch("type")} value={watch("type")} disabled={colorOnly}>
                                 <SelectTrigger id="type">
                                     <SelectValue placeholder={t('selectType')} />
                                 </SelectTrigger>

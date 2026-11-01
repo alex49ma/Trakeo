@@ -158,6 +158,19 @@ model Feedback {
   @@map("feedbacks")
 }
 
+/// ECB euro reference rates: 1 EUR = rate units of currency on that date. Shared by every user; only the Inngest job writes here
+model ExchangeRate {
+  id        String             @id @default(uuid())
+  date      DateTime           @db.Date
+  currency  String             @db.VarChar(3)
+  rate      Decimal            @db.Decimal(20, 10)
+  source    ExchangeRateSource
+  createdAt DateTime           @default(now())
+
+  @@unique([currency, date])
+  @@map("exchange_rates")
+}
+
 enum TransactionType {
   INCOME
   EXPENSE
@@ -196,4 +209,10 @@ enum ExchangeField {
   FROM_AMOUNT
   RATE
   TO_AMOUNT
+}
+
+// Where a stored exchange rate came from. Both serve the ECB's numbers
+enum ExchangeRateSource {
+  ECB
+  FRANKFURTER
 }

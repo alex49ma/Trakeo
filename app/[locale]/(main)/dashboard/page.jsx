@@ -1,19 +1,12 @@
 import React, { Suspense } from 'react'
 import { getUserAccounts } from '@/actions/dashboard'
-import CreateAccountDrawer from '@/components/create-account-drawer'
-import { Card, CardContent } from '@/components/ui/card'
-import { ArrowLeftRight, Plus } from 'lucide-react'
-import { Link } from '@/i18n/navigation'
-import AccountCard from './_components/account-card'
 import { getCurrentBudget } from '@/actions/budget'
 import BudgetProgress from './_components/budget-progress'
-import { getDashboardData } from '@/actions/dashboard'
-import { getTranslations } from 'next-intl/server';
+import { getDashboardData, getTotalBalance } from '@/actions/dashboard'
 import DashboardOverview from './_components/dashboard-overview';
+import AccountsSummary from './_components/accounts-summary';
 
 async function DashboardPage() {
-    const t = await getTranslations('Dashboard');
-
     const accounts = await getUserAccounts()
 
     const defaultAccount = accounts?.find((account) => account.isDefault);
@@ -25,6 +18,8 @@ async function DashboardPage() {
 
     const transactions = await getDashboardData();
 
+    const totalBalance = await getTotalBalance();
+
     return (
         <div className="space-y-8">
             {/* Budget Progress */}
@@ -34,45 +29,17 @@ async function DashboardPage() {
                 accountCurrency={budgetData?.accountCurrency}
             />}
 
+            {/* Recent transactions, expenses breakdown and accounts; one column below lg */}
+            <div className="grid gap-6 lg:grid-cols-[1fr_1fr_380px] items-start">
+                <Suspense fallback={"Loading overview..."}>
+                    <DashboardOverview
+                        accounts={accounts}
+                        transactions={transactions || []}
+                    />
+                </Suspense>
 
-            {/* Overview */}
-            <Suspense fallback={"Loading overview..."}>
-                <DashboardOverview
-                    accounts={accounts}
-                    transactions={transactions || []}
-                />
-            </Suspense>
-
-            {/* Accounts Grid */}
-            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-                <CreateAccountDrawer>
-                    <Card className="hover:shadow-md transition-shadow cursor-pointer border-dashed">
-                        <CardContent className="flex flex-col items-center justify-center 
-                        text-muted-foreground h-full pt-5">
-                            <Plus className="w-10 h-10 mb-2" />
-                            <p className="text-sm font-medium">{t('createAccount')}</p>
-                        </CardContent>
-                    </Card>
-                </CreateAccountDrawer>
-
-                {accounts.length > 0 && (
-                    <Link href="/transaction/transfer">
-                        <Card className="hover:shadow-md transition-shadow cursor-pointer border-dashed h-full">
-                            <CardContent className="flex flex-col items-center justify-center
-                            text-muted-foreground h-full pt-5">
-                                <ArrowLeftRight className="w-10 h-10 mb-2" />
-                                <p className="text-sm font-medium">{t('internalTransfer')}</p>
-                            </CardContent>
-                        </Card>
-                    </Link>
-                )}
-
-                {accounts.length > 0
-                    && accounts?.map((account) => (
-                        <AccountCard key={account.id} account={account} />
-                    ))}
+                <AccountsSummary accounts={accounts} totalBalance={totalBalance} />
             </div>
-
         </div>
     )
 }

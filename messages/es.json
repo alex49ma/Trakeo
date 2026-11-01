@@ -45,14 +45,15 @@
         "dashboard": "Panel de Control",
         "addTransaction": "Añadir Transacción",
         "analytics": "Análisis",
-        "login": "Iniciar Sesión"
+        "login": "Iniciar Sesión",
+        "accounts": "Cuentas"
     },
     "Hero": {
         "title1": "La herramienta para",
         "title2": "manejar tus finanzas",
         "subtitle": "Sigue tus gastos e ingresos en un solo lugar<br />Analiza y obtén información clave",
         "getStarted": "Empezar",
-        "watchDemo": "Ver Demo"
+        "seeHowItWorks": "Ver cómo funciona"
     },
     "Landing": {
         "featuresTitle": "Todo lo que necesitas para gestionar tus finanzas",
@@ -176,7 +177,22 @@
         "uncategorized": "Sin Categoría",
         "other": "Otro",
         "budgetCurrencyMismatch": "Tu presupuesto está en {budgetCurrency}, pero tu cuenta predeterminada está en {accountCurrency}. Establece un nuevo presupuesto.",
+        "totalBalance": "Total de todas las cuentas",
+        "totalBalanceRates": "Convertido con los tipos de referencia del BCE del {date}.",
+        "totalBalanceMissing": "No incluye {currencies}: aún no hay tipo de cambio.",
         "internalTransfer": "Transferencia Interna"
+    },
+    "Accounts": {
+        "title": "Cuentas",
+        "currentAccounts": "Cuentas corrientes",
+        "savingsAccounts": "Cuentas de ahorro",
+        "thisMonth": "Este mes",
+        "makeDefault": "Marcar como predeterminada",
+        "default": "Predeterminada",
+        "viewAll": "Ver todas",
+        "moreAccounts": "+{count} más",
+        "accountOptions": "Opciones de la cuenta",
+        "noAccounts": "Todavía no tienes ninguna cuenta. Crea una para empezar a controlar tu dinero."
     },
     "CreateAccount": {
         "title": "Crear Nueva Cuenta",
@@ -260,7 +276,9 @@
         "month": "Mes",
         "fullYear": "Año Completo",
         "currentMonth": "Mes Actual",
-        "allAccounts": "Todas las Cuentas",
+        "allAccounts": "Todas las cuentas",
+        "convertedNote": "Importes en otras monedas convertidos con los tipos de referencia del BCE de la fecha de cada transacción.",
+        "missingRates": "{count, plural, one {# transacción no está incluida: no hay tipo de cambio para su fecha.} other {# transacciones no están incluidas: no hay tipo de cambio para sus fechas.}}",
         "allCurrencyAccounts": "Todas las cuentas en {currency}"
     },
     "CreateCategory": {
@@ -276,7 +294,8 @@
         "error": "Error al crear la categoría",
         "creating": "Creando...",
         "isUpdating": "Actualizando...",
-        "submit": "Crear categoría"
+        "submit": "Crear categoría",
+        "changeColorTitle": "Cambiar Color"
     },
     "CreateSubcategory": {
         "title": "Crear nueva subcategoría",
@@ -301,7 +320,10 @@
         "categoryDeleted": "Categoría eliminada correctamente",
         "deleteSubcategoryConfirm": "¿Estás seguro de que deseas eliminar esta subcategoría?",
         "subcategoryDeleted": "Subcategoría eliminada correctamente",
-        "builtInTooltip": "Categoría integrada: no se puede editar ni borrar."
+        "builtInTooltip": "Integrada: solo se puede cambiar el color.",
+        "changeColor": "Cambiar color",
+        "resetColor": "Restablecer color",
+        "colorReset": "Color restablecido"
     },
     "SystemCategories": {
         "OTHER_EXPENSES": "Otros gastos",
@@ -326,6 +348,8 @@
         "amountReceived": "Importe recibido",
         "calculated": "calculado",
         "inverseRate": "Inverso: {rate}",
+        "referenceRate": "Tipo de referencia del BCE ({date}): {rate}.",
+        "referenceRateComparison": "{direction, select, below {Tu tipo está un {percent} por debajo.} above {Tu tipo está un {percent} por encima.} other {Tu tipo coincide con el de referencia.}}",
         "twoOfThreeHint": "Introduce dos de los tres valores. El tercero se calcula.",
         "fee": "Comisión (opcional)",
         "feeHint": "Incluida en el importe descontado. Si tu banco la cobra en la moneda de destino, déjala vacía e introduce el importe neto recibido.",

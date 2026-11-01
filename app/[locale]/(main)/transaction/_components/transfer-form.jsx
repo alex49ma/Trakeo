@@ -2,7 +2,7 @@
 
 import React, { useEffect, useRef, useState } from 'react'
 import Big from 'big.js';
-import { format } from 'date-fns';
+import { format, parseISO } from 'date-fns';
 import { es, enUS } from 'date-fns/locale';
 import { CalendarIcon } from 'lucide-react';
 import { toast } from 'sonner';
@@ -10,6 +10,7 @@ import { useLocale, useTranslations } from 'next-intl';
 import { useRouter } from '@/i18n/navigation';
 import useFetch from '@/hooks/use-fetch';
 import { createTransfer, updateTransfer } from '@/actions/transfer';
+import { getReferenceRate } from '@/actions/exchange-rates';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Input } from '@/components/ui/input';
@@ -75,6 +76,32 @@ const TransferForm = ({ accounts, initialData = null, defaultFromAccountId = "" 
             router.push(`/account/${transferResult.data.fromAccountId}`);
         }
     }, [transferResult, transferLoading]);
+
+    // The ECB reference rate for the chosen pair and day, shown as a hint next to the user's own rate. Each answer is
+    // kept with the inputs it belongs to, so a late or failed one never shows up for other inputs
+    const [reference, setReference] = useState(null);
+    const fromCurrency = fromAccount?.currency;
+    const toCurrency = toAccount?.currency;
+    const referenceDay = date ? format(date, "yyyy-MM-dd") : null;
+    const referenceKey = fromCurrency && toCurrency && !sameCurrency && referenceDay
+        ? `${fromCurrency}-${toCurrency}-${referenceDay}`
+        : null;
+
+    useEffect(() => {
+        if (!referenceKey) return;
+        let ignore = false;
+        // Only a hint: an error just leaves it hidden, with no toast
+        getReferenceRate(fromCurrency, toCurrency, referenceDay)
+            .then((found) => {
+                if (!ignore) setReference(found && { ...found, key: referenceKey });
+            })
+            .catch(() => {});
+        return () => {
+            ignore = true;
+        };
+    }, [referenceKey, fromCurrency, toCurrency, referenceDay]);
+
+    const referenceRate = reference?.key === referenceKey ? reference : null;
 
     // What an exchange field shows: what was typed, or the calculated value
     const shownValue = (field) => {
@@ -151,6 +178,16 @@ const TransferForm = ({ accounts, initialData = null, defaultFromAccountId = "" 
         };
         if (new Big(resolved.fee).gt(0)) return t('summaryWithFee', parts);
         return sameCurrency ? t('summarySameCurrency', parts) : t('summary', parts);
+    })();
+
+    // The user's rate against the reference, with one decimal: "1.2% below it". Anything that rounds to 0.0% matches.
+    // resolved.rate applies to the amount after the fee, so the fee doesn't count here
+    const comparison = referenceRate && resolved && (() => {
+        const difference = new Big(resolved.rate).minus(referenceRate.rate).div(referenceRate.rate);
+        const percent = difference.abs().times(100).round(1, Big.roundHalfUp);
+        const direction = percent.eq(0) ? "equal" : difference.lt(0) ? "below" : "above";
+        const formatPercent = new Intl.NumberFormat(locale, { style: "percent", minimumFractionDigits: 1, maximumFractionDigits: 1 });
+        return t('referenceRateComparison', { direction, percent: formatPercent.format(percent.div(100).toNumber()) });
     })();
 
     const accountOption = (account) => (
@@ -243,6 +280,15 @@ const TransferForm = ({ accounts, initialData = null, defaultFromAccountId = "" 
                                     {resolved && (
                                         <p className="text-xs text-muted-foreground">
                                             {t('inverseRate', { rate: formatRate(inverseRate(resolved.rate), toAccount.currency, fromAccount.currency, locale, 4) })}
+                                        </p>
+                                    )}
+                                    {referenceRate && (
+                                        <p className="text-xs text-muted-foreground">
+                                            {t('referenceRate', {
+                                                date: format(parseISO(referenceRate.rateDate), "PP", { locale: dateLocale }),
+                                                rate: formatRate(referenceRate.rate, fromAccount.currency, toAccount.currency, locale),
+                                            })}
+                                            {comparison && ` ${comparison}`}
                                         </p>
                                     )}
                                     {renderAmountField("toAmount", t('amountReceived'), toSymbol)}

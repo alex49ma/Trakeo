@@ -3,7 +3,7 @@
 import { db } from "@/lib/prisma";
 import { checkUser } from "@/lib/checkUser";
 import { revalidatePath } from "next/cache";
-import { isTransferCategory } from "@/lib/system-categories";
+import { HEX_COLOR, isTransferCategory } from "@/lib/system-categories";
 
 export async function getCategories() {
     const user = await checkUser();
@@ -26,6 +26,8 @@ export async function createCategory(data) {
     try {
         const user = await checkUser();
         if (!user) throw new Error("Unauthorized");
+
+        if (!HEX_COLOR.test(data.color ?? "")) throw new Error("Invalid color");
 
         const category = await db.category.create({
             data: {
@@ -83,19 +85,19 @@ export async function updateCategory(id, data) {
             where: { id, userId: user.id }
         });
         if (!existing) throw new Error("Category not found");
-        if (existing.systemKey) throw new Error("Built-in categories can't be changed");
+        if (!HEX_COLOR.test(data.color ?? "")) throw new Error("Invalid color");
 
         const category = await db.category.update({
             where: { id, userId: user.id },
-            data: {
-                name: data.name,
-                type: data.type,
-                color: data.color,
-            }
+            // Built-in categories keep their name and type whatever the client sends; only the color can change
+            data: existing.systemKey
+                ? { color: data.color }
+                : { name: data.name, type: data.type, color: data.color },
         });
 
         revalidatePath("/dashboard");
         revalidatePath("/transaction/create");
+        revalidatePath("/analytics");
         return { success: true, data: category };
     } catch (error) {
         throw new Error(error.message);
