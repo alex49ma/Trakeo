@@ -294,7 +294,8 @@
     "error": "Failed to create category",
     "creating": "Creating...",
     "isUpdating": "Updating...",
-    "submit": "Create Category"
+    "submit": "Create Category",
+    "changeColorTitle": "Change Color"
   },
   "CreateSubcategory": {
     "title": "Create New Subcategory",
@@ -319,7 +320,10 @@
     "categoryDeleted": "Category deleted successfully",
     "deleteSubcategoryConfirm": "Are you sure you want to delete this subcategory?",
     "subcategoryDeleted": "Subcategory deleted successfully",
-    "builtInTooltip": "Built-in category: it can't be edited or deleted."
+    "builtInTooltip": "Built-in: only the color can change.",
+    "changeColor": "Change color",
+    "resetColor": "Reset color",
+    "colorReset": "Color reset"
   },
   "SystemCategories": {
     "OTHER_EXPENSES": "Other Expenses",

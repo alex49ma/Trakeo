@@ -294,7 +294,8 @@
         "error": "Error al crear la categoría",
         "creating": "Creando...",
         "isUpdating": "Actualizando...",
-        "submit": "Crear categoría"
+        "submit": "Crear categoría",
+        "changeColorTitle": "Cambiar Color"
     },
     "CreateSubcategory": {
         "title": "Crear nueva subcategoría",
@@ -319,7 +320,10 @@
         "categoryDeleted": "Categoría eliminada correctamente",
         "deleteSubcategoryConfirm": "¿Estás seguro de que deseas eliminar esta subcategoría?",
         "subcategoryDeleted": "Subcategoría eliminada correctamente",
-        "builtInTooltip": "Categoría integrada: no se puede editar ni borrar."
+        "builtInTooltip": "Integrada: solo se puede cambiar el color.",
+        "changeColor": "Cambiar color",
+        "resetColor": "Restablecer color",
+        "colorReset": "Color restablecido"
     },
     "SystemCategories": {
         "OTHER_EXPENSES": "Otros gastos",

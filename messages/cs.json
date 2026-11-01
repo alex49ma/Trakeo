@@ -294,7 +294,8 @@
         "error": "Nepodařilo se vytvořit kategorii",
         "creating": "Vytváření...",
         "isUpdating": "Aktualizace...",
-        "submit": "Vytvořit kategorii"
+        "submit": "Vytvořit kategorii",
+        "changeColorTitle": "Změnit barvu"
     },
     "CreateSubcategory": {
         "title": "Vytvořit novou podkategorii",
@@ -319,7 +320,10 @@
         "categoryDeleted": "Kategorie úspěšně smazána",
         "deleteSubcategoryConfirm": "Opravdu chcete smazat tuto podkategorii?",
         "subcategoryDeleted": "Podkategorie úspěšně smazána",
-        "builtInTooltip": "Vestavěná kategorie: nelze ji upravit ani smazat."
+        "builtInTooltip": "Vestavěná: lze změnit jen barvu.",
+        "changeColor": "Změnit barvu",
+        "resetColor": "Obnovit barvu",
+        "colorReset": "Barva obnovena"
     },
     "SystemCategories": {
         "OTHER_EXPENSES": "Ostatní výdaje",
