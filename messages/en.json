@@ -46,31 +46,15 @@
     "addTransaction": "Add Transaction",
     "analytics": "Analytics",
     "login": "Login",
-    "accounts": "Accounts"
+    "accounts": "Accounts",
+    "landingLinks": {
+      "month": "A month with Trakeo",
+      "who": "Who it's for",
+      "faq": "FAQ"
+    }
   },
   "Landing": {
-    "testimonialsTitle": "Who is Trakeo for?",
-    "readyToStart": "Ready to get started?",
-    "signupDescription": "Sign up for a free account and start tracking your expenses today.",
     "getStarted": "Get Started",
-    "testimonials": [
-      {
-        "name": "Personal Finance",
-        "role": "For Everyone",
-        "quote": "Keep track of your daily expenses and monthly subscriptions."
-      },
-      {
-        "name": "Freelancers",
-        "role": "For Business",
-        "quote": "Manage business expenses and separate them from personal spending."
-      },
-      {
-        "name": "Travelers",
-        "role": "Multi-currency",
-        "quote": "Track spending in multiple currencies while on the go."
-      }
-    ],
-    "copyright": "© 2026 Trakeo. All rights reserved.",
     "hero": {
       "pill": "Free · No ads · No bank login",
       "title": "The tool to track your finances",
@@ -190,6 +174,75 @@
         }
       },
       "closing": "…and then it's Day 1 again."
+    },
+    "who": {
+      "title": "Who is Trakeo for?",
+      "note": "which one are you?\n(maybe all three)",
+      "personal": {
+        "title": "Personal Finance",
+        "tag": "For everyone",
+        "body": "Keep track of your daily expenses and monthly subscriptions.",
+        "streaming": "Streaming",
+        "gym": "Gym",
+        "phone": "Phone",
+        "subscriptions": "Subscriptions",
+        "perMonth": "{amount} / mo"
+      },
+      "freelancers": {
+        "title": "Freelancers",
+        "tag": "For business",
+        "body": "Manage business expenses and separate them from personal spending.",
+        "business": "Freelance",
+        "personal": "Personal"
+      },
+      "travelers": {
+        "title": "Travelers",
+        "tag": "Multi-currency",
+        "body": "Track spending in multiple currencies while on the go.",
+        "dinner": "Dinner in Brno",
+        "hotel": "Hotel in Sevilla",
+        "lunch": "Lunch in London"
+      }
+    },
+    "faq": {
+      "title": "Good questions",
+      "note": "anything else? the feedback button is always in the corner.",
+      "items": {
+        "free": {
+          "q": "Is Trakeo really free?",
+          "a": "Yes. There are no ads and no payment step: you never enter a card. The free plan covers up to 10 transactions a day."
+        },
+        "bank": {
+          "q": "Do I have to connect my bank?",
+          "a": "No. Trakeo never asks for your bank login. You add transactions yourself, or download a CSV statement from your bank and import it (Beta)."
+        },
+        "currencies": {
+          "q": "Which currencies are supported?",
+          "a": "EUR, CZK, USD, GBP, PLN and CHF. You can hold accounts in any of them and move money between them."
+        },
+        "rates": {
+          "q": "Which exchange rate does Trakeo use?",
+          "a": "The one your bank gave you. When you move money between currencies, you enter the rate you actually got, so your balances always match your bank's. Trakeo also keeps the European Central Bank's daily reference rates, as a guide and to estimate your total wealth across all your accounts in one currency."
+        },
+        "tracking": {
+          "q": "Does Trakeo track me?",
+          "a": "No. There are no third-party analytics or advertising scripts on Trakeo."
+        },
+        "languages": {
+          "q": "Which languages is it available in?",
+          "a": "English, Español and Čeština. You can switch at any time from the top bar."
+        }
+      }
+    },
+    "cta": {
+      "title": "Ready to get started?",
+      "body": "Sign up for a free account and start tracking your expenses today.",
+      "note": "Day 0 starts here"
+    },
+    "footer": {
+      "label": "Footer",
+      "month": "A month with Trakeo",
+      "faq": "FAQ"
     }
   },
   "Common": {

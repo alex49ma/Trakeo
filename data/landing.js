@@ -1,5 +1,3 @@
-import { User, Briefcase, Plane } from "lucide-react";
-
 // Each slice's share of the total, in whole percents
 const withPercents = (slices) => {
     const total = slices.reduce((sum, { amount }) => sum + amount, 0);
@@ -53,16 +51,3 @@ export const SAMPLE = {
         { key: "lunch", amount: 18.5, currency: "GBP" },
     ],
 };
-
-// Testimonials Data example
-export const testimonialsData = [
-    {
-        icon: <User className="h-8 w-8 text-orange-600" />,
-    },
-    {
-        icon: <Briefcase className="h-8 w-8 text-orange-600" />,
-    },
-    {
-        icon: <Plane className="h-8 w-8 text-orange-600" />,
-    },
-];

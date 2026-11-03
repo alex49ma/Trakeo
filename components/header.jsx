@@ -8,6 +8,7 @@ import { checkUser } from "@/lib/checkUser";
 
 import LanguageSwitcher from "@/components/language-switcher";
 import NavLink from "@/components/nav-link";
+import LandingNavLinks from "@/components/landing-nav-links";
 
 import { getTranslations } from "next-intl/server";
 
@@ -30,6 +31,9 @@ const Header = async () => {
                 </Link>
 
                 <div className="flex items-center gap-1.5 sm:gap-4">
+                    <SignedOut>
+                        <LandingNavLinks />
+                    </SignedOut>
                     <LanguageSwitcher />
                     <SignedIn>
                         <NavLink href="/dashboard" icon={<LayoutDashboard size={18} />} label={t('dashboard')} />
