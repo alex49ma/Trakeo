@@ -5,8 +5,9 @@ const withPercents = (slices) => {
 };
 
 // Sample data for the landing page's mock UI (app/[locale]/_components). The numbers are made up, but the copy in
-// messages/*.json (Landing) tells the same story: €200 sent to the Czech account on Day 6, 76% of the budget on
-// Day 14, a month that went mostly on rent. Change the two together
+// messages/*.json (Landing) tells the same story: €600 sent to the Czech account for the rent on Day 6 (CZK 15,060
+// at the bank's rate), 76% of the budget on Day 14, and a month that went mostly on that rent (Housing on Day 30).
+// Change the two together
 export const SAMPLE = {
     // The hero's budget card
     budget: { spent: 1184.3, limit: 1600 },
@@ -18,7 +19,7 @@ export const SAMPLE = {
     salary: { amount: 2350, date: Date.UTC(2026, 9, 1) },
     groceries: 54.2,
     // Day 6: the rate the user's bank gave, next to the ECB reference rate
-    transfer: { amount: 200, rate: 25.1, ecbRate: 25.24 },
+    transfer: { amount: 600, rate: 25.1, ecbRate: 25.24 },
     // Day 14
     monthBudget: { spent: 1216, limit: 1600 },
     // Day 22: the first rows of last month's statement
@@ -32,7 +33,8 @@ export const SAMPLE = {
     },
     // October's expenses, in the hero and on Day 30. stroke and swatch color the donut and its legend
     breakdown: withPercents([
-        { key: "housing", amount: 570, stroke: "stroke-orange-700", swatch: "bg-orange-700" },
+        // The Day 6 rent
+        { key: "housing", amount: 600, stroke: "stroke-orange-700", swatch: "bg-orange-700" },
         { key: "food", amount: 390, stroke: "stroke-orange-400", swatch: "bg-orange-400" },
         { key: "bills", amount: 315, stroke: "stroke-trakeo-teal", swatch: "bg-trakeo-teal" },
         { key: "leisure", amount: 225, stroke: "stroke-orange-300", swatch: "bg-orange-300" },
