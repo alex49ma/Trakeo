@@ -1,10 +1,12 @@
 import { Button } from "@/components/ui/button";
 
-import HeroSection from "@/components/hero";
-import { featuresData, statsData, howItWorksData, testimonialsData } from "@/data/landing";
+import { featuresData, howItWorksData, testimonialsData } from "@/data/landing";
 import { Card, CardContent } from "@/components/ui/card";
 import { Link } from "@/i18n/navigation";
 import FinisherHeader from "@/components/FinisherHeader";
+import PaperGrain from "./_components/paper-grain";
+import Hero from "./_components/hero";
+import Promises from "./_components/promises";
 
 import { getTranslations } from "next-intl/server";
 
@@ -13,20 +15,10 @@ export default async function Home() {
 
   return (
     <FinisherHeader>
-      <div className="mt-40">
-        <HeroSection />
-        <section className="py-20 bg-orange-50/90 relative z-10">
-          <div className="container mx-auto px-4">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-              {statsData.map((stat, index) => (
-                <div key={index} className="text-center">
-                  <div className="text-4xl font-bold text-orange-600 mb-2">{t(`stats.${index}.value`)}</div>
-                  <div className="text-xl font-semibold text-gray-600">{t(`stats.${index}.label`)}</div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
+      <PaperGrain />
+      <Hero />
+      <Promises />
+      <div>
         <section className="py-20 relative z-10">
           <div className="container mx-auto px-4">
             <h2 className="text-3xl text-orange-100 font-bold text-center mb-12">{t('featuresTitle')}</h2>

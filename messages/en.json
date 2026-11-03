@@ -48,13 +48,6 @@
     "login": "Login",
     "accounts": "Accounts"
   },
-  "Hero": {
-    "title1": "The tool to track",
-    "title2": "your finances",
-    "subtitle": "Track your expenses and income in one place<br />Analyze and get key insights",
-    "getStarted": "Get Started",
-    "seeHowItWorks": "See how it works"
-  },
   "Landing": {
     "featuresTitle": "Everything you need to manage your finances",
     "howItWorksTitle": "How it works",
@@ -62,24 +55,6 @@
     "readyToStart": "Ready to get started?",
     "signupDescription": "Sign up for a free account and start tracking your expenses today.",
     "getStarted": "Get Started",
-    "stats": [
-      {
-        "value": "Privacy",
-        "label": "Focused"
-      },
-      {
-        "value": "0",
-        "label": "Ads"
-      },
-      {
-        "value": "Secure",
-        "label": "Data"
-      },
-      {
-        "value": "Free",
-        "label": "10 Transactions a day"
-      }
-    ],
     "features": [
       {
         "title": "Advanced Analytics",
@@ -137,7 +112,59 @@
         "quote": "Track spending in multiple currencies while on the go."
       }
     ],
-    "copyright": "© 2026 Trakeo. All rights reserved."
+    "copyright": "© 2026 Trakeo. All rights reserved.",
+    "hero": {
+      "pill": "Free · No ads · No bank login",
+      "title": "The tool to track your finances",
+      "subtitle": "Track your expenses and income in one place, across every account and currency. Analyze and get key insights.",
+      "seeMonth": "See a month with Trakeo",
+      "languages": "Available in English · Spanish · Czech"
+    },
+    "preview": {
+      "label": "Preview of the Trakeo app with sample data: a monthly budget, accounts in three currencies and an expenses chart",
+      "recent": "Recent",
+      "transfer": "{from} → {to} transfer"
+    },
+    "sample": {
+      "mainAccount": "Main account",
+      "czechAccount": "Czech account",
+      "travelCard": "Travel card",
+      "current": "Current",
+      "salary": "Salary",
+      "groceries": "Groceries",
+      "categories": {
+        "housing": "Housing",
+        "food": "Food",
+        "bills": "Bills",
+        "leisure": "Leisure"
+      }
+    },
+    "mock": {
+      "monthlyBudget": "Monthly Budget",
+      "budgetSpent": "{spent} spent of {budget}",
+      "budgetUsed": "{percent}% used",
+      "expensesBreakdown": "Expenses Breakdown",
+      "accounts": "Accounts"
+    },
+    "promises": {
+      "label": "Our promises",
+      "noBankLogin": {
+        "value": "No bank login",
+        "label": "Add transactions yourself or import a CSV"
+      },
+      "noTrackers": {
+        "value": "No trackers",
+        "label": "No third-party analytics or ad scripts"
+      },
+      "noAds": {
+        "value": "0 Ads",
+        "label": "Ever"
+      },
+      "free": {
+        "value": "Free",
+        "label": "10 transactions a day"
+      }
+    }
   },
   "Common": {
     "income": "Income",
