@@ -1,4 +1,4 @@
-import { Inter } from "next/font/google";
+import { Inter, Kalam } from "next/font/google";
 import "../globals.css";
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages, getTranslations } from 'next-intl/server';
@@ -11,6 +11,9 @@ import { aj } from '@/lib/arcjet';
 import { notFound } from 'next/navigation';
 
 const inter = Inter({ subsets: ["latin"] });
+// Handwriting for the landing page's annotations (Tailwind's font-hand). latin-ext has the Czech letters.
+// It isn't preloaded because the app pages never use it: the browser downloads it only where text needs it
+const kalam = Kalam({ weight: ["400", "700"], subsets: ["latin", "latin-ext"], variable: "--font-kalam", preload: false });
 
 export const metadata = {
   title: "Trakeo",
@@ -32,7 +35,7 @@ export default async function RootLayout({ children, params }) {
   return (
     <ClerkProvider>
       <html lang={locale}>
-        <body className={`${inter.className} flex flex-col min-h-screen`}>
+        <body className={`${inter.className} ${kalam.variable} flex flex-col min-h-screen`}>
           <NextIntlClientProvider messages={messages}>
             {/* Header */}
             <Header />
