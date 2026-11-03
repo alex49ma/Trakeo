@@ -23,8 +23,8 @@ export default function Promises() {
                                 <Icon aria-hidden="true" className="size-[22px]" />
                             </div>
                             <div>
-                                <div className="text-base font-bold text-orange-800 sm:text-lg">{t(`${key}.value`)}</div>
-                                <div className="text-sm text-[#6b6b6b]">{t(`${key}.label`)}</div>
+                                <div className="text-[16px] font-bold text-orange-800 sm:text-[18px]">{t(`${key}.value`)}</div>
+                                <div className="text-[14px] text-[#6b6b6b]">{t(`${key}.label`)}</div>
                             </div>
                         </li>
                     ))}

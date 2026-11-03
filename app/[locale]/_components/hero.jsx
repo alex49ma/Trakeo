@@ -40,7 +40,7 @@ export default function Hero() {
                             </a>
                         </Button>
                     </div>
-                    <p className="mt-7 text-sm font-medium text-orange-50">{t("hero.languages")}</p>
+                    <p className="mt-7 text-[14px] font-medium text-orange-50">{t("hero.languages")}</p>
                 </div>
                 <AppPreview />
             </Container>

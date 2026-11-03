@@ -53,10 +53,11 @@ const TONES = {
     dark: { text: "text-orange-200", arrow: "text-orange-300" },
 };
 
-// Handwritten text. A "\n" in the message starts a new line
+// Handwritten text. A "\n" in the message starts a new line. The line height goes last: tailwind-merge drops a
+// leading-* that comes before a text size, and every caller sets one
 export function HandText({ as: Tag = "div", tone = "light", className, children }) {
     return (
-        <Tag className={cn("font-hand leading-[1.2] whitespace-pre-line", TONES[tone].text, className)}>
+        <Tag className={cn("font-hand whitespace-pre-line", TONES[tone].text, className, "leading-[1.2]")}>
             {children}
         </Tag>
     );

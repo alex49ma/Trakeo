@@ -62,7 +62,7 @@ export default function AppPreview() {
                                     {t("sample.current")} · {currency}
                                 </div>
                             </div>
-                            <span className="font-bold">{money(balance, currency)}</span>
+                            <span className="shrink-0 whitespace-nowrap font-bold">{money(balance, currency)}</span>
                         </div>
                     ))}
                 </Card>
@@ -88,7 +88,7 @@ function RecentRow({ label, amount, className }) {
     return (
         <div className="flex items-center justify-between gap-3 py-1.5 text-[14px]">
             <span className="font-medium">{label}</span>
-            <span className={cn("font-semibold", className)}>{amount}</span>
+            <span className={cn("shrink-0 whitespace-nowrap font-semibold", className)}>{amount}</span>
         </div>
     );
 }

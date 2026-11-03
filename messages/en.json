@@ -49,52 +49,10 @@
     "accounts": "Accounts"
   },
   "Landing": {
-    "featuresTitle": "Everything you need to manage your finances",
-    "howItWorksTitle": "How it works",
     "testimonialsTitle": "Who is Trakeo for?",
     "readyToStart": "Ready to get started?",
     "signupDescription": "Sign up for a free account and start tracking your expenses today.",
     "getStarted": "Get Started",
-    "features": [
-      {
-        "title": "Advanced Analytics",
-        "description": "Get detailed insights into your spending patterns"
-      },
-      {
-        "title": "Bulk Transaction Import (Beta)",
-        "description": "Import transactions from CSV files"
-      },
-      {
-        "title": "Budget Planning",
-        "description": "Create and manage budgets"
-      },
-      {
-        "title": "Multi-Account Support",
-        "description": "Manage multiple accounts and credit cards in one place"
-      },
-      {
-        "title": "Multi-Currency",
-        "description": "Accounts in different currencies, with internal transfers and currency exchanges"
-      },
-      {
-        "title": "Customizable Categories",
-        "description": "Create and manage your own categories"
-      }
-    ],
-    "howItWorks": [
-      {
-        "title": "1. Create Your Account",
-        "description": "Get started in minutes with our simple and secure sign-up process"
-      },
-      {
-        "title": "2. Track Your Spending",
-        "description": "Automatically categorize and track your transactions in real-time"
-      },
-      {
-        "title": "3. Get Insights",
-        "description": "Start noticing patterns and improve your financial health"
-      }
-    ],
     "testimonials": [
       {
         "name": "Personal Finance",
@@ -144,7 +102,27 @@
       "budgetSpent": "{spent} spent of {budget}",
       "budgetUsed": "{percent}% used",
       "expensesBreakdown": "Expenses Breakdown",
-      "accounts": "Accounts"
+      "accounts": "Accounts",
+      "createAccount": "Create Account",
+      "accountName": "Account name",
+      "accountType": "Account type",
+      "currentAccount": "Current Account",
+      "currency": "Currency",
+      "internalTransfer": "Internal Transfer",
+      "from": "From",
+      "to": "To",
+      "bankRate": "Rate from your bank",
+      "ecbReference": "ECB reference",
+      "csvFile": "statement-september.csv",
+      "csvRows": "{count, plural, one {# row ready} other {# rows ready}}",
+      "date": "Date",
+      "description": "Description",
+      "amount": "Amount",
+      "pharmacy": "Pharmacy",
+      "trainTicket": "Train ticket",
+      "refund": "Refund",
+      "import": "Import",
+      "breakdownPeriod": "October · {account}"
     },
     "promises": {
       "label": "Our promises",
@@ -164,6 +142,54 @@
         "value": "Free",
         "label": "10 transactions a day"
       }
+    },
+    "month": {
+      "eyebrow": "how it works, told as a story",
+      "title": "A month with Trakeo",
+      "subtitle": "Follow one month of someone's money, from signing up to knowing exactly where it all went.",
+      "spoiler": "spoiler: it's mostly rent",
+      "day": "Day",
+      "steps": {
+        "signUp": "1 · Sign up",
+        "track": "2 · Track",
+        "understand": "3 · Understand"
+      },
+      "days": {
+        "0": {
+          "title": "Sign up",
+          "body": "You create an account in about a minute. Trakeo never asks for your bank login: you name your first account and pick a currency.",
+          "note": "no bank login.\nthat's a promise."
+        },
+        "1": {
+          "title": "Payday",
+          "body": "Your salary arrives and you log it. First income of the month, done.",
+          "note": "first entry!"
+        },
+        "6": {
+          "title": "Rent in korunas",
+          "body": "You move {amount} to your Czech account to pay rent, and enter the rate your bank actually gave you. Both balances match your bank's, not an estimate.",
+          "note": "rent in Brno"
+        },
+        "9": {
+          "note": "nothing happened, and that's fine."
+        },
+        "14": {
+          "title": "Budget check",
+          "body": "Groceries and a weekend away bring you to {percent} of your monthly budget, and the bar turns yellow before you overspend, not after.",
+          "note": "yellow = slow down a bit"
+        },
+        "22": {
+          "title": "Import from your bank",
+          "body": "You download last month's statement as a CSV from your bank's website and import it in one go. Your bank never talks to Trakeo.",
+          "beta": "Beta"
+        },
+        "30": {
+          "title": "Where did it go?",
+          "body": "The month closes and the breakdown answers it in one look.",
+          "note": "told you.\nrent."
+        }
+      },
+      "closing": "…and then it's Day 1 again."
     }
   },
   "Common": {

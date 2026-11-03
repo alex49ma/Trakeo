@@ -1,14 +1,4 @@
-import {
-    BarChart3,
-    Receipt,
-    PieChart,
-    CreditCard,
-    Globe,
-    Zap,
-    User,
-    Briefcase,
-    Plane,
-} from "lucide-react";
+import { User, Briefcase, Plane } from "lucide-react";
 
 // Each slice's share of the total, in whole percents
 const withPercents = (slices) => {
@@ -63,41 +53,6 @@ export const SAMPLE = {
         { key: "lunch", amount: 18.5, currency: "GBP" },
     ],
 };
-
-// Features Data
-export const featuresData = [
-    {
-        icon: <BarChart3 className="h-8 w-8 text-orange-600" />,
-    },
-    {
-        icon: <Receipt className="h-8 w-8 text-orange-600" />,
-    },
-    {
-        icon: <PieChart className="h-8 w-8 text-orange-600" />,
-    },
-    {
-        icon: <CreditCard className="h-8 w-8 text-orange-600" />,
-    },
-    {
-        icon: <Globe className="h-8 w-8 text-orange-600" />,
-    },
-    {
-        icon: <Zap className="h-8 w-8 text-orange-600" />,
-    },
-];
-
-// How It Works Data
-export const howItWorksData = [
-    {
-        icon: <CreditCard className="h-8 w-8 text-orange-600" />,
-    },
-    {
-        icon: <BarChart3 className="h-8 w-8 text-orange-600" />,
-    },
-    {
-        icon: <PieChart className="h-8 w-8 text-orange-600" />,
-    },
-];
 
 // Testimonials Data example
 export const testimonialsData = [
