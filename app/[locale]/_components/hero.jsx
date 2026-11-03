@@ -12,7 +12,7 @@ export default function Hero() {
         <section aria-labelledby="hero-title" className="relative z-10 pb-20 pt-14 lg:pb-28 lg:pt-24">
             <Container className="grid items-center gap-14 lg:grid-cols-[1.05fr_1fr]">
                 <div className="min-w-0">
-                    <span className="inline-flex h-[30px] items-center gap-1.5 rounded-full bg-white/90 px-3.5 text-[13px] font-semibold text-orange-800">
+                    <span className="inline-flex min-h-[30px] items-center gap-1.5 rounded-full bg-white/90 px-3.5 py-1 text-[13px] font-semibold text-orange-800">
                         <Check aria-hidden="true" className="size-3.5" strokeWidth={2.4} />
                         {t("hero.pill")}
                     </span>

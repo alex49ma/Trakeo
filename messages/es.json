@@ -46,98 +46,204 @@
         "addTransaction": "Añadir Transacción",
         "analytics": "Análisis",
         "login": "Iniciar Sesión",
-        "accounts": "Cuentas"
-    },
-    "Hero": {
-        "title1": "La herramienta para",
-        "title2": "manejar tus finanzas",
-        "subtitle": "Sigue tus gastos e ingresos en un solo lugar<br />Analiza y obtén información clave",
-        "getStarted": "Empezar",
-        "seeHowItWorks": "Ver cómo funciona"
+        "accounts": "Cuentas",
+        "landingLinks": {
+            "month": "Un mes con Trakeo",
+            "who": "Para quién es",
+            "faq": "Preguntas"
+        }
     },
     "Landing": {
-        "featuresTitle": "Todo lo que necesitas para gestionar tus finanzas",
-        "howItWorksTitle": "Cómo funciona",
-        "testimonialsTitle": "¿Para quién es Trakeo?",
-        "readyToStart": "¿Listo para empezar?",
-        "signupDescription": "Regístrate para obtener una cuenta gratuita y comienza a rastrear tus gastos hoy.",
         "getStarted": "Empezar",
-        "stats": [
-            {
-                "value": "Privacidad",
-                "label": "Total"
+        "hero": {
+            "pill": "Gratis · Sin anuncios · Sin conectar tu banco",
+            "title": "La herramienta para controlar tus finanzas",
+            "subtitle": "Registra tus gastos e ingresos en un solo sitio, con todas tus cuentas y monedas. Analízalos y descubre en qué se te va el dinero.",
+            "seeMonth": "Ver un mes con Trakeo",
+            "languages": "Disponible en inglés · español · checo"
+        },
+        "preview": {
+            "label": "Vista previa de Trakeo con datos de ejemplo: un presupuesto mensual, cuentas en tres monedas y un gráfico de gastos",
+            "recent": "Recientes",
+            "transfer": "Transferencia {from} → {to}"
+        },
+        "sample": {
+            "mainAccount": "Cuenta principal",
+            "czechAccount": "Cuenta en coronas",
+            "travelCard": "Tarjeta de viaje",
+            "current": "Corriente",
+            "salary": "Nómina",
+            "groceries": "Supermercado",
+            "categories": {
+                "housing": "Vivienda",
+                "food": "Comida",
+                "bills": "Facturas",
+                "leisure": "Ocio"
+            }
+        },
+        "mock": {
+            "monthlyBudget": "Presupuesto Mensual",
+            "budgetSpent": "{spent} gastados de {budget}",
+            "budgetUsed": "{percent}% usado",
+            "expensesBreakdown": "Desglose de Gastos",
+            "accounts": "Cuentas",
+            "createAccount": "Crear Cuenta",
+            "accountName": "Nombre de la cuenta",
+            "accountType": "Tipo de cuenta",
+            "currentAccount": "Cuenta Corriente",
+            "currency": "Moneda",
+            "internalTransfer": "Transferencia Interna",
+            "from": "Origen",
+            "to": "Destino",
+            "bankRate": "Tipo de cambio de tu banco",
+            "ecbReference": "Referencia del BCE",
+            "csvFile": "extracto-septiembre.csv",
+            "csvRows": "{count, plural, one {# fila lista} other {# filas listas}}",
+            "date": "Fecha",
+            "description": "Descripción",
+            "amount": "Importe",
+            "pharmacy": "Farmacia",
+            "trainTicket": "Billete de tren",
+            "refund": "Devolución",
+            "import": "Importar",
+            "breakdownPeriod": "Octubre · {account}"
+        },
+        "promises": {
+            "label": "Nuestras promesas",
+            "noBankLogin": {
+                "value": "Sin conectar tu banco",
+                "label": "Añade tus movimientos a mano o importa un CSV"
             },
-            {
-                "value": "0",
-                "label": "Anuncios"
+            "noTrackers": {
+                "value": "Sin rastreadores",
+                "label": "Ni analíticas de terceros ni scripts de publicidad"
             },
-            {
-                "value": "Seguro",
-                "label": "Con Tus Datos"
+            "noAds": {
+                "value": "0 anuncios",
+                "label": "Ni ahora ni nunca"
             },
-            {
+            "free": {
                 "value": "Gratis",
-                "label": "10 Transacciones al día"
+                "label": "10 transacciones al día"
             }
-        ],
-        "features": [
-            {
-                "title": "Analíticas Avanzadas",
-                "description": "Obtén información detallada sobre tus patrones de gasto"
+        },
+        "month": {
+            "eyebrow": "cómo funciona, en forma de historia",
+            "title": "Un mes con Trakeo",
+            "subtitle": "Acompaña durante un mes el dinero de alguien: desde que se registra hasta que sabe exactamente adónde ha ido a parar.",
+            "spoiler": "spoiler: casi todo es el alquiler",
+            "day": "Día",
+            "steps": {
+                "signUp": "1 · Regístrate",
+                "track": "2 · Apunta",
+                "understand": "3 · Entiende"
             },
-            {
-                "title": "Importación Masiva (Beta)",
-                "description": "Importa transacciones desde archivos CSV"
+            "days": {
+                "0": {
+                    "title": "Regístrate",
+                    "body": "Creas una cuenta en más o menos un minuto. Trakeo nunca te pide las claves de tu banco: le pones nombre a tu primera cuenta y eliges una moneda.",
+                    "note": "sin claves del banco.\nprometido."
+                },
+                "1": {
+                    "title": "Día de cobro",
+                    "body": "Te llega la nómina y la apuntas. Primer ingreso del mes, listo.",
+                    "note": "¡primer apunte!"
+                },
+                "6": {
+                    "title": "El alquiler, en coronas",
+                    "body": "Pasas {amount} a tu cuenta en coronas para pagar el alquiler e introduces el cambio que te ha dado tu banco de verdad. Los dos saldos cuadran con los de tu banco, no son una estimación.",
+                    "note": "el piso de Brno"
+                },
+                "9": {
+                    "note": "no ha pasado nada, y no pasa nada."
+                },
+                "14": {
+                    "title": "Vistazo al presupuesto",
+                    "body": "Entre la compra y una escapada de fin de semana llegas al {percent} de tu presupuesto mensual, y la barra se pone amarilla antes de que te pases, no después.",
+                    "note": "amarillo = frena un poco"
+                },
+                "22": {
+                    "title": "Importa desde tu banco",
+                    "body": "Descargas el extracto del mes pasado en CSV desde la web de tu banco y lo importas de una vez. Tu banco nunca habla con Trakeo.",
+                    "beta": "Beta"
+                },
+                "30": {
+                    "title": "¿En qué se ha ido?",
+                    "body": "Se cierra el mes y el desglose te lo responde de un vistazo.",
+                    "note": "te lo dije.\nel alquiler."
+                }
             },
-            {
-                "title": "Planificación Presupuestaria",
-                "description": "Crea y gestiona presupuestos"
+            "closing": "…y vuelta al Día 1."
+        },
+        "who": {
+            "title": "¿Para quién es Trakeo?",
+            "note": "¿cuál eres tú?\n(igual los tres)",
+            "personal": {
+                "title": "Finanzas personales",
+                "tag": "Para todos",
+                "body": "Controla tus gastos del día a día y tus suscripciones mensuales.",
+                "streaming": "Streaming",
+                "gym": "Gimnasio",
+                "phone": "Móvil",
+                "subscriptions": "Suscripciones",
+                "perMonth": "{amount}/mes"
             },
-            {
-                "title": "Soporte Multi-Cuenta",
-                "description": "Gestiona múltiples cuentas y tarjetas de crédito en un solo lugar"
+            "freelancers": {
+                "title": "Autónomos",
+                "tag": "Para tu negocio",
+                "body": "Gestiona los gastos de tu negocio y sepáralos de los personales.",
+                "business": "Negocio",
+                "personal": "Personal"
             },
-            {
-                "title": "Multi-Divisa",
-                "description": "Cuentas en distintas monedas, con transferencias internas y cambio de divisa"
-            },
-            {
-                "title": "Categorías Personalizables",
-                "description": "Crea y gestiona tus propias categorías"
+            "travelers": {
+                "title": "Viajeros",
+                "tag": "Multidivisa",
+                "body": "Controla tus gastos en varias monedas mientras viajas.",
+                "dinner": "Cena en Brno",
+                "hotel": "Hotel en Sevilla",
+                "lunch": "Comida en Londres"
             }
-        ],
-        "howItWorks": [
-            {
-                "title": "1. Crea Tu Cuenta",
-                "description": "Empieza en minutos con nuestro proceso de registro simple y seguro"
-            },
-            {
-                "title": "2. Registra Tus Gastos",
-                "description": "Categoriza y rastrea automáticamente tus transacciones en tiempo real"
-            },
-            {
-                "title": "3. Obtén Insights",
-                "description": "Empieza a notar patrones y mejora tu salud financiera"
+        },
+        "faq": {
+            "title": "Buenas preguntas",
+            "note": "¿algo más? el botón de comentarios siempre está en la esquina.",
+            "items": {
+                "free": {
+                    "q": "¿Trakeo es gratis de verdad?",
+                    "a": "Sí. No hay anuncios ni ningún paso de pago: nunca tendrás que meter una tarjeta. El plan gratuito incluye hasta 10 transacciones al día."
+                },
+                "bank": {
+                    "q": "¿Tengo que conectar mi banco?",
+                    "a": "No. Trakeo nunca te pide las claves de tu banco. Añades tú los movimientos, o descargas un extracto en CSV de tu banco y lo importas (Beta)."
+                },
+                "currencies": {
+                    "q": "¿Qué monedas admite?",
+                    "a": "EUR, CZK, USD, GBP, PLN y CHF. Puedes tener cuentas en cualquiera de ellas y pasar dinero de una a otra."
+                },
+                "rates": {
+                    "q": "¿Qué tipo de cambio usa Trakeo?",
+                    "a": "El que te ha dado tu banco. Cuando pasas dinero de una moneda a otra, introduces el cambio que te han aplicado de verdad, así que tus saldos siempre cuadran con los de tu banco. Trakeo también guarda los tipos de referencia diarios del Banco Central Europeo, como orientación y para estimar tu patrimonio total sumando todas tus cuentas en una sola moneda."
+                },
+                "tracking": {
+                    "q": "¿Trakeo me rastrea?",
+                    "a": "No. En Trakeo no hay analíticas de terceros ni scripts de publicidad."
+                },
+                "languages": {
+                    "q": "¿En qué idiomas está disponible?",
+                    "a": "English, Español y Čeština. Puedes cambiar de idioma cuando quieras desde la barra superior."
+                }
             }
-        ],
-        "testimonials": [
-            {
-                "name": "Uso Personal",
-                "role": "Para Todos",
-                "quote": "Lleva el control de tus gastos diarios y suscripciones mensuales."
-            },
-            {
-                "name": "Freelancers",
-                "role": "Para Negocios",
-                "quote": "Gestiona gastos de negocio y sepáralos de los personales."
-            },
-            {
-                "name": "Viajeros",
-                "role": "Multi-divisa",
-                "quote": "Controla gastos en múltiples monedas mientras viajas."
-            }
-        ],
-        "copyright": "© 2026 Trakeo. Todos los derechos reservados."
+        },
+        "cta": {
+            "title": "¿Listo para empezar?",
+            "body": "Crea tu cuenta gratis y empieza hoy mismo a controlar tus gastos.",
+            "note": "aquí empieza el Día 0"
+        },
+        "footer": {
+            "label": "Pie de página",
+            "month": "Un mes con Trakeo",
+            "faq": "Preguntas"
+        }
     },
     "Common": {
         "income": "Ingreso",

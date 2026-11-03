@@ -98,7 +98,7 @@ export default function MonthTimeline() {
                             from="lg"
                             arrow="curve"
                             className="inset-0"
-                            textClassName="absolute right-0 top-0 rotate-4 text-[24px]"
+                            textClassName="absolute right-0 top-0 rotate-4 whitespace-nowrap text-[24px]"
                             arrowClassName="absolute right-[70px] top-[38px]"
                         >
                             {t("spoiler")}
@@ -158,7 +158,7 @@ export default function MonthTimeline() {
                                         arrow="check"
                                         arrowFirst
                                         className="left-[250px] top-[78px] items-center gap-1.5"
-                                        textClassName="-rotate-2 text-[22px]"
+                                        textClassName="-rotate-2 whitespace-nowrap text-[22px]"
                                     >
                                         {t("days.1.note")}
                                     </HandNote>
@@ -204,7 +204,7 @@ export default function MonthTimeline() {
                                     {/* Beside the card while the text sits below it, under the card once the text moves right */}
                                     <HandNote
                                         from="lg"
-                                        className="lg:left-[460px] lg:top-14 lg:w-[200px] xl:left-[300px] xl:top-[150px] xl:w-auto"
+                                        className="lg:left-[460px] lg:top-14 lg:w-[200px] xl:left-[300px] xl:top-[150px] xl:w-[160px]"
                                         textClassName="-rotate-3 text-[22px]"
                                     >
                                         {t("days.14.note")}

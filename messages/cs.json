@@ -46,98 +46,204 @@
         "addTransaction": "Přidat transakci",
         "analytics": "Analytika",
         "login": "Přihlásit se",
-        "accounts": "Účty"
-    },
-    "Hero": {
-        "title1": "Nástroj pro sledování",
-        "title2": "vašich financí",
-        "subtitle": "Sledujte své výdaje a příjmy na jednom místě<br />Analyzujte a získejte klíčové poznatky",
-        "getStarted": "Začít",
-        "seeHowItWorks": "Jak to funguje"
+        "accounts": "Účty",
+        "landingLinks": {
+            "month": "Měsíc s\u00a0Trakeem",
+            "who": "Pro koho",
+            "faq": "Otázky"
+        }
     },
     "Landing": {
-        "featuresTitle": "Vše co potřebujete pro správu financí",
-        "howItWorksTitle": "Jak to funguje",
-        "testimonialsTitle": "Pro koho je Trakeo?",
-        "readyToStart": "Jste připraveni začít?",
-        "signupDescription": "Zaregistrujte se zdarma a začněte sledovat své výdaje ještě dnes.",
         "getStarted": "Začít",
-        "stats": [
-            {
-                "value": "Soukromí",
-                "label": "Priorita"
+        "hero": {
+            "pill": "Zdarma · Bez reklam · Bez napojení na banku",
+            "title": "Nástroj pro sledování vašich financí",
+            "subtitle": "Sledujte výdaje i\u00a0příjmy na jednom místě, napříč všemi účty a\u00a0měnami. Analyzujte je a\u00a0zjistěte, kam vaše peníze mizí.",
+            "seeMonth": "Podívejte se na měsíc s\u00a0Trakeem",
+            "languages": "K\u00a0dispozici v\u00a0angličtině · španělštině · češtině"
+        },
+        "preview": {
+            "label": "Náhled aplikace Trakeo s\u00a0ukázkovými daty: měsíční rozpočet, účty ve třech měnách a\u00a0graf výdajů",
+            "recent": "Nedávné",
+            "transfer": "Převod {from} → {to}"
+        },
+        "sample": {
+            "mainAccount": "Hlavní účet",
+            "czechAccount": "Korunový účet",
+            "travelCard": "Cestovní karta",
+            "current": "Běžný",
+            "salary": "Výplata",
+            "groceries": "Potraviny",
+            "categories": {
+                "housing": "Bydlení",
+                "food": "Jídlo",
+                "bills": "Energie",
+                "leisure": "Zábava"
+            }
+        },
+        "mock": {
+            "monthlyBudget": "Měsíční rozpočet",
+            "budgetSpent": "{spent} utraceno z\u00a0{budget}",
+            "budgetUsed": "{percent}% vyčerpáno",
+            "expensesBreakdown": "Rozpis výdajů",
+            "accounts": "Účty",
+            "createAccount": "Vytvořit účet",
+            "accountName": "Název účtu",
+            "accountType": "Typ účtu",
+            "currentAccount": "Běžný účet",
+            "currency": "Měna",
+            "internalTransfer": "Interní převod",
+            "from": "Z\u00a0účtu",
+            "to": "Na účet",
+            "bankRate": "Kurz od vaší banky",
+            "ecbReference": "Referenční kurz ECB",
+            "csvFile": "vypis-zari.csv",
+            "csvRows": "{count, plural, one {# řádek připraven} few {# řádky připraveny} other {# řádků připraveno}}",
+            "date": "Datum",
+            "description": "Popis",
+            "amount": "Částka",
+            "pharmacy": "Lékárna",
+            "trainTicket": "Jízdenka na vlak",
+            "refund": "Vrácení peněz",
+            "import": "Importovat",
+            "breakdownPeriod": "Říjen · {account}"
+        },
+        "promises": {
+            "label": "Naše sliby",
+            "noBankLogin": {
+                "value": "Bez napojení na banku",
+                "label": "Transakce zadáváte sami, nebo importujete CSV"
             },
-            {
-                "value": "0",
-                "label": "Reklam"
+            "noTrackers": {
+                "value": "Žádné sledování",
+                "label": "Žádná analytika ani reklamní skripty třetích stran"
             },
-            {
-                "value": "Bezpečné",
-                "label": "Vaše data"
+            "noAds": {
+                "value": "0 reklam",
+                "label": "A\u00a0nikdy nebudou"
             },
-            {
+            "free": {
                 "value": "Zdarma",
                 "label": "10 transakcí denně"
             }
-        ],
-        "features": [
-            {
-                "title": "Pokročilá analytika",
-                "description": "Získejte podrobné přehledy o svých výdajích"
+        },
+        "month": {
+            "eyebrow": "jak to funguje, ale jako příběh",
+            "title": "Měsíc s\u00a0Trakeem",
+            "subtitle": "Sledujte jeden měsíc něčích peněz: od registrace až po chvíli, kdy přesně víte, kam se všechno podělo.",
+            "spoiler": "spoiler: hlavně nájem",
+            "day": "Den",
+            "steps": {
+                "signUp": "1 · Registrace",
+                "track": "2 · Sledování",
+                "understand": "3 · Přehled"
             },
-            {
-                "title": "Hromadný import (Beta)",
-                "description": "Importujte transakce z CSV souborů"
+            "days": {
+                "0": {
+                    "title": "Registrace",
+                    "body": "Účet si založíte zhruba za minutu. Trakeo po vás nikdy nechce přihlášení do banky: pojmenujete svůj první účet a\u00a0vyberete měnu.",
+                    "note": "žádné heslo do banky.\nslibujeme."
+                },
+                "1": {
+                    "title": "Výplata",
+                    "body": "Přijde výplata a\u00a0vy ji zapíšete. První příjem měsíce máte za sebou.",
+                    "note": "první zápis!"
+                },
+                "6": {
+                    "title": "Nájem v\u00a0korunách",
+                    "body": "Kvůli nájmu převedete {amount} na korunový účet a\u00a0zadáte kurz, který vám banka opravdu dala. Oba zůstatky pak sedí s\u00a0bankou, nejde o\u00a0žádný odhad.",
+                    "note": "nájem v\u00a0Brně"
+                },
+                "9": {
+                    "note": "nic se nestalo, a\u00a0to je v\u00a0pohodě."
+                },
+                "14": {
+                    "title": "Kontrola rozpočtu",
+                    "body": "Nákupy a\u00a0víkendový výlet vás dostanou na {percent} měsíčního rozpočtu a\u00a0lišta zežloutne dřív, než ho překročíte, ne až potom.",
+                    "note": "žlutá = trochu přibrzdit"
+                },
+                "22": {
+                    "title": "Import z\u00a0banky",
+                    "body": "Na webu banky si stáhnete výpis za minulý měsíc v\u00a0CSV a\u00a0naimportujete ho najednou. Vaše banka s\u00a0Trakeem nikdy nekomunikuje.",
+                    "beta": "Beta"
+                },
+                "30": {
+                    "title": "Kam se to podělo?",
+                    "body": "Měsíc končí a\u00a0rozpis výdajů vám odpoví na první pohled.",
+                    "note": "no vidíte.\nnájem."
+                }
             },
-            {
-                "title": "Plánování rozpočtu",
-                "description": "Vytvářejte a spravujte rozpočty"
+            "closing": "…a pak je zase Den 1."
+        },
+        "who": {
+            "title": "Pro koho je Trakeo?",
+            "note": "kdo z\u00a0nich jste vy?\n(možná všichni tři)",
+            "personal": {
+                "title": "Osobní finance",
+                "tag": "Pro každého",
+                "body": "Sledujte své každodenní výdaje a\u00a0měsíční předplatná.",
+                "streaming": "Streaming",
+                "gym": "Posilovna",
+                "phone": "Telefon",
+                "subscriptions": "Předplatná",
+                "perMonth": "{amount}/měs."
             },
-            {
-                "title": "Podpora více účtů",
-                "description": "Spravujte více účtů a kreditních karet na jednom místě"
+            "freelancers": {
+                "title": "Na volné noze",
+                "tag": "Pro podnikání",
+                "body": "Spravujte firemní výdaje a\u00a0oddělte je od osobních.",
+                "business": "Podnikání",
+                "personal": "Osobní"
             },
-            {
-                "title": "Více měn",
-                "description": "Účty v různých měnách s interními převody a směnou měn"
-            },
-            {
-                "title": "Přizpůsobitelné kategorie",
-                "description": "Vytvářejte a spravujte své vlastní kategorie"
+            "travelers": {
+                "title": "Cestovatelé",
+                "tag": "Více měn",
+                "body": "Sledujte výdaje ve více měnách, i\u00a0když jste na cestách.",
+                "dinner": "Večeře v\u00a0Brně",
+                "hotel": "Hotel v\u00a0Seville",
+                "lunch": "Oběd v\u00a0Londýně"
             }
-        ],
-        "howItWorks": [
-            {
-                "title": "1. Vytvořte si účet",
-                "description": "Začněte během několika minut s naším jednoduchým a bezpečným registračním procesem"
-            },
-            {
-                "title": "2. Sledujte své výdaje",
-                "description": "Automaticky kategorizujte a sledujte své transakce v reálném čase"
-            },
-            {
-                "title": "3. Získejte přehledy",
-                "description": "Začněte si všímat vzorců a zlepšete své finanční zdraví"
+        },
+        "faq": {
+            "title": "Dobré otázky",
+            "note": "ještě něco? tlačítko pro zpětnou vazbu je pořád v\u00a0rohu.",
+            "items": {
+                "free": {
+                    "q": "Je Trakeo opravdu zdarma?",
+                    "a": "Ano. Nejsou tu žádné reklamy ani platby: kartu nikdy nezadáváte. Bezplatný tarif pokrývá až 10 transakcí denně."
+                },
+                "bank": {
+                    "q": "Musím připojit svou banku?",
+                    "a": "Ne. Trakeo po vás nikdy nechce přihlašovací údaje do banky. Transakce zadáváte sami, nebo si v\u00a0bance stáhnete výpis v\u00a0CSV a\u00a0naimportujete ho (Beta)."
+                },
+                "currencies": {
+                    "q": "Které měny jsou podporované?",
+                    "a": "EUR, CZK, USD, GBP, PLN a\u00a0CHF. Účty můžete mít v\u00a0kterékoli z\u00a0nich a\u00a0převádět mezi nimi peníze."
+                },
+                "rates": {
+                    "q": "Jaký směnný kurz Trakeo používá?",
+                    "a": "Ten, který vám dala banka. Když převádíte peníze mezi měnami, zadáte kurz, který jste skutečně dostali, takže zůstatky vždy sedí s\u00a0vaší bankou. Trakeo si navíc ukládá denní referenční kurzy Evropské centrální banky: pro orientaci a\u00a0pro odhad vašeho celkového majetku ze všech účtů v\u00a0jedné měně."
+                },
+                "tracking": {
+                    "q": "Sleduje mě Trakeo?",
+                    "a": "Ne. V\u00a0Trakeu nejsou žádné analytické ani reklamní skripty třetích stran."
+                },
+                "languages": {
+                    "q": "V\u00a0jakých jazycích je k\u00a0dispozici?",
+                    "a": "English, Español a\u00a0Čeština. Jazyk můžete kdykoli přepnout v\u00a0horní liště."
+                }
             }
-        ],
-        "testimonials": [
-            {
-                "name": "Osobní finance",
-                "role": "Pro každého",
-                "quote": "Sledujte své každodenní výdaje a měsíční předplatná."
-            },
-            {
-                "name": "Na volné noze",
-                "role": "Pro podnikání",
-                "quote": "Spravujte firemní výdaje a oddělte je od osobních."
-            },
-            {
-                "name": "Cestovatelé",
-                "role": "Více měn",
-                "quote": "Sledujte výdaje ve více měnách na cestách."
-            }
-        ],
-        "copyright": "© 2026 Trakeo. Všechna práva vyhrazena."
+        },
+        "cta": {
+            "title": "Jste připraveni začít?",
+            "body": "Zaregistrujte se zdarma a\u00a0začněte sledovat své výdaje ještě dnes.",
+            "note": "tady začíná Den 0"
+        },
+        "footer": {
+            "label": "Zápatí",
+            "month": "Měsíc s\u00a0Trakeem",
+            "faq": "Otázky"
+        }
     },
     "Common": {
         "income": "Příjem",
