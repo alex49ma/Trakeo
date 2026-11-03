@@ -46,98 +46,204 @@
     "addTransaction": "Add Transaction",
     "analytics": "Analytics",
     "login": "Login",
-    "accounts": "Accounts"
-  },
-  "Hero": {
-    "title1": "The tool to track",
-    "title2": "your finances",
-    "subtitle": "Track your expenses and income in one place<br />Analyze and get key insights",
-    "getStarted": "Get Started",
-    "seeHowItWorks": "See how it works"
+    "accounts": "Accounts",
+    "landingLinks": {
+      "month": "A month with Trakeo",
+      "who": "Who it's for",
+      "faq": "FAQ"
+    }
   },
   "Landing": {
-    "featuresTitle": "Everything you need to manage your finances",
-    "howItWorksTitle": "How it works",
-    "testimonialsTitle": "Who is Trakeo for?",
-    "readyToStart": "Ready to get started?",
-    "signupDescription": "Sign up for a free account and start tracking your expenses today.",
     "getStarted": "Get Started",
-    "stats": [
-      {
-        "value": "Privacy",
-        "label": "Focused"
+    "hero": {
+      "pill": "Free · No ads · No bank login",
+      "title": "The tool to track your finances",
+      "subtitle": "Track your expenses and income in one place, across every account and currency. Analyze and get key insights.",
+      "seeMonth": "See a month with Trakeo",
+      "languages": "Available in English · Spanish · Czech"
+    },
+    "preview": {
+      "label": "Preview of the Trakeo app with sample data: a monthly budget, accounts in three currencies and an expenses chart",
+      "recent": "Recent",
+      "transfer": "{from} → {to} transfer"
+    },
+    "sample": {
+      "mainAccount": "Main account",
+      "czechAccount": "Czech account",
+      "travelCard": "Travel card",
+      "current": "Current",
+      "salary": "Salary",
+      "groceries": "Groceries",
+      "categories": {
+        "housing": "Housing",
+        "food": "Food",
+        "bills": "Bills",
+        "leisure": "Leisure"
+      }
+    },
+    "mock": {
+      "monthlyBudget": "Monthly Budget",
+      "budgetSpent": "{spent} spent of {budget}",
+      "budgetUsed": "{percent}% used",
+      "expensesBreakdown": "Expenses Breakdown",
+      "accounts": "Accounts",
+      "createAccount": "Create Account",
+      "accountName": "Account name",
+      "accountType": "Account type",
+      "currentAccount": "Current Account",
+      "currency": "Currency",
+      "internalTransfer": "Internal Transfer",
+      "from": "From",
+      "to": "To",
+      "bankRate": "Rate from your bank",
+      "ecbReference": "ECB reference",
+      "csvFile": "statement-september.csv",
+      "csvRows": "{count, plural, one {# row ready} other {# rows ready}}",
+      "date": "Date",
+      "description": "Description",
+      "amount": "Amount",
+      "pharmacy": "Pharmacy",
+      "trainTicket": "Train ticket",
+      "refund": "Refund",
+      "import": "Import",
+      "breakdownPeriod": "October · {account}"
+    },
+    "promises": {
+      "label": "Our promises",
+      "noBankLogin": {
+        "value": "No bank login",
+        "label": "Add transactions yourself or import a CSV"
       },
-      {
-        "value": "0",
-        "label": "Ads"
+      "noTrackers": {
+        "value": "No trackers",
+        "label": "No third-party analytics or ad scripts"
       },
-      {
-        "value": "Secure",
-        "label": "Data"
+      "noAds": {
+        "value": "0 Ads",
+        "label": "Ever"
       },
-      {
+      "free": {
         "value": "Free",
-        "label": "10 Transactions a day"
+        "label": "10 transactions a day"
       }
-    ],
-    "features": [
-      {
-        "title": "Advanced Analytics",
-        "description": "Get detailed insights into your spending patterns"
+    },
+    "month": {
+      "eyebrow": "how it works, told as a story",
+      "title": "A month with Trakeo",
+      "subtitle": "Follow one month of someone's money, from signing up to knowing exactly where it all went.",
+      "spoiler": "spoiler: it's mostly rent",
+      "day": "Day",
+      "steps": {
+        "signUp": "1 · Sign up",
+        "track": "2 · Track",
+        "understand": "3 · Understand"
       },
-      {
-        "title": "Bulk Transaction Import (Beta)",
-        "description": "Import transactions from CSV files"
+      "days": {
+        "0": {
+          "title": "Sign up",
+          "body": "You create an account in about a minute. Trakeo never asks for your bank login: you name your first account and pick a currency.",
+          "note": "no bank login.\nthat's a promise."
+        },
+        "1": {
+          "title": "Payday",
+          "body": "Your salary arrives and you log it. First income of the month, done.",
+          "note": "first entry!"
+        },
+        "6": {
+          "title": "Rent in korunas",
+          "body": "You move {amount} to your Czech account to pay rent, and enter the rate your bank actually gave you. Both balances match your bank's, not an estimate.",
+          "note": "rent in Brno"
+        },
+        "9": {
+          "note": "nothing happened, and that's fine."
+        },
+        "14": {
+          "title": "Budget check",
+          "body": "Groceries and a weekend away bring you to {percent} of your monthly budget, and the bar turns yellow before you overspend, not after.",
+          "note": "yellow = slow down a bit"
+        },
+        "22": {
+          "title": "Import from your bank",
+          "body": "You download last month's statement as a CSV from your bank's website and import it in one go. Your bank never talks to Trakeo.",
+          "beta": "Beta"
+        },
+        "30": {
+          "title": "Where did it go?",
+          "body": "The month closes and the breakdown answers it in one look.",
+          "note": "told you.\nrent."
+        }
       },
-      {
-        "title": "Budget Planning",
-        "description": "Create and manage budgets"
+      "closing": "…and then it's Day 1 again."
+    },
+    "who": {
+      "title": "Who is Trakeo for?",
+      "note": "which one are you?\n(maybe all three)",
+      "personal": {
+        "title": "Personal Finance",
+        "tag": "For everyone",
+        "body": "Keep track of your daily expenses and monthly subscriptions.",
+        "streaming": "Streaming",
+        "gym": "Gym",
+        "phone": "Phone",
+        "subscriptions": "Subscriptions",
+        "perMonth": "{amount} / mo"
       },
-      {
-        "title": "Multi-Account Support",
-        "description": "Manage multiple accounts and credit cards in one place"
+      "freelancers": {
+        "title": "Freelancers",
+        "tag": "For business",
+        "body": "Manage business expenses and separate them from personal spending.",
+        "business": "Freelance",
+        "personal": "Personal"
       },
-      {
-        "title": "Multi-Currency",
-        "description": "Accounts in different currencies, with internal transfers and currency exchanges"
-      },
-      {
-        "title": "Customizable Categories",
-        "description": "Create and manage your own categories"
+      "travelers": {
+        "title": "Travelers",
+        "tag": "Multi-currency",
+        "body": "Track spending in multiple currencies while on the go.",
+        "dinner": "Dinner in Brno",
+        "hotel": "Hotel in Sevilla",
+        "lunch": "Lunch in London"
       }
-    ],
-    "howItWorks": [
-      {
-        "title": "1. Create Your Account",
-        "description": "Get started in minutes with our simple and secure sign-up process"
-      },
-      {
-        "title": "2. Track Your Spending",
-        "description": "Automatically categorize and track your transactions in real-time"
-      },
-      {
-        "title": "3. Get Insights",
-        "description": "Start noticing patterns and improve your financial health"
+    },
+    "faq": {
+      "title": "Good questions",
+      "note": "anything else? the feedback button is always in the corner.",
+      "items": {
+        "free": {
+          "q": "Is Trakeo really free?",
+          "a": "Yes. There are no ads and no payment step: you never enter a card. The free plan covers up to 10 transactions a day."
+        },
+        "bank": {
+          "q": "Do I have to connect my bank?",
+          "a": "No. Trakeo never asks for your bank login. You add transactions yourself, or download a CSV statement from your bank and import it (Beta)."
+        },
+        "currencies": {
+          "q": "Which currencies are supported?",
+          "a": "EUR, CZK, USD, GBP, PLN and CHF. You can hold accounts in any of them and move money between them."
+        },
+        "rates": {
+          "q": "Which exchange rate does Trakeo use?",
+          "a": "The one your bank gave you. When you move money between currencies, you enter the rate you actually got, so your balances always match your bank's. Trakeo also keeps the European Central Bank's daily reference rates, as a guide and to estimate your total wealth across all your accounts in one currency."
+        },
+        "tracking": {
+          "q": "Does Trakeo track me?",
+          "a": "No. There are no third-party analytics or advertising scripts on Trakeo."
+        },
+        "languages": {
+          "q": "Which languages is it available in?",
+          "a": "English, Español and Čeština. You can switch at any time from the top bar."
+        }
       }
-    ],
-    "testimonials": [
-      {
-        "name": "Personal Finance",
-        "role": "For Everyone",
-        "quote": "Keep track of your daily expenses and monthly subscriptions."
-      },
-      {
-        "name": "Freelancers",
-        "role": "For Business",
-        "quote": "Manage business expenses and separate them from personal spending."
-      },
-      {
-        "name": "Travelers",
-        "role": "Multi-currency",
-        "quote": "Track spending in multiple currencies while on the go."
-      }
-    ],
-    "copyright": "© 2026 Trakeo. All rights reserved."
+    },
+    "cta": {
+      "title": "Ready to get started?",
+      "body": "Sign up for a free account and start tracking your expenses today.",
+      "note": "Day 0 starts here"
+    },
+    "footer": {
+      "label": "Footer",
+      "month": "A month with Trakeo",
+      "faq": "FAQ"
+    }
   },
   "Common": {
     "income": "Income",

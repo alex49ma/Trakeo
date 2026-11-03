@@ -7,6 +7,7 @@ import { request } from "@arcjet/next";
 import Big from "big.js";
 import { aj } from "@/lib/arcjet";
 import { isTransferCategory, NOT_TRANSFER_CATEGORY } from "@/lib/system-categories";
+import { calculateNextRecurringDate, nextOccurrenceAfter } from "@/lib/recurring";
 
 const serializeAmount = (obj) => ({
     ...obj,
@@ -84,28 +85,6 @@ export async function createTransaction(data) {
     }
 }
 
-// Helper function to calculate next recurring date
-function calculateNextRecurringDate(startDate, interval) {
-    const date = new Date(startDate);
-
-    switch (interval) {
-        case "DAILY":
-            date.setDate(date.getDate() + 1);
-            break;
-        case "WEEKLY":
-            date.setDate(date.getDate() + 7);
-            break;
-        case "MONTHLY":
-            date.setMonth(date.getMonth() + 1);
-            break;
-        case "YEARLY":
-            date.setFullYear(date.getFullYear() + 1);
-            break;
-    }
-
-    return date;
-}
-
 // Throws unless the category belongs to the user and the subcategory (if any) belongs to that category.
 // Transfer categories are reserved for internal transfers
 async function assertCategoryOwnership(userId, categoryId, subcategoryId) {
@@ -175,10 +154,7 @@ export async function updateTransaction(id, data) {
                 },
                 data: {
                     ...transactionFields(data),
-                    nextRecurringDate:
-                        data.isRecurring && data.recurringInterval
-                            ? calculateNextRecurringDate(data.date, data.recurringInterval)
-                            : null,
+                    nextRecurringDate: updatedNextRecurringDate(originalTransaction, data),
                 },
             });
 
@@ -213,6 +189,21 @@ export async function updateTransaction(id, data) {
         throw new Error(error.message);
     }
 
+}
+
+// Keeps the stored schedule unless the edit changes it. Recomputing it from the date on every edit put it in the past for
+// any transaction older than one interval, so the job booked an extra copy the next night
+function updatedNextRecurringDate(original, data) {
+    if (!data.isRecurring || !data.recurringInterval) return null;
+
+    const scheduleUnchanged = original.isRecurring
+        && original.recurringInterval === data.recurringInterval
+        && new Date(original.date).getTime() === new Date(data.date).getTime()
+        && original.nextRecurringDate;
+    if (scheduleUnchanged) return original.nextRecurringDate;
+
+    // A new schedule starts with the next occurrence still to come: earlier ones may already have copies
+    return nextOccurrenceAfter(data.date, data.recurringInterval);
 }
 
 export async function bulkCreateTransactions(accountId, transactions) {

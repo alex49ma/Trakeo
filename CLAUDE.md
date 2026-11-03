@@ -70,7 +70,7 @@ Conventions that span multiple files:
 - The budget is per user, but `getCurrentBudget(accountId)` sums only the default account's expenses for the current month, without transfers but with their fees.
 
 ### Recurring transactions (Inngest)
-`app/api/inngest/route.js` serves the functions in `lib/inngest/functions.js`. `triggerRecurringTransactions` runs as a daily cron (`0 0 * * *`): it finds due recurring transactions and fans out `transaction.recurring.process` events. `processRecurringTransaction` handles each event (throttled per user): it creates a non-recurring copy, updates the account balance and advances `nextRecurringDate`. `calculateNextRecurringDate` is duplicated in `actions/transaction.js` and in `lib/inngest/functions.js`, so keep the two copies in sync. The `CUSTOM` interval exists in the enum, but the zod schema and the date math don't handle it.
+`app/api/inngest/route.js` serves the functions in `lib/inngest/functions.js`. `triggerRecurringTransactions` runs as a daily cron (`0 0 * * *`): it finds due recurring transactions and fans out `transaction.recurring.process` events. `processRecurringTransaction` handles each event (throttled per user): it advances `nextRecurringDate` with a conditional `updateMany` (so a duplicate event books nothing), creates a non-recurring copy dated on the due date and updates the account balance. A transaction is due only once `nextRecurringDate` has passed, because the original covers its own period. The schedule advances from the due date, not the run date, and occurrences missed by runs that never happened are skipped. The date math lives in `lib/recurring.js` (date-fns, so month ends clamp), shared by the job and the actions. `updateTransaction` keeps `nextRecurringDate` unless the date, interval or recurring flag changes, and then restarts it at the next future occurrence. The `CUSTOM` interval exists in the enum, but the zod schema and the date math don't handle it.
 
 ### Exchange rates (`lib/fx/`)
 - `exchange_rates` holds the ECB's euro reference rates: one row per working day and currency, in units of the currency per 1 EUR. EUR itself is never stored (`RATE_BASE_CURRENCY`), and only the Inngest job writes rows.
@@ -102,5 +102,13 @@ The Vercel free plan limits Edge middleware size, and several commits have been 
 
 ### Styling
 Tailwind v4 is configured CSS-first in `app/globals.css` (`@import "tailwindcss"`, `@theme inline`, CSS variables, and the custom `.gradient-title` utility) through `@tailwindcss/postcss`. `tailwind.config.js` is a leftover v3-style file: it is not loaded, because there is no `@config` directive. shadcn/ui uses the "new-york" style with JSX (`components.json`, `tsx: false`), so add primitives with `npx shadcn@latest add <component>`. The sphere background on the landing and `(main)` pages comes from `components/FinisherHeader.jsx`, which drives the vendored, hand-edited `public/finisher-header.es5.min.js`. It is static for performance (`"animate": false` in `defaultConfig`); set it to `true` to animate the spheres again.
+
+### Landing page
+`app/[locale]/page.jsx` stacks the sections in `app/[locale]/_components/` inside `FinisherHeader`.
+- Layering: the FinisherHeader canvas is at z-index -1 and the `PaperGrain` texture at 1. Sections, cards and timeline dots use `relative z-10` and the handwritten notes (`HandNote`) z-20, so new content needs `z-10` to sit above the texture. The light bands (`bg-orange-50/90`) stay unpositioned so the texture covers them.
+- Kalam (`font-hand`) is only for the handwritten annotations. Margin notes are hidden below md, and `HandNote`'s `from` delays one to lg or xl when it needs more room.
+- The mock UI cards are real shadcn components inside `inert`, `aria-hidden` frames. Their sample numbers live in `data/landing.js`, and the `Landing.*` copy describes the same month, so change the two together.
+- The page uses `line-height: normal`, so its text sizes are px values (`text-[14px]`) rather than `text-sm`, which brings its own line height. `cn()` (tailwind-merge) drops a `leading-*` that comes before a text size.
+- The hero's language line and the FAQ's languages answer name the locales in plain text: update them with `routing.locales`, like the language switcher. Czech landing strings tie one-letter prepositions and conjunctions to the next word with ` `.
 
 Path alias: `@/*` maps to the repo root (`jsconfig.json`).
