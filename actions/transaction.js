@@ -4,9 +4,8 @@ import { auth } from "@clerk/nextjs/server";
 import { db } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 import { request } from "@arcjet/next";
-import Big from "big.js";
 import { aj } from "@/lib/arcjet";
-import { isTransferCategory, NOT_TRANSFER_CATEGORY } from "@/lib/system-categories";
+import { isTransferCategory } from "@/lib/system-categories";
 import { calculateNextRecurringDate, nextOccurrenceAfter } from "@/lib/recurring";
 
 const serializeAmount = (obj) => ({
@@ -204,114 +203,4 @@ function updatedNextRecurringDate(original, data) {
 
     // A new schedule starts with the next occurrence still to come: earlier ones may already have copies
     return nextOccurrenceAfter(data.date, data.recurringInterval);
-}
-
-export async function bulkCreateTransactions(accountId, transactions) {
-    try {
-        const { userId } = await auth();
-        if (!userId) throw new Error("Unauthorized");
-
-        const user = await db.user.findUnique({ where: { clerkUserId: userId } });
-        if (!user) throw new Error("User not found");
-
-        const account = await db.account.findUnique({ where: { id: accountId, userId: user.id } });
-        if (!account) throw new Error("Account not found");
-
-        const uniqueCategoryNames = [...new Set(transactions.map(t => t.categoryName?.trim()).filter(Boolean))];
-
-        // Fetch existing categories for the user. Transfer categories never match: a CSV row named like one gets a normal category
-        const existingCategories = await db.category.findMany({
-            where: {
-                userId: user.id,
-                name: { in: uniqueCategoryNames },
-                ...NOT_TRANSFER_CATEGORY,
-            },
-        });
-
-        // Key: "Name-Type" -> Category
-        const existingCategoryMap = new Map(existingCategories.map(c => [`${c.name}-${c.type}`, c]));
-
-        // Identify required categories (Name + Type)
-        const requiredCategories = new Map();
-        transactions.forEach(t => {
-            const name = t.categoryName?.trim();
-            const type = t.type;
-            if (name && type) {
-                requiredCategories.set(`${name}-${type}`, { name, type });
-            }
-        });
-
-        // Identify missing categories
-        const categoriesToCreate = [];
-        requiredCategories.forEach((val, key) => {
-            if (!existingCategoryMap.has(key)) {
-                categoriesToCreate.push(val);
-            }
-        });
-
-        await db.$transaction(async (tx) => {
-            for (const catData of categoriesToCreate) {
-                const newCat = await tx.category.create({
-                    data: {
-                        name: catData.name,
-                        type: catData.type,
-                        userId: user.id,
-                        color: `#${Math.floor(Math.random() * 16777215).toString(16)}`,
-                    }
-                });
-                existingCategoryMap.set(`${newCat.name}-${newCat.type}`, newCat);
-            }
-
-            // Summed with big.js so many cent amounts don't add up to a float error in the stored balance
-            let netBalanceChange = new Big(0);
-            const transactionsToCreate = [];
-
-            for (const t of transactions) {
-                const categoryName = t.categoryName?.trim();
-                const type = t.type;
-                const key = `${categoryName}-${type}`;
-                const category = existingCategoryMap.get(key);
-
-                if (!category) {
-                    continue;
-                }
-
-                transactionsToCreate.push({
-                    type: t.type,
-                    amount: t.amount,
-                    description: t.description,
-                    date: new Date(t.date),
-                    userId: user.id,
-                    accountId: accountId,
-                    categoryId: category.id,
-                    status: "COMPLETED",
-                });
-
-                netBalanceChange = netBalanceChange.plus(t.type === "EXPENSE" ? -t.amount : t.amount);
-            }
-
-            if (transactionsToCreate.length > 0) {
-                await tx.transaction.createMany({
-                    data: transactionsToCreate,
-                });
-            }
-
-            await tx.account.update({
-                where: { id: accountId },
-                data: {
-                    balance: { increment: netBalanceChange.toString() }
-                }
-            });
-        });
-
-        revalidatePath(`/account/${accountId}`);
-        revalidatePath(`/dashboard`);
-        revalidatePath("/accounts");
-
-        return { success: true, count: transactions.length };
-
-    } catch (error) {
-        console.error("Bulk create error:", error);
-        throw new Error(error.message);
-    }
 }

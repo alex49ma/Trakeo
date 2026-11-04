@@ -33,13 +33,8 @@
         "createSuccess": "Transakce byla úspěšně vytvořena",
         "updateSuccess": "Transakce byla úspěšně aktualizována",
         "none": "Žádný",
-        "orAddViaCsv": "Nebo přidat přes CSV soubor (Beta)",
-        "csvSuccess": "Transakce úspěšně importovány",
-        "csvError": "Chyba při importu transakcí",
-        "importing": "Importování...",
-        "currencyMismatch": "Tento účet používá jinou měnu. K převodu peněz mezi měnami použijte interní převod.",
-        "csvCurrencyHint": "Částky budou importovány v měně {currency}.",
-        "csvSkipped": "{count, plural, one {# řádek byl přeskočen, protože jeho měna není {currency}} few {# řádky byly přeskočeny, protože jejich měna není {currency}} other {# řádků bylo přeskočeno, protože jejich měna není {currency}}}"
+        "importCsv": "Importovat transakce ze souboru CSV",
+        "currencyMismatch": "Tento účet používá jinou měnu. K převodu peněz mezi měnami použijte interní převod."
     },
     "Header": {
         "dashboard": "Přehled",
@@ -372,7 +367,8 @@
             "yearly": "Ročně",
             "custom": "Vlastní"
         },
-        "internalTransfer": "Interní převod"
+        "internalTransfer": "Interní převod",
+        "importCsv": "Importovat CSV"
     },
     "Analytics": {
         "title": "Přehled návyků",
@@ -480,5 +476,208 @@
             "feeTooHigh": "Poplatek musí být nižší než odepsaná částka",
             "resultTooSmall": "Vypočtená hodnota je příliš malá"
         }
+    },
+    "CsvImport": {
+        "title": "Import ze souboru CSV",
+        "steps": {
+            "file": {
+                "name": "Soubor",
+                "title": "Vyberte soubor a účet",
+                "description": "Stáhněte si výpis v CSV z webu své banky. Soubor se načte ve vašem prohlížeči a až do posledního kroku se nic neuloží."
+            },
+            "columns": {
+                "name": "Sloupce",
+                "title": "Ukažte Trakeu, který sloupec je který",
+                "description": "Trakeo odhadlo sloupce podle jejich názvů a hodnot. Odhad zkontrolujte: tabulka dole ukazuje, jak se řádky načtou."
+            },
+            "categories": {
+                "name": "Kategorie",
+                "title": "Vyberte kategorii pro každou skupinu",
+                "description": "Řádky se stejnou kategorií, nebo se stejným popisem bez čísel, tvoří skupinu. Vyberte, kam která skupina patří."
+            },
+            "preview": {
+                "name": "Náhled",
+                "title": "Před importem zkontrolujte řádky",
+                "description": "Zaškrtněte řádky, které chcete importovat. Nic se neuloží, dokud nestisknete Importovat."
+            }
+        },
+        "back": "Zpět",
+        "next": "Další",
+        "importButton": "{count, plural, =0 {Není co importovat} one {Importovat # transakci} few {Importovat # transakce} other {Importovat # transakcí}}",
+        "success": "{count, plural, one {Importována # transakce} few {Importovány # transakce} other {Importováno # transakcí}}",
+        "noAccounts": "Než budete moct importovat transakce, potřebujete účet.",
+        "goToDashboard": "Přejít na přehled",
+        "account": "Účet",
+        "chooseAccount": "Vyberte účet",
+        "file": "Soubor CSV",
+        "chooseFile": "Vyberte soubor nebo ho sem přetáhněte",
+        "chooseAnotherFile": "Vyberte jiný soubor nebo ho sem přetáhněte",
+        "fileHint": "CSV, TXT nebo TSV, nejvýše {size} MB",
+        "fileTooBig": "Soubor je větší než {size} MB.",
+        "fileUnreadable": "Soubor se nepodařilo načíst.",
+        "noRows": "V tomto souboru nejsou žádné řádky.",
+        "fileRead": "Nalezeno: {rows, plural, one {# řádek} few {# řádky} other {# řádků}} a {columns, plural, one {# sloupec} few {# sloupce} other {# sloupců}}.",
+        "nothingSavedYet": "Nic se neuloží, dokud v posledním kroku nestisknete Importovat.",
+        "rawPreview": "První řádky souboru tak, jak jsou. Zvýrazněný řádek se použije jako záhlaví.",
+        "encoding": "Kódování",
+        "encodings": {
+            "utf-8": "UTF-8",
+            "windows-1250": "Windows-1250 (střední Evropa)",
+            "windows-1252": "Windows-1252 (západní Evropa)"
+        },
+        "encodingHint": "Pokud se písmena jako č, ř nebo é zobrazují jako � nebo divné znaky, zkuste jiné kódování.",
+        "delimiter": "Oddělovač",
+        "delimiters": {
+            "comma": "Čárka (,)",
+            "semicolon": "Středník (;)",
+            "tab": "Tabulátor",
+            "pipe": "Svislá čára (|)"
+        },
+        "headerRow": "Řádek záhlaví",
+        "rowNumber": "Řádek {number}",
+        "autoValue": "Automaticky: {value}",
+        "autoNothing": "Automaticky: žádný formát nesedí",
+        "chooseColumn": "Vyberte sloupec",
+        "noColumn": "Žádný sloupec",
+        "unnamedColumn": "Sloupec {number}",
+        "fields": {
+            "date": "Datum",
+            "amount": "Částka",
+            "description": "Popis",
+            "groupBy": "Seskupit podle",
+            "currency": "Měna",
+            "filters": "Jen řádky, kde",
+            "fee": "Poplatek"
+        },
+        "dateUnreadable": "Žádný formát data tento sloupec nepřečte. Zkontrolujte, že jde o správný sloupec.",
+        "dateExample": "„{value}“ se načte jako {date}.",
+        "dateAmbiguous": "Všechny dny v tomto souboru jsou 12 nebo méně, takže data mohou začínat dnem i měsícem. Zkontrolujte příklad a v případě potřeby změňte formát.",
+        "amountLayouts": {
+            "signed": "Jeden sloupec, výdaje se záporným znaménkem",
+            "split": "Samostatné sloupce pro příjmy a výdaje"
+        },
+        "moneyIn": "Příjmy (připsáno)",
+        "moneyOut": "Výdaje (odepsáno)",
+        "decimalAuto": "Desetinný oddělovač: automaticky ({value})",
+        "decimalNamed": "Desetinný oddělovač: {value}",
+        "decimals": {
+            "dot": "tečka",
+            "comma": "čárka"
+        },
+        "decimalAmbiguous": "Z částek nejde poznat, který oddělovač odděluje desetinná místa (jako u 1,500). Zkontrolujte částky níže a v případě potřeby ho změňte.",
+        "invert": "Výdaje jsou uvedené jako kladná čísla",
+        "descriptionHint": "Až tři sloupce, spojené znakem „ · “.",
+        "addColumn": "Přidat sloupec",
+        "removeColumn": "Odebrat tento sloupec",
+        "groupByHint": "Řádky se stejnou hodnotou v tomto sloupci dostanou v dalším kroku stejnou kategorii. U sloupce s popisem se čísla ignorují, takže platby kartou v jednom obchodě tvoří jednu skupinu.",
+        "noCurrencyColumn": "Bez sloupce s měnou se všechny řádky berou v měně {currency}.",
+        "currencyHint": "Řádky v jiné měně než {currency} se vynechají.",
+        "filtersHint": "Řádky s jinou hodnotou v tomto sloupci se vynechají, například čekající nebo zamítnuté platby.",
+        "addFilter": "Přidat filtr",
+        "removeFilter": "Odebrat tento filtr",
+        "tooManyFilterValues": "Tento sloupec má {count} různých hodnot, na filtr je to příliš mnoho.",
+        "emptyValue": "(prázdné)",
+        "parsedPreview": "Jak se načtou první řádky",
+        "readCounts": "{ready, plural, one {# řádek připraven} few {# řádky připraveny} other {# řádků připraveno}} · nelze přečíst: {unreadable} · vynecháno: {left}",
+        "allOtherCurrency": "Všechny řádky jsou v měně {currencies}, ale účet {account} používá {currency}. Vyberte účet v této měně.",
+        "chooseAnotherAccount": "Vybrat jiný účet",
+        "tooManyReadyRows": "Tento soubor má k importu {count} řádků, ale jeden import zvládne nejvýše {max}. Exportujte z banky kratší období, nebo v náhledu některé řádky odškrtněte.",
+        "types": {
+            "EXPENSE": "Výdaj",
+            "INCOME": "Příjem"
+        },
+        "table": {
+            "row": "Řádek",
+            "date": "Datum",
+            "description": "Popis",
+            "category": "Kategorie",
+            "amount": "Částka",
+            "status": "Stav"
+        },
+        "status": {
+            "ready": "Připraveno",
+            "filtered": "Vynecháno filtrem na sloupci {column}",
+            "otherCurrency": "V měně {currency}",
+            "badDate": "Nelze přečíst datum „{value}“",
+            "futureDate": "Datum „{value}“ je v budoucnosti",
+            "badAmount": "Nelze přečíst částku „{value}“",
+            "zero": "Částka je 0",
+            "skipped": "Neimportuje se (vaše volba v kroku 3)",
+            "invalidEdit": "Zadejte částku větší než 0, například 1500,50"
+        },
+        "groupedBy": "Řádky jsou seskupené podle sloupce „{column}“. Můžete to změnit v předchozím kroku.",
+        "notGrouped": "Řádky nejsou seskupené podle žádného sloupce, takže všechny výdaje tvoří jednu skupinu a všechny příjmy druhou. Můžete to změnit v předchozím kroku.",
+        "groupsWithoutCategory": "{count, plural, one {# skupina zatím nemá kategorii. Její řádky půjdou do kategorie Ostatní výdaje nebo Ostatní příjmy.} few {# skupiny zatím nemají kategorii. Jejich řádky půjdou do kategorie Ostatní výdaje nebo Ostatní příjmy.} other {# skupin zatím nemá kategorii. Jejich řádky půjdou do kategorie Ostatní výdaje nebo Ostatní příjmy.}}",
+        "expenseGroups": "Výdaje ({count})",
+        "incomeGroups": "Příjmy ({count})",
+        "emptyGroup": "(bez hodnoty)",
+        "groupMeta": "{count, plural, one {# řádek} few {# řádky} other {# řádků}}{similar, plural, =0 {} one { · # další podobný text} few { · # další podobné texty} other { · # dalších podobných textů}}",
+        "noCategoryChoice": "Bez kategorie",
+        "newCategoryChoice": "Nová kategorie…",
+        "skipChoice": "Tyto řádky neimportovat",
+        "noSubcategory": "Bez podkategorie",
+        "goesToOther": "Bez kategorie půjdou tyto řádky do kategorie {category}.",
+        "skipExplained": "Tyto řádky se neimportují.",
+        "moreRows": "{count, plural, one {a ještě # řádek} few {a ještě # řádky} other {a ještě # řádků}}",
+        "duplicatesTitle": "{count, plural, one {# řádek už možná v tomto účtu je} few {# řádky už možná v tomto účtu jsou} other {# řádků už možná v tomto účtu je}}",
+        "duplicatesLeftOut": "{count, plural, one {Má stejné datum, typ a částku jako transakce v účtu {account}, takže je odškrtnutý a neimportuje se. Zkontrolujte ho a zaškrtněte ho, pokud je opravdu nový.} few {Mají stejné datum, typ a částku jako transakce v účtu {account}, takže # jsou odškrtnuté a neimportují se. Zkontrolujte je a zaškrtněte ty, které jsou opravdu nové.} other {Mají stejné datum, typ a částku jako transakce v účtu {account}, takže # je odškrtnutých a neimportují se. Zkontrolujte je a zaškrtněte ty, které jsou opravdu nové.}}",
+        "duplicatesIncluded": "{count, plural, one {Zaškrtli jste ho, takže se přesto importuje.} other {Zaškrtli jste je všechny, takže se přesto importují.}}",
+        "reviewDuplicates": "Zkontrolovat",
+        "noCategoryNotice": "{count, plural, one {# řádek nemá kategorii a půjde do kategorie Ostatní výdaje nebo Ostatní příjmy.} few {# řádky nemají kategorii a půjdou do kategorie Ostatní výdaje nebo Ostatní příjmy.} other {# řádků nemá kategorii a půjde do kategorie Ostatní výdaje nebo Ostatní příjmy.}}",
+        "showThem": "Zobrazit",
+        "tooManyRows": "Zaškrtnuto je {count} řádků, ale jeden import zvládne nejvýše {max}. Některé odškrtněte, nebo importujte soubor po částech.",
+        "summary": {
+            "rows": "Řádky v souboru",
+            "filtered": "Vynecháno filtrem",
+            "otherCurrency": "V jiné měně",
+            "unreadable": "Nelze přečíst",
+            "zero": "Částka 0",
+            "skipped": "Neimportuje se (krok 3)",
+            "duplicatesLeftOut": "Možné duplicity, odškrtnuté",
+            "unticked": "Odškrtnuto vámi",
+            "toImport": "K importu",
+            "income": "Příjmy",
+            "expenses": "Výdaje",
+            "net": "Čistý výsledek",
+            "balance": "{account}: {before} → {after} po importu",
+            "edited": "{count, plural, one {z toho # upravený vámi} few {z toho # upravené vámi} other {z toho # upravených vámi}}"
+        },
+        "filters": {
+            "all": "Vše ({count})",
+            "duplicates": "Možné duplicity ({count})",
+            "noCategory": "Bez kategorie ({count})",
+            "excluded": "Neimportuje se ({count})"
+        },
+        "tickAll": "Zaškrtnout nebo odškrtnout všechny zobrazené řádky",
+        "tickRow": "Importovat řádek {number}",
+        "noRowsInFilter": "Žádné řádky.",
+        "duplicateOf": "Možná duplicita transakce: {date} · {description} · {category} · {amount}",
+        "badges": {
+            "duplicate": "Možná duplicita",
+            "noCategory": "Bez kategorie",
+            "edited": "Upraveno"
+        },
+        "noCategoryRow": "Bez kategorie ({category})",
+        "previousPage": "Předchozí",
+        "nextPage": "Další",
+        "pageOf": "Strana {page} z {pages}",
+        "errors": {
+            "invalidData": "Některé řádky nešlo uložit, protože jejich data nejsou platná. Nic se neimportovalo.",
+            "accountNotFound": "Účet nebyl nalezen. Obnovte stránku a zkuste to znovu.",
+            "categoryNotFound": "Některá kategorie nebo podkategorie už neexistuje. Obnovte stránku a vyberte kategorie znovu. Nic se neimportovalo.",
+            "categoryTypeMismatch": "Kategorie jednoho z řádků neodpovídá jeho typu (příjem nebo výdaj). Nic se neimportovalo.",
+            "blocked": "Požadavek byl zablokován. Zkuste to za chvíli znovu.",
+            "unexpected": "Něco se pokazilo a nic se neimportovalo. Zkuste to znovu."
+        },
+        "feeHint": "Nepovinné. Poplatek se odečte od částky řádku, protože ho banka účtuje navíc (platby kartou v zahraničí, výběry hotovosti...).",
+        "newSubcategoryChoice": "Nová podkategorie…",
+        "aloneGroups": "Řádky bez hodnoty ve sloupci „{column}“ ({count})",
+        "aloneHint": "S ostatními řádky nemají nic společného, takže každý dostane vlastní kategorii.",
+        "aloneMeta": "Řádek {number} · {date}",
+        "editHint": "Před importem můžete změnit kterýkoli řádek: tužkou upravíte datum, popis, typ nebo částku, výběrem kategorii.",
+        "editType": "Typ",
+        "editRow": "Upravit řádek {number}",
+        "doneEditing": "Hotovo",
+        "resetRow": "Vrátit změny"
     }
 }

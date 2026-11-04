@@ -33,13 +33,8 @@
         "createSuccess": "Transacción creada exitosamente",
         "updateSuccess": "Transacción actualizada exitosamente",
         "none": "Ninguna",
-        "orAddViaCsv": "O añadir via archivo csv (Beta)",
-        "csvSuccess": "Transacciones importadas exitosamente",
-        "csvError": "Error importando transacciones",
-        "importing": "Importando...",
-        "currencyMismatch": "Esta cuenta usa otra moneda. Para mover dinero entre monedas, usa una transferencia interna.",
-        "csvCurrencyHint": "Los importes se importarán en {currency}.",
-        "csvSkipped": "{count, plural, one {Se omitió # fila porque su moneda no es {currency}} other {Se omitieron # filas porque su moneda no es {currency}}}"
+        "importCsv": "Importar transacciones desde un archivo CSV",
+        "currencyMismatch": "Esta cuenta usa otra moneda. Para mover dinero entre monedas, usa una transferencia interna."
     },
     "Header": {
         "dashboard": "Panel de Control",
@@ -142,12 +137,12 @@
                 "0": {
                     "title": "Regístrate",
                     "body": "Creas una cuenta en más o menos un minuto. Trakeo nunca te pide las claves de tu banco: le pones nombre a tu primera cuenta y eliges una moneda.",
-                    "note": "sin claves del banco.\nprometido."
+                    "note": "sin claves del banco.\npalabra de honor."
                 },
                 "1": {
                     "title": "Día de cobro",
                     "body": "Te llega la nómina y la apuntas. Primer ingreso del mes, listo.",
-                    "note": "¡primer apunte!"
+                    "note": "¡primer registro!"
                 },
                 "6": {
                     "title": "El alquiler, en coronas",
@@ -159,7 +154,7 @@
                 },
                 "14": {
                     "title": "Vistazo al presupuesto",
-                    "body": "Entre la compra y una escapada de fin de semana llegas al {percent} de tu presupuesto mensual, y la barra se pone amarilla antes de que te pases, no después.",
+                    "body": "Entre la compra y una escapada de fin de semana llegas al {percent} de tu presupuesto mensual, y la barra se pone amarilla antes de que te pases, para avisarte.",
                     "note": "amarillo = frena un poco"
                 },
                 "22": {
@@ -205,7 +200,7 @@
             }
         },
         "faq": {
-            "title": "Buenas preguntas",
+            "title": "Preguntas frecuentes",
             "note": "¿algo más? el botón de comentarios siempre está en la esquina.",
             "items": {
                 "free": {
@@ -372,7 +367,8 @@
             "yearly": "Anual",
             "custom": "Personalizado"
         },
-        "internalTransfer": "Transferencia Interna"
+        "internalTransfer": "Transferencia Interna",
+        "importCsv": "Importar CSV"
     },
     "Analytics": {
         "title": "Tus hábitos en perspectiva",
@@ -480,5 +476,208 @@
             "feeTooHigh": "La comisión debe ser menor que el importe descontado",
             "resultTooSmall": "El valor calculado es demasiado pequeño"
         }
+    },
+    "CsvImport": {
+        "title": "Importar desde un archivo CSV",
+        "steps": {
+            "file": {
+                "name": "Archivo",
+                "title": "Elige el archivo y la cuenta",
+                "description": "Descarga un extracto en CSV desde la web de tu banco. El archivo se lee en tu navegador y no se guarda nada hasta el último paso."
+            },
+            "columns": {
+                "name": "Columnas",
+                "title": "Indica a Trakeo qué es cada columna",
+                "description": "Trakeo ha hecho una propuesta a partir de los nombres y los valores de las columnas. Revísala: la tabla de abajo muestra cómo se leen las filas."
+            },
+            "categories": {
+                "name": "Categorías",
+                "title": "Elige una categoría para cada grupo",
+                "description": "Las filas que comparten categoría, o descripción salvo los números, forman un grupo. Elige adónde va cada grupo."
+            },
+            "preview": {
+                "name": "Vista previa",
+                "title": "Revisa las filas antes de importar",
+                "description": "Marca las filas que quieres importar. No se guarda nada hasta que pulses Importar."
+            }
+        },
+        "back": "Atrás",
+        "next": "Siguiente",
+        "importButton": "{count, plural, =0 {Nada que importar} one {Importar # transacción} other {Importar # transacciones}}",
+        "success": "{count, plural, one {Se importó # transacción} other {Se importaron # transacciones}}",
+        "noAccounts": "Necesitas una cuenta antes de poder importar transacciones.",
+        "goToDashboard": "Ir al Panel de Control",
+        "account": "Cuenta",
+        "chooseAccount": "Elige una cuenta",
+        "file": "Archivo CSV",
+        "chooseFile": "Elige un archivo o suéltalo aquí",
+        "chooseAnotherFile": "Elige otro archivo o suéltalo aquí",
+        "fileHint": "CSV, TXT o TSV, de hasta {size} MB",
+        "fileTooBig": "El archivo ocupa más de {size} MB.",
+        "fileUnreadable": "No se pudo leer el archivo.",
+        "noRows": "No se encontraron filas en este archivo.",
+        "fileRead": "Se encontraron {rows, plural, one {# fila} other {# filas}} y {columns, plural, one {# columna} other {# columnas}}.",
+        "nothingSavedYet": "No se guarda nada hasta que pulses Importar en el último paso.",
+        "rawPreview": "Las primeras filas del archivo, tal cual. La fila resaltada se usa como encabezado.",
+        "encoding": "Codificación",
+        "encodings": {
+            "utf-8": "UTF-8",
+            "windows-1250": "Windows-1250 (Europa central)",
+            "windows-1252": "Windows-1252 (Europa occidental)"
+        },
+        "encodingHint": "Si letras como ñ, é o č aparecen como � o como símbolos raros, prueba otra codificación.",
+        "delimiter": "Separador",
+        "delimiters": {
+            "comma": "Coma (,)",
+            "semicolon": "Punto y coma (;)",
+            "tab": "Tabulador",
+            "pipe": "Barra vertical (|)"
+        },
+        "headerRow": "Fila de encabezado",
+        "rowNumber": "Fila {number}",
+        "autoValue": "Automático: {value}",
+        "autoNothing": "Automático: ningún formato encaja",
+        "chooseColumn": "Elige una columna",
+        "noColumn": "Ninguna columna",
+        "unnamedColumn": "Columna {number}",
+        "fields": {
+            "date": "Fecha",
+            "amount": "Importe",
+            "description": "Descripción",
+            "groupBy": "Agrupar por",
+            "currency": "Moneda",
+            "filters": "Solo filas donde",
+            "fee": "Comisión"
+        },
+        "dateUnreadable": "Ningún formato de fecha lee esta columna. Comprueba que sea la columna correcta.",
+        "dateExample": "\"{value}\" se lee como {date}.",
+        "dateAmbiguous": "Todos los días de este archivo son 12 o menos, así que las fechas podrían empezar por el día o por el mes. Revisa el ejemplo y cambia el formato si hace falta.",
+        "amountLayouts": {
+            "signed": "Una columna, en negativo para los gastos",
+            "split": "Columnas separadas para entradas y salidas de dinero"
+        },
+        "moneyIn": "Entradas (abonos)",
+        "moneyOut": "Salidas (cargos)",
+        "decimalAuto": "Separador decimal: automático ({value})",
+        "decimalNamed": "Separador decimal: {value}",
+        "decimals": {
+            "dot": "punto",
+            "comma": "coma"
+        },
+        "decimalAmbiguous": "Los importes no muestran qué separador marca los decimales (como en 1,500). Revisa los importes de abajo y cámbialo si hace falta.",
+        "invert": "Los gastos aparecen como números positivos",
+        "descriptionHint": "Hasta tres columnas, unidas con \" · \".",
+        "addColumn": "Añadir una columna",
+        "removeColumn": "Quitar esta columna",
+        "groupByHint": "Las filas con el mismo valor aquí reciben la misma categoría en el siguiente paso. En una columna de descripción se ignoran los números, así que los pagos con tarjeta en una misma tienda forman un grupo.",
+        "noCurrencyColumn": "Sin una columna de moneda, todas las filas se toman en {currency}.",
+        "currencyHint": "Las filas en una moneda distinta de {currency} se dejan fuera.",
+        "filtersHint": "Las filas con cualquier otro valor en esa columna se dejan fuera, como los pagos pendientes o rechazados.",
+        "addFilter": "Añadir un filtro",
+        "removeFilter": "Quitar este filtro",
+        "tooManyFilterValues": "Esta columna tiene {count} valores distintos, demasiados para filtrar.",
+        "emptyValue": "(vacío)",
+        "parsedPreview": "Cómo se leen las primeras filas",
+        "readCounts": "{ready, plural, one {# fila lista} other {# filas listas}} · {unreadable} sin poder leer · {left} fuera",
+        "allOtherCurrency": "Todas las filas están en {currencies}, pero {account} usa {currency}. Elige una cuenta en esa moneda.",
+        "chooseAnotherAccount": "Elegir otra cuenta",
+        "tooManyReadyRows": "Este archivo tiene {count} filas para importar, pero cada importación admite como máximo {max}. Exporta un periodo más corto desde tu banco o desmarca filas en la vista previa.",
+        "types": {
+            "EXPENSE": "Gasto",
+            "INCOME": "Ingreso"
+        },
+        "table": {
+            "row": "Fila",
+            "date": "Fecha",
+            "description": "Descripción",
+            "category": "Categoría",
+            "amount": "Importe",
+            "status": "Estado"
+        },
+        "status": {
+            "ready": "Lista",
+            "filtered": "Fuera por el filtro de {column}",
+            "otherCurrency": "En {currency}",
+            "badDate": "No se puede leer la fecha \"{value}\"",
+            "futureDate": "La fecha \"{value}\" es futura",
+            "badAmount": "No se puede leer el importe \"{value}\"",
+            "zero": "El importe es 0",
+            "skipped": "No se importa (tu elección en el paso 3)",
+            "invalidEdit": "Introduce un importe mayor que 0, como 1500,50"
+        },
+        "groupedBy": "Las filas se agrupan por \"{column}\". Puedes cambiarlo en el paso anterior.",
+        "notGrouped": "Las filas no se agrupan por ninguna columna, así que todos los gastos forman un grupo y todos los ingresos otro. Puedes cambiarlo en el paso anterior.",
+        "groupsWithoutCategory": "{count, plural, one {# grupo aún no tiene categoría. Sus filas irán a Otros gastos u Otros ingresos.} other {# grupos aún no tienen categoría. Sus filas irán a Otros gastos u Otros ingresos.}}",
+        "expenseGroups": "Gastos ({count})",
+        "incomeGroups": "Ingresos ({count})",
+        "emptyGroup": "(sin valor)",
+        "groupMeta": "{count, plural, one {# fila} other {# filas}}{similar, plural, =0 {} one { · # texto parecido más} other { · # textos parecidos más}}",
+        "noCategoryChoice": "Sin categoría",
+        "newCategoryChoice": "Nueva categoría…",
+        "skipChoice": "No importar estas filas",
+        "noSubcategory": "Sin subcategoría",
+        "goesToOther": "Sin categoría, estas filas van a {category}.",
+        "skipExplained": "Estas filas no se importarán.",
+        "moreRows": "{count, plural, one {y # fila más} other {y # filas más}}",
+        "duplicatesTitle": "{count, plural, one {# fila puede que ya esté en esta cuenta} other {# filas puede que ya estén en esta cuenta}}",
+        "duplicatesLeftOut": "{count, plural, one {Tiene la misma fecha, tipo e importe que una transacción de {account}, así que está desmarcada y no se importará. Revísala y márcala si de verdad es nueva.} other {Tienen la misma fecha, tipo e importe que transacciones de {account}, así que # están desmarcadas y no se importarán. Revísalas y marca las que de verdad sean nuevas.}}",
+        "duplicatesIncluded": "{count, plural, one {La has marcado, así que se importará de todos modos.} other {Las has marcado todas, así que se importarán de todos modos.}}",
+        "reviewDuplicates": "Revisarlas",
+        "noCategoryNotice": "{count, plural, one {# fila no tiene categoría e irá a Otros gastos u Otros ingresos.} other {# filas no tienen categoría e irán a Otros gastos u Otros ingresos.}}",
+        "showThem": "Mostrarlas",
+        "tooManyRows": "Hay {count} filas marcadas, pero cada importación admite como máximo {max}. Desmarca algunas o importa el archivo por partes.",
+        "summary": {
+            "rows": "Filas en el archivo",
+            "filtered": "Fuera por un filtro",
+            "otherCurrency": "En otra moneda",
+            "unreadable": "Sin poder leer",
+            "zero": "Importe 0",
+            "skipped": "No se importan (paso 3)",
+            "duplicatesLeftOut": "Posibles duplicados, desmarcados",
+            "unticked": "Desmarcadas por ti",
+            "toImport": "Para importar",
+            "income": "Ingresos",
+            "expenses": "Gastos",
+            "net": "Neto",
+            "balance": "{account}: {before} → {after} tras la importación",
+            "edited": "{count, plural, one {# de ellas editada por ti} other {# de ellas editadas por ti}}"
+        },
+        "filters": {
+            "all": "Todas ({count})",
+            "duplicates": "Posibles duplicados ({count})",
+            "noCategory": "Sin categoría ({count})",
+            "excluded": "No se importan ({count})"
+        },
+        "tickAll": "Marcar o desmarcar todas las filas mostradas",
+        "tickRow": "Importar la fila {number}",
+        "noRowsInFilter": "No hay filas aquí.",
+        "duplicateOf": "Posible duplicado de: {date} · {description} · {category} · {amount}",
+        "badges": {
+            "duplicate": "Posible duplicado",
+            "noCategory": "Sin categoría",
+            "edited": "Editada"
+        },
+        "noCategoryRow": "Sin categoría ({category})",
+        "previousPage": "Anterior",
+        "nextPage": "Siguiente",
+        "pageOf": "Página {page} de {pages}",
+        "errors": {
+            "invalidData": "Algunas filas no se pudieron guardar porque sus datos no son válidos. No se importó nada.",
+            "accountNotFound": "No se encontró la cuenta. Recarga la página e inténtalo de nuevo.",
+            "categoryNotFound": "Una categoría o subcategoría ya no existe. Recarga la página y vuelve a elegir las categorías. No se importó nada.",
+            "categoryTypeMismatch": "La categoría de una fila no coincide con su tipo (ingreso o gasto). No se importó nada.",
+            "blocked": "Se bloqueó la solicitud. Inténtalo de nuevo en un momento.",
+            "unexpected": "Algo salió mal y no se importó nada. Inténtalo de nuevo."
+        },
+        "feeHint": "Opcional. La comisión se resta del importe de la fila, porque el banco la cobra aparte (pagos con tarjeta en el extranjero, retiradas de efectivo...).",
+        "newSubcategoryChoice": "Nueva subcategoría…",
+        "aloneGroups": "Filas sin nada en \"{column}\" ({count})",
+        "aloneHint": "No tienen nada en común con otras filas, así que cada una recibe su propia categoría.",
+        "aloneMeta": "Fila {number} · {date}",
+        "editHint": "Puedes cambiar cualquier fila antes de importar: con el lápiz editas su fecha, descripción, tipo o importe, y con los selectores su categoría.",
+        "editType": "Tipo",
+        "editRow": "Editar la fila {number}",
+        "doneEditing": "Listo",
+        "resetRow": "Deshacer cambios"
     }
 }
