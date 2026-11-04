@@ -667,7 +667,8 @@
             "categoryNotFound": "Una categoría o subcategoría ya no existe. Recarga la página y vuelve a elegir las categorías. No se importó nada.",
             "categoryTypeMismatch": "La categoría de una fila no coincide con su tipo (ingreso o gasto). No se importó nada.",
             "blocked": "Se bloqueó la solicitud. Inténtalo de nuevo en un momento.",
-            "unexpected": "Algo salió mal y no se importó nada. Inténtalo de nuevo."
+            "unexpected": "Algo salió mal y no se importó nada. Inténtalo de nuevo.",
+            "profileNotFound": "Estos ajustes ya no existen. Recarga la página."
         },
         "feeHint": "Opcional. La comisión se resta del importe de la fila, porque el banco la cobra aparte (pagos con tarjeta en el extranjero, retiradas de efectivo...).",
         "newSubcategoryChoice": "Nueva subcategoría…",
@@ -680,6 +681,26 @@
         "doneEditing": "Listo",
         "resetRow": "Deshacer cambios",
         "showWholeRow": "Ver la fila completa",
-        "hideWholeRow": "Ocultar la fila completa"
+        "hideWholeRow": "Ocultar la fila completa",
+        "settingsApplied": "Las columnas de este archivo se han configurado con tus ajustes guardados \"{name}\".",
+        "changeColumns": "Cambiar columnas",
+        "stopUsingSettings": "No usarlos",
+        "settingsOffer": "Estas columnas se parecen a tus ajustes guardados \"{name}\".",
+        "useSettings": "Usarlos",
+        "rememberSettings": "Recordar estos ajustes para el próximo archivo",
+        "settingsName": "Nombre de los ajustes",
+        "rememberHint": "Se guardan la codificación, el separador y las columnas. Un archivo con el mismo encabezado se configurará solo, y la importación empezará en las categorías.",
+        "successWithSettings": "{count, plural, one {Se importó # transacción} other {Se importaron # transacciones}} y se guardaron los ajustes \"{name}\"",
+        "settingsNotSaved": "Las transacciones se importaron, pero no se pudieron guardar los ajustes.",
+        "savedSettings": "Ajustes de importación guardados",
+        "savedSettingsHint": "Un archivo cuyo encabezado coincida con alguno de estos se configura automáticamente.",
+        "lastUsedWith": "Usados por última vez con {account}",
+        "rename": "Renombrar",
+        "saveName": "Guardar",
+        "cancel": "Cancelar",
+        "delete": "Eliminar",
+        "confirmDelete": "Eliminar definitivamente",
+        "settingsRenamed": "Ajustes renombrados",
+        "settingsDeleted": "Ajustes eliminados"
     }
 }

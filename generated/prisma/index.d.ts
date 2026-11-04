@@ -55,6 +55,12 @@ export type Subcategory = $Result.DefaultSelection<Prisma.$SubcategoryPayload>
  */
 export type Feedback = $Result.DefaultSelection<Prisma.$FeedbackPayload>
 /**
+ * Model ImportProfile
+ * What one bank's CSV looks like to the import: encoding, separator and column mapping (settings, validated by
+ * importSettingsSchema). Found again by the file's header row (headerSignature)
+ */
+export type ImportProfile = $Result.DefaultSelection<Prisma.$ImportProfilePayload>
+/**
  * Model ExchangeRate
  * ECB euro reference rates: 1 EUR = rate units of currency on that date. Shared by every user; only the Inngest job writes here
  */
@@ -353,6 +359,16 @@ export class PrismaClient<
     * ```
     */
   get feedback(): Prisma.FeedbackDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.importProfile`: Exposes CRUD operations for the **ImportProfile** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ImportProfiles
+    * const importProfiles = await prisma.importProfile.findMany()
+    * ```
+    */
+  get importProfile(): Prisma.ImportProfileDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.exchangeRate`: Exposes CRUD operations for the **ExchangeRate** model.
@@ -805,6 +821,7 @@ export namespace Prisma {
     Category: 'Category',
     Subcategory: 'Subcategory',
     Feedback: 'Feedback',
+    ImportProfile: 'ImportProfile',
     ExchangeRate: 'ExchangeRate'
   };
 
@@ -821,7 +838,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "account" | "transaction" | "transfer" | "budget" | "category" | "subcategory" | "feedback" | "exchangeRate"
+      modelProps: "user" | "account" | "transaction" | "transfer" | "budget" | "category" | "subcategory" | "feedback" | "importProfile" | "exchangeRate"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1417,6 +1434,80 @@ export namespace Prisma {
           }
         }
       }
+      ImportProfile: {
+        payload: Prisma.$ImportProfilePayload<ExtArgs>
+        fields: Prisma.ImportProfileFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ImportProfileFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ImportProfilePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ImportProfileFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ImportProfilePayload>
+          }
+          findFirst: {
+            args: Prisma.ImportProfileFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ImportProfilePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ImportProfileFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ImportProfilePayload>
+          }
+          findMany: {
+            args: Prisma.ImportProfileFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ImportProfilePayload>[]
+          }
+          create: {
+            args: Prisma.ImportProfileCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ImportProfilePayload>
+          }
+          createMany: {
+            args: Prisma.ImportProfileCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ImportProfileCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ImportProfilePayload>[]
+          }
+          delete: {
+            args: Prisma.ImportProfileDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ImportProfilePayload>
+          }
+          update: {
+            args: Prisma.ImportProfileUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ImportProfilePayload>
+          }
+          deleteMany: {
+            args: Prisma.ImportProfileDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ImportProfileUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.ImportProfileUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ImportProfilePayload>[]
+          }
+          upsert: {
+            args: Prisma.ImportProfileUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ImportProfilePayload>
+          }
+          aggregate: {
+            args: Prisma.ImportProfileAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateImportProfile>
+          }
+          groupBy: {
+            args: Prisma.ImportProfileGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ImportProfileGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ImportProfileCountArgs<ExtArgs>
+            result: $Utils.Optional<ImportProfileCountAggregateOutputType> | number
+          }
+        }
+      }
       ExchangeRate: {
         payload: Prisma.$ExchangeRatePayload<ExtArgs>
         fields: Prisma.ExchangeRateFieldRefs
@@ -1607,6 +1698,7 @@ export namespace Prisma {
     category?: CategoryOmit
     subcategory?: SubcategoryOmit
     feedback?: FeedbackOmit
+    importProfile?: ImportProfileOmit
     exchangeRate?: ExchangeRateOmit
   }
 
@@ -1693,6 +1785,7 @@ export namespace Prisma {
     feedbacks: number
     transactions: number
     transfers: number
+    importProfiles: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -1701,6 +1794,7 @@ export namespace Prisma {
     feedbacks?: boolean | UserCountOutputTypeCountFeedbacksArgs
     transactions?: boolean | UserCountOutputTypeCountTransactionsArgs
     transfers?: boolean | UserCountOutputTypeCountTransfersArgs
+    importProfiles?: boolean | UserCountOutputTypeCountImportProfilesArgs
   }
 
   // Custom InputTypes
@@ -1749,6 +1843,13 @@ export namespace Prisma {
     where?: TransferWhereInput
   }
 
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountImportProfilesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ImportProfileWhereInput
+  }
+
 
   /**
    * Count Type AccountCountOutputType
@@ -1758,12 +1859,14 @@ export namespace Prisma {
     transactions: number
     transfersOut: number
     transfersIn: number
+    importProfiles: number
   }
 
   export type AccountCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     transactions?: boolean | AccountCountOutputTypeCountTransactionsArgs
     transfersOut?: boolean | AccountCountOutputTypeCountTransfersOutArgs
     transfersIn?: boolean | AccountCountOutputTypeCountTransfersInArgs
+    importProfiles?: boolean | AccountCountOutputTypeCountImportProfilesArgs
   }
 
   // Custom InputTypes
@@ -1796,6 +1899,13 @@ export namespace Prisma {
    */
   export type AccountCountOutputTypeCountTransfersInArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: TransferWhereInput
+  }
+
+  /**
+   * AccountCountOutputType without action
+   */
+  export type AccountCountOutputTypeCountImportProfilesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ImportProfileWhereInput
   }
 
 
@@ -2091,6 +2201,7 @@ export namespace Prisma {
     feedbacks?: boolean | User$feedbacksArgs<ExtArgs>
     transactions?: boolean | User$transactionsArgs<ExtArgs>
     transfers?: boolean | User$transfersArgs<ExtArgs>
+    importProfiles?: boolean | User$importProfilesArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -2132,6 +2243,7 @@ export namespace Prisma {
     feedbacks?: boolean | User$feedbacksArgs<ExtArgs>
     transactions?: boolean | User$transactionsArgs<ExtArgs>
     transfers?: boolean | User$transfersArgs<ExtArgs>
+    importProfiles?: boolean | User$importProfilesArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -2146,6 +2258,7 @@ export namespace Prisma {
       feedbacks: Prisma.$FeedbackPayload<ExtArgs>[]
       transactions: Prisma.$TransactionPayload<ExtArgs>[]
       transfers: Prisma.$TransferPayload<ExtArgs>[]
+      importProfiles: Prisma.$ImportProfilePayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -2555,6 +2668,7 @@ export namespace Prisma {
     feedbacks<T extends User$feedbacksArgs<ExtArgs> = {}>(args?: Subset<T, User$feedbacksArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FeedbackPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     transactions<T extends User$transactionsArgs<ExtArgs> = {}>(args?: Subset<T, User$transactionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TransactionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     transfers<T extends User$transfersArgs<ExtArgs> = {}>(args?: Subset<T, User$transfersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TransferPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    importProfiles<T extends User$importProfilesArgs<ExtArgs> = {}>(args?: Subset<T, User$importProfilesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ImportProfilePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3118,6 +3232,30 @@ export namespace Prisma {
   }
 
   /**
+   * User.importProfiles
+   */
+  export type User$importProfilesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ImportProfile
+     */
+    select?: ImportProfileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ImportProfile
+     */
+    omit?: ImportProfileOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ImportProfileInclude<ExtArgs> | null
+    where?: ImportProfileWhereInput
+    orderBy?: ImportProfileOrderByWithRelationInput | ImportProfileOrderByWithRelationInput[]
+    cursor?: ImportProfileWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ImportProfileScalarFieldEnum | ImportProfileScalarFieldEnum[]
+  }
+
+  /**
    * User without action
    */
   export type UserDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -3370,6 +3508,7 @@ export namespace Prisma {
     transactions?: boolean | Account$transactionsArgs<ExtArgs>
     transfersOut?: boolean | Account$transfersOutArgs<ExtArgs>
     transfersIn?: boolean | Account$transfersInArgs<ExtArgs>
+    importProfiles?: boolean | Account$importProfilesArgs<ExtArgs>
     _count?: boolean | AccountCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["account"]>
 
@@ -3417,6 +3556,7 @@ export namespace Prisma {
     transactions?: boolean | Account$transactionsArgs<ExtArgs>
     transfersOut?: boolean | Account$transfersOutArgs<ExtArgs>
     transfersIn?: boolean | Account$transfersInArgs<ExtArgs>
+    importProfiles?: boolean | Account$importProfilesArgs<ExtArgs>
     _count?: boolean | AccountCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type AccountIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -3433,6 +3573,7 @@ export namespace Prisma {
       transactions: Prisma.$TransactionPayload<ExtArgs>[]
       transfersOut: Prisma.$TransferPayload<ExtArgs>[]
       transfersIn: Prisma.$TransferPayload<ExtArgs>[]
+      importProfiles: Prisma.$ImportProfilePayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -3842,6 +3983,7 @@ export namespace Prisma {
     transactions<T extends Account$transactionsArgs<ExtArgs> = {}>(args?: Subset<T, Account$transactionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TransactionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     transfersOut<T extends Account$transfersOutArgs<ExtArgs> = {}>(args?: Subset<T, Account$transfersOutArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TransferPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     transfersIn<T extends Account$transfersInArgs<ExtArgs> = {}>(args?: Subset<T, Account$transfersInArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TransferPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    importProfiles<T extends Account$importProfilesArgs<ExtArgs> = {}>(args?: Subset<T, Account$importProfilesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ImportProfilePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -4345,6 +4487,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: TransferScalarFieldEnum | TransferScalarFieldEnum[]
+  }
+
+  /**
+   * Account.importProfiles
+   */
+  export type Account$importProfilesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ImportProfile
+     */
+    select?: ImportProfileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ImportProfile
+     */
+    omit?: ImportProfileOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ImportProfileInclude<ExtArgs> | null
+    where?: ImportProfileWhereInput
+    orderBy?: ImportProfileOrderByWithRelationInput | ImportProfileOrderByWithRelationInput[]
+    cursor?: ImportProfileWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ImportProfileScalarFieldEnum | ImportProfileScalarFieldEnum[]
   }
 
   /**
@@ -11424,6 +11590,1126 @@ export namespace Prisma {
 
 
   /**
+   * Model ImportProfile
+   */
+
+  export type AggregateImportProfile = {
+    _count: ImportProfileCountAggregateOutputType | null
+    _min: ImportProfileMinAggregateOutputType | null
+    _max: ImportProfileMaxAggregateOutputType | null
+  }
+
+  export type ImportProfileMinAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    name: string | null
+    headerSignature: string | null
+    lastAccountId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type ImportProfileMaxAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    name: string | null
+    headerSignature: string | null
+    lastAccountId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type ImportProfileCountAggregateOutputType = {
+    id: number
+    userId: number
+    name: number
+    headerSignature: number
+    settings: number
+    lastAccountId: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type ImportProfileMinAggregateInputType = {
+    id?: true
+    userId?: true
+    name?: true
+    headerSignature?: true
+    lastAccountId?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type ImportProfileMaxAggregateInputType = {
+    id?: true
+    userId?: true
+    name?: true
+    headerSignature?: true
+    lastAccountId?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type ImportProfileCountAggregateInputType = {
+    id?: true
+    userId?: true
+    name?: true
+    headerSignature?: true
+    settings?: true
+    lastAccountId?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type ImportProfileAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ImportProfile to aggregate.
+     */
+    where?: ImportProfileWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ImportProfiles to fetch.
+     */
+    orderBy?: ImportProfileOrderByWithRelationInput | ImportProfileOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ImportProfileWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ImportProfiles from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ImportProfiles.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned ImportProfiles
+    **/
+    _count?: true | ImportProfileCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ImportProfileMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ImportProfileMaxAggregateInputType
+  }
+
+  export type GetImportProfileAggregateType<T extends ImportProfileAggregateArgs> = {
+        [P in keyof T & keyof AggregateImportProfile]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateImportProfile[P]>
+      : GetScalarType<T[P], AggregateImportProfile[P]>
+  }
+
+
+
+
+  export type ImportProfileGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ImportProfileWhereInput
+    orderBy?: ImportProfileOrderByWithAggregationInput | ImportProfileOrderByWithAggregationInput[]
+    by: ImportProfileScalarFieldEnum[] | ImportProfileScalarFieldEnum
+    having?: ImportProfileScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ImportProfileCountAggregateInputType | true
+    _min?: ImportProfileMinAggregateInputType
+    _max?: ImportProfileMaxAggregateInputType
+  }
+
+  export type ImportProfileGroupByOutputType = {
+    id: string
+    userId: string
+    name: string
+    headerSignature: string
+    settings: JsonValue
+    lastAccountId: string | null
+    createdAt: Date
+    updatedAt: Date
+    _count: ImportProfileCountAggregateOutputType | null
+    _min: ImportProfileMinAggregateOutputType | null
+    _max: ImportProfileMaxAggregateOutputType | null
+  }
+
+  type GetImportProfileGroupByPayload<T extends ImportProfileGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ImportProfileGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ImportProfileGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ImportProfileGroupByOutputType[P]>
+            : GetScalarType<T[P], ImportProfileGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ImportProfileSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    name?: boolean
+    headerSignature?: boolean
+    settings?: boolean
+    lastAccountId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    lastAccount?: boolean | ImportProfile$lastAccountArgs<ExtArgs>
+  }, ExtArgs["result"]["importProfile"]>
+
+  export type ImportProfileSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    name?: boolean
+    headerSignature?: boolean
+    settings?: boolean
+    lastAccountId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    lastAccount?: boolean | ImportProfile$lastAccountArgs<ExtArgs>
+  }, ExtArgs["result"]["importProfile"]>
+
+  export type ImportProfileSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    name?: boolean
+    headerSignature?: boolean
+    settings?: boolean
+    lastAccountId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    lastAccount?: boolean | ImportProfile$lastAccountArgs<ExtArgs>
+  }, ExtArgs["result"]["importProfile"]>
+
+  export type ImportProfileSelectScalar = {
+    id?: boolean
+    userId?: boolean
+    name?: boolean
+    headerSignature?: boolean
+    settings?: boolean
+    lastAccountId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type ImportProfileOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "name" | "headerSignature" | "settings" | "lastAccountId" | "createdAt" | "updatedAt", ExtArgs["result"]["importProfile"]>
+  export type ImportProfileInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    lastAccount?: boolean | ImportProfile$lastAccountArgs<ExtArgs>
+  }
+  export type ImportProfileIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    lastAccount?: boolean | ImportProfile$lastAccountArgs<ExtArgs>
+  }
+  export type ImportProfileIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    lastAccount?: boolean | ImportProfile$lastAccountArgs<ExtArgs>
+  }
+
+  export type $ImportProfilePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "ImportProfile"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+      lastAccount: Prisma.$AccountPayload<ExtArgs> | null
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      userId: string
+      name: string
+      headerSignature: string
+      settings: Prisma.JsonValue
+      lastAccountId: string | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["importProfile"]>
+    composites: {}
+  }
+
+  type ImportProfileGetPayload<S extends boolean | null | undefined | ImportProfileDefaultArgs> = $Result.GetResult<Prisma.$ImportProfilePayload, S>
+
+  type ImportProfileCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<ImportProfileFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ImportProfileCountAggregateInputType | true
+    }
+
+  export interface ImportProfileDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['ImportProfile'], meta: { name: 'ImportProfile' } }
+    /**
+     * Find zero or one ImportProfile that matches the filter.
+     * @param {ImportProfileFindUniqueArgs} args - Arguments to find a ImportProfile
+     * @example
+     * // Get one ImportProfile
+     * const importProfile = await prisma.importProfile.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ImportProfileFindUniqueArgs>(args: SelectSubset<T, ImportProfileFindUniqueArgs<ExtArgs>>): Prisma__ImportProfileClient<$Result.GetResult<Prisma.$ImportProfilePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one ImportProfile that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {ImportProfileFindUniqueOrThrowArgs} args - Arguments to find a ImportProfile
+     * @example
+     * // Get one ImportProfile
+     * const importProfile = await prisma.importProfile.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ImportProfileFindUniqueOrThrowArgs>(args: SelectSubset<T, ImportProfileFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ImportProfileClient<$Result.GetResult<Prisma.$ImportProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ImportProfile that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ImportProfileFindFirstArgs} args - Arguments to find a ImportProfile
+     * @example
+     * // Get one ImportProfile
+     * const importProfile = await prisma.importProfile.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ImportProfileFindFirstArgs>(args?: SelectSubset<T, ImportProfileFindFirstArgs<ExtArgs>>): Prisma__ImportProfileClient<$Result.GetResult<Prisma.$ImportProfilePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ImportProfile that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ImportProfileFindFirstOrThrowArgs} args - Arguments to find a ImportProfile
+     * @example
+     * // Get one ImportProfile
+     * const importProfile = await prisma.importProfile.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ImportProfileFindFirstOrThrowArgs>(args?: SelectSubset<T, ImportProfileFindFirstOrThrowArgs<ExtArgs>>): Prisma__ImportProfileClient<$Result.GetResult<Prisma.$ImportProfilePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more ImportProfiles that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ImportProfileFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all ImportProfiles
+     * const importProfiles = await prisma.importProfile.findMany()
+     * 
+     * // Get first 10 ImportProfiles
+     * const importProfiles = await prisma.importProfile.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const importProfileWithIdOnly = await prisma.importProfile.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ImportProfileFindManyArgs>(args?: SelectSubset<T, ImportProfileFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ImportProfilePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a ImportProfile.
+     * @param {ImportProfileCreateArgs} args - Arguments to create a ImportProfile.
+     * @example
+     * // Create one ImportProfile
+     * const ImportProfile = await prisma.importProfile.create({
+     *   data: {
+     *     // ... data to create a ImportProfile
+     *   }
+     * })
+     * 
+     */
+    create<T extends ImportProfileCreateArgs>(args: SelectSubset<T, ImportProfileCreateArgs<ExtArgs>>): Prisma__ImportProfileClient<$Result.GetResult<Prisma.$ImportProfilePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many ImportProfiles.
+     * @param {ImportProfileCreateManyArgs} args - Arguments to create many ImportProfiles.
+     * @example
+     * // Create many ImportProfiles
+     * const importProfile = await prisma.importProfile.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ImportProfileCreateManyArgs>(args?: SelectSubset<T, ImportProfileCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many ImportProfiles and returns the data saved in the database.
+     * @param {ImportProfileCreateManyAndReturnArgs} args - Arguments to create many ImportProfiles.
+     * @example
+     * // Create many ImportProfiles
+     * const importProfile = await prisma.importProfile.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many ImportProfiles and only return the `id`
+     * const importProfileWithIdOnly = await prisma.importProfile.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ImportProfileCreateManyAndReturnArgs>(args?: SelectSubset<T, ImportProfileCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ImportProfilePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a ImportProfile.
+     * @param {ImportProfileDeleteArgs} args - Arguments to delete one ImportProfile.
+     * @example
+     * // Delete one ImportProfile
+     * const ImportProfile = await prisma.importProfile.delete({
+     *   where: {
+     *     // ... filter to delete one ImportProfile
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ImportProfileDeleteArgs>(args: SelectSubset<T, ImportProfileDeleteArgs<ExtArgs>>): Prisma__ImportProfileClient<$Result.GetResult<Prisma.$ImportProfilePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one ImportProfile.
+     * @param {ImportProfileUpdateArgs} args - Arguments to update one ImportProfile.
+     * @example
+     * // Update one ImportProfile
+     * const importProfile = await prisma.importProfile.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ImportProfileUpdateArgs>(args: SelectSubset<T, ImportProfileUpdateArgs<ExtArgs>>): Prisma__ImportProfileClient<$Result.GetResult<Prisma.$ImportProfilePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more ImportProfiles.
+     * @param {ImportProfileDeleteManyArgs} args - Arguments to filter ImportProfiles to delete.
+     * @example
+     * // Delete a few ImportProfiles
+     * const { count } = await prisma.importProfile.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ImportProfileDeleteManyArgs>(args?: SelectSubset<T, ImportProfileDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ImportProfiles.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ImportProfileUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many ImportProfiles
+     * const importProfile = await prisma.importProfile.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ImportProfileUpdateManyArgs>(args: SelectSubset<T, ImportProfileUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ImportProfiles and returns the data updated in the database.
+     * @param {ImportProfileUpdateManyAndReturnArgs} args - Arguments to update many ImportProfiles.
+     * @example
+     * // Update many ImportProfiles
+     * const importProfile = await prisma.importProfile.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more ImportProfiles and only return the `id`
+     * const importProfileWithIdOnly = await prisma.importProfile.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends ImportProfileUpdateManyAndReturnArgs>(args: SelectSubset<T, ImportProfileUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ImportProfilePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one ImportProfile.
+     * @param {ImportProfileUpsertArgs} args - Arguments to update or create a ImportProfile.
+     * @example
+     * // Update or create a ImportProfile
+     * const importProfile = await prisma.importProfile.upsert({
+     *   create: {
+     *     // ... data to create a ImportProfile
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the ImportProfile we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ImportProfileUpsertArgs>(args: SelectSubset<T, ImportProfileUpsertArgs<ExtArgs>>): Prisma__ImportProfileClient<$Result.GetResult<Prisma.$ImportProfilePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of ImportProfiles.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ImportProfileCountArgs} args - Arguments to filter ImportProfiles to count.
+     * @example
+     * // Count the number of ImportProfiles
+     * const count = await prisma.importProfile.count({
+     *   where: {
+     *     // ... the filter for the ImportProfiles we want to count
+     *   }
+     * })
+    **/
+    count<T extends ImportProfileCountArgs>(
+      args?: Subset<T, ImportProfileCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ImportProfileCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a ImportProfile.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ImportProfileAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ImportProfileAggregateArgs>(args: Subset<T, ImportProfileAggregateArgs>): Prisma.PrismaPromise<GetImportProfileAggregateType<T>>
+
+    /**
+     * Group by ImportProfile.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ImportProfileGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ImportProfileGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ImportProfileGroupByArgs['orderBy'] }
+        : { orderBy?: ImportProfileGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ImportProfileGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetImportProfileGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the ImportProfile model
+   */
+  readonly fields: ImportProfileFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for ImportProfile.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ImportProfileClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    lastAccount<T extends ImportProfile$lastAccountArgs<ExtArgs> = {}>(args?: Subset<T, ImportProfile$lastAccountArgs<ExtArgs>>): Prisma__AccountClient<$Result.GetResult<Prisma.$AccountPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the ImportProfile model
+   */
+  interface ImportProfileFieldRefs {
+    readonly id: FieldRef<"ImportProfile", 'String'>
+    readonly userId: FieldRef<"ImportProfile", 'String'>
+    readonly name: FieldRef<"ImportProfile", 'String'>
+    readonly headerSignature: FieldRef<"ImportProfile", 'String'>
+    readonly settings: FieldRef<"ImportProfile", 'Json'>
+    readonly lastAccountId: FieldRef<"ImportProfile", 'String'>
+    readonly createdAt: FieldRef<"ImportProfile", 'DateTime'>
+    readonly updatedAt: FieldRef<"ImportProfile", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * ImportProfile findUnique
+   */
+  export type ImportProfileFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ImportProfile
+     */
+    select?: ImportProfileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ImportProfile
+     */
+    omit?: ImportProfileOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ImportProfileInclude<ExtArgs> | null
+    /**
+     * Filter, which ImportProfile to fetch.
+     */
+    where: ImportProfileWhereUniqueInput
+  }
+
+  /**
+   * ImportProfile findUniqueOrThrow
+   */
+  export type ImportProfileFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ImportProfile
+     */
+    select?: ImportProfileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ImportProfile
+     */
+    omit?: ImportProfileOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ImportProfileInclude<ExtArgs> | null
+    /**
+     * Filter, which ImportProfile to fetch.
+     */
+    where: ImportProfileWhereUniqueInput
+  }
+
+  /**
+   * ImportProfile findFirst
+   */
+  export type ImportProfileFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ImportProfile
+     */
+    select?: ImportProfileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ImportProfile
+     */
+    omit?: ImportProfileOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ImportProfileInclude<ExtArgs> | null
+    /**
+     * Filter, which ImportProfile to fetch.
+     */
+    where?: ImportProfileWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ImportProfiles to fetch.
+     */
+    orderBy?: ImportProfileOrderByWithRelationInput | ImportProfileOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ImportProfiles.
+     */
+    cursor?: ImportProfileWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ImportProfiles from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ImportProfiles.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ImportProfiles.
+     */
+    distinct?: ImportProfileScalarFieldEnum | ImportProfileScalarFieldEnum[]
+  }
+
+  /**
+   * ImportProfile findFirstOrThrow
+   */
+  export type ImportProfileFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ImportProfile
+     */
+    select?: ImportProfileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ImportProfile
+     */
+    omit?: ImportProfileOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ImportProfileInclude<ExtArgs> | null
+    /**
+     * Filter, which ImportProfile to fetch.
+     */
+    where?: ImportProfileWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ImportProfiles to fetch.
+     */
+    orderBy?: ImportProfileOrderByWithRelationInput | ImportProfileOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ImportProfiles.
+     */
+    cursor?: ImportProfileWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ImportProfiles from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ImportProfiles.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ImportProfiles.
+     */
+    distinct?: ImportProfileScalarFieldEnum | ImportProfileScalarFieldEnum[]
+  }
+
+  /**
+   * ImportProfile findMany
+   */
+  export type ImportProfileFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ImportProfile
+     */
+    select?: ImportProfileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ImportProfile
+     */
+    omit?: ImportProfileOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ImportProfileInclude<ExtArgs> | null
+    /**
+     * Filter, which ImportProfiles to fetch.
+     */
+    where?: ImportProfileWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ImportProfiles to fetch.
+     */
+    orderBy?: ImportProfileOrderByWithRelationInput | ImportProfileOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing ImportProfiles.
+     */
+    cursor?: ImportProfileWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ImportProfiles from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ImportProfiles.
+     */
+    skip?: number
+    distinct?: ImportProfileScalarFieldEnum | ImportProfileScalarFieldEnum[]
+  }
+
+  /**
+   * ImportProfile create
+   */
+  export type ImportProfileCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ImportProfile
+     */
+    select?: ImportProfileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ImportProfile
+     */
+    omit?: ImportProfileOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ImportProfileInclude<ExtArgs> | null
+    /**
+     * The data needed to create a ImportProfile.
+     */
+    data: XOR<ImportProfileCreateInput, ImportProfileUncheckedCreateInput>
+  }
+
+  /**
+   * ImportProfile createMany
+   */
+  export type ImportProfileCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many ImportProfiles.
+     */
+    data: ImportProfileCreateManyInput | ImportProfileCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * ImportProfile createManyAndReturn
+   */
+  export type ImportProfileCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ImportProfile
+     */
+    select?: ImportProfileSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ImportProfile
+     */
+    omit?: ImportProfileOmit<ExtArgs> | null
+    /**
+     * The data used to create many ImportProfiles.
+     */
+    data: ImportProfileCreateManyInput | ImportProfileCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ImportProfileIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ImportProfile update
+   */
+  export type ImportProfileUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ImportProfile
+     */
+    select?: ImportProfileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ImportProfile
+     */
+    omit?: ImportProfileOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ImportProfileInclude<ExtArgs> | null
+    /**
+     * The data needed to update a ImportProfile.
+     */
+    data: XOR<ImportProfileUpdateInput, ImportProfileUncheckedUpdateInput>
+    /**
+     * Choose, which ImportProfile to update.
+     */
+    where: ImportProfileWhereUniqueInput
+  }
+
+  /**
+   * ImportProfile updateMany
+   */
+  export type ImportProfileUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update ImportProfiles.
+     */
+    data: XOR<ImportProfileUpdateManyMutationInput, ImportProfileUncheckedUpdateManyInput>
+    /**
+     * Filter which ImportProfiles to update
+     */
+    where?: ImportProfileWhereInput
+    /**
+     * Limit how many ImportProfiles to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * ImportProfile updateManyAndReturn
+   */
+  export type ImportProfileUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ImportProfile
+     */
+    select?: ImportProfileSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ImportProfile
+     */
+    omit?: ImportProfileOmit<ExtArgs> | null
+    /**
+     * The data used to update ImportProfiles.
+     */
+    data: XOR<ImportProfileUpdateManyMutationInput, ImportProfileUncheckedUpdateManyInput>
+    /**
+     * Filter which ImportProfiles to update
+     */
+    where?: ImportProfileWhereInput
+    /**
+     * Limit how many ImportProfiles to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ImportProfileIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ImportProfile upsert
+   */
+  export type ImportProfileUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ImportProfile
+     */
+    select?: ImportProfileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ImportProfile
+     */
+    omit?: ImportProfileOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ImportProfileInclude<ExtArgs> | null
+    /**
+     * The filter to search for the ImportProfile to update in case it exists.
+     */
+    where: ImportProfileWhereUniqueInput
+    /**
+     * In case the ImportProfile found by the `where` argument doesn't exist, create a new ImportProfile with this data.
+     */
+    create: XOR<ImportProfileCreateInput, ImportProfileUncheckedCreateInput>
+    /**
+     * In case the ImportProfile was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ImportProfileUpdateInput, ImportProfileUncheckedUpdateInput>
+  }
+
+  /**
+   * ImportProfile delete
+   */
+  export type ImportProfileDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ImportProfile
+     */
+    select?: ImportProfileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ImportProfile
+     */
+    omit?: ImportProfileOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ImportProfileInclude<ExtArgs> | null
+    /**
+     * Filter which ImportProfile to delete.
+     */
+    where: ImportProfileWhereUniqueInput
+  }
+
+  /**
+   * ImportProfile deleteMany
+   */
+  export type ImportProfileDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ImportProfiles to delete
+     */
+    where?: ImportProfileWhereInput
+    /**
+     * Limit how many ImportProfiles to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * ImportProfile.lastAccount
+   */
+  export type ImportProfile$lastAccountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Account
+     */
+    select?: AccountSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Account
+     */
+    omit?: AccountOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AccountInclude<ExtArgs> | null
+    where?: AccountWhereInput
+  }
+
+  /**
+   * ImportProfile without action
+   */
+  export type ImportProfileDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ImportProfile
+     */
+    select?: ImportProfileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ImportProfile
+     */
+    omit?: ImportProfileOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ImportProfileInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Model ExchangeRate
    */
 
@@ -12599,6 +13885,20 @@ export namespace Prisma {
   export type FeedbackScalarFieldEnum = (typeof FeedbackScalarFieldEnum)[keyof typeof FeedbackScalarFieldEnum]
 
 
+  export const ImportProfileScalarFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    name: 'name',
+    headerSignature: 'headerSignature',
+    settings: 'settings',
+    lastAccountId: 'lastAccountId',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type ImportProfileScalarFieldEnum = (typeof ImportProfileScalarFieldEnum)[keyof typeof ImportProfileScalarFieldEnum]
+
+
   export const ExchangeRateScalarFieldEnum: {
     id: 'id',
     date: 'date',
@@ -12619,6 +13919,13 @@ export namespace Prisma {
   export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
 
 
+  export const JsonNullValueInput: {
+    JsonNull: typeof JsonNull
+  };
+
+  export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput]
+
+
   export const QueryMode: {
     default: 'default',
     insensitive: 'insensitive'
@@ -12633,6 +13940,15 @@ export namespace Prisma {
   };
 
   export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
+
+
+  export const JsonNullValueFilter: {
+    DbNull: typeof DbNull,
+    JsonNull: typeof JsonNull,
+    AnyNull: typeof AnyNull
+  };
+
+  export type JsonNullValueFilter = (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter]
 
 
   /**
@@ -12788,6 +14104,20 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'Json'
+   */
+  export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>
+    
+
+
+  /**
+   * Reference to a field of type 'QueryMode'
+   */
+  export type EnumQueryModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QueryMode'>
+    
+
+
+  /**
    * Reference to a field of type 'ExchangeRateSource'
    */
   export type EnumExchangeRateSourceFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ExchangeRateSource'>
@@ -12849,6 +14179,7 @@ export namespace Prisma {
     feedbacks?: FeedbackListRelationFilter
     transactions?: TransactionListRelationFilter
     transfers?: TransferListRelationFilter
+    importProfiles?: ImportProfileListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -12865,6 +14196,7 @@ export namespace Prisma {
     feedbacks?: FeedbackOrderByRelationAggregateInput
     transactions?: TransactionOrderByRelationAggregateInput
     transfers?: TransferOrderByRelationAggregateInput
+    importProfiles?: ImportProfileOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -12884,6 +14216,7 @@ export namespace Prisma {
     feedbacks?: FeedbackListRelationFilter
     transactions?: TransactionListRelationFilter
     transfers?: TransferListRelationFilter
+    importProfiles?: ImportProfileListRelationFilter
   }, "id" | "clerkUserId" | "email">
 
   export type UserOrderByWithAggregationInput = {
@@ -12929,6 +14262,7 @@ export namespace Prisma {
     transactions?: TransactionListRelationFilter
     transfersOut?: TransferListRelationFilter
     transfersIn?: TransferListRelationFilter
+    importProfiles?: ImportProfileListRelationFilter
   }
 
   export type AccountOrderByWithRelationInput = {
@@ -12945,6 +14279,7 @@ export namespace Prisma {
     transactions?: TransactionOrderByRelationAggregateInput
     transfersOut?: TransferOrderByRelationAggregateInput
     transfersIn?: TransferOrderByRelationAggregateInput
+    importProfiles?: ImportProfileOrderByRelationAggregateInput
   }
 
   export type AccountWhereUniqueInput = Prisma.AtLeast<{
@@ -12964,6 +14299,7 @@ export namespace Prisma {
     transactions?: TransactionListRelationFilter
     transfersOut?: TransferListRelationFilter
     transfersIn?: TransferListRelationFilter
+    importProfiles?: ImportProfileListRelationFilter
   }, "id">
 
   export type AccountOrderByWithAggregationInput = {
@@ -13497,6 +14833,80 @@ export namespace Prisma {
     updated_at?: DateTimeWithAggregatesFilter<"Feedback"> | Date | string
   }
 
+  export type ImportProfileWhereInput = {
+    AND?: ImportProfileWhereInput | ImportProfileWhereInput[]
+    OR?: ImportProfileWhereInput[]
+    NOT?: ImportProfileWhereInput | ImportProfileWhereInput[]
+    id?: StringFilter<"ImportProfile"> | string
+    userId?: StringFilter<"ImportProfile"> | string
+    name?: StringFilter<"ImportProfile"> | string
+    headerSignature?: StringFilter<"ImportProfile"> | string
+    settings?: JsonFilter<"ImportProfile">
+    lastAccountId?: StringNullableFilter<"ImportProfile"> | string | null
+    createdAt?: DateTimeFilter<"ImportProfile"> | Date | string
+    updatedAt?: DateTimeFilter<"ImportProfile"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    lastAccount?: XOR<AccountNullableScalarRelationFilter, AccountWhereInput> | null
+  }
+
+  export type ImportProfileOrderByWithRelationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    name?: SortOrder
+    headerSignature?: SortOrder
+    settings?: SortOrder
+    lastAccountId?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    user?: UserOrderByWithRelationInput
+    lastAccount?: AccountOrderByWithRelationInput
+  }
+
+  export type ImportProfileWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    userId_headerSignature?: ImportProfileUserIdHeaderSignatureCompoundUniqueInput
+    AND?: ImportProfileWhereInput | ImportProfileWhereInput[]
+    OR?: ImportProfileWhereInput[]
+    NOT?: ImportProfileWhereInput | ImportProfileWhereInput[]
+    userId?: StringFilter<"ImportProfile"> | string
+    name?: StringFilter<"ImportProfile"> | string
+    headerSignature?: StringFilter<"ImportProfile"> | string
+    settings?: JsonFilter<"ImportProfile">
+    lastAccountId?: StringNullableFilter<"ImportProfile"> | string | null
+    createdAt?: DateTimeFilter<"ImportProfile"> | Date | string
+    updatedAt?: DateTimeFilter<"ImportProfile"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    lastAccount?: XOR<AccountNullableScalarRelationFilter, AccountWhereInput> | null
+  }, "id" | "userId_headerSignature">
+
+  export type ImportProfileOrderByWithAggregationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    name?: SortOrder
+    headerSignature?: SortOrder
+    settings?: SortOrder
+    lastAccountId?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: ImportProfileCountOrderByAggregateInput
+    _max?: ImportProfileMaxOrderByAggregateInput
+    _min?: ImportProfileMinOrderByAggregateInput
+  }
+
+  export type ImportProfileScalarWhereWithAggregatesInput = {
+    AND?: ImportProfileScalarWhereWithAggregatesInput | ImportProfileScalarWhereWithAggregatesInput[]
+    OR?: ImportProfileScalarWhereWithAggregatesInput[]
+    NOT?: ImportProfileScalarWhereWithAggregatesInput | ImportProfileScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"ImportProfile"> | string
+    userId?: StringWithAggregatesFilter<"ImportProfile"> | string
+    name?: StringWithAggregatesFilter<"ImportProfile"> | string
+    headerSignature?: StringWithAggregatesFilter<"ImportProfile"> | string
+    settings?: JsonWithAggregatesFilter<"ImportProfile">
+    lastAccountId?: StringNullableWithAggregatesFilter<"ImportProfile"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"ImportProfile"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"ImportProfile"> | Date | string
+  }
+
   export type ExchangeRateWhereInput = {
     AND?: ExchangeRateWhereInput | ExchangeRateWhereInput[]
     OR?: ExchangeRateWhereInput[]
@@ -13571,6 +14981,7 @@ export namespace Prisma {
     feedbacks?: FeedbackCreateNestedManyWithoutUsersInput
     transactions?: TransactionCreateNestedManyWithoutUserInput
     transfers?: TransferCreateNestedManyWithoutUserInput
+    importProfiles?: ImportProfileCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -13587,6 +14998,7 @@ export namespace Prisma {
     feedbacks?: FeedbackUncheckedCreateNestedManyWithoutUsersInput
     transactions?: TransactionUncheckedCreateNestedManyWithoutUserInput
     transfers?: TransferUncheckedCreateNestedManyWithoutUserInput
+    importProfiles?: ImportProfileUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserUpdateInput = {
@@ -13603,6 +15015,7 @@ export namespace Prisma {
     feedbacks?: FeedbackUpdateManyWithoutUsersNestedInput
     transactions?: TransactionUpdateManyWithoutUserNestedInput
     transfers?: TransferUpdateManyWithoutUserNestedInput
+    importProfiles?: ImportProfileUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -13619,6 +15032,7 @@ export namespace Prisma {
     feedbacks?: FeedbackUncheckedUpdateManyWithoutUsersNestedInput
     transactions?: TransactionUncheckedUpdateManyWithoutUserNestedInput
     transfers?: TransferUncheckedUpdateManyWithoutUserNestedInput
+    importProfiles?: ImportProfileUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -13664,6 +15078,7 @@ export namespace Prisma {
     transactions?: TransactionCreateNestedManyWithoutAccountInput
     transfersOut?: TransferCreateNestedManyWithoutFromAccountInput
     transfersIn?: TransferCreateNestedManyWithoutToAccountInput
+    importProfiles?: ImportProfileCreateNestedManyWithoutLastAccountInput
   }
 
   export type AccountUncheckedCreateInput = {
@@ -13679,6 +15094,7 @@ export namespace Prisma {
     transactions?: TransactionUncheckedCreateNestedManyWithoutAccountInput
     transfersOut?: TransferUncheckedCreateNestedManyWithoutFromAccountInput
     transfersIn?: TransferUncheckedCreateNestedManyWithoutToAccountInput
+    importProfiles?: ImportProfileUncheckedCreateNestedManyWithoutLastAccountInput
   }
 
   export type AccountUpdateInput = {
@@ -13694,6 +15110,7 @@ export namespace Prisma {
     transactions?: TransactionUpdateManyWithoutAccountNestedInput
     transfersOut?: TransferUpdateManyWithoutFromAccountNestedInput
     transfersIn?: TransferUpdateManyWithoutToAccountNestedInput
+    importProfiles?: ImportProfileUpdateManyWithoutLastAccountNestedInput
   }
 
   export type AccountUncheckedUpdateInput = {
@@ -13709,6 +15126,7 @@ export namespace Prisma {
     transactions?: TransactionUncheckedUpdateManyWithoutAccountNestedInput
     transfersOut?: TransferUncheckedUpdateManyWithoutFromAccountNestedInput
     transfersIn?: TransferUncheckedUpdateManyWithoutToAccountNestedInput
+    importProfiles?: ImportProfileUncheckedUpdateManyWithoutLastAccountNestedInput
   }
 
   export type AccountCreateManyInput = {
@@ -14268,6 +15686,81 @@ export namespace Prisma {
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type ImportProfileCreateInput = {
+    id?: string
+    name: string
+    headerSignature: string
+    settings: JsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutImportProfilesInput
+    lastAccount?: AccountCreateNestedOneWithoutImportProfilesInput
+  }
+
+  export type ImportProfileUncheckedCreateInput = {
+    id?: string
+    userId: string
+    name: string
+    headerSignature: string
+    settings: JsonNullValueInput | InputJsonValue
+    lastAccountId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ImportProfileUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    headerSignature?: StringFieldUpdateOperationsInput | string
+    settings?: JsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutImportProfilesNestedInput
+    lastAccount?: AccountUpdateOneWithoutImportProfilesNestedInput
+  }
+
+  export type ImportProfileUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    headerSignature?: StringFieldUpdateOperationsInput | string
+    settings?: JsonNullValueInput | InputJsonValue
+    lastAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ImportProfileCreateManyInput = {
+    id?: string
+    userId: string
+    name: string
+    headerSignature: string
+    settings: JsonNullValueInput | InputJsonValue
+    lastAccountId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ImportProfileUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    headerSignature?: StringFieldUpdateOperationsInput | string
+    settings?: JsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ImportProfileUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    headerSignature?: StringFieldUpdateOperationsInput | string
+    settings?: JsonNullValueInput | InputJsonValue
+    lastAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type ExchangeRateCreateInput = {
     id?: string
     date: Date | string
@@ -14407,6 +15900,12 @@ export namespace Prisma {
     none?: TransferWhereInput
   }
 
+  export type ImportProfileListRelationFilter = {
+    every?: ImportProfileWhereInput
+    some?: ImportProfileWhereInput
+    none?: ImportProfileWhereInput
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
@@ -14429,6 +15928,10 @@ export namespace Prisma {
   }
 
   export type TransferOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type ImportProfileOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -15054,6 +16557,96 @@ export namespace Prisma {
     _min?: NestedBigIntFilter<$PrismaModel>
     _max?: NestedBigIntFilter<$PrismaModel>
   }
+  export type JsonFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<JsonFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  }
+
+  export type AccountNullableScalarRelationFilter = {
+    is?: AccountWhereInput | null
+    isNot?: AccountWhereInput | null
+  }
+
+  export type ImportProfileUserIdHeaderSignatureCompoundUniqueInput = {
+    userId: string
+    headerSignature: string
+  }
+
+  export type ImportProfileCountOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    name?: SortOrder
+    headerSignature?: SortOrder
+    settings?: SortOrder
+    lastAccountId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ImportProfileMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    name?: SortOrder
+    headerSignature?: SortOrder
+    lastAccountId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ImportProfileMinOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    name?: SortOrder
+    headerSignature?: SortOrder
+    lastAccountId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+  export type JsonWithAggregatesFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<JsonWithAggregatesFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonWithAggregatesFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonWithAggregatesFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonWithAggregatesFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonWithAggregatesFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedJsonFilter<$PrismaModel>
+    _max?: NestedJsonFilter<$PrismaModel>
+  }
 
   export type EnumExchangeRateSourceFilter<$PrismaModel = never> = {
     equals?: $Enums.ExchangeRateSource | EnumExchangeRateSourceFieldRefInput<$PrismaModel>
@@ -15153,6 +16746,13 @@ export namespace Prisma {
     connect?: TransferWhereUniqueInput | TransferWhereUniqueInput[]
   }
 
+  export type ImportProfileCreateNestedManyWithoutUserInput = {
+    create?: XOR<ImportProfileCreateWithoutUserInput, ImportProfileUncheckedCreateWithoutUserInput> | ImportProfileCreateWithoutUserInput[] | ImportProfileUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: ImportProfileCreateOrConnectWithoutUserInput | ImportProfileCreateOrConnectWithoutUserInput[]
+    createMany?: ImportProfileCreateManyUserInputEnvelope
+    connect?: ImportProfileWhereUniqueInput | ImportProfileWhereUniqueInput[]
+  }
+
   export type AccountUncheckedCreateNestedManyWithoutUserInput = {
     create?: XOR<AccountCreateWithoutUserInput, AccountUncheckedCreateWithoutUserInput> | AccountCreateWithoutUserInput[] | AccountUncheckedCreateWithoutUserInput[]
     connectOrCreate?: AccountCreateOrConnectWithoutUserInput | AccountCreateOrConnectWithoutUserInput[]
@@ -15192,6 +16792,13 @@ export namespace Prisma {
     connectOrCreate?: TransferCreateOrConnectWithoutUserInput | TransferCreateOrConnectWithoutUserInput[]
     createMany?: TransferCreateManyUserInputEnvelope
     connect?: TransferWhereUniqueInput | TransferWhereUniqueInput[]
+  }
+
+  export type ImportProfileUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<ImportProfileCreateWithoutUserInput, ImportProfileUncheckedCreateWithoutUserInput> | ImportProfileCreateWithoutUserInput[] | ImportProfileUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: ImportProfileCreateOrConnectWithoutUserInput | ImportProfileCreateOrConnectWithoutUserInput[]
+    createMany?: ImportProfileCreateManyUserInputEnvelope
+    connect?: ImportProfileWhereUniqueInput | ImportProfileWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -15286,6 +16893,20 @@ export namespace Prisma {
     deleteMany?: TransferScalarWhereInput | TransferScalarWhereInput[]
   }
 
+  export type ImportProfileUpdateManyWithoutUserNestedInput = {
+    create?: XOR<ImportProfileCreateWithoutUserInput, ImportProfileUncheckedCreateWithoutUserInput> | ImportProfileCreateWithoutUserInput[] | ImportProfileUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: ImportProfileCreateOrConnectWithoutUserInput | ImportProfileCreateOrConnectWithoutUserInput[]
+    upsert?: ImportProfileUpsertWithWhereUniqueWithoutUserInput | ImportProfileUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: ImportProfileCreateManyUserInputEnvelope
+    set?: ImportProfileWhereUniqueInput | ImportProfileWhereUniqueInput[]
+    disconnect?: ImportProfileWhereUniqueInput | ImportProfileWhereUniqueInput[]
+    delete?: ImportProfileWhereUniqueInput | ImportProfileWhereUniqueInput[]
+    connect?: ImportProfileWhereUniqueInput | ImportProfileWhereUniqueInput[]
+    update?: ImportProfileUpdateWithWhereUniqueWithoutUserInput | ImportProfileUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: ImportProfileUpdateManyWithWhereWithoutUserInput | ImportProfileUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: ImportProfileScalarWhereInput | ImportProfileScalarWhereInput[]
+  }
+
   export type AccountUncheckedUpdateManyWithoutUserNestedInput = {
     create?: XOR<AccountCreateWithoutUserInput, AccountUncheckedCreateWithoutUserInput> | AccountCreateWithoutUserInput[] | AccountUncheckedCreateWithoutUserInput[]
     connectOrCreate?: AccountCreateOrConnectWithoutUserInput | AccountCreateOrConnectWithoutUserInput[]
@@ -15366,6 +16987,20 @@ export namespace Prisma {
     deleteMany?: TransferScalarWhereInput | TransferScalarWhereInput[]
   }
 
+  export type ImportProfileUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<ImportProfileCreateWithoutUserInput, ImportProfileUncheckedCreateWithoutUserInput> | ImportProfileCreateWithoutUserInput[] | ImportProfileUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: ImportProfileCreateOrConnectWithoutUserInput | ImportProfileCreateOrConnectWithoutUserInput[]
+    upsert?: ImportProfileUpsertWithWhereUniqueWithoutUserInput | ImportProfileUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: ImportProfileCreateManyUserInputEnvelope
+    set?: ImportProfileWhereUniqueInput | ImportProfileWhereUniqueInput[]
+    disconnect?: ImportProfileWhereUniqueInput | ImportProfileWhereUniqueInput[]
+    delete?: ImportProfileWhereUniqueInput | ImportProfileWhereUniqueInput[]
+    connect?: ImportProfileWhereUniqueInput | ImportProfileWhereUniqueInput[]
+    update?: ImportProfileUpdateWithWhereUniqueWithoutUserInput | ImportProfileUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: ImportProfileUpdateManyWithWhereWithoutUserInput | ImportProfileUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: ImportProfileScalarWhereInput | ImportProfileScalarWhereInput[]
+  }
+
   export type UserCreateNestedOneWithoutAccountsInput = {
     create?: XOR<UserCreateWithoutAccountsInput, UserUncheckedCreateWithoutAccountsInput>
     connectOrCreate?: UserCreateOrConnectWithoutAccountsInput
@@ -15393,6 +17028,13 @@ export namespace Prisma {
     connect?: TransferWhereUniqueInput | TransferWhereUniqueInput[]
   }
 
+  export type ImportProfileCreateNestedManyWithoutLastAccountInput = {
+    create?: XOR<ImportProfileCreateWithoutLastAccountInput, ImportProfileUncheckedCreateWithoutLastAccountInput> | ImportProfileCreateWithoutLastAccountInput[] | ImportProfileUncheckedCreateWithoutLastAccountInput[]
+    connectOrCreate?: ImportProfileCreateOrConnectWithoutLastAccountInput | ImportProfileCreateOrConnectWithoutLastAccountInput[]
+    createMany?: ImportProfileCreateManyLastAccountInputEnvelope
+    connect?: ImportProfileWhereUniqueInput | ImportProfileWhereUniqueInput[]
+  }
+
   export type TransactionUncheckedCreateNestedManyWithoutAccountInput = {
     create?: XOR<TransactionCreateWithoutAccountInput, TransactionUncheckedCreateWithoutAccountInput> | TransactionCreateWithoutAccountInput[] | TransactionUncheckedCreateWithoutAccountInput[]
     connectOrCreate?: TransactionCreateOrConnectWithoutAccountInput | TransactionCreateOrConnectWithoutAccountInput[]
@@ -15412,6 +17054,13 @@ export namespace Prisma {
     connectOrCreate?: TransferCreateOrConnectWithoutToAccountInput | TransferCreateOrConnectWithoutToAccountInput[]
     createMany?: TransferCreateManyToAccountInputEnvelope
     connect?: TransferWhereUniqueInput | TransferWhereUniqueInput[]
+  }
+
+  export type ImportProfileUncheckedCreateNestedManyWithoutLastAccountInput = {
+    create?: XOR<ImportProfileCreateWithoutLastAccountInput, ImportProfileUncheckedCreateWithoutLastAccountInput> | ImportProfileCreateWithoutLastAccountInput[] | ImportProfileUncheckedCreateWithoutLastAccountInput[]
+    connectOrCreate?: ImportProfileCreateOrConnectWithoutLastAccountInput | ImportProfileCreateOrConnectWithoutLastAccountInput[]
+    createMany?: ImportProfileCreateManyLastAccountInputEnvelope
+    connect?: ImportProfileWhereUniqueInput | ImportProfileWhereUniqueInput[]
   }
 
   export type EnumAccountTypeFieldUpdateOperationsInput = {
@@ -15480,6 +17129,20 @@ export namespace Prisma {
     deleteMany?: TransferScalarWhereInput | TransferScalarWhereInput[]
   }
 
+  export type ImportProfileUpdateManyWithoutLastAccountNestedInput = {
+    create?: XOR<ImportProfileCreateWithoutLastAccountInput, ImportProfileUncheckedCreateWithoutLastAccountInput> | ImportProfileCreateWithoutLastAccountInput[] | ImportProfileUncheckedCreateWithoutLastAccountInput[]
+    connectOrCreate?: ImportProfileCreateOrConnectWithoutLastAccountInput | ImportProfileCreateOrConnectWithoutLastAccountInput[]
+    upsert?: ImportProfileUpsertWithWhereUniqueWithoutLastAccountInput | ImportProfileUpsertWithWhereUniqueWithoutLastAccountInput[]
+    createMany?: ImportProfileCreateManyLastAccountInputEnvelope
+    set?: ImportProfileWhereUniqueInput | ImportProfileWhereUniqueInput[]
+    disconnect?: ImportProfileWhereUniqueInput | ImportProfileWhereUniqueInput[]
+    delete?: ImportProfileWhereUniqueInput | ImportProfileWhereUniqueInput[]
+    connect?: ImportProfileWhereUniqueInput | ImportProfileWhereUniqueInput[]
+    update?: ImportProfileUpdateWithWhereUniqueWithoutLastAccountInput | ImportProfileUpdateWithWhereUniqueWithoutLastAccountInput[]
+    updateMany?: ImportProfileUpdateManyWithWhereWithoutLastAccountInput | ImportProfileUpdateManyWithWhereWithoutLastAccountInput[]
+    deleteMany?: ImportProfileScalarWhereInput | ImportProfileScalarWhereInput[]
+  }
+
   export type TransactionUncheckedUpdateManyWithoutAccountNestedInput = {
     create?: XOR<TransactionCreateWithoutAccountInput, TransactionUncheckedCreateWithoutAccountInput> | TransactionCreateWithoutAccountInput[] | TransactionUncheckedCreateWithoutAccountInput[]
     connectOrCreate?: TransactionCreateOrConnectWithoutAccountInput | TransactionCreateOrConnectWithoutAccountInput[]
@@ -15520,6 +17183,20 @@ export namespace Prisma {
     update?: TransferUpdateWithWhereUniqueWithoutToAccountInput | TransferUpdateWithWhereUniqueWithoutToAccountInput[]
     updateMany?: TransferUpdateManyWithWhereWithoutToAccountInput | TransferUpdateManyWithWhereWithoutToAccountInput[]
     deleteMany?: TransferScalarWhereInput | TransferScalarWhereInput[]
+  }
+
+  export type ImportProfileUncheckedUpdateManyWithoutLastAccountNestedInput = {
+    create?: XOR<ImportProfileCreateWithoutLastAccountInput, ImportProfileUncheckedCreateWithoutLastAccountInput> | ImportProfileCreateWithoutLastAccountInput[] | ImportProfileUncheckedCreateWithoutLastAccountInput[]
+    connectOrCreate?: ImportProfileCreateOrConnectWithoutLastAccountInput | ImportProfileCreateOrConnectWithoutLastAccountInput[]
+    upsert?: ImportProfileUpsertWithWhereUniqueWithoutLastAccountInput | ImportProfileUpsertWithWhereUniqueWithoutLastAccountInput[]
+    createMany?: ImportProfileCreateManyLastAccountInputEnvelope
+    set?: ImportProfileWhereUniqueInput | ImportProfileWhereUniqueInput[]
+    disconnect?: ImportProfileWhereUniqueInput | ImportProfileWhereUniqueInput[]
+    delete?: ImportProfileWhereUniqueInput | ImportProfileWhereUniqueInput[]
+    connect?: ImportProfileWhereUniqueInput | ImportProfileWhereUniqueInput[]
+    update?: ImportProfileUpdateWithWhereUniqueWithoutLastAccountInput | ImportProfileUpdateWithWhereUniqueWithoutLastAccountInput[]
+    updateMany?: ImportProfileUpdateManyWithWhereWithoutLastAccountInput | ImportProfileUpdateManyWithWhereWithoutLastAccountInput[]
+    deleteMany?: ImportProfileScalarWhereInput | ImportProfileScalarWhereInput[]
   }
 
   export type AccountCreateNestedOneWithoutTransactionsInput = {
@@ -15896,6 +17573,36 @@ export namespace Prisma {
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutFeedbacksInput, UserUpdateWithoutFeedbacksInput>, UserUncheckedUpdateWithoutFeedbacksInput>
   }
 
+  export type UserCreateNestedOneWithoutImportProfilesInput = {
+    create?: XOR<UserCreateWithoutImportProfilesInput, UserUncheckedCreateWithoutImportProfilesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutImportProfilesInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type AccountCreateNestedOneWithoutImportProfilesInput = {
+    create?: XOR<AccountCreateWithoutImportProfilesInput, AccountUncheckedCreateWithoutImportProfilesInput>
+    connectOrCreate?: AccountCreateOrConnectWithoutImportProfilesInput
+    connect?: AccountWhereUniqueInput
+  }
+
+  export type UserUpdateOneRequiredWithoutImportProfilesNestedInput = {
+    create?: XOR<UserCreateWithoutImportProfilesInput, UserUncheckedCreateWithoutImportProfilesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutImportProfilesInput
+    upsert?: UserUpsertWithoutImportProfilesInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutImportProfilesInput, UserUpdateWithoutImportProfilesInput>, UserUncheckedUpdateWithoutImportProfilesInput>
+  }
+
+  export type AccountUpdateOneWithoutImportProfilesNestedInput = {
+    create?: XOR<AccountCreateWithoutImportProfilesInput, AccountUncheckedCreateWithoutImportProfilesInput>
+    connectOrCreate?: AccountCreateOrConnectWithoutImportProfilesInput
+    upsert?: AccountUpsertWithoutImportProfilesInput
+    disconnect?: AccountWhereInput | boolean
+    delete?: AccountWhereInput | boolean
+    connect?: AccountWhereUniqueInput
+    update?: XOR<XOR<AccountUpdateToOneWithWhereWithoutImportProfilesInput, AccountUpdateWithoutImportProfilesInput>, AccountUncheckedUpdateWithoutImportProfilesInput>
+  }
+
   export type EnumExchangeRateSourceFieldUpdateOperationsInput = {
     set?: $Enums.ExchangeRateSource
   }
@@ -16213,6 +17920,29 @@ export namespace Prisma {
     gte?: number | FloatFieldRefInput<$PrismaModel>
     not?: NestedFloatFilter<$PrismaModel> | number
   }
+  export type NestedJsonFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<NestedJsonFilterBase<$PrismaModel>>, Exclude<keyof Required<NestedJsonFilterBase<$PrismaModel>>, 'path'>>,
+        Required<NestedJsonFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<NestedJsonFilterBase<$PrismaModel>>, 'path'>>
+
+  export type NestedJsonFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  }
 
   export type NestedEnumExchangeRateSourceFilter<$PrismaModel = never> = {
     equals?: $Enums.ExchangeRateSource | EnumExchangeRateSourceFieldRefInput<$PrismaModel>
@@ -16243,6 +17973,7 @@ export namespace Prisma {
     transactions?: TransactionCreateNestedManyWithoutAccountInput
     transfersOut?: TransferCreateNestedManyWithoutFromAccountInput
     transfersIn?: TransferCreateNestedManyWithoutToAccountInput
+    importProfiles?: ImportProfileCreateNestedManyWithoutLastAccountInput
   }
 
   export type AccountUncheckedCreateWithoutUserInput = {
@@ -16257,6 +17988,7 @@ export namespace Prisma {
     transactions?: TransactionUncheckedCreateNestedManyWithoutAccountInput
     transfersOut?: TransferUncheckedCreateNestedManyWithoutFromAccountInput
     transfersIn?: TransferUncheckedCreateNestedManyWithoutToAccountInput
+    importProfiles?: ImportProfileUncheckedCreateNestedManyWithoutLastAccountInput
   }
 
   export type AccountCreateOrConnectWithoutUserInput = {
@@ -16439,6 +18171,36 @@ export namespace Prisma {
 
   export type TransferCreateManyUserInputEnvelope = {
     data: TransferCreateManyUserInput | TransferCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ImportProfileCreateWithoutUserInput = {
+    id?: string
+    name: string
+    headerSignature: string
+    settings: JsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    lastAccount?: AccountCreateNestedOneWithoutImportProfilesInput
+  }
+
+  export type ImportProfileUncheckedCreateWithoutUserInput = {
+    id?: string
+    name: string
+    headerSignature: string
+    settings: JsonNullValueInput | InputJsonValue
+    lastAccountId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ImportProfileCreateOrConnectWithoutUserInput = {
+    where: ImportProfileWhereUniqueInput
+    create: XOR<ImportProfileCreateWithoutUserInput, ImportProfileUncheckedCreateWithoutUserInput>
+  }
+
+  export type ImportProfileCreateManyUserInputEnvelope = {
+    data: ImportProfileCreateManyUserInput | ImportProfileCreateManyUserInput[]
     skipDuplicates?: boolean
   }
 
@@ -16634,6 +18396,36 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Transfer"> | Date | string
   }
 
+  export type ImportProfileUpsertWithWhereUniqueWithoutUserInput = {
+    where: ImportProfileWhereUniqueInput
+    update: XOR<ImportProfileUpdateWithoutUserInput, ImportProfileUncheckedUpdateWithoutUserInput>
+    create: XOR<ImportProfileCreateWithoutUserInput, ImportProfileUncheckedCreateWithoutUserInput>
+  }
+
+  export type ImportProfileUpdateWithWhereUniqueWithoutUserInput = {
+    where: ImportProfileWhereUniqueInput
+    data: XOR<ImportProfileUpdateWithoutUserInput, ImportProfileUncheckedUpdateWithoutUserInput>
+  }
+
+  export type ImportProfileUpdateManyWithWhereWithoutUserInput = {
+    where: ImportProfileScalarWhereInput
+    data: XOR<ImportProfileUpdateManyMutationInput, ImportProfileUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type ImportProfileScalarWhereInput = {
+    AND?: ImportProfileScalarWhereInput | ImportProfileScalarWhereInput[]
+    OR?: ImportProfileScalarWhereInput[]
+    NOT?: ImportProfileScalarWhereInput | ImportProfileScalarWhereInput[]
+    id?: StringFilter<"ImportProfile"> | string
+    userId?: StringFilter<"ImportProfile"> | string
+    name?: StringFilter<"ImportProfile"> | string
+    headerSignature?: StringFilter<"ImportProfile"> | string
+    settings?: JsonFilter<"ImportProfile">
+    lastAccountId?: StringNullableFilter<"ImportProfile"> | string | null
+    createdAt?: DateTimeFilter<"ImportProfile"> | Date | string
+    updatedAt?: DateTimeFilter<"ImportProfile"> | Date | string
+  }
+
   export type UserCreateWithoutAccountsInput = {
     id?: string
     clerkUserId: string
@@ -16647,6 +18439,7 @@ export namespace Prisma {
     feedbacks?: FeedbackCreateNestedManyWithoutUsersInput
     transactions?: TransactionCreateNestedManyWithoutUserInput
     transfers?: TransferCreateNestedManyWithoutUserInput
+    importProfiles?: ImportProfileCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutAccountsInput = {
@@ -16662,6 +18455,7 @@ export namespace Prisma {
     feedbacks?: FeedbackUncheckedCreateNestedManyWithoutUsersInput
     transactions?: TransactionUncheckedCreateNestedManyWithoutUserInput
     transfers?: TransferUncheckedCreateNestedManyWithoutUserInput
+    importProfiles?: ImportProfileUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutAccountsInput = {
@@ -16803,6 +18597,36 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type ImportProfileCreateWithoutLastAccountInput = {
+    id?: string
+    name: string
+    headerSignature: string
+    settings: JsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutImportProfilesInput
+  }
+
+  export type ImportProfileUncheckedCreateWithoutLastAccountInput = {
+    id?: string
+    userId: string
+    name: string
+    headerSignature: string
+    settings: JsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ImportProfileCreateOrConnectWithoutLastAccountInput = {
+    where: ImportProfileWhereUniqueInput
+    create: XOR<ImportProfileCreateWithoutLastAccountInput, ImportProfileUncheckedCreateWithoutLastAccountInput>
+  }
+
+  export type ImportProfileCreateManyLastAccountInputEnvelope = {
+    data: ImportProfileCreateManyLastAccountInput | ImportProfileCreateManyLastAccountInput[]
+    skipDuplicates?: boolean
+  }
+
   export type UserUpsertWithoutAccountsInput = {
     update: XOR<UserUpdateWithoutAccountsInput, UserUncheckedUpdateWithoutAccountsInput>
     create: XOR<UserCreateWithoutAccountsInput, UserUncheckedCreateWithoutAccountsInput>
@@ -16827,6 +18651,7 @@ export namespace Prisma {
     feedbacks?: FeedbackUpdateManyWithoutUsersNestedInput
     transactions?: TransactionUpdateManyWithoutUserNestedInput
     transfers?: TransferUpdateManyWithoutUserNestedInput
+    importProfiles?: ImportProfileUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAccountsInput = {
@@ -16842,6 +18667,7 @@ export namespace Prisma {
     feedbacks?: FeedbackUncheckedUpdateManyWithoutUsersNestedInput
     transactions?: TransactionUncheckedUpdateManyWithoutUserNestedInput
     transfers?: TransferUncheckedUpdateManyWithoutUserNestedInput
+    importProfiles?: ImportProfileUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type TransactionUpsertWithWhereUniqueWithoutAccountInput = {
@@ -16892,6 +18718,22 @@ export namespace Prisma {
     data: XOR<TransferUpdateManyMutationInput, TransferUncheckedUpdateManyWithoutToAccountInput>
   }
 
+  export type ImportProfileUpsertWithWhereUniqueWithoutLastAccountInput = {
+    where: ImportProfileWhereUniqueInput
+    update: XOR<ImportProfileUpdateWithoutLastAccountInput, ImportProfileUncheckedUpdateWithoutLastAccountInput>
+    create: XOR<ImportProfileCreateWithoutLastAccountInput, ImportProfileUncheckedCreateWithoutLastAccountInput>
+  }
+
+  export type ImportProfileUpdateWithWhereUniqueWithoutLastAccountInput = {
+    where: ImportProfileWhereUniqueInput
+    data: XOR<ImportProfileUpdateWithoutLastAccountInput, ImportProfileUncheckedUpdateWithoutLastAccountInput>
+  }
+
+  export type ImportProfileUpdateManyWithWhereWithoutLastAccountInput = {
+    where: ImportProfileScalarWhereInput
+    data: XOR<ImportProfileUpdateManyMutationInput, ImportProfileUncheckedUpdateManyWithoutLastAccountInput>
+  }
+
   export type AccountCreateWithoutTransactionsInput = {
     id?: string
     name: string
@@ -16904,6 +18746,7 @@ export namespace Prisma {
     user: UserCreateNestedOneWithoutAccountsInput
     transfersOut?: TransferCreateNestedManyWithoutFromAccountInput
     transfersIn?: TransferCreateNestedManyWithoutToAccountInput
+    importProfiles?: ImportProfileCreateNestedManyWithoutLastAccountInput
   }
 
   export type AccountUncheckedCreateWithoutTransactionsInput = {
@@ -16918,6 +18761,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     transfersOut?: TransferUncheckedCreateNestedManyWithoutFromAccountInput
     transfersIn?: TransferUncheckedCreateNestedManyWithoutToAccountInput
+    importProfiles?: ImportProfileUncheckedCreateNestedManyWithoutLastAccountInput
   }
 
   export type AccountCreateOrConnectWithoutTransactionsInput = {
@@ -17025,6 +18869,7 @@ export namespace Prisma {
     categories?: CategoryCreateNestedManyWithoutUserInput
     feedbacks?: FeedbackCreateNestedManyWithoutUsersInput
     transfers?: TransferCreateNestedManyWithoutUserInput
+    importProfiles?: ImportProfileCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutTransactionsInput = {
@@ -17040,6 +18885,7 @@ export namespace Prisma {
     categories?: CategoryUncheckedCreateNestedManyWithoutUserInput
     feedbacks?: FeedbackUncheckedCreateNestedManyWithoutUsersInput
     transfers?: TransferUncheckedCreateNestedManyWithoutUserInput
+    importProfiles?: ImportProfileUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutTransactionsInput = {
@@ -17070,6 +18916,7 @@ export namespace Prisma {
     user?: UserUpdateOneRequiredWithoutAccountsNestedInput
     transfersOut?: TransferUpdateManyWithoutFromAccountNestedInput
     transfersIn?: TransferUpdateManyWithoutToAccountNestedInput
+    importProfiles?: ImportProfileUpdateManyWithoutLastAccountNestedInput
   }
 
   export type AccountUncheckedUpdateWithoutTransactionsInput = {
@@ -17084,6 +18931,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     transfersOut?: TransferUncheckedUpdateManyWithoutFromAccountNestedInput
     transfersIn?: TransferUncheckedUpdateManyWithoutToAccountNestedInput
+    importProfiles?: ImportProfileUncheckedUpdateManyWithoutLastAccountNestedInput
   }
 
   export type CategoryUpsertWithoutTransactionsInput = {
@@ -17215,6 +19063,7 @@ export namespace Prisma {
     categories?: CategoryUpdateManyWithoutUserNestedInput
     feedbacks?: FeedbackUpdateManyWithoutUsersNestedInput
     transfers?: TransferUpdateManyWithoutUserNestedInput
+    importProfiles?: ImportProfileUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutTransactionsInput = {
@@ -17230,6 +19079,7 @@ export namespace Prisma {
     categories?: CategoryUncheckedUpdateManyWithoutUserNestedInput
     feedbacks?: FeedbackUncheckedUpdateManyWithoutUsersNestedInput
     transfers?: TransferUncheckedUpdateManyWithoutUserNestedInput
+    importProfiles?: ImportProfileUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutTransfersInput = {
@@ -17245,6 +19095,7 @@ export namespace Prisma {
     categories?: CategoryCreateNestedManyWithoutUserInput
     feedbacks?: FeedbackCreateNestedManyWithoutUsersInput
     transactions?: TransactionCreateNestedManyWithoutUserInput
+    importProfiles?: ImportProfileCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutTransfersInput = {
@@ -17260,6 +19111,7 @@ export namespace Prisma {
     categories?: CategoryUncheckedCreateNestedManyWithoutUserInput
     feedbacks?: FeedbackUncheckedCreateNestedManyWithoutUsersInput
     transactions?: TransactionUncheckedCreateNestedManyWithoutUserInput
+    importProfiles?: ImportProfileUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutTransfersInput = {
@@ -17279,6 +19131,7 @@ export namespace Prisma {
     user: UserCreateNestedOneWithoutAccountsInput
     transactions?: TransactionCreateNestedManyWithoutAccountInput
     transfersIn?: TransferCreateNestedManyWithoutToAccountInput
+    importProfiles?: ImportProfileCreateNestedManyWithoutLastAccountInput
   }
 
   export type AccountUncheckedCreateWithoutTransfersOutInput = {
@@ -17293,6 +19146,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     transactions?: TransactionUncheckedCreateNestedManyWithoutAccountInput
     transfersIn?: TransferUncheckedCreateNestedManyWithoutToAccountInput
+    importProfiles?: ImportProfileUncheckedCreateNestedManyWithoutLastAccountInput
   }
 
   export type AccountCreateOrConnectWithoutTransfersOutInput = {
@@ -17312,6 +19166,7 @@ export namespace Prisma {
     user: UserCreateNestedOneWithoutAccountsInput
     transactions?: TransactionCreateNestedManyWithoutAccountInput
     transfersOut?: TransferCreateNestedManyWithoutFromAccountInput
+    importProfiles?: ImportProfileCreateNestedManyWithoutLastAccountInput
   }
 
   export type AccountUncheckedCreateWithoutTransfersInInput = {
@@ -17326,6 +19181,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     transactions?: TransactionUncheckedCreateNestedManyWithoutAccountInput
     transfersOut?: TransferUncheckedCreateNestedManyWithoutFromAccountInput
+    importProfiles?: ImportProfileUncheckedCreateNestedManyWithoutLastAccountInput
   }
 
   export type AccountCreateOrConnectWithoutTransfersInInput = {
@@ -17407,6 +19263,7 @@ export namespace Prisma {
     categories?: CategoryUpdateManyWithoutUserNestedInput
     feedbacks?: FeedbackUpdateManyWithoutUsersNestedInput
     transactions?: TransactionUpdateManyWithoutUserNestedInput
+    importProfiles?: ImportProfileUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutTransfersInput = {
@@ -17422,6 +19279,7 @@ export namespace Prisma {
     categories?: CategoryUncheckedUpdateManyWithoutUserNestedInput
     feedbacks?: FeedbackUncheckedUpdateManyWithoutUsersNestedInput
     transactions?: TransactionUncheckedUpdateManyWithoutUserNestedInput
+    importProfiles?: ImportProfileUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type AccountUpsertWithoutTransfersOutInput = {
@@ -17447,6 +19305,7 @@ export namespace Prisma {
     user?: UserUpdateOneRequiredWithoutAccountsNestedInput
     transactions?: TransactionUpdateManyWithoutAccountNestedInput
     transfersIn?: TransferUpdateManyWithoutToAccountNestedInput
+    importProfiles?: ImportProfileUpdateManyWithoutLastAccountNestedInput
   }
 
   export type AccountUncheckedUpdateWithoutTransfersOutInput = {
@@ -17461,6 +19320,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     transactions?: TransactionUncheckedUpdateManyWithoutAccountNestedInput
     transfersIn?: TransferUncheckedUpdateManyWithoutToAccountNestedInput
+    importProfiles?: ImportProfileUncheckedUpdateManyWithoutLastAccountNestedInput
   }
 
   export type AccountUpsertWithoutTransfersInInput = {
@@ -17486,6 +19346,7 @@ export namespace Prisma {
     user?: UserUpdateOneRequiredWithoutAccountsNestedInput
     transactions?: TransactionUpdateManyWithoutAccountNestedInput
     transfersOut?: TransferUpdateManyWithoutFromAccountNestedInput
+    importProfiles?: ImportProfileUpdateManyWithoutLastAccountNestedInput
   }
 
   export type AccountUncheckedUpdateWithoutTransfersInInput = {
@@ -17500,6 +19361,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     transactions?: TransactionUncheckedUpdateManyWithoutAccountNestedInput
     transfersOut?: TransferUncheckedUpdateManyWithoutFromAccountNestedInput
+    importProfiles?: ImportProfileUncheckedUpdateManyWithoutLastAccountNestedInput
   }
 
   export type TransactionUpsertWithWhereUniqueWithoutTransferInput = {
@@ -17531,6 +19393,7 @@ export namespace Prisma {
     feedbacks?: FeedbackCreateNestedManyWithoutUsersInput
     transactions?: TransactionCreateNestedManyWithoutUserInput
     transfers?: TransferCreateNestedManyWithoutUserInput
+    importProfiles?: ImportProfileCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutBudgetsInput = {
@@ -17546,6 +19409,7 @@ export namespace Prisma {
     feedbacks?: FeedbackUncheckedCreateNestedManyWithoutUsersInput
     transactions?: TransactionUncheckedCreateNestedManyWithoutUserInput
     transfers?: TransferUncheckedCreateNestedManyWithoutUserInput
+    importProfiles?: ImportProfileUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutBudgetsInput = {
@@ -17577,6 +19441,7 @@ export namespace Prisma {
     feedbacks?: FeedbackUpdateManyWithoutUsersNestedInput
     transactions?: TransactionUpdateManyWithoutUserNestedInput
     transfers?: TransferUpdateManyWithoutUserNestedInput
+    importProfiles?: ImportProfileUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutBudgetsInput = {
@@ -17592,6 +19457,7 @@ export namespace Prisma {
     feedbacks?: FeedbackUncheckedUpdateManyWithoutUsersNestedInput
     transactions?: TransactionUncheckedUpdateManyWithoutUserNestedInput
     transfers?: TransferUncheckedUpdateManyWithoutUserNestedInput
+    importProfiles?: ImportProfileUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutCategoriesInput = {
@@ -17607,6 +19473,7 @@ export namespace Prisma {
     feedbacks?: FeedbackCreateNestedManyWithoutUsersInput
     transactions?: TransactionCreateNestedManyWithoutUserInput
     transfers?: TransferCreateNestedManyWithoutUserInput
+    importProfiles?: ImportProfileCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCategoriesInput = {
@@ -17622,6 +19489,7 @@ export namespace Prisma {
     feedbacks?: FeedbackUncheckedCreateNestedManyWithoutUsersInput
     transactions?: TransactionUncheckedCreateNestedManyWithoutUserInput
     transfers?: TransferUncheckedCreateNestedManyWithoutUserInput
+    importProfiles?: ImportProfileUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCategoriesInput = {
@@ -17729,6 +19597,7 @@ export namespace Prisma {
     feedbacks?: FeedbackUpdateManyWithoutUsersNestedInput
     transactions?: TransactionUpdateManyWithoutUserNestedInput
     transfers?: TransferUpdateManyWithoutUserNestedInput
+    importProfiles?: ImportProfileUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCategoriesInput = {
@@ -17744,6 +19613,7 @@ export namespace Prisma {
     feedbacks?: FeedbackUncheckedUpdateManyWithoutUsersNestedInput
     transactions?: TransactionUncheckedUpdateManyWithoutUserNestedInput
     transfers?: TransferUncheckedUpdateManyWithoutUserNestedInput
+    importProfiles?: ImportProfileUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type SubcategoryUpsertWithWhereUniqueWithoutCategoryInput = {
@@ -17932,6 +19802,7 @@ export namespace Prisma {
     categories?: CategoryCreateNestedManyWithoutUserInput
     transactions?: TransactionCreateNestedManyWithoutUserInput
     transfers?: TransferCreateNestedManyWithoutUserInput
+    importProfiles?: ImportProfileCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutFeedbacksInput = {
@@ -17947,6 +19818,7 @@ export namespace Prisma {
     categories?: CategoryUncheckedCreateNestedManyWithoutUserInput
     transactions?: TransactionUncheckedCreateNestedManyWithoutUserInput
     transfers?: TransferUncheckedCreateNestedManyWithoutUserInput
+    importProfiles?: ImportProfileUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutFeedbacksInput = {
@@ -17978,6 +19850,7 @@ export namespace Prisma {
     categories?: CategoryUpdateManyWithoutUserNestedInput
     transactions?: TransactionUpdateManyWithoutUserNestedInput
     transfers?: TransferUpdateManyWithoutUserNestedInput
+    importProfiles?: ImportProfileUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutFeedbacksInput = {
@@ -17993,6 +19866,163 @@ export namespace Prisma {
     categories?: CategoryUncheckedUpdateManyWithoutUserNestedInput
     transactions?: TransactionUncheckedUpdateManyWithoutUserNestedInput
     transfers?: TransferUncheckedUpdateManyWithoutUserNestedInput
+    importProfiles?: ImportProfileUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserCreateWithoutImportProfilesInput = {
+    id?: string
+    clerkUserId: string
+    email: string
+    name?: string | null
+    imageUrl?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    budgets?: BudgetCreateNestedOneWithoutUserInput
+    categories?: CategoryCreateNestedManyWithoutUserInput
+    feedbacks?: FeedbackCreateNestedManyWithoutUsersInput
+    transactions?: TransactionCreateNestedManyWithoutUserInput
+    transfers?: TransferCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutImportProfilesInput = {
+    id?: string
+    clerkUserId: string
+    email: string
+    name?: string | null
+    imageUrl?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    budgets?: BudgetUncheckedCreateNestedOneWithoutUserInput
+    categories?: CategoryUncheckedCreateNestedManyWithoutUserInput
+    feedbacks?: FeedbackUncheckedCreateNestedManyWithoutUsersInput
+    transactions?: TransactionUncheckedCreateNestedManyWithoutUserInput
+    transfers?: TransferUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutImportProfilesInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutImportProfilesInput, UserUncheckedCreateWithoutImportProfilesInput>
+  }
+
+  export type AccountCreateWithoutImportProfilesInput = {
+    id?: string
+    name: string
+    type: $Enums.AccountType
+    balance?: Decimal | DecimalJsLike | number | string
+    currency?: string
+    isDefault?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutAccountsInput
+    transactions?: TransactionCreateNestedManyWithoutAccountInput
+    transfersOut?: TransferCreateNestedManyWithoutFromAccountInput
+    transfersIn?: TransferCreateNestedManyWithoutToAccountInput
+  }
+
+  export type AccountUncheckedCreateWithoutImportProfilesInput = {
+    id?: string
+    name: string
+    type: $Enums.AccountType
+    balance?: Decimal | DecimalJsLike | number | string
+    currency?: string
+    isDefault?: boolean
+    userId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    transactions?: TransactionUncheckedCreateNestedManyWithoutAccountInput
+    transfersOut?: TransferUncheckedCreateNestedManyWithoutFromAccountInput
+    transfersIn?: TransferUncheckedCreateNestedManyWithoutToAccountInput
+  }
+
+  export type AccountCreateOrConnectWithoutImportProfilesInput = {
+    where: AccountWhereUniqueInput
+    create: XOR<AccountCreateWithoutImportProfilesInput, AccountUncheckedCreateWithoutImportProfilesInput>
+  }
+
+  export type UserUpsertWithoutImportProfilesInput = {
+    update: XOR<UserUpdateWithoutImportProfilesInput, UserUncheckedUpdateWithoutImportProfilesInput>
+    create: XOR<UserCreateWithoutImportProfilesInput, UserUncheckedCreateWithoutImportProfilesInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutImportProfilesInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutImportProfilesInput, UserUncheckedUpdateWithoutImportProfilesInput>
+  }
+
+  export type UserUpdateWithoutImportProfilesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    clerkUserId?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    budgets?: BudgetUpdateOneWithoutUserNestedInput
+    categories?: CategoryUpdateManyWithoutUserNestedInput
+    feedbacks?: FeedbackUpdateManyWithoutUsersNestedInput
+    transactions?: TransactionUpdateManyWithoutUserNestedInput
+    transfers?: TransferUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutImportProfilesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    clerkUserId?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    budgets?: BudgetUncheckedUpdateOneWithoutUserNestedInput
+    categories?: CategoryUncheckedUpdateManyWithoutUserNestedInput
+    feedbacks?: FeedbackUncheckedUpdateManyWithoutUsersNestedInput
+    transactions?: TransactionUncheckedUpdateManyWithoutUserNestedInput
+    transfers?: TransferUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type AccountUpsertWithoutImportProfilesInput = {
+    update: XOR<AccountUpdateWithoutImportProfilesInput, AccountUncheckedUpdateWithoutImportProfilesInput>
+    create: XOR<AccountCreateWithoutImportProfilesInput, AccountUncheckedCreateWithoutImportProfilesInput>
+    where?: AccountWhereInput
+  }
+
+  export type AccountUpdateToOneWithWhereWithoutImportProfilesInput = {
+    where?: AccountWhereInput
+    data: XOR<AccountUpdateWithoutImportProfilesInput, AccountUncheckedUpdateWithoutImportProfilesInput>
+  }
+
+  export type AccountUpdateWithoutImportProfilesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    type?: EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
+    balance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    currency?: StringFieldUpdateOperationsInput | string
+    isDefault?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutAccountsNestedInput
+    transactions?: TransactionUpdateManyWithoutAccountNestedInput
+    transfersOut?: TransferUpdateManyWithoutFromAccountNestedInput
+    transfersIn?: TransferUpdateManyWithoutToAccountNestedInput
+  }
+
+  export type AccountUncheckedUpdateWithoutImportProfilesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    type?: EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
+    balance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    currency?: StringFieldUpdateOperationsInput | string
+    isDefault?: BoolFieldUpdateOperationsInput | boolean
+    userId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    transactions?: TransactionUncheckedUpdateManyWithoutAccountNestedInput
+    transfersOut?: TransferUncheckedUpdateManyWithoutFromAccountNestedInput
+    transfersIn?: TransferUncheckedUpdateManyWithoutToAccountNestedInput
   }
 
   export type AccountCreateManyUserInput = {
@@ -18058,6 +20088,16 @@ export namespace Prisma {
     updatedAt?: Date | string
   }
 
+  export type ImportProfileCreateManyUserInput = {
+    id?: string
+    name: string
+    headerSignature: string
+    settings: JsonNullValueInput | InputJsonValue
+    lastAccountId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
   export type AccountUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
@@ -18070,6 +20110,7 @@ export namespace Prisma {
     transactions?: TransactionUpdateManyWithoutAccountNestedInput
     transfersOut?: TransferUpdateManyWithoutFromAccountNestedInput
     transfersIn?: TransferUpdateManyWithoutToAccountNestedInput
+    importProfiles?: ImportProfileUpdateManyWithoutLastAccountNestedInput
   }
 
   export type AccountUncheckedUpdateWithoutUserInput = {
@@ -18084,6 +20125,7 @@ export namespace Prisma {
     transactions?: TransactionUncheckedUpdateManyWithoutAccountNestedInput
     transfersOut?: TransferUncheckedUpdateManyWithoutFromAccountNestedInput
     transfersIn?: TransferUncheckedUpdateManyWithoutToAccountNestedInput
+    importProfiles?: ImportProfileUncheckedUpdateManyWithoutLastAccountNestedInput
   }
 
   export type AccountUncheckedUpdateManyWithoutUserInput = {
@@ -18259,6 +20301,36 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type ImportProfileUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    headerSignature?: StringFieldUpdateOperationsInput | string
+    settings?: JsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastAccount?: AccountUpdateOneWithoutImportProfilesNestedInput
+  }
+
+  export type ImportProfileUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    headerSignature?: StringFieldUpdateOperationsInput | string
+    settings?: JsonNullValueInput | InputJsonValue
+    lastAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ImportProfileUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    headerSignature?: StringFieldUpdateOperationsInput | string
+    settings?: JsonNullValueInput | InputJsonValue
+    lastAccountId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type TransactionCreateManyAccountInput = {
     id?: string
     type: $Enums.TransactionType
@@ -18305,6 +20377,16 @@ export namespace Prisma {
     derivedField: $Enums.ExchangeField
     date: Date | string
     description?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ImportProfileCreateManyLastAccountInput = {
+    id?: string
+    userId: string
+    name: string
+    headerSignature: string
+    settings: JsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -18459,6 +20541,36 @@ export namespace Prisma {
     derivedField?: EnumExchangeFieldFieldUpdateOperationsInput | $Enums.ExchangeField
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ImportProfileUpdateWithoutLastAccountInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    headerSignature?: StringFieldUpdateOperationsInput | string
+    settings?: JsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutImportProfilesNestedInput
+  }
+
+  export type ImportProfileUncheckedUpdateWithoutLastAccountInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    headerSignature?: StringFieldUpdateOperationsInput | string
+    settings?: JsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ImportProfileUncheckedUpdateManyWithoutLastAccountInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    headerSignature?: StringFieldUpdateOperationsInput | string
+    settings?: JsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }

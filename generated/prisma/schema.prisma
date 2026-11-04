@@ -8,37 +8,39 @@ datasource db {
 }
 
 model User {
-  id           String        @id @default(uuid())
-  clerkUserId  String        @unique
-  email        String        @unique
-  name         String?
-  imageUrl     String?
-  createdAt    DateTime      @default(now())
-  updatedAt    DateTime      @updatedAt
-  accounts     Account[]
-  budgets      Budget?
-  categories   Category[]
-  feedbacks    Feedback[]
-  transactions Transaction[]
-  transfers    Transfer[]
+  id             String          @id @default(uuid())
+  clerkUserId    String          @unique
+  email          String          @unique
+  name           String?
+  imageUrl       String?
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+  accounts       Account[]
+  budgets        Budget?
+  categories     Category[]
+  feedbacks      Feedback[]
+  transactions   Transaction[]
+  transfers      Transfer[]
+  importProfiles ImportProfile[]
 
   @@map("users")
 }
 
 model Account {
-  id           String        @id @default(uuid())
-  name         String
-  type         AccountType
-  balance      Decimal       @default(0)
-  currency     String        @default("EUR") @db.VarChar(3)
-  isDefault    Boolean       @default(false)
-  userId       String
-  createdAt    DateTime      @default(now())
-  updatedAt    DateTime      @updatedAt
-  user         User          @relation(fields: [userId], references: [id], onDelete: Cascade)
-  transactions Transaction[]
-  transfersOut Transfer[]    @relation("TransferFrom")
-  transfersIn  Transfer[]    @relation("TransferTo")
+  id             String          @id @default(uuid())
+  name           String
+  type           AccountType
+  balance        Decimal         @default(0)
+  currency       String          @default("EUR") @db.VarChar(3)
+  isDefault      Boolean         @default(false)
+  userId         String
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+  user           User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  transactions   Transaction[]
+  transfersOut   Transfer[]      @relation("TransferFrom")
+  transfersIn    Transfer[]      @relation("TransferTo")
+  importProfiles ImportProfile[]
 
   @@index([userId])
   @@map("accounts")
@@ -156,6 +158,25 @@ model Feedback {
   users      User?    @relation(fields: [userId], references: [id])
 
   @@map("feedbacks")
+}
+
+/// What one bank's CSV looks like to the import: encoding, separator and column mapping (settings, validated by
+/// importSettingsSchema). Found again by the file's header row (headerSignature)
+model ImportProfile {
+  id              String   @id @default(uuid())
+  userId          String
+  name            String
+  headerSignature String
+  settings        Json
+  lastAccountId   String?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  lastAccount     Account? @relation(fields: [lastAccountId], references: [id], onDelete: SetNull)
+
+  @@unique([userId, headerSignature])
+  @@index([lastAccountId])
+  @@map("import_profiles")
 }
 
 /// ECB euro reference rates: 1 EUR = rate units of currency on that date. Shared by every user; only the Inngest job writes here

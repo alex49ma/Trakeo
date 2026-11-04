@@ -216,6 +216,17 @@ exports.Prisma.FeedbackScalarFieldEnum = {
   updated_at: 'updated_at'
 };
 
+exports.Prisma.ImportProfileScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  name: 'name',
+  headerSignature: 'headerSignature',
+  settings: 'settings',
+  lastAccountId: 'lastAccountId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.ExchangeRateScalarFieldEnum = {
   id: 'id',
   date: 'date',
@@ -230,6 +241,10 @@ exports.Prisma.SortOrder = {
   desc: 'desc'
 };
 
+exports.Prisma.JsonNullValueInput = {
+  JsonNull: Prisma.JsonNull
+};
+
 exports.Prisma.QueryMode = {
   default: 'default',
   insensitive: 'insensitive'
@@ -238,6 +253,12 @@ exports.Prisma.QueryMode = {
 exports.Prisma.NullsOrder = {
   first: 'first',
   last: 'last'
+};
+
+exports.Prisma.JsonNullValueFilter = {
+  DbNull: Prisma.DbNull,
+  JsonNull: Prisma.JsonNull,
+  AnyNull: Prisma.AnyNull
 };
 exports.AccountType = exports.$Enums.AccountType = {
   CURRENT: 'CURRENT',
@@ -291,6 +312,7 @@ exports.Prisma.ModelName = {
   Category: 'Category',
   Subcategory: 'Subcategory',
   Feedback: 'Feedback',
+  ImportProfile: 'ImportProfile',
   ExchangeRate: 'ExchangeRate'
 };
 
