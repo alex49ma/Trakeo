@@ -667,7 +667,8 @@
       "categoryNotFound": "A category or subcategory no longer exists. Reload the page and choose the categories again. Nothing was imported.",
       "categoryTypeMismatch": "A row's category doesn't match its type (income or expense). Nothing was imported.",
       "blocked": "The request was blocked. Try again in a moment.",
-      "unexpected": "Something went wrong, and nothing was imported. Try again."
+      "unexpected": "Something went wrong, and nothing was imported. Try again.",
+      "profileNotFound": "These settings no longer exist. Reload the page."
     },
     "feeHint": "Optional. A fee is taken away from the row's amount, as banks charge it on top (card payments abroad, cash withdrawals...).",
     "newSubcategoryChoice": "New subcategory…",
@@ -680,6 +681,26 @@
     "doneEditing": "Done",
     "resetRow": "Undo changes",
     "showWholeRow": "Show the whole row",
-    "hideWholeRow": "Hide the whole row"
+    "hideWholeRow": "Hide the whole row",
+    "settingsApplied": "This file's columns are set up with your saved settings \"{name}\".",
+    "changeColumns": "Change columns",
+    "stopUsingSettings": "Don't use them",
+    "settingsOffer": "These columns look like your saved settings \"{name}\".",
+    "useSettings": "Use them",
+    "rememberSettings": "Remember these settings for the next file",
+    "settingsName": "Name of the settings",
+    "rememberHint": "The encoding, separator and columns are saved. A file with the same header row is then set up for you, and the import starts at the categories.",
+    "successWithSettings": "{count, plural, one {Imported # transaction} other {Imported # transactions}}, and saved the settings \"{name}\"",
+    "settingsNotSaved": "The transactions were imported, but the settings couldn't be saved.",
+    "savedSettings": "Saved import settings",
+    "savedSettingsHint": "A file whose header row matches one of these is set up automatically.",
+    "lastUsedWith": "Last used with {account}",
+    "rename": "Rename",
+    "saveName": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "confirmDelete": "Delete for good",
+    "settingsRenamed": "Settings renamed",
+    "settingsDeleted": "Settings deleted"
   }
 }

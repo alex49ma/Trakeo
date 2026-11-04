@@ -6,7 +6,13 @@ import { revalidatePath } from "next/cache";
 import Big from "big.js";
 import { db } from "@/lib/prisma";
 import { aj } from "@/lib/arcjet";
-import { importContextSchema, importSchema } from "@/app/lib/schema";
+import {
+    importContextSchema,
+    importProfileIdSchema,
+    importProfileRenameSchema,
+    importSchema,
+    importSettingsSchema,
+} from "@/app/lib/schema";
 import { currencyDecimals } from "@/lib/currency";
 import { isTransferCategory } from "@/lib/system-categories";
 
@@ -81,7 +87,7 @@ export async function importTransactions(input) {
 
     const parsed = importSchema.safeParse(input);
     if (!parsed.success) return { success: false, error: "invalidData" };
-    const { accountId, rows } = parsed.data;
+    const { accountId, rows, profile } = parsed.data;
 
     const account = await db.account.findUnique({ where: { id: accountId, userId: user.id } });
     if (!account) return { success: false, error: "accountNotFound" };
@@ -144,5 +150,76 @@ export async function importTransactions(input) {
     revalidatePath("/accounts");
     revalidatePath(`/account/${account.id}`);
 
-    return { success: true, created: transactions.length };
+    // After the import, and outside its transaction: settings that can't be saved never undo an import.
+    // profileSaved is null when nothing was to be saved
+    let profileSaved = null;
+    if (profile) {
+        try {
+            await saveImportProfile(user.id, account.id, profile);
+            profileSaved = true;
+        } catch (error) {
+            console.error("Import settings not saved:", error);
+            profileSaved = false;
+        }
+    }
+
+    return { success: true, created: transactions.length, profileSaved };
+}
+
+// Updates the settings the import started from (their columns may have changed), or creates/replaces the ones with
+// this header row. Scoped to the user: another user's id updates nothing and falls through to the upsert
+async function saveImportProfile(userId, accountId, { id, name, headerSignature, settings }) {
+    const data = { name, headerSignature, settings, lastAccountId: accountId };
+    if (id) {
+        const { count } = await db.importProfile.updateMany({ where: { id, userId }, data });
+        if (count > 0) return;
+    }
+    await db.importProfile.upsert({
+        where: { userId_headerSignature: { userId, headerSignature } },
+        create: { ...data, userId },
+        update: data,
+    });
+}
+
+/** The user's saved import settings, most recently used first. Settings that don't pass importSettingsSchema are left out. */
+export async function getImportProfiles() {
+    const { user } = await currentUser();
+
+    const profiles = await db.importProfile.findMany({
+        where: { userId: user.id },
+        orderBy: { updatedAt: "desc" },
+        select: { id: true, name: true, headerSignature: true, settings: true, lastAccountId: true },
+    });
+
+    return profiles.flatMap((profile) => {
+        const settings = importSettingsSchema.safeParse(profile.settings);
+        return settings.success ? [{ ...profile, settings: settings.data }] : [];
+    });
+}
+
+export async function renameImportProfile(input) {
+    const { user } = await currentUser();
+
+    const parsed = importProfileRenameSchema.safeParse(input);
+    if (!parsed.success) return { success: false, error: "invalidData" };
+
+    const { count } = await db.importProfile.updateMany({
+        where: { id: parsed.data.id, userId: user.id },
+        data: { name: parsed.data.name },
+    });
+    if (count === 0) return { success: false, error: "profileNotFound" };
+
+    return { success: true, name: parsed.data.name };
+}
+
+export async function deleteImportProfile(input) {
+    const { user } = await currentUser();
+
+    const parsed = importProfileIdSchema.safeParse(input);
+    if (!parsed.success) return { success: false, error: "invalidData" };
+
+    const { count } = await db.importProfile.deleteMany({ where: { id: parsed.data.id, userId: user.id } });
+    if (count === 0) return { success: false, error: "profileNotFound" };
+
+    return { success: true };
 }

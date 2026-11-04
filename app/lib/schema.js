@@ -1,6 +1,8 @@
 import z from "zod";
 import { SUPPORTED_CURRENCIES } from "@/lib/currency";
-import { IMPORT_MAX_DESCRIPTION, IMPORT_MAX_ROWS } from "@/lib/csv-import/limits";
+import { IMPORT_MAX_DESCRIPTION, IMPORT_MAX_ROWS, IMPORT_MAX_SETTINGS_NAME } from "@/lib/csv-import/limits";
+import { ENCODINGS } from "@/lib/csv-import/decode";
+import { DATE_FORMATS } from "@/lib/csv-import/parse";
 
 export const accountSchema = z.object({
     name: z.string().min(1, "Name is required"),
@@ -87,7 +89,47 @@ const importRowSchema = z.object({
     subcategoryId: z.string().min(1).nullable().optional(),
 });
 
+// Saved import settings (ImportProfile.settings), checked when they're saved and when they're read back.
+// Columns by header name, or "#3" for a column without one (lib/csv-import/signature.js)
+const settingsColumn = z.string().min(1).max(200);
+export const importSettingsSchema = z.object({
+    version: z.literal(1),
+    encoding: z.enum(["auto", ...ENCODINGS]),
+    // The same as DELIMITERS in lib/csv-import/table.js, which isn't imported so papaparse stays out of the forms' bundles
+    delimiter: z.enum(["auto", ",", ";", "\t", "|"]),
+    mapping: z.object({
+        date: settingsColumn.nullable(),
+        dateFormat: z.enum(["auto", ...DATE_FORMATS.map((format) => format.id)]),
+        amountLayout: z.enum(["signed", "split"]),
+        amount: settingsColumn.nullable(),
+        moneyIn: settingsColumn.nullable(),
+        moneyOut: settingsColumn.nullable(),
+        fee: settingsColumn.nullable(),
+        decimal: z.enum(["auto", ".", ","]),
+        invert: z.boolean(),
+        description: z.array(settingsColumn).max(3),
+        groupBy: settingsColumn.nullable(),
+        currency: settingsColumn.nullable(),
+        filters: z.array(z.object({
+            column: settingsColumn,
+            values: z.array(z.string().max(200)).max(30),
+        })).max(2),
+    }),
+});
+
+const settingsName = z.string().trim().min(1).max(IMPORT_MAX_SETTINGS_NAME);
+
 export const importSchema = z.object({
     accountId: z.string().min(1),
     rows: z.array(importRowSchema).min(1).max(IMPORT_MAX_ROWS),
+    // Settings to remember for the next file with these columns. id: the settings the import started from, if any
+    profile: z.object({
+        id: z.string().min(1).optional(),
+        name: settingsName,
+        headerSignature: z.string().min(1).max(5000),
+        settings: importSettingsSchema,
+    }).optional(),
 })
+
+export const importProfileRenameSchema = z.object({ id: z.string().min(1), name: settingsName });
+export const importProfileIdSchema = z.object({ id: z.string().min(1) });

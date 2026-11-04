@@ -8,10 +8,11 @@ import { formatMoney } from "@/lib/currency";
 import { IMPORT_MAX_FILE_BYTES } from "@/lib/csv-import/limits";
 import { cn } from "@/lib/utils";
 import Notice from "./notice";
+import SavedSettings from "./saved-settings";
 
 const MAX_FILE_MB = IMPORT_MAX_FILE_BYTES / (1024 * 1024);
 
-export default function StepFile({ accounts, accountId, onAccountChange, file, onFile, table }) {
+export default function StepFile({ accounts, accountId, onAccountChange, file, onFile, table, profiles, onProfileRenamed, onProfileDeleted }) {
     const t = useTranslations("CsvImport");
     const locale = useLocale();
     const [error, setError] = useState(null);
@@ -94,6 +95,8 @@ export default function StepFile({ accounts, accountId, onAccountChange, file, o
                 <p className="text-sm text-muted-foreground">{t("fileRead", { rows: rowCount, columns: table.columns.length })}</p>
             )}
             <p className="text-xs text-muted-foreground">{t("nothingSavedYet")}</p>
+
+            <SavedSettings profiles={profiles} accounts={accounts} onRenamed={onProfileRenamed} onDeleted={onProfileDeleted} />
         </div>
     );
 }

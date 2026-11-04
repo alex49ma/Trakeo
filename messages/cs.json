@@ -667,7 +667,8 @@
             "categoryNotFound": "Některá kategorie nebo podkategorie už neexistuje. Obnovte stránku a vyberte kategorie znovu. Nic se neimportovalo.",
             "categoryTypeMismatch": "Kategorie jednoho z řádků neodpovídá jeho typu (příjem nebo výdaj). Nic se neimportovalo.",
             "blocked": "Požadavek byl zablokován. Zkuste to za chvíli znovu.",
-            "unexpected": "Něco se pokazilo a nic se neimportovalo. Zkuste to znovu."
+            "unexpected": "Něco se pokazilo a nic se neimportovalo. Zkuste to znovu.",
+            "profileNotFound": "Toto nastavení už neexistuje. Obnovte stránku."
         },
         "feeHint": "Nepovinné. Poplatek se odečte od částky řádku, protože ho banka účtuje navíc (platby kartou v zahraničí, výběry hotovosti...).",
         "newSubcategoryChoice": "Nová podkategorie…",
@@ -680,6 +681,26 @@
         "doneEditing": "Hotovo",
         "resetRow": "Vrátit změny",
         "showWholeRow": "Zobrazit celý řádek",
-        "hideWholeRow": "Skrýt celý řádek"
+        "hideWholeRow": "Skrýt celý řádek",
+        "settingsApplied": "Sloupce tohoto souboru jsou nastavené podle vašeho uloženého nastavení „{name}“.",
+        "changeColumns": "Změnit sloupce",
+        "stopUsingSettings": "Nepoužívat",
+        "settingsOffer": "Tyto sloupce vypadají jako vaše uložené nastavení „{name}“.",
+        "useSettings": "Použít",
+        "rememberSettings": "Zapamatovat si nastavení pro další soubor",
+        "settingsName": "Název nastavení",
+        "rememberHint": "Uloží se kódování, oddělovač a sloupce. Soubor se stejným záhlavím se pak nastaví sám a import začne u kategorií.",
+        "successWithSettings": "{count, plural, one {Importována # transakce} few {Importovány # transakce} other {Importováno # transakcí}} a uloženo nastavení „{name}“",
+        "settingsNotSaved": "Transakce byly importovány, ale nastavení se nepodařilo uložit.",
+        "savedSettings": "Uložená nastavení importu",
+        "savedSettingsHint": "Soubor, jehož záhlaví odpovídá některému z nich, se nastaví automaticky.",
+        "lastUsedWith": "Naposledy použito s účtem {account}",
+        "rename": "Přejmenovat",
+        "saveName": "Uložit",
+        "cancel": "Zrušit",
+        "delete": "Smazat",
+        "confirmDelete": "Opravdu smazat",
+        "settingsRenamed": "Nastavení přejmenováno",
+        "settingsDeleted": "Nastavení smazáno"
     }
 }
