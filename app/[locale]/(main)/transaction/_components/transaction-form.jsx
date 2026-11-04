@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { transactionSchema } from '@/app/lib/schema';
 import useFetch from '@/hooks/use-fetch';
-import { createTransaction, bulkCreateTransactions } from '@/actions/transaction';
+import { createTransaction } from '@/actions/transaction';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Input } from '@/components/ui/input';
 import CreateAccountDrawer from '@/components/create-account-drawer';
@@ -14,17 +14,16 @@ import CreateSubcategoryDrawer from '@/components/create-subcategory-drawer';
 import { Button } from '@/components/ui/button';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Calendar } from '@/components/ui/calendar';
-import { format, parse, isValid } from 'date-fns';
-import { CalendarIcon, Plus, Upload, Loader2 } from 'lucide-react';
+import { format } from 'date-fns';
+import { CalendarIcon, Plus, Upload } from 'lucide-react';
 import { Switch } from '@/components/ui/switch';
-import { useRouter } from '@/i18n/navigation';
+import { Link, useRouter } from '@/i18n/navigation';
 import { toast } from 'sonner';
 import { useTranslations, useLocale } from 'next-intl';
 import { es, enUS } from 'date-fns/locale';
 import { useSearchParams } from 'next/navigation';
 import { updateTransaction } from '@/actions/transaction';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import Papa from 'papaparse';
 import { formatMoney } from '@/lib/currency';
 import { categoryLabel, isTransferCategory } from '@/lib/system-categories';
 
@@ -42,7 +41,6 @@ const AddTransactionForm = ({ accounts, categories, editMode = false, initialDat
     const editId = searchParams.get("edit");
 
     const [categoriesState, setCategoriesState] = React.useState(categories);
-    const [parsing, setParsing] = React.useState(false);
     const [isSubcategoryDrawerOpen, setIsSubcategoryDrawerOpen] = React.useState(false);
 
     // Update state when initial categories prop changes (e.g. navigation back/forward)
@@ -104,12 +102,6 @@ const AddTransactionForm = ({ accounts, categories, editMode = false, initialDat
         data: transactionResult
     } = useFetch(editMode ? updateTransaction : createTransaction);
 
-    const {
-        loading: bulkLoading,
-        fetchData: bulkTransactionFn,
-        data: bulkTransactionResult
-    } = useFetch(bulkCreateTransactions);
-
     const type = watch("type");
     const isRecurring = watch("isRecurring");
     const date = watch("date");
@@ -134,80 +126,6 @@ const AddTransactionForm = ({ accounts, categories, editMode = false, initialDat
         }
     }
 
-    const handleFileUpload = (event) => {
-        const file = event.target.files[0];
-        if (!file) return;
-
-        if (!accountId) {
-            toast.error(t('selectAccount'));
-            event.target.value = null;
-            return;
-        }
-
-        setParsing(true);
-        const accountCurrency = accounts.find((account) => account.id === accountId)?.currency;
-
-        Papa.parse(file, {
-            header: true,
-            skipEmptyLines: true,
-            complete: async (results) => {
-                const transactions = [];
-                let skipped = 0;
-                for (const row of results.data) {
-                    const dateStr = row["Transaction Date"]?.trim();
-                    const description = row["Note"]?.trim();
-                    const categoryName = row["Transaction Category"]?.trim();
-                    const amountStr = row["Booked amount"]?.trim();
-
-                    if (!dateStr || !amountStr) continue;
-
-                    // Rows in another currency don't belong in this account
-                    const rowCurrency = row["Currency"]?.trim().toUpperCase();
-                    if (rowCurrency && accountCurrency && rowCurrency !== accountCurrency) {
-                        skipped++;
-                        continue;
-                    }
-
-                    let amount = parseFloat(amountStr.replace(/\s/g, "").replace(",", "."));
-                    if (isNaN(amount)) continue;
-
-                    const type = amount < 0 ? "EXPENSE" : "INCOME";
-                    amount = Math.abs(amount);
-
-                    const parsedDate = parse(dateStr, "dd.MM.yyyy", new Date());
-                    if (!isValid(parsedDate)) continue;
-
-                    const date = parsedDate;
-
-                    transactions.push({
-                        date,
-                        description: description || "",
-                        categoryName: categoryName || "Uncategorized",
-                        amount,
-                        type
-                    });
-                }
-
-                if (skipped > 0) {
-                    toast.warning(t('csvSkipped', { count: skipped, currency: accountCurrency }));
-                }
-                if (transactions.length > 0) {
-                    await bulkTransactionFn(accountId, transactions);
-                } else {
-                    toast.error(t('csvError'));
-                }
-                setParsing(false);
-            },
-            error: (error) => {
-                console.error("CSV Parse Error:", error);
-                toast.error(t('csvError'));
-                setParsing(false);
-            }
-        });
-
-        event.target.value = null;
-    };
-
     useEffect(() => {
         if (transactionResult?.success && !transactionLoading) {
             toast.success(editMode ? t('updateSuccess') : t('createSuccess'));
@@ -215,15 +133,6 @@ const AddTransactionForm = ({ accounts, categories, editMode = false, initialDat
             router.push(`/account/${transactionResult.data.accountId}`);
         }
     }, [transactionResult, transactionLoading])
-
-    useEffect(() => {
-        if (bulkTransactionResult?.success && !bulkLoading) {
-            toast.success(t('csvSuccess'));
-            router.push(`/account/${accountId}`);
-        } else if (bulkTransactionResult?.error) {
-            toast.error(t('csvError'));
-        }
-    }, [bulkTransactionResult, bulkLoading, accountId, router, t]);
 
     // Transfer categories are only used by internal transfers
     const filteredCategories = categoriesState.filter((cat) => cat.type === type && !isTransferCategory(cat));
@@ -452,43 +361,17 @@ const AddTransactionForm = ({ accounts, categories, editMode = false, initialDat
                     {/* Submit and cancel */}
                     <div className="flex gap-4">
                         <Button type="button" variant="prominentCancel" className="flex-1" onClick={() => router.back()}>{t('cancel')}</Button>
-                        <Button type="submit" variant="prominent" className="flex-1" disabled={transactionLoading || bulkLoading || currencyMismatch}>{t('save')}</Button>
+                        <Button type="submit" variant="prominent" className="flex-1" disabled={transactionLoading || currencyMismatch}>{t('save')}</Button>
                     </div>
 
-                    {/* CSV Upload */}
+                    {/* CSV import: its own page, into the account selected here */}
                     {!editMode && (
-                        <div className="mt-4">
-                            <input
-                                type="file"
-                                accept=".csv"
-                                className="hidden"
-                                id="csv-upload"
-                                onChange={handleFileUpload}
-                                disabled={bulkLoading || parsing}
-                            />
-                            <label htmlFor="csv-upload" className="w-full">
-                                <Button type="button" variant="prominentPurple" className="w-full" disabled={bulkLoading || parsing} asChild>
-                                    <span>
-                                        {bulkLoading || parsing ? (
-                                            <>
-                                                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                                                {t('importing')}
-                                            </>
-                                        ) : (
-                                            <>
-                                                <Upload className="mr-2 h-4 w-4" />
-                                                {t('orAddViaCsv')}
-                                            </>
-                                        )}
-                                    </span>
-                                </Button>
-                            </label>
-                            {selectedAccount && (
-                                <p className="text-xs text-muted-foreground text-center mt-2">
-                                    {t('csvCurrencyHint', { currency: selectedAccount.currency })}
-                                </p>
-                            )}
-                        </div>
+                        <Button type="button" variant="prominentPurple" className="w-full mt-4" asChild>
+                            <Link href={accountId ? `/transaction/import?account=${accountId}` : "/transaction/import"}>
+                                <Upload className="mr-2 h-4 w-4" />
+                                {t('importCsv')}
+                            </Link>
+                        </Button>
                     )}
 
                 </form>

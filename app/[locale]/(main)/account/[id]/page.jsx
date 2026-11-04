@@ -8,7 +8,7 @@ import AccountChart from '../_components/account-chart';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { ArrowLeftRight } from 'lucide-react';
+import { ArrowLeftRight, Upload } from 'lucide-react';
 import { Link } from '@/i18n/navigation';
 import { formatMoney } from '@/lib/currency';
 
@@ -41,6 +41,12 @@ export default async function AccountPage({ params }) {
                 </div>
             </div>
             <div className="flex flex-col sm:flex-row items-end gap-4 w-full sm:w-auto">
+                <Link href={`/transaction/import?account=${account.id}`}>
+                    <Button variant="prominent">
+                        <Upload className="h-4 w-4" />
+                        {tAccount('importCsv')}
+                    </Button>
+                </Link>
                 <Link href={`/transaction/transfer?from=${account.id}`}>
                     <Button variant="prominent">
                         <ArrowLeftRight className="h-4 w-4" />

@@ -33,13 +33,8 @@
     "createSuccess": "Transaction created successfully",
     "updateSuccess": "Transaction updated successfully",
     "none": "None",
-    "orAddViaCsv": "Or add via csv file (Beta)",
-    "csvSuccess": "Transactions imported successfully",
-    "csvError": "Error importing transactions",
-    "importing": "Importing...",
-    "currencyMismatch": "This account uses a different currency. To move money between currencies, use an internal transfer.",
-    "csvCurrencyHint": "Amounts will be imported as {currency}.",
-    "csvSkipped": "{count, plural, one {# row was skipped because its currency isn't {currency}} other {# rows were skipped because their currency isn't {currency}}}"
+    "importCsv": "Import transactions from a CSV file",
+    "currencyMismatch": "This account uses a different currency. To move money between currencies, use an internal transfer."
   },
   "Header": {
     "dashboard": "Dashboard",
@@ -372,7 +367,8 @@
       "yearly": "Yearly",
       "custom": "Custom"
     },
-    "internalTransfer": "Internal Transfer"
+    "internalTransfer": "Internal Transfer",
+    "importCsv": "Import CSV"
   },
   "Analytics": {
     "title": "Insights into Habits",
@@ -480,5 +476,210 @@
       "feeTooHigh": "The fee must be lower than the amount deducted",
       "resultTooSmall": "The calculated value is too small"
     }
+  },
+  "CsvImport": {
+    "title": "Import from a CSV file",
+    "steps": {
+      "file": {
+        "name": "File",
+        "title": "Choose the file and the account",
+        "description": "Download a statement as CSV from your bank's website. The file is read in your browser, and nothing is saved until the last step."
+      },
+      "columns": {
+        "name": "Columns",
+        "title": "Tell Trakeo which column is which",
+        "description": "Trakeo guessed from the column names and values. Check the guesses: the table at the bottom shows how the rows are read."
+      },
+      "categories": {
+        "name": "Categories",
+        "title": "Choose a category for each group",
+        "description": "Rows that share a category, or a description apart from its numbers, form a group. Choose where each group goes."
+      },
+      "preview": {
+        "name": "Preview",
+        "title": "Check the rows before importing",
+        "description": "Tick the rows to import. Nothing is saved until you press Import."
+      }
+    },
+    "back": "Back",
+    "next": "Next",
+    "importButton": "{count, plural, =0 {Nothing to import} one {Import # transaction} other {Import # transactions}}",
+    "success": "{count, plural, one {Imported # transaction} other {Imported # transactions}}",
+    "noAccounts": "You need an account before you can import transactions.",
+    "goToDashboard": "Go to the dashboard",
+    "account": "Account",
+    "chooseAccount": "Choose an account",
+    "file": "CSV file",
+    "chooseFile": "Choose a file or drop it here",
+    "chooseAnotherFile": "Choose another file or drop it here",
+    "fileHint": "CSV, TXT or TSV, up to {size} MB",
+    "fileTooBig": "The file is larger than {size} MB.",
+    "fileUnreadable": "The file couldn't be read.",
+    "noRows": "No rows were found in this file.",
+    "fileRead": "Found {rows, plural, one {# row} other {# rows}} and {columns, plural, one {# column} other {# columns}}.",
+    "nothingSavedYet": "Nothing is saved until you press Import in the last step.",
+    "rawPreview": "The file's first rows, as they are. The highlighted row is used as the header.",
+    "encoding": "Encoding",
+    "encodings": {
+      "utf-8": "UTF-8",
+      "windows-1250": "Windows-1250 (Central Europe)",
+      "windows-1252": "Windows-1252 (Western Europe)"
+    },
+    "encodingHint": "If letters like č, ñ or é show up as � or odd symbols, try another encoding.",
+    "delimiter": "Separator",
+    "delimiters": {
+      "comma": "Comma (,)",
+      "semicolon": "Semicolon (;)",
+      "tab": "Tab",
+      "pipe": "Vertical bar (|)"
+    },
+    "headerRow": "Header row",
+    "rowNumber": "Row {number}",
+    "autoValue": "Automatic: {value}",
+    "autoNothing": "Automatic: no format fits",
+    "chooseColumn": "Choose a column",
+    "noColumn": "No column",
+    "unnamedColumn": "Column {number}",
+    "fields": {
+      "date": "Date",
+      "amount": "Amount",
+      "description": "Description",
+      "groupBy": "Group by",
+      "currency": "Currency",
+      "filters": "Only rows where",
+      "fee": "Fee"
+    },
+    "dateUnreadable": "None of the date formats reads this column. Check that it's the right column.",
+    "dateExample": "\"{value}\" is read as {date}.",
+    "dateAmbiguous": "Every day in this file is 12 or less, so the dates could be day-first or month-first. Check the example and change the format if needed.",
+    "amountLayouts": {
+      "signed": "One column, negative for spending",
+      "split": "Separate columns for money in and money out"
+    },
+    "moneyIn": "Money in",
+    "moneyOut": "Money out",
+    "decimalAuto": "Decimal separator: automatic ({value})",
+    "decimalNamed": "Decimal separator: {value}",
+    "decimals": {
+      "dot": "dot",
+      "comma": "comma"
+    },
+    "decimalAmbiguous": "The amounts don't show which separator marks the decimals (as in 1,500). Check the amounts below and change it if needed.",
+    "invert": "Spending is shown as positive numbers",
+    "descriptionHint": "Up to three columns, joined with \" · \".",
+    "addColumn": "Add a column",
+    "removeColumn": "Remove this column",
+    "groupByHint": "Rows with the same value here get the same category in the next step. For a description column, numbers are ignored, so card payments at one shop form one group.",
+    "noCurrencyColumn": "Without a currency column, every row is taken to be in {currency}.",
+    "currencyHint": "Rows in a currency other than {currency} are left out.",
+    "filtersHint": "Rows with any other value in that column are left out, such as pending or declined payments.",
+    "addFilter": "Add a filter",
+    "removeFilter": "Remove this filter",
+    "tooManyFilterValues": "This column has {count} different values, too many to filter by.",
+    "emptyValue": "(empty)",
+    "parsedPreview": "How the first rows are read",
+    "readCounts": "{ready, plural, one {# row ready} other {# rows ready}} · {unreadable} can't be read · {left} left out",
+    "allOtherCurrency": "Every row is in {currencies}, but {account} uses {currency}. Choose an account in that currency.",
+    "chooseAnotherAccount": "Choose another account",
+    "tooManyReadyRows": "This file has {count} rows to import, but one import takes at most {max}. Export a shorter period from your bank, or untick rows in the preview.",
+    "types": {
+      "EXPENSE": "Expense",
+      "INCOME": "Income"
+    },
+    "table": {
+      "row": "Row",
+      "date": "Date",
+      "description": "Description",
+      "category": "Category",
+      "amount": "Amount",
+      "status": "Status"
+    },
+    "status": {
+      "ready": "Ready",
+      "filtered": "Left out by the filter on {column}",
+      "otherCurrency": "In {currency}",
+      "badDate": "Can't read the date \"{value}\"",
+      "futureDate": "The date \"{value}\" is in the future",
+      "badAmount": "Can't read the amount \"{value}\"",
+      "zero": "The amount is 0",
+      "skipped": "Not imported (your choice in step 3)",
+      "invalidEdit": "Enter an amount greater than 0, such as 1500.50"
+    },
+    "groupedBy": "Rows are grouped by \"{column}\". You can change that in the previous step.",
+    "notGrouped": "Rows aren't grouped by any column, so all expenses form one group and all income another. You can change that in the previous step.",
+    "groupsWithoutCategory": "{count, plural, one {# group has no category yet. Its rows will go to Other Expenses or Other Income.} other {# groups have no category yet. Their rows will go to Other Expenses or Other Income.}}",
+    "expenseGroups": "Expenses ({count})",
+    "incomeGroups": "Income ({count})",
+    "emptyGroup": "(no value)",
+    "groupMeta": "{count, plural, one {# row} other {# rows}}{similar, plural, =0 {} one { · # more similar text} other { · # more similar texts}}",
+    "noCategoryChoice": "No category",
+    "newCategoryChoice": "New category…",
+    "skipChoice": "Don't import these rows",
+    "noSubcategory": "No subcategory",
+    "goesToOther": "Without a category, these rows go to {category}.",
+    "skipExplained": "These rows won't be imported.",
+    "moreRows": "{count, plural, one {and # more row} other {and # more rows}}",
+    "duplicatesTitle": "{count, plural, one {# row may already be in this account} other {# rows may already be in this account}}",
+    "duplicatesLeftOut": "{count, plural, one {It has the same date, type and amount as a transaction in {account}, so it's unticked and won't be imported. Review it, and tick it if it's really new.} other {They have the same date, type and amount as transactions in {account}, so # are unticked and won't be imported. Review them, and tick the ones that are really new.}}",
+    "duplicatesIncluded": "{count, plural, one {You ticked it, so it will be imported anyway.} other {You ticked them all, so they will be imported anyway.}}",
+    "reviewDuplicates": "Review them",
+    "noCategoryNotice": "{count, plural, one {# row has no category and will go to Other Expenses or Other Income.} other {# rows have no category and will go to Other Expenses or Other Income.}}",
+    "showThem": "Show them",
+    "tooManyRows": "{count} rows are ticked, but one import takes at most {max}. Untick some rows, or import the file in parts.",
+    "summary": {
+      "rows": "Rows in the file",
+      "filtered": "Left out by a filter",
+      "otherCurrency": "In another currency",
+      "unreadable": "Can't be read",
+      "zero": "Amount of 0",
+      "skipped": "Not imported (step 3)",
+      "duplicatesLeftOut": "Possible duplicates, unticked",
+      "unticked": "Unticked by you",
+      "toImport": "To import",
+      "income": "Income",
+      "expenses": "Expenses",
+      "net": "Net",
+      "balance": "{account}: {before} → {after} after the import",
+      "edited": "{count, plural, one {# of them edited by you} other {# of them edited by you}}"
+    },
+    "filters": {
+      "all": "All ({count})",
+      "duplicates": "Possible duplicates ({count})",
+      "noCategory": "No category ({count})",
+      "excluded": "Not imported ({count})"
+    },
+    "tickAll": "Tick or untick every row shown",
+    "tickRow": "Import row {number}",
+    "noRowsInFilter": "No rows here.",
+    "duplicateOf": "Possible duplicate of: {date} · {description} · {category} · {amount}",
+    "badges": {
+      "duplicate": "Possible duplicate",
+      "noCategory": "No category",
+      "edited": "Edited"
+    },
+    "noCategoryRow": "No category ({category})",
+    "previousPage": "Previous",
+    "nextPage": "Next",
+    "pageOf": "Page {page} of {pages}",
+    "errors": {
+      "invalidData": "Some rows couldn't be saved because their data isn't valid. Nothing was imported.",
+      "accountNotFound": "The account wasn't found. Reload the page and try again.",
+      "categoryNotFound": "A category or subcategory no longer exists. Reload the page and choose the categories again. Nothing was imported.",
+      "categoryTypeMismatch": "A row's category doesn't match its type (income or expense). Nothing was imported.",
+      "blocked": "The request was blocked. Try again in a moment.",
+      "unexpected": "Something went wrong, and nothing was imported. Try again."
+    },
+    "feeHint": "Optional. A fee is taken away from the row's amount, as banks charge it on top (card payments abroad, cash withdrawals...).",
+    "newSubcategoryChoice": "New subcategory…",
+    "aloneGroups": "Rows with nothing in \"{column}\" ({count})",
+    "aloneHint": "They have nothing in common with other rows, so each one gets its own category.",
+    "aloneMeta": "Row {number} · {date}",
+    "editHint": "You can change any row before importing: use the pencil to edit its date, description, type or amount, and the selects for its category.",
+    "editType": "Type",
+    "editRow": "Edit row {number}",
+    "doneEditing": "Done",
+    "resetRow": "Undo changes",
+    "showWholeRow": "Show the whole row",
+    "hideWholeRow": "Hide the whole row"
   }
 }
