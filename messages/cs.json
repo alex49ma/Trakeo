@@ -678,6 +678,8 @@
         "editType": "Typ",
         "editRow": "Upravit řádek {number}",
         "doneEditing": "Hotovo",
-        "resetRow": "Vrátit změny"
+        "resetRow": "Vrátit změny",
+        "showWholeRow": "Zobrazit celý řádek",
+        "hideWholeRow": "Skrýt celý řádek"
     }
 }

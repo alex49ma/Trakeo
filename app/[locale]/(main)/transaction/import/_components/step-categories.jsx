@@ -10,15 +10,24 @@ import CategoryPicker from "./category-picker";
 import { NO_CHOICE, otherCategoryOf } from "./choices";
 import { columnLabel, formatRowDate } from "./display";
 import Notice from "./notice";
+import RowDetails from "./row-details";
 
 // How many of a group's rows its "show rows" list displays
 const GROUP_ROWS_SHOWN = 20;
 
-function GroupCard({ group, choice, onChoice, rows, categories, currency, onCategoryCreated, onSubcategoryCreated }) {
+function GroupCard({ group, choice, onChoice, rows, columns, categories, currency, onCategoryCreated, onSubcategoryCreated }) {
     const t = useTranslations("CsvImport");
     const tCategories = useTranslations("SystemCategories");
     const locale = useLocale();
     const [open, setOpen] = useState(false);
+    // Rows of the list whose whole file row is shown
+    const [expanded, setExpanded] = useState(() => new Set());
+    const toggle = (index) => setExpanded((current) => {
+        const next = new Set(current);
+        if (next.has(index)) next.delete(index);
+        else next.add(index);
+        return next;
+    });
     const sign = group.type === "EXPENSE" ? "-" : "";
     const firstRow = rows[group.rows[0]];
 
@@ -46,6 +55,9 @@ function GroupCard({ group, choice, onChoice, rows, categories, currency, onCate
                 </span>
             </div>
 
+            {/* A row on its own has no group to recognize it by: show everything the file says about it */}
+            {group.alone && <RowDetails cells={firstRow.cells} columns={columns} />}
+
             <CategoryPicker
                 type={group.type}
                 choice={choice}
@@ -66,11 +78,20 @@ function GroupCard({ group, choice, onChoice, rows, categories, currency, onCate
                     {group.rows.slice(0, GROUP_ROWS_SHOWN).map((index) => {
                         const row = rows[index];
                         return (
-                            <li key={index} className="flex justify-between gap-3">
-                                <span className="min-w-0 truncate">
-                                    <span className="text-muted-foreground">{formatRowDate(row.date, locale)}</span> · {row.description}
-                                </span>
-                                <span className="whitespace-nowrap tabular-nums">{formatMoney(row.signedAmount, currency, locale)}</span>
+                            <li key={index} className="space-y-1">
+                                <button
+                                    type="button"
+                                    className="flex w-full justify-between gap-3 rounded text-left hover:bg-muted/50"
+                                    onClick={() => toggle(index)}
+                                    aria-expanded={expanded.has(index)}
+                                    title={t("showWholeRow")}
+                                >
+                                    <span className="min-w-0 truncate">
+                                        <span className="text-muted-foreground">{formatRowDate(row.date, locale)}</span> · {row.description}
+                                    </span>
+                                    <span className="whitespace-nowrap tabular-nums">{formatMoney(row.signedAmount, currency, locale)}</span>
+                                </button>
+                                {expanded.has(index) && <RowDetails cells={row.cells} columns={columns} />}
                             </li>
                         );
                     })}
@@ -114,6 +135,7 @@ export default function StepCategories({ groups, rows, choices, onChoice, catego
                             choice={choices[group.id] ?? NO_CHOICE}
                             onChoice={(choice) => onChoice(group.id, choice)}
                             rows={rows}
+                            columns={columns}
                             categories={categories}
                             currency={account.currency}
                             onCategoryCreated={onCategoryCreated}

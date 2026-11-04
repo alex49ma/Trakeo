@@ -678,6 +678,8 @@
         "editType": "Tipo",
         "editRow": "Editar la fila {number}",
         "doneEditing": "Listo",
-        "resetRow": "Deshacer cambios"
+        "resetRow": "Deshacer cambios",
+        "showWholeRow": "Ver la fila completa",
+        "hideWholeRow": "Ocultar la fila completa"
     }
 }

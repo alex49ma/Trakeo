@@ -19,6 +19,7 @@ import CategoryPicker from "./category-picker";
 import { targetChoice } from "./choices";
 import { formatRowDate, rowStatusText } from "./display";
 import Notice from "./notice";
+import RowDetails from "./row-details";
 
 const PAGE_SIZE = 50;
 
@@ -113,6 +114,14 @@ export default function StepPreview({ result, account, categories, columns, rowE
     const [filter, setFilter] = useState("all");
     const [page, setPage] = useState(0);
     const [editing, setEditing] = useState(null);
+    // Rows whose whole file row is shown under their description
+    const [expanded, setExpanded] = useState(() => new Set());
+    const toggleDetails = (index) => setExpanded((current) => {
+        const next = new Set(current);
+        if (next.has(index)) next.delete(index);
+        else next.add(index);
+        return next;
+    });
     const { rows, summary } = result;
     const money = (amount) => formatMoney(amount.toString(), account.currency, locale);
 
@@ -278,6 +287,19 @@ export default function StepPreview({ result, account, categories, columns, rowE
                                                             amount: formatMoney(row.duplicateOf.amount, account.currency, locale),
                                                         })}
                                                     </span>
+                                                )}
+                                                <button
+                                                    type="button"
+                                                    className="mt-1 block text-xs text-muted-foreground underline-offset-2 hover:underline"
+                                                    onClick={() => toggleDetails(row.index)}
+                                                    aria-expanded={expanded.has(row.index)}
+                                                >
+                                                    {expanded.has(row.index) ? t("hideWholeRow") : t("showWholeRow")}
+                                                </button>
+                                                {expanded.has(row.index) && (
+                                                    <div className="mt-1">
+                                                        <RowDetails cells={row.cells} columns={columns} />
+                                                    </div>
                                                 )}
                                             </TableCell>
                                             <TableCell

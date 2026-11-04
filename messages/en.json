@@ -678,6 +678,8 @@
     "editType": "Type",
     "editRow": "Edit row {number}",
     "doneEditing": "Done",
-    "resetRow": "Undo changes"
+    "resetRow": "Undo changes",
+    "showWholeRow": "Show the whole row",
+    "hideWholeRow": "Hide the whole row"
   }
 }
