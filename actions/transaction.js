@@ -1,6 +1,6 @@
 "use server"
 
-import { auth } from "@clerk/nextjs/server";
+import { requireUser } from "@/lib/auth";
 import { db } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 import { request } from "@arcjet/next";
@@ -28,12 +28,11 @@ const transactionFields = (data) => ({
 
 export async function createTransaction(data) {
     try {
-        const { userId } = await auth();
-        if (!userId) throw new Error("Unauthorized");
+        const user = await requireUser();
 
         //Get request data for Arcjet
         const req = await request();
-        const decision = await aj.protect({ req, userId, requested: 1 });
+        const decision = await aj.protect({ req, userId: user.id, requested: 1 });
 
         if (decision.isDenied()) {
             if (decision.reason.isRateLimit()) {
@@ -42,9 +41,6 @@ export async function createTransaction(data) {
             }
             throw new Error("Request blocked.");
         }
-
-        const user = await db.user.findUnique({ where: { clerkUserId: userId } });
-        if (!user) throw new Error("User not found");
 
         const account = await db.account.findUnique({ where: { id: data.accountId, userId: user.id } });
 
@@ -98,11 +94,7 @@ async function assertCategoryOwnership(userId, categoryId, subcategoryId) {
 }
 
 export async function getTransaction(id) {
-    const { userId } = await auth();
-    if (!userId) throw new Error("Unauthorized");
-
-    const user = await db.user.findUnique({ where: { clerkUserId: userId } });
-    if (!user) throw new Error("User not found");
+    const user = await requireUser();
 
     const transaction = await db.transaction.findUnique({ where: { id, userId: user.id } });
     if (!transaction) throw new Error("Transaction not found");
@@ -112,11 +104,7 @@ export async function getTransaction(id) {
 
 export async function updateTransaction(id, data) {
     try {
-        const { userId } = await auth();
-        if (!userId) throw new Error("Unauthorized");
-
-        const user = await db.user.findUnique({ where: { clerkUserId: userId } });
-        if (!user) throw new Error("User not found");
+        const user = await requireUser();
 
         const originalTransaction = await db.transaction.findUnique({
             where: {

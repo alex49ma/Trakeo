@@ -1,24 +1,14 @@
 "use server";
 
 import { db } from "@/lib/prisma";
-import { auth } from "@clerk/nextjs/server";
+import { getCurrentUser } from "@/lib/auth";
 import { feedbackSchema } from "@/app/lib/schema";
 
 export async function sendFeedback(data) {
     try {
-        const { userId } = await auth();
-
-        // We can allow anonymous feedback if userId is null, 
-        // but the schema says userId is String? so it can be null.
-        // However, usually we want to know who sent it if they are logged in.
-        let dbUserId = null;
-
-        if (userId) {
-            const user = await db.user.findUnique({ where: { clerkUserId: userId } });
-            if (user) {
-                dbUserId = user.id;
-            }
-        }
+        // Feedback can be anonymous (Feedback.userId is optional), but a signed-in sender is recorded
+        const user = await getCurrentUser();
+        const dbUserId = user?.id ?? null;
 
         const parsed = feedbackSchema.safeParse(data);
         if (!parsed.success) {

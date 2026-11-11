@@ -1,7 +1,7 @@
 "use server"
 
 import z from "zod";
-import { auth } from "@clerk/nextjs/server";
+import { requireUser } from "@/lib/auth";
 import { isSupportedCurrency } from "@/lib/currency";
 import { crossRate } from "@/lib/fx/convert";
 import { getRateTable } from "@/lib/fx/rates";
@@ -14,8 +14,7 @@ const isoDate = z.iso.date();
  * so any supported pair works, whether or not the user holds it.
  */
 export async function getReferenceRate(fromCurrency, toCurrency, date) {
-    const { userId } = await auth();
-    if (!userId) throw new Error("Unauthorized");
+    await requireUser();
 
     if (!isSupportedCurrency(fromCurrency) || !isSupportedCurrency(toCurrency) || fromCurrency === toCurrency) return null;
     if (!isoDate.safeParse(date).success) return null;

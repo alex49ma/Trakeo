@@ -1,6 +1,6 @@
 "use server"
 
-import { auth } from "@clerk/nextjs/server";
+import { requireUser } from "@/lib/auth";
 import { db } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 import { request } from "@arcjet/next";
@@ -28,16 +28,6 @@ const EXCHANGE_ERRORS = {
     feeTooHigh: "The fee must be lower than the amount deducted",
     resultTooSmall: "The calculated value is too small",
 };
-
-async function getUser() {
-    const { userId } = await auth();
-    if (!userId) throw new Error("Unauthorized");
-
-    const user = await db.user.findUnique({ where: { clerkUserId: userId } });
-    if (!user) throw new Error("User not found");
-
-    return user;
-}
 
 // Checks the request against the user's own accounts and recalculates the exchange values on the server
 async function prepareTransfer(userId, data) {
@@ -145,15 +135,13 @@ function revalidateTransferPaths(transfer) {
 
 export async function createTransfer(data) {
     try {
-        const { userId } = await auth();
-        if (!userId) throw new Error("Unauthorized");
+        const user = await requireUser();
 
         //Get request data for Arcjet
         const req = await request();
-        const decision = await aj.protect({ req, userId, requested: 1 });
+        const decision = await aj.protect({ req, userId: user.id, requested: 1 });
         if (decision.isDenied()) throw new Error("Request blocked.");
 
-        const user = await getUser();
         const prepared = await prepareTransfer(user.id, data);
 
         // Create the transfer, its transactions and both balance changes together
@@ -174,7 +162,7 @@ export async function createTransfer(data) {
 }
 
 export async function getTransfer(id) {
-    const user = await getUser();
+    const user = await requireUser();
 
     const transfer = await db.transfer.findUnique({ where: { id, userId: user.id } });
 
@@ -183,7 +171,7 @@ export async function getTransfer(id) {
 
 export async function updateTransfer(id, data) {
     try {
-        const user = await getUser();
+        const user = await requireUser();
 
         const original = await db.transfer.findUnique({ where: { id, userId: user.id } });
         if (!original) throw new Error("Transfer not found");

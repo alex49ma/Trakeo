@@ -1,6 +1,6 @@
 "use server";
 
-import { auth } from "@clerk/nextjs/server";
+import { requireUser } from "@/lib/auth";
 import { db } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 import { startOfMonth, endOfMonth } from "date-fns";
@@ -30,16 +30,7 @@ const serializeTransfer = (transfer) => transfer && ({
 
 export async function updateDefaultAccount(accountId) {
     try {
-        const { userId } = await auth();
-        if (!userId) throw new Error("Unauthorized");
-
-        const user = await db.user.findUnique({
-            where: {
-                clerkUserId: userId
-            }
-        });
-
-        if (!user) throw new Error("User not found");
+        const user = await requireUser();
 
 
         await db.account.updateMany({
@@ -74,16 +65,7 @@ export async function updateDefaultAccount(accountId) {
 // Every account plus this month's income and expenses in its own currency (monthIncome, monthExpense), for the
 // accounts page. Same month bounds and filter as the budget: internal transfers aren't income or spending, their fees are
 export async function getAccountsOverview() {
-    const { userId } = await auth();
-    if (!userId) throw new Error("Unauthorized");
-
-    const user = await db.user.findUnique({
-        where: {
-            clerkUserId: userId
-        }
-    });
-
-    if (!user) throw new Error("User not found");
+    const user = await requireUser();
 
     const now = new Date();
     const [accounts, monthTotals] = await Promise.all([
@@ -117,16 +99,7 @@ export async function getAccountsOverview() {
 
 export async function getAccountWithTransactions(accountId) {
     try {
-        const { userId } = await auth();
-        if (!userId) throw new Error("Unauthorized");
-
-        const user = await db.user.findUnique({
-            where: {
-                clerkUserId: userId
-            }
-        });
-
-        if (!user) throw new Error("User not found");
+        const user = await requireUser();
 
         const account = await db.account.findUnique({
             where: {
@@ -173,16 +146,7 @@ export async function getAccountWithTransactions(accountId) {
 
 export async function bulkDeleteTransactions(transactionIds) {
     try {
-        const { userId } = await auth();
-        if (!userId) throw new Error("Unauthorized");
-
-        const user = await db.user.findUnique({
-            where: {
-                clerkUserId: userId
-            }
-        });
-
-        if (!user) throw new Error("User not found");
+        const user = await requireUser();
 
         // Deleting any transaction of an internal transfer deletes the whole transfer, in both accounts
         const selected = await db.transaction.findMany({

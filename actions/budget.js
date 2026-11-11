@@ -1,7 +1,7 @@
 "use server"
 
 import { db } from "@/lib/prisma";
-import { auth } from "@clerk/nextjs/server";
+import { requireUser } from "@/lib/auth";
 import { revalidatePath } from "next/cache";
 import { startOfMonth, endOfMonth } from "date-fns";
 import { DEFAULT_CURRENCY } from "@/lib/currency";
@@ -9,16 +9,7 @@ import { COUNTS_IN_TOTALS_CATEGORY } from "@/lib/system-categories";
 
 export async function getCurrentBudget(accountId) {
     try {
-        const { userId } = await auth();
-        if (!userId) throw new Error("Unauthorized");
-
-        const user = await db.user.findUnique({
-            where: {
-                clerkUserId: userId
-            }
-        });
-
-        if (!user) throw new Error("User not found");
+        const user = await requireUser();
 
         const account = await db.account.findUnique({ where: { id: accountId, userId: user.id } });
         if (!account) throw new Error("Account not found");
@@ -63,16 +54,7 @@ export async function getCurrentBudget(accountId) {
 
 export async function updateBudget(amount) {
     try {
-        const { userId } = await auth();
-        if (!userId) throw new Error("Unauthorized");
-
-        const user = await db.user.findUnique({
-            where: {
-                clerkUserId: userId
-            }
-        });
-
-        if (!user) throw new Error("User not found");
+        const user = await requireUser();
 
         // The budget is always in the default account's currency
         const defaultAccount = await db.account.findFirst({ where: { userId: user.id, isDefault: true } });

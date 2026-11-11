@@ -1,16 +1,15 @@
-import { auth } from '@clerk/nextjs/server'
 import { getTranslations } from 'next-intl/server';
+import { getCurrentUser } from '@/lib/auth';
 import { getAnalyticsData, getUserAccounts } from '@/actions/dashboard'
 import { getCategories } from '@/actions/categories';
 import AnalyticsDashboard from './_components/analytics-dashboard';
 
 async function AnalyticsPage() {
-    const { userId } = await auth();
+    const user = await getCurrentUser();
     const t = await getTranslations('Analytics');
 
-    if (!userId) {
-        // Clerk middleware or layout usually handles this, but explicit check is good practice
-        // specific redirection might happen automatically or via middleware
+    if (!user) {
+        // The middleware already sends signed-out visitors to sign in; this is a fallback
         return <div>Please sign in to view analytics</div>
     }
 
