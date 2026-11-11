@@ -4,7 +4,7 @@ import { Link } from '@/i18n/navigation';
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { LayoutDashboard, SquarePlus, BarChart, Wallet } from "lucide-react";
-import { checkUser } from "@/lib/checkUser";
+import { ensureUser } from "@/lib/auth";
 
 import LanguageSwitcher from "@/components/language-switcher";
 import NavLink from "@/components/nav-link";
@@ -13,7 +13,7 @@ import LandingNavLinks from "@/components/landing-nav-links";
 import { getTranslations } from "next-intl/server";
 
 const Header = async () => {
-    await checkUser()
+    await ensureUser()
     const t = await getTranslations('Header');
 
     return (

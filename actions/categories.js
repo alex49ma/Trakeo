@@ -1,13 +1,12 @@
 "use server";
 
 import { db } from "@/lib/prisma";
-import { checkUser } from "@/lib/checkUser";
+import { requireUser } from "@/lib/auth";
 import { revalidatePath } from "next/cache";
 import { HEX_COLOR, isTransferCategory } from "@/lib/system-categories";
 
 export async function getCategories() {
-    const user = await checkUser();
-    if (!user) throw new Error("Unauthorized");
+    const user = await requireUser();
 
     const categories = await db.category.findMany({
         where: { userId: user.id },
@@ -24,8 +23,7 @@ export async function getCategories() {
 
 export async function createCategory(data) {
     try {
-        const user = await checkUser();
-        if (!user) throw new Error("Unauthorized");
+        const user = await requireUser();
 
         if (!HEX_COLOR.test(data.color ?? "")) throw new Error("Invalid color");
 
@@ -51,8 +49,7 @@ export async function createCategory(data) {
 
 export async function createSubcategory(data) {
     try {
-        const user = await checkUser();
-        if (!user) throw new Error("Unauthorized");
+        const user = await requireUser();
 
         const category = await db.category.findUnique({
             where: { id: data.categoryId, userId: user.id }
@@ -78,8 +75,7 @@ export async function createSubcategory(data) {
 
 export async function updateCategory(id, data) {
     try {
-        const user = await checkUser();
-        if (!user) throw new Error("Unauthorized");
+        const user = await requireUser();
 
         const existing = await db.category.findUnique({
             where: { id, userId: user.id }
@@ -106,8 +102,7 @@ export async function updateCategory(id, data) {
 
 export async function deleteCategory(id) {
     try {
-        const user = await checkUser();
-        if (!user) throw new Error("Unauthorized");
+        const user = await requireUser();
 
         const category = await db.category.findUnique({
             where: { id, userId: user.id }
@@ -142,8 +137,7 @@ export async function deleteCategory(id) {
 
 export async function updateSubcategory(id, data) {
     try {
-        const user = await checkUser();
-        if (!user) throw new Error("Unauthorized");
+        const user = await requireUser();
 
         const subCategory = await db.subcategory.update({
             where: { id, category: { userId: user.id } },
@@ -164,8 +158,7 @@ export async function updateSubcategory(id, data) {
 
 export async function deleteSubcategory(id) {
     try {
-        const user = await checkUser();
-        if (!user) throw new Error("Unauthorized");
+        const user = await requireUser();
 
         const transactions = await db.transaction.findMany({
             where: { subcategoryId: id, userId: user.id }

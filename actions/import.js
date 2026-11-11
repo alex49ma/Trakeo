@@ -1,6 +1,6 @@
 "use server";
 
-import { auth } from "@clerk/nextjs/server";
+import { requireUser } from "@/lib/auth";
 import { request } from "@arcjet/next";
 import { revalidatePath } from "next/cache";
 import Big from "big.js";
@@ -21,16 +21,6 @@ import { isTransferCategory } from "@/lib/system-categories";
 
 const DAY_MS = 86_400_000;
 
-async function currentUser() {
-    const { userId } = await auth();
-    if (!userId) throw new Error("Unauthorized");
-
-    const user = await db.user.findUnique({ where: { clerkUserId: userId } });
-    if (!user) throw new Error("User not found");
-
-    return { user, clerkUserId: userId };
-}
-
 const decimalPlaces = (amount) => (amount.split(".")[1] ?? "").replace(/0+$/, "").length;
 
 /**
@@ -38,7 +28,7 @@ const decimalPlaces = (amount) => (amount.split(".")[1] ?? "").replace(/0+$/, ""
  * check that runs in the browser. Amounts as strings, dates as ISO strings.
  */
 export async function getImportContext(input) {
-    const { user } = await currentUser();
+    const user = await requireUser();
 
     const parsed = importContextSchema.safeParse(input);
     if (!parsed.success) return { success: false, error: "invalidData" };
@@ -79,10 +69,10 @@ export async function getImportContext(input) {
  * transaction. Their categories already exist (the wizard creates new ones through the category drawers). Nothing is saved when any check fails.
  */
 export async function importTransactions(input) {
-    const { user, clerkUserId } = await currentUser();
+    const user = await requireUser();
 
     const req = await request();
-    const decision = await aj.protect({ req, userId: clerkUserId, requested: 1 });
+    const decision = await aj.protect({ req, userId: user.id, requested: 1 });
     if (decision.isDenied()) return { success: false, error: "blocked" };
 
     const parsed = importSchema.safeParse(input);
@@ -183,7 +173,7 @@ async function saveImportProfile(userId, accountId, { id, name, headerSignature,
 
 /** The user's saved import settings, most recently used first. Settings that don't pass importSettingsSchema are left out. */
 export async function getImportProfiles() {
-    const { user } = await currentUser();
+    const user = await requireUser();
 
     const profiles = await db.importProfile.findMany({
         where: { userId: user.id },
@@ -198,7 +188,7 @@ export async function getImportProfiles() {
 }
 
 export async function renameImportProfile(input) {
-    const { user } = await currentUser();
+    const user = await requireUser();
 
     const parsed = importProfileRenameSchema.safeParse(input);
     if (!parsed.success) return { success: false, error: "invalidData" };
@@ -213,7 +203,7 @@ export async function renameImportProfile(input) {
 }
 
 export async function deleteImportProfile(input) {
-    const { user } = await currentUser();
+    const user = await requireUser();
 
     const parsed = importProfileIdSchema.safeParse(input);
     if (!parsed.success) return { success: false, error: "invalidData" };

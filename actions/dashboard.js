@@ -1,7 +1,7 @@
 "use server";
 
 import { db } from "@/lib/prisma";
-import { auth } from "@clerk/nextjs/server";
+import { requireUser } from "@/lib/auth";
 import { revalidatePath } from "next/cache";
 import { includes } from "zod";
 import { isSupportedCurrency } from "@/lib/currency";
@@ -24,14 +24,7 @@ const serializeTransaction = (obj) => {
 
 export async function createAccount(data) {
     try {
-        const { userId } = await auth();
-        if (!userId) throw new Error("Unauthorized");
-
-        const user = await db.user.findUnique({
-            where: {
-                clerkUserId: userId
-            }
-        });
+        const user = await requireUser();
 
         // The initial balance is optional: an empty field means 0
         const balanceInput = String(data.balance ?? "").trim();
@@ -87,14 +80,7 @@ export async function createAccount(data) {
 export async function getUserAccounts() {
     try {
 
-        const { userId } = await auth();
-        if (!userId) throw new Error("Unauthorized");
-
-        const user = await db.user.findUnique({
-            where: {
-                clerkUserId: userId
-            }
-        });
+        const user = await requireUser();
 
         const accounts = await db.account.findMany({
             where: {
@@ -124,16 +110,7 @@ export async function getUserAccounts() {
 }
 
 export async function getDashboardData() {
-    const { userId } = await auth();
-    if (!userId) throw new Error("Unauthorized");
-
-    const user = await db.user.findUnique({
-        where: {
-            clerkUserId: userId
-        }
-    });
-
-    if (!user) throw new Error("User not found");
+    const user = await requireUser();
 
     // Get all user transactions
     const transactions = await db.transaction.findMany({
@@ -155,11 +132,7 @@ export async function getDashboardData() {
 // Every transaction, plus its amount in the default account's currency (reportingAmount) for the analytics
 // "All accounts" view. hasRates is false until the exchange rates job has run once
 export async function getAnalyticsData() {
-    const { userId } = await auth();
-    if (!userId) throw new Error("Unauthorized");
-
-    const user = await db.user.findUnique({ where: { clerkUserId: userId } });
-    if (!user) throw new Error("User not found");
+    const user = await requireUser();
 
     const [accounts, transactions, hasRates] = await Promise.all([
         db.account.findMany({ where: { userId: user.id }, select: { id: true, currency: true, isDefault: true } }),
@@ -181,11 +154,7 @@ export async function getAnalyticsData() {
 // The balance of every account added up in the default account's currency, at the newest exchange rates.
 // Null with fewer than two accounts, where the account card already shows the total
 export async function getTotalBalance() {
-    const { userId } = await auth();
-    if (!userId) throw new Error("Unauthorized");
-
-    const user = await db.user.findUnique({ where: { clerkUserId: userId } });
-    if (!user) throw new Error("User not found");
+    const user = await requireUser();
 
     const accounts = await db.account.findMany({
         where: { userId: user.id },
