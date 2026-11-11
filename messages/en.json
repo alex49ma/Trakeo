@@ -702,5 +702,34 @@
     "confirmDelete": "Delete for good",
     "settingsRenamed": "Settings renamed",
     "settingsDeleted": "Settings deleted"
+  },
+  "Emails": {
+    "greeting": "Hi {name},",
+    "greetingNoName": "Hi,",
+    "linkFallback": "If the button doesn't work, copy this link into your browser:",
+    "footer": "You're getting this email because this address was used on Trakeo.",
+    "verify": {
+      "subject": "Confirm your email for Trakeo",
+      "heading": "Confirm your email",
+      "body": "Click the button below to confirm your email address and start using Trakeo.",
+      "button": "Confirm email",
+      "expiry": "The link expires in 24 hours.",
+      "ignore": "If you didn't create a Trakeo account, you can ignore this email."
+    },
+    "reset": {
+      "subject": "Reset your Trakeo password",
+      "heading": "Reset your password",
+      "body": "We received a request to reset your password. Click the button below to choose a new one.",
+      "button": "Reset password",
+      "expiry": "The link expires in 1 hour.",
+      "ignore": "If you didn't ask for this, you can ignore this email: your password stays the same."
+    },
+    "passwordChanged": {
+      "subject": "Your Trakeo password was changed",
+      "heading": "Your password was changed",
+      "body": "The password of your Trakeo account was just changed, and every other device was signed out.",
+      "notYou": "If it wasn't you, reset your password right away.",
+      "button": "Reset password"
+    }
   }
 }

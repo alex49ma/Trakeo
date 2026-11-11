@@ -702,5 +702,34 @@
         "confirmDelete": "Opravdu smazat",
         "settingsRenamed": "Nastavení přejmenováno",
         "settingsDeleted": "Nastavení smazáno"
+    },
+    "Emails": {
+        "greeting": "Dobrý den, {name},",
+        "greetingNoName": "Dobrý den,",
+        "linkFallback": "Pokud tlačítko nefunguje, zkopírujte tento odkaz do prohlížeče:",
+        "footer": "Tento e-mail dostáváte, protože tato adresa byla použita v\u00a0Trakeo.",
+        "verify": {
+            "subject": "Potvrďte svůj e-mail pro Trakeo",
+            "heading": "Potvrďte svůj e-mail",
+            "body": "Kliknutím na tlačítko níže potvrdíte svou e-mailovou adresu a\u00a0můžete začít používat Trakeo.",
+            "button": "Potvrdit e-mail",
+            "expiry": "Odkaz platí 24 hodin.",
+            "ignore": "Pokud jste si účet v\u00a0Trakeo nezaložili, můžete tento e-mail ignorovat."
+        },
+        "reset": {
+            "subject": "Obnovení hesla k\u00a0Trakeo",
+            "heading": "Obnovte své heslo",
+            "body": "Obdrželi jsme žádost o\u00a0obnovení vašeho hesla. Kliknutím na tlačítko níže si zvolíte nové.",
+            "button": "Obnovit heslo",
+            "expiry": "Odkaz platí 1 hodinu.",
+            "ignore": "Pokud jste o\u00a0to nežádali, můžete tento e-mail ignorovat – vaše heslo zůstane stejné."
+        },
+        "passwordChanged": {
+            "subject": "Heslo k\u00a0Trakeo bylo změněno",
+            "heading": "Vaše heslo bylo změněno",
+            "body": "Heslo k\u00a0vašemu účtu Trakeo bylo právě změněno a\u00a0všechna ostatní zařízení byla odhlášena.",
+            "notYou": "Pokud jste to nebyli vy, ihned si heslo obnovte.",
+            "button": "Obnovit heslo"
+        }
     }
 }
