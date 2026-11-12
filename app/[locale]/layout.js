@@ -3,7 +3,6 @@ import "../globals.css";
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages, getTranslations } from 'next-intl/server';
 import Header from "@/components/header";
-import { ClerkProvider } from "@clerk/nextjs";
 import { Toaster } from "@/components/ui/sonner";
 import { FeedbackButton } from "@/components/feedback-button";
 import { request } from '@arcjet/next';
@@ -33,20 +32,18 @@ export default async function RootLayout({ children, params }) {
   const t = await getTranslations('Footer');
 
   return (
-    <ClerkProvider>
-      <html lang={locale}>
-        <body className={`${inter.className} ${kalam.variable} flex flex-col min-h-screen`}>
-          <NextIntlClientProvider messages={messages}>
-            {/* Header */}
-            <Header />
-            <main className="flex-1 w-full flex flex-col">
-              {children}
-            </main>
-            <Toaster richColors />
-            <FeedbackButton />
-          </NextIntlClientProvider>
-        </body>
-      </html>
-    </ClerkProvider>
+    <html lang={locale}>
+      <body className={`${inter.className} ${kalam.variable} flex flex-col min-h-screen`}>
+        <NextIntlClientProvider messages={messages}>
+          {/* Header */}
+          <Header />
+          <main className="flex-1 w-full flex flex-col">
+            {children}
+          </main>
+          <Toaster richColors />
+          <FeedbackButton />
+        </NextIntlClientProvider>
+      </body>
+    </html>
   );
 }

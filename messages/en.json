@@ -730,6 +730,166 @@
       "body": "The password of your Trakeo account was just changed, and every other device was signed out.",
       "notYou": "If it wasn't you, reset your password right away.",
       "button": "Reset password"
+    },
+    "existingAccount": {
+      "subject": "Someone tried to sign up with your email",
+      "heading": "You already have a Trakeo account",
+      "body": "Someone (probably you) tried to create a new Trakeo account with this email address. You already have one, so nothing was created.",
+      "forgot": "If you don't remember your password, use “Forgot your password?” on the sign-in page.",
+      "button": "Sign in",
+      "ignore": "If it wasn't you, you can ignore this email: your account hasn't changed."
+    }
+  },
+  "Auth": {
+    "google": "Continue with Google",
+    "or": "or",
+    "fields": {
+      "name": "Name",
+      "email": "Email",
+      "password": "Password",
+      "newPassword": "New password",
+      "showPassword": "Show password",
+      "hidePassword": "Hide password",
+      "passwordHint": "At least 8 characters."
+    },
+    "validation": {
+      "emailInvalid": "Enter a valid email address.",
+      "passwordRequired": "Enter your password.",
+      "passwordTooShort": "Use at least 8 characters.",
+      "passwordTooLong": "Use at most 128 characters.",
+      "nameRequired": "Enter your name.",
+      "nameTooLong": "Use at most 100 characters."
+    },
+    "signIn": {
+      "title": "Sign in to Trakeo",
+      "subtitle": "Welcome back.",
+      "submit": "Sign in",
+      "submitting": "Signing in…",
+      "forgot": "Forgot your password?",
+      "noAccount": "Don't have an account?",
+      "signUpLink": "Sign up"
+    },
+    "signUp": {
+      "title": "Create your account",
+      "subtitle": "Free, and no card needed.",
+      "submit": "Create account",
+      "submitting": "Creating account…",
+      "haveAccount": "Already have an account?",
+      "signInLink": "Sign in",
+      "privacy": "By creating an account, you accept how we handle your data, as explained in our <link>privacy policy</link>.",
+      "sentTitle": "Check your inbox",
+      "sentBody": "We've sent a link to {email}. Open it to confirm your email and start using Trakeo.",
+      "sentHint": "It can take a minute. Check your spam folder too."
+    },
+    "forgot": {
+      "title": "Reset your password",
+      "subtitle": "Enter your email and we'll send you a link to choose a new password.",
+      "submit": "Send link",
+      "submitting": "Sending…",
+      "sent": "If there's an account for {email}, an email with a link is on its way. The link expires in 1 hour.",
+      "back": "Back to sign in"
+    },
+    "reset": {
+      "title": "Choose a new password",
+      "submit": "Save new password",
+      "submitting": "Saving…",
+      "done": "Your password was changed. Sign in with your new password.",
+      "signIn": "Sign in",
+      "invalidTitle": "This link doesn't work",
+      "invalidBody": "The link has expired or was already used. Ask for a new one.",
+      "requestNew": "Ask for a new link"
+    },
+    "verify": {
+      "title": "Confirm your email",
+      "pending": "Open the link we emailed you to confirm your address. Can't find it? Ask for another one here.",
+      "expired": "This link has expired. Enter your email and we'll send you a new one.",
+      "invalid": "This link doesn't work anymore. Enter your email and we'll send you a new one.",
+      "resend": "Send the link again",
+      "sending": "Sending…",
+      "sent": "If that email is waiting to be confirmed, a new link is on its way.",
+      "haveConfirmed": "Already confirmed?",
+      "signInLink": "Sign in"
+    },
+    "errors": {
+      "generic": "Something went wrong. Please try again.",
+      "tooManyRequests": "Too many attempts. Try again in {seconds, plural, one {# second} other {# seconds}}.",
+      "tooManyRequestsWait": "Too many attempts. Wait a moment and try again.",
+      "INVALID_EMAIL_OR_PASSWORD": "Wrong email or password.",
+      "EMAIL_NOT_VERIFIED": "Confirm your email first: we've sent you a new link.",
+      "PASSWORD_TOO_SHORT": "The password needs at least 8 characters.",
+      "PASSWORD_TOO_LONG": "The password can have at most 128 characters.",
+      "INVALID_EMAIL": "Enter a valid email address.",
+      "INVALID_TOKEN": "The link has expired or was already used.",
+      "TOKEN_EXPIRED": "The link has expired.",
+      "REQUEST_BLOCKED": "Your request was blocked. If you're using a VPN or an automated tool, try without it.",
+      "FAILED_TO_CREATE_USER": "We couldn't create your account. Please try again.",
+      "access_denied": "Google sign-in was cancelled.",
+      "account_not_linked": "This email already has a Trakeo account that isn't confirmed yet. Confirm it from our email (or sign in with your password), then try Google again.",
+      "email_not_found": "Your Google account didn't share an email address, so we can't sign you in with it.",
+      "account_already_linked_to_different_user": "That Google account is already linked to another Trakeo account.",
+      "unable_to_get_user_info": "We couldn't get your details from Google. Please try again."
+    }
+  },
+  "UserMenu": {
+    "label": "Account menu",
+    "signOut": "Sign out",
+    "signingOut": "Signing out…"
+  },
+  "Privacy": {
+    "link": "Privacy",
+    "title": "Privacy policy",
+    "updated": "Last updated: {date}",
+    "intro": "Trakeo is a personal finance tracker run by one person. This page explains what data it keeps, why, and who else handles it. In short: we keep what's needed to run your account, we don't sell it or use it for advertising, and there are no analytics or ad trackers.",
+    "who": {
+      "heading": "Who is responsible",
+      "bodyNamed": "Trakeo is run by {owner}, who is responsible for your data.",
+      "bodyUnnamed": "Trakeo is run by one person, who is responsible for your data.",
+      "contactEmail": "For anything about your data, write to <link>{email}</link>.",
+      "contactFeedback": "For anything about your data, use the feedback button in the corner of every page."
+    },
+    "collect": {
+      "heading": "What we keep",
+      "items": {
+        "account": "Your account: your name, your email address, and either a password (stored only as a one-way hash) or the id of the Google account you sign in with. Also your language, so emails reach you in it.",
+        "finance": "What you enter: accounts, balances, transactions, categories, budgets, transfers and saved CSV import settings.",
+        "csv": "CSV imports are read in your browser. The file itself never reaches our servers; only the rows you choose to import do.",
+        "sessions": "Sign-ins: for each device you sign in on, a session with its IP address and browser name, so you stay signed in. Sessions end after 7 days without use.",
+        "security": "Security counters: to stop password guessing, the number of recent attempts from each IP address.",
+        "feedback": "Feedback you send with the feedback button, linked to your account if you're signed in."
+      }
+    },
+    "use": {
+      "heading": "Why",
+      "body": "Only to run Trakeo: to sign you in, show your data back to you, send the emails your account needs (confirming your email, resetting your password, security notices) and protect the service from abuse. No advertising, no profiling and no selling of data."
+    },
+    "processors": {
+      "heading": "Who else handles it",
+      "body": "These services help run Trakeo and only use the data for that:",
+      "items": {
+        "vercel": "Vercel (hosting): runs the app. Your requests and the data in them pass through its servers, which may be outside the EU.",
+        "supabase": "Supabase (database, in the EU, Ireland): stores your data.",
+        "resend": "Resend (email, in the EU, Ireland): sends Trakeo's emails.",
+        "arcjet": "Arcjet (bot protection): checks requests, including their IP address, to block bots and attacks.",
+        "inngest": "Inngest (scheduled jobs): runs jobs such as recurring transactions and the daily exchange rates, with the data those jobs need.",
+        "google": "Google: only if you choose to sign in with Google. Trakeo then receives your name, email address and profile picture.",
+        "ecb": "Exchange rates come from the European Central Bank. No personal data is sent to it."
+      }
+    },
+    "cookies": {
+      "heading": "Cookies",
+      "body": "Trakeo only uses the cookies it needs: one that keeps you signed in (with a short-lived copy that saves database lookups) and one that remembers your language. There are no analytics, advertising or tracking cookies, which is why there's no cookie banner."
+    },
+    "retention": {
+      "heading": "How long we keep it",
+      "body": "As long as you have an account. Sessions end after 7 days without use, and email links expire after 24 hours (1 hour for password resets). To delete your account and all its data, contact us as described above; a delete button is coming."
+    },
+    "rights": {
+      "heading": "Your rights",
+      "body": "You can ask to see, correct, export or delete your data, and you can complain to your data protection authority. Contact us as described above, and we'll answer within a month."
+    },
+    "changes": {
+      "heading": "Changes",
+      "body": "If this policy changes in a way that matters, we'll say so in the app before the change applies."
     }
   }
 }

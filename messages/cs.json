@@ -730,6 +730,166 @@
             "body": "Heslo k\u00a0vašemu účtu Trakeo bylo právě změněno a\u00a0všechna ostatní zařízení byla odhlášena.",
             "notYou": "Pokud jste to nebyli vy, ihned si heslo obnovte.",
             "button": "Obnovit heslo"
+        },
+        "existingAccount": {
+            "subject": "Někdo se pokusil zaregistrovat s\u00a0vaším e-mailem",
+            "heading": "Účet Trakeo už máte",
+            "body": "Někdo (nejspíš vy) se pokusil vytvořit nový účet Trakeo s\u00a0touto e-mailovou adresou. Účet už máte, takže se nic nevytvořilo.",
+            "forgot": "Pokud si nepamatujete heslo, použijte na přihlašovací stránce odkaz „Zapomněli jste heslo?“.",
+            "button": "Přihlásit se",
+            "ignore": "Pokud jste to nebyli vy, můžete tento e-mail ignorovat – váš účet se nezměnil."
+        }
+    },
+    "Auth": {
+        "google": "Pokračovat přes Google",
+        "or": "nebo",
+        "fields": {
+            "name": "Jméno",
+            "email": "E-mail",
+            "password": "Heslo",
+            "newPassword": "Nové heslo",
+            "showPassword": "Zobrazit heslo",
+            "hidePassword": "Skrýt heslo",
+            "passwordHint": "Alespoň 8 znaků."
+        },
+        "validation": {
+            "emailInvalid": "Zadejte platnou e-mailovou adresu.",
+            "passwordRequired": "Zadejte heslo.",
+            "passwordTooShort": "Použijte alespoň 8 znaků.",
+            "passwordTooLong": "Použijte nejvýše 128 znaků.",
+            "nameRequired": "Zadejte své jméno.",
+            "nameTooLong": "Použijte nejvýše 100 znaků."
+        },
+        "signIn": {
+            "title": "Přihlášení do Trakeo",
+            "subtitle": "Vítejte zpět.",
+            "submit": "Přihlásit se",
+            "submitting": "Přihlašování…",
+            "forgot": "Zapomněli jste heslo?",
+            "noAccount": "Nemáte účet?",
+            "signUpLink": "Zaregistrujte se"
+        },
+        "signUp": {
+            "title": "Vytvořte si účet",
+            "subtitle": "Zdarma, bez platební karty.",
+            "submit": "Vytvořit účet",
+            "submitting": "Vytváření účtu…",
+            "haveAccount": "Už máte účet?",
+            "signInLink": "Přihlaste se",
+            "privacy": "Vytvořením účtu souhlasíte se zpracováním údajů popsaným v\u00a0našich <link>zásadách ochrany osobních údajů</link>.",
+            "sentTitle": "Zkontrolujte svou schránku",
+            "sentBody": "Poslali jsme odkaz na {email}. Otevřete ho, potvrďte svůj e-mail a\u00a0můžete začít používat Trakeo.",
+            "sentHint": "Může to chvíli trvat. Podívejte se i\u00a0do složky se spamem."
+        },
+        "forgot": {
+            "title": "Obnovení hesla",
+            "subtitle": "Zadejte svůj e-mail a\u00a0pošleme vám odkaz pro nastavení nového hesla.",
+            "submit": "Poslat odkaz",
+            "submitting": "Odesílání…",
+            "sent": "Pokud existuje účet s\u00a0adresou {email}, přijde vám e-mail s\u00a0odkazem. Odkaz platí 1 hodinu.",
+            "back": "Zpět na přihlášení"
+        },
+        "reset": {
+            "title": "Zvolte nové heslo",
+            "submit": "Uložit nové heslo",
+            "submitting": "Ukládání…",
+            "done": "Vaše heslo bylo změněno. Přihlaste se novým heslem.",
+            "signIn": "Přihlásit se",
+            "invalidTitle": "Tento odkaz nefunguje",
+            "invalidBody": "Platnost odkazu vypršela nebo už byl použit. Požádejte o\u00a0nový.",
+            "requestNew": "Požádat o\u00a0nový odkaz"
+        },
+        "verify": {
+            "title": "Potvrďte svůj e-mail",
+            "pending": "Otevřete odkaz, který jsme vám poslali e-mailem, a\u00a0potvrďte svou adresu. Nemůžete ho najít? Požádejte tady o\u00a0nový.",
+            "expired": "Platnost tohoto odkazu vypršela. Zadejte svůj e-mail a\u00a0pošleme vám nový.",
+            "invalid": "Tento odkaz už nefunguje. Zadejte svůj e-mail a\u00a0pošleme vám nový.",
+            "resend": "Poslat odkaz znovu",
+            "sending": "Odesílání…",
+            "sent": "Pokud tento e-mail čeká na potvrzení, přijde vám nový odkaz.",
+            "haveConfirmed": "Už jste potvrdili?",
+            "signInLink": "Přihlaste se"
+        },
+        "errors": {
+            "generic": "Něco se pokazilo. Zkuste to znovu.",
+            "tooManyRequests": "Příliš mnoho pokusů. Zkuste to znovu za {seconds, plural, one {# sekundu} few {# sekundy} other {# sekund}}.",
+            "tooManyRequestsWait": "Příliš mnoho pokusů. Chvíli počkejte a\u00a0zkuste to znovu.",
+            "INVALID_EMAIL_OR_PASSWORD": "Nesprávný e-mail nebo heslo.",
+            "EMAIL_NOT_VERIFIED": "Nejdřív potvrďte svůj e-mail: poslali jsme vám nový odkaz.",
+            "PASSWORD_TOO_SHORT": "Heslo musí mít alespoň 8 znaků.",
+            "PASSWORD_TOO_LONG": "Heslo může mít nejvýše 128 znaků.",
+            "INVALID_EMAIL": "Zadejte platnou e-mailovou adresu.",
+            "INVALID_TOKEN": "Platnost odkazu vypršela nebo už byl použit.",
+            "TOKEN_EXPIRED": "Platnost odkazu vypršela.",
+            "REQUEST_BLOCKED": "Požadavek byl zablokován. Pokud používáte VPN nebo automatický nástroj, zkuste to bez něj.",
+            "FAILED_TO_CREATE_USER": "Účet se nepodařilo vytvořit. Zkuste to znovu.",
+            "access_denied": "Přihlášení přes Google bylo zrušeno.",
+            "account_not_linked": "K\u00a0tomuto e-mailu už existuje nepotvrzený účet Trakeo. Potvrďte ho odkazem z\u00a0našeho e-mailu (nebo se přihlaste heslem) a\u00a0zkuste Google znovu.",
+            "email_not_found": "Váš účet Google nesdílel e-mailovou adresu, takže se s\u00a0ním nemůžeme přihlásit.",
+            "account_already_linked_to_different_user": "Tento účet Google je už propojený s\u00a0jiným účtem Trakeo.",
+            "unable_to_get_user_info": "Nepodařilo se získat vaše údaje od Googlu. Zkuste to znovu."
+        }
+    },
+    "UserMenu": {
+        "label": "Nabídka účtu",
+        "signOut": "Odhlásit se",
+        "signingOut": "Odhlašování…"
+    },
+    "Privacy": {
+        "link": "Ochrana soukromí",
+        "title": "Zásady ochrany osobních údajů",
+        "updated": "Poslední aktualizace: {date}",
+        "intro": "Trakeo je aplikace pro osobní finance, kterou provozuje jeden člověk. Tato stránka vysvětluje, jaké údaje uchovává, proč a\u00a0kdo další s\u00a0nimi pracuje. Stručně: uchováváme jen to, co je potřeba pro fungování vašeho účtu, neprodáváme je ani je nepoužíváme pro reklamu a\u00a0nemáme žádnou analytiku ani reklamní sledování.",
+        "who": {
+            "heading": "Kdo je správce",
+            "bodyNamed": "Správcem vašich údajů v\u00a0Trakeo je {owner}.",
+            "bodyUnnamed": "Správcem vašich údajů v\u00a0Trakeo je jeho provozovatel.",
+            "contactEmail": "S\u00a0čímkoli ohledně vašich údajů pište na <link>{email}</link>.",
+            "contactFeedback": "S\u00a0čímkoli ohledně vašich údajů použijte tlačítko pro zpětnou vazbu v\u00a0rohu každé stránky."
+        },
+        "collect": {
+            "heading": "Co uchováváme",
+            "items": {
+                "account": "Váš účet: jméno, e-mailovou adresu a\u00a0buď heslo (uložené jen jako jednosměrný hash), nebo identifikátor účtu Google, kterým se přihlašujete. Také váš jazyk, abychom vám psali v\u00a0něm.",
+                "finance": "Co zadáte: účty, zůstatky, transakce, kategorie, rozpočty, převody a\u00a0uložená nastavení importu CSV.",
+                "csv": "Importy CSV se čtou ve vašem prohlížeči. Samotný soubor se na naše servery nikdy nedostane, jen řádky, které se rozhodnete importovat.",
+                "sessions": "Přihlášení: pro každé zařízení, na kterém se přihlásíte, relace s\u00a0IP adresou a\u00a0názvem prohlížeče, abyste zůstali přihlášeni. Relace skončí po 7 dnech nepoužívání.",
+                "security": "Bezpečnostní počítadla: kvůli ochraně proti hádání hesel počet nedávných pokusů z\u00a0každé IP adresy.",
+                "feedback": "Zpětnou vazbu, kterou pošlete tlačítkem pro zpětnou vazbu, propojenou s\u00a0vaším účtem, pokud jste přihlášeni."
+            }
+        },
+        "use": {
+            "heading": "Proč",
+            "body": "Jen kvůli fungování Trakeo: abychom vás přihlásili, zobrazili vám vaše údaje, posílali e-maily, které váš účet potřebuje (potvrzení e-mailu, obnovení hesla, bezpečnostní upozornění), a\u00a0chránili službu před zneužitím. Žádná reklama, profilování ani prodej údajů."
+        },
+        "processors": {
+            "heading": "Kdo další s\u00a0nimi pracuje",
+            "body": "Tyto služby pomáhají Trakeo fungovat a\u00a0údaje používají jen k\u00a0tomu:",
+            "items": {
+                "vercel": "Vercel (hosting): provozuje aplikaci. Vaše požadavky a\u00a0údaje v\u00a0nich procházejí jeho servery, které mohou být mimo EU.",
+                "supabase": "Supabase (databáze, v\u00a0EU, Irsko): ukládá vaše údaje.",
+                "resend": "Resend (e-mail, v\u00a0EU, Irsko): posílá e-maily Trakeo.",
+                "arcjet": "Arcjet (ochrana před boty): kontroluje požadavky včetně jejich IP adresy, aby blokoval boty a\u00a0útoky.",
+                "inngest": "Inngest (plánované úlohy): spouští úlohy, jako jsou opakované transakce a\u00a0denní směnné kurzy, s\u00a0údaji, které tyto úlohy potřebují.",
+                "google": "Google: jen pokud se rozhodnete přihlásit přes Google. Trakeo pak dostane vaše jméno, e-mailovou adresu a\u00a0profilovou fotku.",
+                "ecb": "Směnné kurzy pocházejí od Evropské centrální banky. Neposílají se jí žádné osobní údaje."
+            }
+        },
+        "cookies": {
+            "heading": "Cookies",
+            "body": "Trakeo používá jen nezbytné cookies: jednu, která vás drží přihlášené (s\u00a0krátkodobou kopií, která šetří dotazy do databáze), a\u00a0jednu, která si pamatuje váš jazyk. Žádné analytické, reklamní ani sledovací cookies, proto tu není žádná cookie lišta."
+        },
+        "retention": {
+            "heading": "Jak dlouho údaje uchováváme",
+            "body": "Dokud máte účet. Relace skončí po 7 dnech nepoužívání a\u00a0odkazy v\u00a0e-mailech vyprší po 24 hodinách (u\u00a0obnovení hesla po 1 hodině). Chcete-li smazat účet a\u00a0všechny jeho údaje, kontaktujte nás, jak je uvedeno výše; tlačítko pro smazání brzy přibude."
+        },
+        "rights": {
+            "heading": "Vaše práva",
+            "body": "Můžete požádat o\u00a0přístup ke svým údajům, jejich opravu, export nebo smazání a\u00a0můžete podat stížnost u\u00a0svého úřadu pro ochranu osobních údajů. Kontaktujte nás, jak je uvedeno výše, a\u00a0odpovíme do jednoho měsíce."
+        },
+        "changes": {
+            "heading": "Změny",
+            "body": "Pokud se tyto zásady podstatně změní, oznámíme to v\u00a0aplikaci dříve, než změna začne platit."
         }
     }
 }
