@@ -2560,7 +2560,7 @@ export namespace Prisma {
     id: string
     clerkUserId: string | null
     email: string
-    name: string | null
+    name: string
     imageUrl: string | null
     emailVerified: boolean
     locale: string
@@ -2676,7 +2676,7 @@ export namespace Prisma {
       id: string
       clerkUserId: string | null
       email: string
-      name: string | null
+      name: string
       imageUrl: string | null
       emailVerified: boolean
       /**
@@ -18982,7 +18982,7 @@ export namespace Prisma {
     id?: StringFilter<"User"> | string
     clerkUserId?: StringNullableFilter<"User"> | string | null
     email?: StringFilter<"User"> | string
-    name?: StringNullableFilter<"User"> | string | null
+    name?: StringFilter<"User"> | string
     imageUrl?: StringNullableFilter<"User"> | string | null
     emailVerified?: BoolFilter<"User"> | boolean
     locale?: StringFilter<"User"> | string
@@ -19003,7 +19003,7 @@ export namespace Prisma {
     id?: SortOrder
     clerkUserId?: SortOrderInput | SortOrder
     email?: SortOrder
-    name?: SortOrderInput | SortOrder
+    name?: SortOrder
     imageUrl?: SortOrderInput | SortOrder
     emailVerified?: SortOrder
     locale?: SortOrder
@@ -19027,7 +19027,7 @@ export namespace Prisma {
     AND?: UserWhereInput | UserWhereInput[]
     OR?: UserWhereInput[]
     NOT?: UserWhereInput | UserWhereInput[]
-    name?: StringNullableFilter<"User"> | string | null
+    name?: StringFilter<"User"> | string
     imageUrl?: StringNullableFilter<"User"> | string | null
     emailVerified?: BoolFilter<"User"> | boolean
     locale?: StringFilter<"User"> | string
@@ -19048,7 +19048,7 @@ export namespace Prisma {
     id?: SortOrder
     clerkUserId?: SortOrderInput | SortOrder
     email?: SortOrder
-    name?: SortOrderInput | SortOrder
+    name?: SortOrder
     imageUrl?: SortOrderInput | SortOrder
     emailVerified?: SortOrder
     locale?: SortOrder
@@ -19066,7 +19066,7 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"User"> | string
     clerkUserId?: StringNullableWithAggregatesFilter<"User"> | string | null
     email?: StringWithAggregatesFilter<"User"> | string
-    name?: StringNullableWithAggregatesFilter<"User"> | string | null
+    name?: StringWithAggregatesFilter<"User"> | string
     imageUrl?: StringNullableWithAggregatesFilter<"User"> | string | null
     emailVerified?: BoolWithAggregatesFilter<"User"> | boolean
     locale?: StringWithAggregatesFilter<"User"> | string
@@ -20072,7 +20072,7 @@ export namespace Prisma {
     id?: string
     clerkUserId?: string | null
     email: string
-    name?: string | null
+    name: string
     imageUrl?: string | null
     emailVerified?: boolean
     locale?: string
@@ -20093,7 +20093,7 @@ export namespace Prisma {
     id?: string
     clerkUserId?: string | null
     email: string
-    name?: string | null
+    name: string
     imageUrl?: string | null
     emailVerified?: boolean
     locale?: string
@@ -20114,7 +20114,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     clerkUserId?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
-    name?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: StringFieldUpdateOperationsInput | string
     imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: BoolFieldUpdateOperationsInput | boolean
     locale?: StringFieldUpdateOperationsInput | string
@@ -20135,7 +20135,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     clerkUserId?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
-    name?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: StringFieldUpdateOperationsInput | string
     imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: BoolFieldUpdateOperationsInput | boolean
     locale?: StringFieldUpdateOperationsInput | string
@@ -20156,7 +20156,7 @@ export namespace Prisma {
     id?: string
     clerkUserId?: string | null
     email: string
-    name?: string | null
+    name: string
     imageUrl?: string | null
     emailVerified?: boolean
     locale?: string
@@ -20168,7 +20168,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     clerkUserId?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
-    name?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: StringFieldUpdateOperationsInput | string
     imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: BoolFieldUpdateOperationsInput | boolean
     locale?: StringFieldUpdateOperationsInput | string
@@ -20180,7 +20180,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     clerkUserId?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
-    name?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: StringFieldUpdateOperationsInput | string
     imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: BoolFieldUpdateOperationsInput | boolean
     locale?: StringFieldUpdateOperationsInput | string
@@ -24320,7 +24320,7 @@ export namespace Prisma {
     id?: string
     clerkUserId?: string | null
     email: string
-    name?: string | null
+    name: string
     imageUrl?: string | null
     emailVerified?: boolean
     locale?: string
@@ -24340,7 +24340,7 @@ export namespace Prisma {
     id?: string
     clerkUserId?: string | null
     email: string
-    name?: string | null
+    name: string
     imageUrl?: string | null
     emailVerified?: boolean
     locale?: string
@@ -24540,7 +24540,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     clerkUserId?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
-    name?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: StringFieldUpdateOperationsInput | string
     imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: BoolFieldUpdateOperationsInput | boolean
     locale?: StringFieldUpdateOperationsInput | string
@@ -24560,7 +24560,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     clerkUserId?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
-    name?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: StringFieldUpdateOperationsInput | string
     imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: BoolFieldUpdateOperationsInput | boolean
     locale?: StringFieldUpdateOperationsInput | string
@@ -24766,7 +24766,7 @@ export namespace Prisma {
     id?: string
     clerkUserId?: string | null
     email: string
-    name?: string | null
+    name: string
     imageUrl?: string | null
     emailVerified?: boolean
     locale?: string
@@ -24786,7 +24786,7 @@ export namespace Prisma {
     id?: string
     clerkUserId?: string | null
     email: string
-    name?: string | null
+    name: string
     imageUrl?: string | null
     emailVerified?: boolean
     locale?: string
@@ -24968,7 +24968,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     clerkUserId?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
-    name?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: StringFieldUpdateOperationsInput | string
     imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: BoolFieldUpdateOperationsInput | boolean
     locale?: StringFieldUpdateOperationsInput | string
@@ -24988,7 +24988,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     clerkUserId?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
-    name?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: StringFieldUpdateOperationsInput | string
     imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: BoolFieldUpdateOperationsInput | boolean
     locale?: StringFieldUpdateOperationsInput | string
@@ -25008,7 +25008,7 @@ export namespace Prisma {
     id?: string
     clerkUserId?: string | null
     email: string
-    name?: string | null
+    name: string
     imageUrl?: string | null
     emailVerified?: boolean
     locale?: string
@@ -25028,7 +25028,7 @@ export namespace Prisma {
     id?: string
     clerkUserId?: string | null
     email: string
-    name?: string | null
+    name: string
     imageUrl?: string | null
     emailVerified?: boolean
     locale?: string
@@ -25184,7 +25184,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     clerkUserId?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
-    name?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: StringFieldUpdateOperationsInput | string
     imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: BoolFieldUpdateOperationsInput | boolean
     locale?: StringFieldUpdateOperationsInput | string
@@ -25204,7 +25204,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     clerkUserId?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
-    name?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: StringFieldUpdateOperationsInput | string
     imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: BoolFieldUpdateOperationsInput | boolean
     locale?: StringFieldUpdateOperationsInput | string
@@ -25322,7 +25322,7 @@ export namespace Prisma {
     id?: string
     clerkUserId?: string | null
     email: string
-    name?: string | null
+    name: string
     imageUrl?: string | null
     emailVerified?: boolean
     locale?: string
@@ -25342,7 +25342,7 @@ export namespace Prisma {
     id?: string
     clerkUserId?: string | null
     email: string
-    name?: string | null
+    name: string
     imageUrl?: string | null
     emailVerified?: boolean
     locale?: string
@@ -25378,7 +25378,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     clerkUserId?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
-    name?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: StringFieldUpdateOperationsInput | string
     imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: BoolFieldUpdateOperationsInput | boolean
     locale?: StringFieldUpdateOperationsInput | string
@@ -25398,7 +25398,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     clerkUserId?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
-    name?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: StringFieldUpdateOperationsInput | string
     imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: BoolFieldUpdateOperationsInput | boolean
     locale?: StringFieldUpdateOperationsInput | string
@@ -25418,7 +25418,7 @@ export namespace Prisma {
     id?: string
     clerkUserId?: string | null
     email: string
-    name?: string | null
+    name: string
     imageUrl?: string | null
     emailVerified?: boolean
     locale?: string
@@ -25438,7 +25438,7 @@ export namespace Prisma {
     id?: string
     clerkUserId?: string | null
     email: string
-    name?: string | null
+    name: string
     imageUrl?: string | null
     emailVerified?: boolean
     locale?: string
@@ -25550,7 +25550,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     clerkUserId?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
-    name?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: StringFieldUpdateOperationsInput | string
     imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: BoolFieldUpdateOperationsInput | boolean
     locale?: StringFieldUpdateOperationsInput | string
@@ -25570,7 +25570,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     clerkUserId?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
-    name?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: StringFieldUpdateOperationsInput | string
     imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: BoolFieldUpdateOperationsInput | boolean
     locale?: StringFieldUpdateOperationsInput | string
@@ -25763,7 +25763,7 @@ export namespace Prisma {
     id?: string
     clerkUserId?: string | null
     email: string
-    name?: string | null
+    name: string
     imageUrl?: string | null
     emailVerified?: boolean
     locale?: string
@@ -25783,7 +25783,7 @@ export namespace Prisma {
     id?: string
     clerkUserId?: string | null
     email: string
-    name?: string | null
+    name: string
     imageUrl?: string | null
     emailVerified?: boolean
     locale?: string
@@ -25819,7 +25819,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     clerkUserId?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
-    name?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: StringFieldUpdateOperationsInput | string
     imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: BoolFieldUpdateOperationsInput | boolean
     locale?: StringFieldUpdateOperationsInput | string
@@ -25839,7 +25839,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     clerkUserId?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
-    name?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: StringFieldUpdateOperationsInput | string
     imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: BoolFieldUpdateOperationsInput | boolean
     locale?: StringFieldUpdateOperationsInput | string
@@ -25859,7 +25859,7 @@ export namespace Prisma {
     id?: string
     clerkUserId?: string | null
     email: string
-    name?: string | null
+    name: string
     imageUrl?: string | null
     emailVerified?: boolean
     locale?: string
@@ -25879,7 +25879,7 @@ export namespace Prisma {
     id?: string
     clerkUserId?: string | null
     email: string
-    name?: string | null
+    name: string
     imageUrl?: string | null
     emailVerified?: boolean
     locale?: string
@@ -25950,7 +25950,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     clerkUserId?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
-    name?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: StringFieldUpdateOperationsInput | string
     imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: BoolFieldUpdateOperationsInput | boolean
     locale?: StringFieldUpdateOperationsInput | string
@@ -25970,7 +25970,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     clerkUserId?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
-    name?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: StringFieldUpdateOperationsInput | string
     imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: BoolFieldUpdateOperationsInput | boolean
     locale?: StringFieldUpdateOperationsInput | string
@@ -26031,7 +26031,7 @@ export namespace Prisma {
     id?: string
     clerkUserId?: string | null
     email: string
-    name?: string | null
+    name: string
     imageUrl?: string | null
     emailVerified?: boolean
     locale?: string
@@ -26051,7 +26051,7 @@ export namespace Prisma {
     id?: string
     clerkUserId?: string | null
     email: string
-    name?: string | null
+    name: string
     imageUrl?: string | null
     emailVerified?: boolean
     locale?: string
@@ -26087,7 +26087,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     clerkUserId?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
-    name?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: StringFieldUpdateOperationsInput | string
     imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: BoolFieldUpdateOperationsInput | boolean
     locale?: StringFieldUpdateOperationsInput | string
@@ -26107,7 +26107,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     clerkUserId?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
-    name?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: StringFieldUpdateOperationsInput | string
     imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: BoolFieldUpdateOperationsInput | boolean
     locale?: StringFieldUpdateOperationsInput | string
@@ -26127,7 +26127,7 @@ export namespace Prisma {
     id?: string
     clerkUserId?: string | null
     email: string
-    name?: string | null
+    name: string
     imageUrl?: string | null
     emailVerified?: boolean
     locale?: string
@@ -26147,7 +26147,7 @@ export namespace Prisma {
     id?: string
     clerkUserId?: string | null
     email: string
-    name?: string | null
+    name: string
     imageUrl?: string | null
     emailVerified?: boolean
     locale?: string
@@ -26183,7 +26183,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     clerkUserId?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
-    name?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: StringFieldUpdateOperationsInput | string
     imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: BoolFieldUpdateOperationsInput | boolean
     locale?: StringFieldUpdateOperationsInput | string
@@ -26203,7 +26203,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     clerkUserId?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
-    name?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: StringFieldUpdateOperationsInput | string
     imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: BoolFieldUpdateOperationsInput | boolean
     locale?: StringFieldUpdateOperationsInput | string

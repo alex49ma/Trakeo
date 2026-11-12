@@ -13,7 +13,7 @@ model User {
   id             String          @id @default(uuid())
   clerkUserId    String?         @unique
   email          String          @unique
-  name           String?
+  name           String
   imageUrl       String?
   emailVerified  Boolean         @default(false)
   /// Language of the emails sent to this user: en, es or cs
