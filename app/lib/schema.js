@@ -152,4 +152,7 @@ export const signUpSchema = z.object({
 
 export const emailOnlySchema = z.object({ email: authEmail });
 
+// Settings. Same name rule as sign-up
+export const nameSchema = signUpSchema.pick({ name: true });
+
 export const newPasswordSchema = z.object({ password: newPassword });

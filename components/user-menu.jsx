@@ -1,9 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import { Loader2, LogOut } from "lucide-react";
+import { Loader2, LogOut, Settings } from "lucide-react";
 import { useTranslations } from "next-intl";
-import { useRouter } from "@/i18n/navigation";
+import { Link, useRouter } from "@/i18n/navigation";
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -25,6 +25,7 @@ function initials(name, email) {
 // the session, because server renders never do (lib/auth.js)
 export default function UserMenu({ user: initialUser }) {
     const t = useTranslations("UserMenu");
+    const settings = useTranslations("Settings");
     const router = useRouter();
     const { data } = authClient.useSession();
     const [signingOut, setSigningOut] = useState(false);
@@ -60,6 +61,12 @@ export default function UserMenu({ user: initialUser }) {
                     <div className="truncate text-xs text-muted-foreground">{user.email}</div>
                 </DropdownMenuLabel>
                 <DropdownMenuSeparator />
+                <DropdownMenuItem asChild>
+                    <Link href="/settings">
+                        <Settings />
+                        {settings("title")}
+                    </Link>
+                </DropdownMenuItem>
                 <DropdownMenuItem onSelect={signOut} disabled={signingOut}>
                     {signingOut ? <Loader2 className="animate-spin" /> : <LogOut />}
                     {signingOut ? t("signingOut") : t("signOut")}

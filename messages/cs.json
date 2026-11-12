@@ -891,5 +891,21 @@
             "heading": "Změny",
             "body": "Pokud se tyto zásady podstatně změní, oznámíme to v\u00a0aplikaci dříve, než změna začne platit."
         }
+    },
+    "Settings": {
+        "title": "Nastavení",
+        "profile": {
+            "heading": "Vaše jméno",
+            "description": "Zobrazuje se v\u00a0aplikaci a\u00a0v e-mailech, které posíláme na {email}.",
+            "save": "Uložit",
+            "saving": "Ukládání…",
+            "saved": "Jméno uloženo."
+        },
+        "devices": {
+            "heading": "Ostatní zařízení",
+            "description": "Jste přihlášeni někde, kde už aplikaci nepoužíváte, třeba na sdíleném nebo ztraceném zařízení? Odhlaste se všude kromě tohoto.",
+            "button": "Odhlásit ostatní zařízení",
+            "done": "Ostatní zařízení jsou odhlášena. Může to trvat až 5 minut, než se to k\u00a0nim dostane."
+        }
     }
 }

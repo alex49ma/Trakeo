@@ -891,5 +891,21 @@
             "heading": "Cambios",
             "body": "Si esta política cambia en algo importante, lo avisaremos en la app antes de que el cambio se aplique."
         }
+    },
+    "Settings": {
+        "title": "Ajustes",
+        "profile": {
+            "heading": "Tu nombre",
+            "description": "Se muestra en la app y en los correos que enviamos a {email}.",
+            "save": "Guardar",
+            "saving": "Guardando…",
+            "saved": "Nombre guardado."
+        },
+        "devices": {
+            "heading": "Otros dispositivos",
+            "description": "¿Tienes la sesión abierta en algún sitio que ya no usas, como un dispositivo compartido o perdido? Ciérrala en todas partes menos aquí.",
+            "button": "Cerrar sesión en otros dispositivos",
+            "done": "Se ha cerrado la sesión en los demás dispositivos. Puede tardar hasta 5 minutos en llegarles."
+        }
     }
 }

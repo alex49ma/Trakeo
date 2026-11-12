@@ -891,5 +891,21 @@
       "heading": "Changes",
       "body": "If this policy changes in a way that matters, we'll say so in the app before the change applies."
     }
+  },
+  "Settings": {
+    "title": "Settings",
+    "profile": {
+      "heading": "Your name",
+      "description": "Shown in the app and in the emails we send to {email}.",
+      "save": "Save",
+      "saving": "Saving…",
+      "saved": "Name saved."
+    },
+    "devices": {
+      "heading": "Other devices",
+      "description": "Signed in somewhere you no longer use, like a shared or lost device? Sign out everywhere except here.",
+      "button": "Sign out of other devices",
+      "done": "Other devices are signed out. It can take up to 5 minutes to reach them."
+    }
   }
 }
