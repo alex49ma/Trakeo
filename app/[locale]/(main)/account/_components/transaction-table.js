@@ -11,7 +11,8 @@ import { Button } from '@/components/ui/button';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
 import { useRouter } from '@/i18n/navigation';
 import { Input } from '@/components/ui/input';
-import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectSeparator, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import CheckboxFilter from './checkbox-filter';
 import { X } from 'lucide-react';
 import useFetch from '@/hooks/use-fetch';
 import { toast } from 'sonner';
@@ -47,8 +48,9 @@ const TransactionTable = ({ transactions, currency }) => {
 
     const [searchTerm, setSearchTerm] = useState("");
     const [typeFilter, setTypeFilter] = useState("");
-    const [categoryFilter, setCategoryFilter] = useState("");
-    const [subcategoryFilter, setSubcategoryFilter] = useState("");
+    // Ids of the ticked categories and subcategories; empty means no filter
+    const [categoryFilter, setCategoryFilter] = useState([]);
+    const [subcategoryFilter, setSubcategoryFilter] = useState([]);
     const [recurringFilter, setRecurringFilter] = useState("");
     const [itemsPerPage, setItemsPerPage] = useState(10);
     const [currentPage, setCurrentPage] = useState(1);
@@ -124,15 +126,22 @@ const TransactionTable = ({ transactions, currency }) => {
             if (typeFilter && typeFilter !== "all" && t.type !== typeFilter) return;
             categoriesMap.set(t.category.id, { name: label(t.category), type: t.type });
         });
-        return Array.from(categoriesMap.entries()).map(([id, { name, type }]) => ({ id, name, type }));
-    }, [transactions, typeFilter, label]);
+        return Array.from(categoriesMap.entries())
+            .map(([id, { name, type }]) => ({ id, name, type }))
+            .sort((a, b) => a.name.localeCompare(b.name, locale));
+    }, [transactions, typeFilter, label, locale]);
+
+    // Ticked values the other filters still offer; the rest are ignored (and come back if offered again)
+    const activeCategories = useMemo(
+        () => categoryFilter.filter(id => availableCategories.some(cat => cat.id === id)),
+        [categoryFilter, availableCategories]);
 
     const availableSubcategories = useMemo(() => {
         const subcategoriesMap = new Map();
         transactions.forEach(t => {
             if (!t.subcategory) return;
             if (typeFilter && typeFilter !== "all" && t.type !== typeFilter) return;
-            if (categoryFilter && categoryFilter !== "all" && t.category.id !== categoryFilter) return;
+            if (activeCategories.length > 0 && !activeCategories.includes(t.category.id)) return;
             subcategoriesMap.set(t.subcategory.id, {
                 name: t.subcategory.name,
                 type: t.type,
@@ -140,23 +149,14 @@ const TransactionTable = ({ transactions, currency }) => {
                 categoryName: label(t.category)
             });
         });
-        return Array.from(subcategoriesMap.entries()).map(([id, data]) => ({ id, ...data }));
-    }, [transactions, typeFilter, categoryFilter, label]);
+        return Array.from(subcategoriesMap.entries())
+            .map(([id, data]) => ({ id, ...data }))
+            .sort((a, b) => a.categoryName.localeCompare(b.categoryName, locale) || a.name.localeCompare(b.name, locale));
+    }, [transactions, typeFilter, activeCategories, label, locale]);
 
-    // Reset child filters when parent filters change
-    useEffect(() => {
-        if (categoryFilter && categoryFilter !== "all") {
-            const isValid = availableCategories.some(cat => cat.id === categoryFilter);
-            if (!isValid) setCategoryFilter("all");
-        }
-    }, [typeFilter, availableCategories]);
-
-    useEffect(() => {
-        if (subcategoryFilter && subcategoryFilter !== "all") {
-            const isValid = availableSubcategories.some(sub => sub.id === subcategoryFilter);
-            if (!isValid) setSubcategoryFilter("all");
-        }
-    }, [categoryFilter, typeFilter, availableSubcategories]);
+    const activeSubcategories = useMemo(
+        () => subcategoryFilter.filter(id => availableSubcategories.some(sub => sub.id === id)),
+        [subcategoryFilter, availableSubcategories]);
 
     const filteredAndSortedTransactions = useMemo(() => {
         let results = [...transactions];
@@ -177,12 +177,22 @@ const TransactionTable = ({ transactions, currency }) => {
             results = results.filter((transaction) => transaction.type === typeFilter);
         }
 
-        if (categoryFilter && categoryFilter !== "all") {
-            results = results.filter((transaction) => transaction.categoryId === categoryFilter);
+        if (activeCategories.length > 0) {
+            const categories = new Set(activeCategories);
+            results = results.filter((transaction) => categories.has(transaction.categoryId));
         }
 
-        if (subcategoryFilter && subcategoryFilter !== "all") {
-            results = results.filter((transaction) => transaction.subcategoryId === subcategoryFilter);
+        if (activeSubcategories.length > 0) {
+            // Ticked subcategories narrow down their own category only: with categories
+            // ticked too, a category none of whose subcategories is ticked stays whole
+            const subcategories = new Set(activeSubcategories);
+            const narrowedCategories = new Set(
+                availableSubcategories.filter(sub => subcategories.has(sub.id)).map(sub => sub.categoryId)
+            );
+            results = results.filter((transaction) =>
+                subcategories.has(transaction.subcategoryId) ||
+                (activeCategories.length > 0 && !narrowedCategories.has(transaction.categoryId))
+            );
         }
 
         if (recurringFilter && recurringFilter !== "all") {
@@ -211,7 +221,31 @@ const TransactionTable = ({ transactions, currency }) => {
 
         return results;
 
-    }, [transactions, searchTerm, typeFilter, categoryFilter, subcategoryFilter, recurringFilter, sortConfig, label]);
+    }, [transactions, searchTerm, typeFilter, activeCategories, activeSubcategories, availableSubcategories, recurringFilter, sortConfig, label]);
+
+    // Checkbox lists: categories by type, subcategories by type and then category
+    const categorySections = useMemo(() => ["INCOME", "EXPENSE"]
+        .map(type => ({
+            key: type,
+            label: common(type.toLowerCase()),
+            groups: [{ key: type, items: availableCategories.filter(c => c.type === type) }]
+        }))
+        .filter(section => section.groups[0].items.length > 0),
+        [availableCategories, common]);
+
+    const subcategorySections = useMemo(() => ["INCOME", "EXPENSE"]
+        .map(type => {
+            const groups = new Map();
+            availableSubcategories.filter(s => s.type === type).forEach(sub => {
+                if (!groups.has(sub.categoryId)) {
+                    groups.set(sub.categoryId, { key: sub.categoryId, label: sub.categoryName, items: [] });
+                }
+                groups.get(sub.categoryId).items.push(sub);
+            });
+            return { key: type, label: common(type.toLowerCase()), groups: Array.from(groups.values()) };
+        })
+        .filter(section => section.groups.length > 0),
+        [availableSubcategories, common]);
 
     const totalPages = Math.ceil(filteredAndSortedTransactions.length / itemsPerPage);
 
@@ -250,8 +284,8 @@ const TransactionTable = ({ transactions, currency }) => {
     const handleClearFilters = () => {
         setSearchTerm("");
         setTypeFilter("");
-        setCategoryFilter("");
-        setSubcategoryFilter("");
+        setCategoryFilter([]);
+        setSubcategoryFilter([]);
         setRecurringFilter("");
     };
 
@@ -281,79 +315,22 @@ const TransactionTable = ({ transactions, currency }) => {
                             <SelectItem value="EXPENSE">{common('expense')}</SelectItem>
                         </SelectContent>
                     </Select>
-                    <Select value={categoryFilter} onValueChange={setCategoryFilter}>
-                        <SelectTrigger className="bg-white">
-                            <SelectValue placeholder={t('allCategories')} />
-                        </SelectTrigger>
-                        <SelectContent>
-                            <SelectItem value="all">{t('allCategories')}</SelectItem>
-                            {availableCategories.filter(c => c.type === "INCOME").length > 0 && (
-                                <SelectGroup>
-                                    <SelectLabel>{common('income')}</SelectLabel>
-                                    {availableCategories.filter(c => c.type === "INCOME").map(({ id, name }) => (
-                                        <SelectItem key={id} value={id}>{name}</SelectItem>
-                                    ))}
-                                </SelectGroup>
-                            )}
-                            {availableCategories.filter(c => c.type === "INCOME").length > 0 && availableCategories.filter(c => c.type === "EXPENSE").length > 0 && (
-                                <SelectSeparator />
-                            )}
-                            {availableCategories.filter(c => c.type === "EXPENSE").length > 0 && (
-                                <SelectGroup>
-                                    <SelectLabel>{common('expense')}</SelectLabel>
-                                    {availableCategories.filter(c => c.type === "EXPENSE").map(({ id, name }) => (
-                                        <SelectItem key={id} value={id}>{name}</SelectItem>
-                                    ))}
-                                </SelectGroup>
-                            )}
-                        </SelectContent>
-                    </Select>
-                    <Select value={subcategoryFilter} onValueChange={setSubcategoryFilter}>
-                        <SelectTrigger className="bg-white">
-                            <SelectValue placeholder={t('allSubcategories')} />
-                        </SelectTrigger>
-                        <SelectContent>
-                            <SelectItem value="all">{t('allSubcategories')}</SelectItem>
-                            {["INCOME", "EXPENSE"].map((type, typeIndex, arr) => {
-                                const typeSubs = availableSubcategories.filter(s => s.type === type);
-                                if (typeSubs.length === 0) return null;
-
-                                // Group by category
-                                const groups = typeSubs.reduce((acc, sub) => {
-                                    if (!acc[sub.categoryId]) {
-                                        acc[sub.categoryId] = { name: sub.categoryName, items: [] };
-                                    }
-                                    acc[sub.categoryId].items.push(sub);
-                                    return acc;
-                                }, {});
-
-                                return (
-                                    <React.Fragment key={type}>
-                                        {typeIndex > 0 && availableSubcategories.some(s => s.type === arr[0]) && (
-                                            <SelectSeparator />
-                                        )}
-                                        <SelectGroup>
-                                            <SelectLabel className="font-bold underline">
-                                                {common(type.toLowerCase())}
-                                            </SelectLabel>
-                                            {Object.entries(groups).map(([catId, group]) => (
-                                                <SelectGroup key={catId}>
-                                                    <SelectLabel className="pl-4 text-xs italic">
-                                                        {group.name}
-                                                    </SelectLabel>
-                                                    {group.items.map((sub) => (
-                                                        <SelectItem key={sub.id} value={sub.id} className="pl-8">
-                                                            {sub.name}
-                                                        </SelectItem>
-                                                    ))}
-                                                </SelectGroup>
-                                            ))}
-                                        </SelectGroup>
-                                    </React.Fragment>
-                                );
-                            })}
-                        </SelectContent>
-                    </Select>
+                    <CheckboxFilter
+                        sections={categorySections}
+                        selected={activeCategories}
+                        onChange={setCategoryFilter}
+                        placeholder={t("allCategories")}
+                        summary={(count) => t("categoriesSelected", { count })}
+                        clearLabel={t("clearSelection")}
+                    />
+                    <CheckboxFilter
+                        sections={subcategorySections}
+                        selected={activeSubcategories}
+                        onChange={setSubcategoryFilter}
+                        placeholder={t("allSubcategories")}
+                        summary={(count) => t("subcategoriesSelected", { count })}
+                        clearLabel={t("clearSelection")}
+                    />
                     <Select value={recurringFilter} onValueChange={(value) => setRecurringFilter(value)}>
                         <SelectTrigger className="bg-white">
                             <SelectValue placeholder={t('allRegimes')} />
@@ -378,7 +355,7 @@ const TransactionTable = ({ transactions, currency }) => {
                         </div>
                     )}
 
-                    {(searchTerm || typeFilter || categoryFilter || subcategoryFilter || recurringFilter) && (
+                    {(searchTerm || typeFilter || activeCategories.length > 0 || activeSubcategories.length > 0 || recurringFilter) && (
                         <Button
                             variant="outline"
                             size="icon"
