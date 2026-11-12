@@ -7,14 +7,21 @@ datasource db {
   provider = "postgresql"
 }
 
+/// Also Better Auth's user (lib/better-auth.js): it maps Better Auth's `image` to imageUrl. clerkUserId only links users
+/// imported from Clerk and is dropped once the migration is over (../SDD/better-auth-migration/, D11)
 model User {
   id             String          @id @default(uuid())
-  clerkUserId    String          @unique
+  clerkUserId    String?         @unique
   email          String          @unique
-  name           String?
+  name           String
   imageUrl       String?
+  emailVerified  Boolean         @default(false)
+  /// Language of the emails sent to this user: en, es or cs
+  locale         String          @default("en") @db.VarChar(5)
   createdAt      DateTime        @default(now())
   updatedAt      DateTime        @updatedAt
+  sessions       Session[]
+  authAccounts   AuthAccount[]
   accounts       Account[]
   budgets        Budget?
   categories     Category[]
@@ -190,6 +197,71 @@ model ExchangeRate {
 
   @@unique([currency, date])
   @@map("exchange_rates")
+}
+
+// Better Auth's tables (lib/better-auth.js). Their fields follow Better Auth's core schema, which checks them at
+// startup; only the model and table names are ours
+
+/// One signed-in device
+model Session {
+  id        String   @id @default(uuid())
+  token     String   @unique
+  expiresAt DateTime
+  ipAddress String?
+  userAgent String?
+  userId    String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@map("sessions")
+}
+
+/// One way to sign in: providerId "credential" (password hash, accountId = the user's id) or "google" (accountId =
+/// Google's user id). Better Auth calls this model "account"; ours is AuthAccount because Account is a bank account
+model AuthAccount {
+  id                    String    @id @default(uuid())
+  accountId             String
+  providerId            String
+  userId                String
+  accessToken           String?
+  refreshToken          String?
+  idToken               String?
+  accessTokenExpiresAt  DateTime?
+  refreshTokenExpiresAt DateTime?
+  scope                 String?
+  password              String?
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([providerId, accountId])
+  @@index([userId])
+  @@map("auth_accounts")
+}
+
+/// Short-lived tokens: email verification, password reset, OAuth state
+model Verification {
+  id         String   @id @default(uuid())
+  identifier String
+  value      String
+  expiresAt  DateTime
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@index([identifier])
+  @@map("verifications")
+}
+
+/// Better Auth's rate-limit counters (rateLimit.storage = "database"). lastRequest is a timestamp in milliseconds
+model RateLimit {
+  id          String @id @default(uuid())
+  key         String @unique
+  count       Int
+  lastRequest BigInt
+
+  @@map("rate_limits")
 }
 
 enum TransactionType {

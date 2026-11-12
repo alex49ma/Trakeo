@@ -19,7 +19,7 @@ export default function FinalCta() {
                         </h2>
                         <p className="mb-8 mt-[18px] max-w-[520px] text-[19px] leading-[1.55] text-orange-200">{t("cta.body")}</p>
                         <Button asChild className="h-[52px] rounded-[10px] bg-white px-8 text-[16px] font-semibold text-orange-700 hover:bg-orange-50 has-[>svg]:px-8">
-                            <Link href="/dashboard">
+                            <Link href="/sign-up">
                                 {t("getStarted")}
                                 <ArrowRight className="size-[18px]" />
                             </Link>

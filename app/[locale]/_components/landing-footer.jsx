@@ -1,15 +1,17 @@
 import Image from "next/image";
-import { SignedIn, SignedOut, SignInButton } from "@clerk/nextjs";
-import { useTranslations } from "next-intl";
+import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
+import { getCurrentUser } from "@/lib/auth";
 import Container from "./container";
 
 const LINK = "rounded-sm hover:text-orange-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-700";
 
-export default function LandingFooter() {
-    const t = useTranslations("Landing.footer");
-    const header = useTranslations("Header");
-    const footer = useTranslations("Footer");
+export default async function LandingFooter() {
+    const user = await getCurrentUser();
+    const t = await getTranslations("Landing.footer");
+    const header = await getTranslations("Header");
+    const footer = await getTranslations("Footer");
+    const privacy = await getTranslations("Privacy");
 
     return (
         <footer className="relative z-10 border-t border-neutral-200 bg-white/[0.88]">
@@ -23,19 +25,19 @@ export default function LandingFooter() {
                     <a href="#faq" className={LINK}>
                         {t("faq")}
                     </a>
-                    {/* The same sign-in as the header's Login button */}
-                    <SignedOut>
-                        <SignInButton forceRedirectUrl="/dashboard">
-                            <button type="button" className={`${LINK} cursor-pointer`}>
-                                {header("login")}
-                            </button>
-                        </SignInButton>
-                    </SignedOut>
-                    <SignedIn>
+                    <Link href="/privacy" className={LINK}>
+                        {privacy("link")}
+                    </Link>
+                    {/* The same destinations as the header: sign-in for visitors, the dashboard once signed in */}
+                    {user ? (
                         <Link href="/dashboard" className={LINK}>
                             {header("dashboard")}
                         </Link>
-                    </SignedIn>
+                    ) : (
+                        <Link href="/sign-in" className={LINK}>
+                            {header("login")}
+                        </Link>
+                    )}
                 </nav>
                 <p className="text-[14px] text-neutral-600">{footer("copyright")}</p>
             </Container>

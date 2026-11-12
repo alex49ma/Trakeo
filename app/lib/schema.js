@@ -133,3 +133,26 @@ export const importSchema = z.object({
 
 export const importProfileRenameSchema = z.object({ id: z.string().min(1), name: settingsName });
 export const importProfileIdSchema = z.object({ id: z.string().min(1) });
+
+// Auth forms. Their messages are keys of Auth.validation, translated where the form shows them.
+// The password limits match emailAndPassword in lib/better-auth.js, which checks them again
+const authEmail = z.string().trim().pipe(z.email("emailInvalid"));
+const newPassword = z.string().min(8, "passwordTooShort").max(128, "passwordTooLong");
+
+export const signInSchema = z.object({
+    email: authEmail,
+    password: z.string().min(1, "passwordRequired"),
+});
+
+export const signUpSchema = z.object({
+    name: z.string().trim().min(1, "nameRequired").max(100, "nameTooLong"),
+    email: authEmail,
+    password: newPassword,
+});
+
+export const emailOnlySchema = z.object({ email: authEmail });
+
+// Settings. Same name rule as sign-up
+export const nameSchema = signUpSchema.pick({ name: true });
+
+export const newPasswordSchema = z.object({ password: newPassword });

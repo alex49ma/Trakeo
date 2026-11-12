@@ -28,7 +28,7 @@ export default function Hero() {
                     </p>
                     <div className="flex flex-wrap gap-3.5">
                         <Button asChild size="lg" className="h-11 px-7 font-semibold bg-orange-700 hover:bg-orange-800 text-white shadow-md">
-                            <Link href="/dashboard">
+                            <Link href="/sign-up">
                                 {t("getStarted")}
                                 <ArrowRight />
                             </Link>
