@@ -884,7 +884,7 @@
         },
         "retention": {
             "heading": "Cuánto tiempo los guardamos",
-            "body": "Mientras tengas una cuenta. Las sesiones terminan tras 7 días sin uso, y los enlaces de los correos caducan a las 24 horas (1 hora para restablecer la contraseña). Para borrar tu cuenta y todos sus datos, contáctanos como se indica arriba; pronto habrá un botón para hacerlo."
+            "body": "Mientras tengas una cuenta. Los registros cuyo correo nunca se confirma se borran a los 3 días. Las sesiones terminan tras 7 días sin uso, y los enlaces de los correos caducan a las 24 horas (1 hora para restablecer la contraseña). Para borrar tu cuenta y todos sus datos, contáctanos como se indica arriba; pronto habrá un botón para hacerlo."
         },
         "rights": {
             "heading": "Tus derechos",
