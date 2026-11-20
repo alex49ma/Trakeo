@@ -884,7 +884,7 @@
         },
         "retention": {
             "heading": "Jak dlouho údaje uchováváme",
-            "body": "Dokud máte účet. Relace skončí po 7 dnech nepoužívání a\u00a0odkazy v\u00a0e-mailech vyprší po 24 hodinách (u\u00a0obnovení hesla po 1 hodině). Chcete-li smazat účet a\u00a0všechny jeho údaje, kontaktujte nás, jak je uvedeno výše; tlačítko pro smazání brzy přibude."
+            "body": "Dokud máte účet. Registrace, u nichž e-mail nikdy nebyl potvrzen, po 3 dnech smažeme. Relace skončí po 7 dnech nepoužívání a\u00a0odkazy v\u00a0e-mailech vyprší po 24 hodinách (u\u00a0obnovení hesla po 1 hodině). Chcete-li smazat účet a\u00a0všechny jeho údaje, kontaktujte nás, jak je uvedeno výše; tlačítko pro smazání brzy přibude."
         },
         "rights": {
             "heading": "Vaše práva",

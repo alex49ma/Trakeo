@@ -884,7 +884,7 @@
     },
     "retention": {
       "heading": "How long we keep it",
-      "body": "As long as you have an account. Sessions end after 7 days without use, and email links expire after 24 hours (1 hour for password resets). To delete your account and all its data, contact us as described above; a delete button is coming."
+      "body": "As long as you have an account. Sign-ups whose email is never confirmed are deleted after 3 days. Sessions end after 7 days without use, and email links expire after 24 hours (1 hour for password resets). To delete your account and all its data, contact us as described above; a delete button is coming."
     },
     "rights": {
       "heading": "Your rights",
